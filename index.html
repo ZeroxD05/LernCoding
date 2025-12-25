@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LernCoding Quiz</title>
+    <link rel="icon" type="image/png" href="image.png" />
+
+    <style>
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #f0f2f5;
+      }
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        background: #4a90e2;
+        color: white;
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        z-index: 1001;
+      }
+      .burger {
+        font-size: 28px;
+        cursor: pointer;
+        margin-right: 20px;
+      }
+      header h1 {
+        margin: 0;
+        font-size: 20px;
+      }
+      .sidebar {
+        position: fixed;
+        top: 60px;
+        left: -100%;
+        width: 270px;
+        height: calc(100% - 60px);
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        box-shadow: 2px 0 15px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        transition: left 0.3s ease;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        z-index: 1002;
+      }
+      .sidebar.active {
+        left: 0;
+      }
+      .user-info {
+        margin-bottom: 20px;
+      }
+      .sidebar h2 {
+        margin: 0 0 5px 0;
+        font-size: 24px;
+      }
+      .sidebar .class {
+        font-size: 18px;
+        color: #555;
+      }
+      .accordion {
+        list-style: none;
+        padding: 0;
+        margin: 20px 0;
+      }
+      .accordion li {
+        margin-bottom: 10px;
+      }
+      .accordion li button {
+        width: 100%;
+        background: none;
+        border: none;
+        text-align: left;
+        font-size: 18px;
+        cursor: pointer;
+        padding: 10px 0;
+        transition: color 0.2s;
+      }
+      .accordion li button:hover {
+        color: #4a90e2;
+      }
+      .accordion li ul {
+        list-style: none;
+        padding-left: 20px;
+        display: none;
+      }
+      .accordion li ul li {
+        margin-bottom: 5px;
+      }
+      .accordion li.active ul {
+        display: block;
+      }
+      .overlay {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        height: calc(100% - 60px);
+        background: rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s;
+        z-index: 1000;
+      }
+      .overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+      main {
+        margin-top: 60px;
+        padding: 30px;
+        font-size: 18px; /* Standardtext größer */
+        line-height: 1.6; /* Zeilenhöhe angenehmer */
+      }
+      footer {
+        font-size: 12px;
+        color: gray;
+        text-align: center;
+        margin-top: 20px;
+        padding-top: 10px;
+      }
+      button.quiz-btn {
+        margin: 8px 0;
+        display: block;
+        padding: 12px 16px; /* größerer Klickbereich */
+        font-size: 18px; /* größere Schrift */
+        cursor: pointer;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        font-size: 18px; /* größere Eingabe */
+      }
+      .feedback {
+        font-weight: bold;
+        margin: 12px 0;
+        font-size: 18px;
+      } /* größere Feedback-Schrift */
+      code {
+        background: #e0e0e0;
+        padding: 2px 5px;
+        border-radius: 3px;
+        font-family: monospace;
+      }
+
+      /* Standard: Bild sichtbar */
+      #main-content img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      /* Desktop: Bild ausblenden */
+      @media (min-width: 768px) {
+        #main-content img {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="burger" id="burger">&#9776;</div>
+      <h1>LernCoding</h1>
+    </header>
+    <div class="overlay" id="overlay"></div>
+    <div class="sidebar" id="sidebar">
+      <div>
+        <div class="user-info">
+          <h2 id="username"></h2>
+          <div class="class" id="userclass"></div>
+        </div>
+        <ul class="accordion">
+          <li>
+            <button class="accordion-toggle">Fächer 📁</button>
+            <ul>
+              <li>
+                <button class="accordion-toggle">WebDev</button>
+                <ul>
+                  <li>
+                    <button
+                      class="sidebar-link"
+                      onclick="startQuiz('webdev',1)"
+                    >
+                      > Level 1
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      class="sidebar-link"
+                      onclick="startQuiz('webdev',2)"
+                    >
+                      > Level 2
+                    </button>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <button class="accordion-toggle">Python</button>
+                <ul>
+                  <li>
+                    <button
+                      class="sidebar-link"
+                      onclick="startQuiz('python',1)"
+                    >
+                      > Level 1
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      class="sidebar-link"
+                      onclick="startQuiz('python',2)"
+                    >
+                      > Level 2
+                    </button>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <footer>Version 1.0.0</footer>
+    </div>
+
+    <main id="main-content">
+      <h1>Willkommen!</h1>
+      <img src="image.png" alt="" />
+      <p>
+        Drücke oben auf
+        <span
+          style="
+            background-color: #7eb9fcd6;
+            color: white;
+            width: 30px; /* Breite */
+            height: 30px; /* Höhe = Breite → Quadrat */
+            display: inline-block;
+            text-align: center;
+            line-height: 30px; /* vertikale Zentrierung des Textes */
+            border-radius: 0; /* keine abgerundeten Ecken */
+            font-size: 14px; /* Schriftgröße passend klein */
+            border: 1px solid #5a9de0; /* dezenter Rand */
+          "
+          >☰</span
+        >
+        um eine Kategorie auszuwählen.
+      </p>
+    </main>
+
+    <script>
+      const burger = document.getElementById("burger");
+      const sidebar = document.getElementById("sidebar");
+      const overlay = document.getElementById("overlay");
+      const accordions = document.querySelectorAll(".accordion-toggle");
+      const mainContent = document.getElementById("main-content");
+      const usernameElem = document.getElementById("username");
+      const userclassElem = document.getElementById("userclass");
+
+      // HTML escape-Funktion
+      function escapeHTML(str) {
+        return str
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      }
+
+      // Quiz-Daten
+      const quizzes = {
+        webdev: {
+          1: [
+            {
+              type: "mcq",
+              question: "Was bedeutet HTML?",
+              options: [
+                "Hyper Text Markup Language",
+                "Hotmail",
+                "Home Tool Markup",
+              ],
+              answer: [0],
+            },
+            {
+              type: "tf",
+              question: "<br> erzeugt einen Zeilenumbruch.",
+              answer: true,
+            },
+            {
+              type: "text",
+              question: "Schreibe das Tag für Überschrift 1 auf:",
+              answer: "<h1>",
+            },
+            {
+              type: "mcq-multi",
+              question: "Welche Tags gibt es?",
+              options: ["<p>", "<div>", "<link>", "<javascript>"],
+              answer: [0, 1, 2],
+            },
+            {
+              type: "mcq",
+              question: "Wie erstellt man einen Link?",
+              options: ["<a>", "<link>", "<href>"],
+              answer: [0],
+            },
+            {
+              type: "tf",
+              question: "<p> erstellt einen Paragraphen.",
+              answer: true,
+            },
+            {
+              type: "mcq-multi",
+              question: "Welche HTML Elemente gibt es?",
+              options: ["ul", "ol", "li", "txt"],
+              answer: [0, 1, 2],
+            },
+            {
+              type: "text",
+              question: "Schreibe das Tag für Fettgedruckten Text:",
+              answer: "<b>",
+            },
+            {
+              type: "mcq",
+              question: "Ein Bild fügt man mit welchem Tag ein?",
+              options: ["<img>", "<picture>", "<image>"],
+              answer: [0],
+            },
+            {
+              type: "tf",
+              question: "<div> ist ein Block-Element.",
+              answer: true,
+            },
+          ],
+          2: [
+            {
+              type: "mcq",
+              question: "Was macht das <head> Tag?",
+              options: [
+                "Enthält Metadaten",
+                "Zeigt Inhalt an",
+                "Definiert Links",
+              ],
+              answer: [0],
+            },
+            {
+              type: "mcq-multi",
+              question: "Welche Attribute kann ein <a>-Tag haben?",
+              options: ["href", "src", "target", "alt"],
+              answer: [0, 2],
+            },
+            {
+              type: "tf",
+              question: "CSS wird in HTML direkt geschrieben.",
+              answer: false,
+            },
+            {
+              type: "text",
+              question: "Schreibe das Tag für Absatz:",
+              answer: "<p>",
+            },
+            {
+              type: "mcq",
+              question: "Welche Tags sind Inline-Elemente?",
+              options: ["<span>", "<div>", "<b>", "<section>"],
+              answer: [0, 2],
+            },
+            {
+              type: "tf",
+              question: "<ul> erstellt eine ungeordnete Liste.",
+              answer: true,
+            },
+            {
+              type: "mcq-multi",
+              question: "Welche Tags dienen zur Textformatierung?",
+              options: ["<b>", "<i>", "<p>", "<link>"],
+              answer: [0, 1],
+            },
+            {
+              type: "text",
+              question: "Tag für horizontale Linie:",
+              answer: "<hr>",
+            },
+            {
+              type: "mcq",
+              question: "Welches Tag für Tabellenzeile?",
+              options: ["<tr>", "<td>", "<table>"],
+              answer: [0],
+            },
+            {
+              type: "tf",
+              question: "<img> kann einen alt-Text haben.",
+              answer: true,
+            },
+          ],
+        },
+        python: {
+          1: [
+            {
+              type: "mcq",
+              question: "Wie beginnt man einen Kommentar in Python?",
+              options: ["#", "//", "<!--"],
+              answer: [0],
+            },
+            {
+              type: "tf",
+              question: "Python ist eine kompilierte Sprache.",
+              answer: false,
+            },
+            {
+              type: "text",
+              question: "Schreibe 'Hallo Welt' in Python.",
+              answer: "print('Hallo Welt')",
+            },
+            {
+              type: "mcq-multi",
+              question: "Welche Datentypen gibt es?",
+              options: ["int", "str", "bool", "char"],
+              answer: [0, 1, 2],
+            },
+            {
+              type: "mcq",
+              question: "Welches Zeichen für Multiplikation?",
+              options: ["*", "x", "^"],
+              answer: [0],
+            },
+            { type: "tf", question: "Listen sind veränderbar.", answer: true },
+            {
+              type: "text",
+              question: "Schreibe eine Variable mit Wert 5.",
+              answer: "x=5",
+            },
+            {
+              type: "mcq-multi",
+              question: "Welche Keywords gibt es?",
+              options: ["if", "for", "while", "switch"],
+              answer: [0, 1, 2],
+            },
+            {
+              type: "mcq",
+              question: "Was gibt print() aus?",
+              options: ["Text", "Variable", "Beides"],
+              answer: [2],
+            },
+            {
+              type: "tf",
+              question: "Funktionen werden mit def definiert.",
+              answer: true,
+            },
+          ],
+          2: [
+            {
+              type: "mcq-multi",
+              question: "Welche Datentypen gibt es?",
+              options: ["int", "str", "bool", "char"],
+              answer: [0, 1, 2],
+            },
+            {
+              type: "text",
+              question: "Erstelle ein Dictionary mit key='a' value=1",
+              answer: "{'a':1}",
+            },
+            {
+              type: "mcq",
+              question: "Welche Schleife wird in Python nicht genutzt?",
+              options: ["for", "while", "do-while"],
+              answer: [2],
+            },
+            { type: "tf", question: "Tuple sind unveränderbar.", answer: true },
+            {
+              type: "text",
+              question: "Erstelle eine Liste mit Werten 1,2,3",
+              answer: "[1,2,3]",
+            },
+            {
+              type: "mcq-multi",
+              question: "Welche Methoden für Listen?",
+              options: ["append", "pop", "remove", "add"],
+              answer: [0, 1, 2],
+            },
+            {
+              type: "mcq",
+              question: "Modul importieren?",
+              options: ["import math", "include math", "use math"],
+              answer: [0],
+            },
+            {
+              type: "tf",
+              question: "Python benutzt Einrückungen für Blöcke.",
+              answer: true,
+            },
+            {
+              type: "text",
+              question: "String 'Hallo' in Großbuchstaben?",
+              answer: "HALLO",
+            },
+            {
+              type: "mcq",
+              question: "True or False? 5>3",
+              options: ["True", "False"],
+              answer: [0],
+            },
+          ],
+        },
+      };
+
+      // Benutzerinfo mit lokal Speicherung
+      function askUserInfo() {
+        let firstName =
+          localStorage.getItem("firstName") ||
+          prompt("Bitte deinen Vornamen eingeben:");
+        let userClass =
+          localStorage.getItem("userClass") ||
+          prompt("Bitte deine Klasse eingeben:");
+        localStorage.setItem("firstName", firstName);
+        localStorage.setItem("userClass", userClass);
+        usernameElem.textContent = firstName;
+        userclassElem.textContent = userClass;
+      }
+
+      // Sidebar
+      function toggleSidebar() {
+        sidebar.classList.toggle("active");
+        overlay.classList.toggle("active");
+        burger.innerHTML = sidebar.classList.contains("active")
+          ? "&times;"
+          : "&#9776;";
+      }
+      burger.addEventListener("click", toggleSidebar);
+      overlay.addEventListener("click", toggleSidebar);
+      accordions.forEach((toggle) =>
+        toggle.addEventListener("click", (e) =>
+          e.target.parentElement.classList.toggle("active")
+        )
+      );
+
+      let currentQuiz = null;
+
+      function startQuiz(subject, level) {
+        sidebar.classList.remove("active");
+        overlay.classList.remove("active");
+        burger.innerHTML = "&#9776;";
+        // Wiederherstellung des Fortschritts, falls vorhanden
+        let savedProgress = JSON.parse(
+          localStorage.getItem(`${subject}-level${level}`) || "{}"
+        );
+        currentQuiz = {
+          subject,
+          level,
+          index: 0,
+          answers: savedProgress,
+          repeatQueue: [],
+        };
+        renderQuestion();
+      }
+
+      function renderQuestion() {
+        const { subject, level, index } = currentQuiz;
+        const q = quizzes[subject][level][index];
+        let html = `<h2>${subject.toUpperCase()} Level ${level}</h2>`;
+        html += `<p><strong>Frage ${index + 1} von ${
+          quizzes[subject][level].length
+        }</strong></p>`;
+        const questionText = escapeHTML(q.question);
+        html += `<p><code>${questionText}</code></p>`;
+        html += `<div id="feedback" class="feedback"></div>`;
+
+        if (q.type === "mcq") {
+          q.options.forEach((opt, i) => {
+            html += `<button class="quiz-btn" onclick="checkAnswer(${i})"><code>${escapeHTML(
+              opt
+            )}</code></button>`;
+          });
+        } else if (q.type === "mcq-multi") {
+          html += `<form id="mcqMultiForm">`;
+          q.options.forEach((opt, i) => {
+            html += `<label><input type="checkbox" name="option" value="${i}"><code>${escapeHTML(
+              opt
+            )}</code></label><br>`;
+          });
+          html += `<button type="button" onclick="checkMulti()">Antwort prüfen</button></form>`;
+        } else if (q.type === "tf") {
+          html += `<button class="quiz-btn" onclick="checkAnswer(true)">Richtig</button>`;
+          html += `<button class="quiz-btn" onclick="checkAnswer(false)">Falsch</button>`;
+        } else if (q.type === "text") {
+          html += `<input type="text" id="textAnswer" placeholder="Antwort hier..."><button onclick="checkText()">Antwort prüfen</button>`;
+        }
+
+        mainContent.innerHTML = html;
+        localStorage.setItem(
+          `${subject}-level${level}`,
+          JSON.stringify(currentQuiz.answers)
+        );
+      }
+
+      // Prüfen
+      function checkAnswer(selected) {
+        const { subject, level, index } = currentQuiz;
+        const q = quizzes[subject][level][index];
+        const feedback = document.getElementById("feedback");
+        let correct = false;
+        if (q.type === "mcq") correct = q.answer.includes(selected);
+        else if (q.type === "tf") correct = selected === q.answer;
+        if (correct) {
+          feedback.textContent = "✅";
+          currentQuiz.answers[index] = true;
+          setTimeout(nextQuestion, 700);
+        } else {
+          feedback.textContent = "❌ Falsch! Wiederholen.";
+          if (!currentQuiz.repeatQueue.includes(index))
+            currentQuiz.repeatQueue.push(index);
+          currentQuiz.answers[index] = false;
+          setTimeout(nextQuestion, 700);
+        }
+        localStorage.setItem(
+          `${subject}-level${level}`,
+          JSON.stringify(currentQuiz.answers)
+        );
+      }
+
+      function checkMulti() {
+        const { subject, level, index } = currentQuiz;
+        const q = quizzes[subject][level][index];
+        const selected = Array.from(
+          document.querySelectorAll("input[name=option]:checked")
+        ).map((i) => parseInt(i.value));
+        const feedback = document.getElementById("feedback");
+        const correct =
+          JSON.stringify(selected.sort()) === JSON.stringify(q.answer.sort());
+        if (correct) {
+          feedback.textContent = "✅ Richtig!";
+          currentQuiz.answers[index] = true;
+          setTimeout(nextQuestion, 700);
+        } else {
+          feedback.textContent = "❌ Falsch! Wiederholen.";
+          if (!currentQuiz.repeatQueue.includes(index))
+            currentQuiz.repeatQueue.push(index);
+          currentQuiz.answers[index] = false;
+          setTimeout(nextQuestion, 700);
+        }
+        localStorage.setItem(
+          `${subject}-level${level}`,
+          JSON.stringify(currentQuiz.answers)
+        );
+      }
+
+      function checkText() {
+        const { subject, level, index } = currentQuiz;
+        const q = quizzes[subject][level][index];
+        const val = document.getElementById("textAnswer").value.trim();
+        const feedback = document.getElementById("feedback");
+        const correct = val.toLowerCase() === q.answer.toLowerCase();
+        if (correct) {
+          feedback.textContent = "✅ Richtig!";
+          currentQuiz.answers[index] = true;
+          setTimeout(nextQuestion, 700);
+        } else {
+          feedback.textContent = "❌ Falsch! Wiederholen.";
+          if (!currentQuiz.repeatQueue.includes(index))
+            currentQuiz.repeatQueue.push(index);
+          currentQuiz.answers[index] = false;
+          setTimeout(nextQuestion, 700);
+        }
+        localStorage.setItem(
+          `${subject}-level${level}`,
+          JSON.stringify(currentQuiz.answers)
+        );
+      }
+
+      function nextQuestion() {
+        if (currentQuiz.repeatQueue.length > 0) {
+          currentQuiz.index = currentQuiz.repeatQueue.shift();
+          renderQuestion();
+        } else {
+          const { subject, level, index } = currentQuiz;
+          if (index + 1 < quizzes[subject][level].length) {
+            currentQuiz.index++;
+            renderQuestion();
+          } else {
+            mainContent.innerHTML =
+              "<h2>Quiz beendet!</h2><p>Alle Fragen korrekt beantwortet.</p>";
+          }
+        }
+      }
+
+      window.addEventListener("load", askUserInfo);
+    </script>
+  </body>
+</html>
