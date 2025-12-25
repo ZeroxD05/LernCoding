@@ -47,6 +47,17 @@ header h1 {
 }
 .user-info {
   margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.user-info img {
+  width: 50px; /* Profilbild-Größe */
+  height: 50px;
+  border-radius: 50%; /* rund */
+  object-fit: cover; /* Bild wird zugeschnitten, nicht verzerrt */
+  cursor: pointer; /* zeigt, dass man es ändern kann */
+  border: 2px solid #000000;
 }
 .sidebar h2 {
   margin: 0 0 5px 0;

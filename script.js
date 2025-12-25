@@ -540,6 +540,33 @@ function showStartPage() {
   currentQuiz = null;
 }
 
+const profilePic = document.getElementById("profile-pic");
+
+profilePic.addEventListener("click", () => {
+  const fileInput = document.createElement("input");
+  fileInput.type = "file";
+  fileInput.accept = "image/*";
+  fileInput.click();
+
+  fileInput.onchange = () => {
+    const file = fileInput.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        profilePic.src = e.target.result;
+        localStorage.setItem("profilePic", e.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+});
+
+// Beim Laden gespeichertes Bild setzen
+window.addEventListener("load", () => {
+  const savedPic = localStorage.getItem("profilePic");
+  if (savedPic) profilePic.src = savedPic;
+});
+
 window.addEventListener("load", () => {
   askUserInfo();
   loadLastState();
