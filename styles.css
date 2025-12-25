@@ -155,3 +155,20 @@ code {
     display: none;
   }
 }
+.floating-cloud {
+  display: block;
+  width: 100px; /* optional, anpassen */
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px);
+  } /* nach oben */
+  100% {
+    transform: translateY(0px);
+  }
+}
