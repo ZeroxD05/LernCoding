@@ -514,7 +514,7 @@ function showNotesPage() {
       noteDiv.style.maxWidth = "60vw";
 
       noteDiv.innerHTML = `
-        <textarea style="width:100%; height:100px; max-width:60vw; font-size:16px; border-radius:5px; border:1px solid #ccc;">${note}</textarea>
+        <textarea style="width:100%; height:100px; max-width: 70vw; font-size:16px; border-radius:5px; border:1px solid #ccc;">${note}</textarea>
         <div style="margin-top:5px;">
           <button style="padding:3px 8px; background-color:#5a9de0; color:white; border:none; border-radius:4px; cursor:pointer;" class="save-note-btn">Speichern</button>
           <button style="padding:3px 8px; background-color:#d9534f; color:white; border:none; border-radius:4px; cursor:pointer;" class="delete-note-btn">Löschen</button>
