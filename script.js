@@ -485,6 +485,80 @@ function nextQuestion() {
   }
 }
 
+function showNotesPage() {
+  mainContent.innerHTML = `
+    <h3>LernCoding Notizen</h3>
+    <p>Hier kannst du deine Notizen machen!</p>
+    <div id="notes-container"></div>
+    <button id="add-note-btn" style="margin-top:10px; padding:5px 10px; background-color:#5a9de0; color:white; border:none; border-radius:4px; cursor:pointer;">
+      Neue Notiz hinzufügen
+    </button>
+  `;
+
+  const notesContainer = document.getElementById("notes-container");
+  const addNoteBtn = document.getElementById("add-note-btn");
+
+  // Lade gespeicherte Notizen
+  let notes = JSON.parse(localStorage.getItem("userNotes") || "[]");
+
+  // Funktion, um alle Notizen darzustellen
+  function renderNotes() {
+    notesContainer.innerHTML = "";
+    notes.forEach((note, index) => {
+      const noteDiv = document.createElement("div");
+      noteDiv.style.border = "1px solid #ccc";
+      noteDiv.style.borderRadius = "5px";
+      noteDiv.style.padding = "10px";
+      noteDiv.style.marginBottom = "10px";
+      noteDiv.style.backgroundColor = "#f9f9f9";
+      noteDiv.style.maxWidth = "60vw";
+
+      noteDiv.innerHTML = `
+        <textarea style="width:100%; height:100px; max-width:60vw; font-size:16px; border-radius:5px; border:1px solid #ccc;">${note}</textarea>
+        <div style="margin-top:5px;">
+          <button style="padding:3px 8px; background-color:#5a9de0; color:white; border:none; border-radius:4px; cursor:pointer;" class="save-note-btn">Speichern</button>
+          <button style="padding:3px 8px; background-color:#d9534f; color:white; border:none; border-radius:4px; cursor:pointer;" class="delete-note-btn">Löschen</button>
+        </div>
+        <p class="note-feedback" style="color:green; margin-top:5px;"></p>
+      `;
+
+      // Save-Button
+      noteDiv.querySelector(".save-note-btn").addEventListener("click", () => {
+        const textarea = noteDiv.querySelector("textarea");
+        notes[index] = textarea.value;
+        localStorage.setItem("userNotes", JSON.stringify(notes));
+        const feedback = noteDiv.querySelector(".note-feedback");
+        feedback.textContent = "✅ Notiz gespeichert!";
+        setTimeout(() => {
+          feedback.textContent = "";
+        }, 2000);
+      });
+
+      // Delete-Button
+      noteDiv
+        .querySelector(".delete-note-btn")
+        .addEventListener("click", () => {
+          notes.splice(index, 1);
+          localStorage.setItem("userNotes", JSON.stringify(notes));
+          renderNotes();
+        });
+
+      notesContainer.appendChild(noteDiv);
+    });
+  }
+  // Sidebar schließen
+  sidebar.classList.remove("active");
+  overlay.classList.remove("active");
+  burger.innerHTML = "&#9776;";
+  // Neue Notiz hinzufügen
+  addNoteBtn.addEventListener("click", () => {
+    notes.push("");
+    renderNotes();
+  });
+
+  renderNotes();
+}
+
 function showStartPage() {
   mainContent.innerHTML = `
     <h1>Willkommen!</h1>
