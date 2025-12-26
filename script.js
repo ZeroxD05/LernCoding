@@ -517,7 +517,6 @@ function showVideosPage() {
         </div>
       </div>
 
-      
 
       <div>
         <h4>Python</h4>
@@ -701,7 +700,6 @@ function showStartPage() {
     <h1>Willkommen!</h1>
     <p>Viel Spaß bei deiner Reise!</p>
 
-    <img src="image.png" alt="" />
 
     <p>
       Drücke oben auf
