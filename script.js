@@ -104,7 +104,7 @@ const quizzes = {
       },
       {
         type: "text",
-        question: "Schreibe das Tag für Absatz:",
+        question: "Schreibe das Tag für einen Paragraph:",
         answer: "<p>",
         hint: "Es ist ein kurzes Tag für Textabsätze.",
       },
