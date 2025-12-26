@@ -610,6 +610,10 @@ function showVideosPage() {
 
     </div>
   `;
+  // Sidebar schließen
+  sidebar.classList.remove("active");
+  overlay.classList.remove("active");
+  burger.innerHTML = "&#9776;";
 }
 
 function createVideo(title, src) {
