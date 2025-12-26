@@ -503,7 +503,7 @@ function showVideosPage() {
         <p>Lerne die Grundlagen von HTML.</p>
         <div style="position:relative; padding-top:56.25%;">
           <iframe 
-            src="https://www.youtube.com/embed/pQN-pnXPaVg"
+      src="https://www.youtube.com/embed/nmiWXn6aIAs" 
             style="
               position:absolute;
               top:0; left:0;
@@ -517,24 +517,7 @@ function showVideosPage() {
         </div>
       </div>
 
-      <div>
-        <h4>CSS Crashkurs</h4>
-        <p>Ein schneller Einstieg in CSS.</p>
-        <div style="position:relative; padding-top:56.25%;">
-          <iframe 
-            src="https://www.youtube.com/embed/yfoY53QXEnI"
-            style="
-              position:absolute;
-              top:0; left:0;
-              width:100%;
-              height:100%;
-              border-radius:8px;
-            "
-            frameborder="0"
-            allowfullscreen>
-          </iframe>
-        </div>
-      </div>
+      
 
       <div>
         <h4>Python</h4>
@@ -598,14 +581,10 @@ function showVideosPage() {
 
       ${createVideo(
         "HTML Grundlagen",
-        "https://www.youtube.com/embed/pQN-pnXPaVg"
+        "https://www.youtube.com/embed/nmiWXn6aIAs"
       )}
 
-      ${createVideo(
-        "CSS Crashkurs",
-        "https://www.youtube.com/embed/yfoY53QXEnI"
-      )}
-
+   
       ${createVideo("Python", "https://www.youtube.com/embed/_uQrJ0TkZlc")}
 
     </div>
