@@ -485,6 +485,143 @@ function nextQuestion() {
   }
 }
 
+function showVideosPage() {
+  mainContent.innerHTML = `
+    <h3>LernCoding Videos</h3>
+    <p>Hier findest du nützliche Lernvideos!</p>
+
+    <div style="
+      display:flex;
+      flex-direction:column;
+      gap:24px;
+      margin-top:16px;
+      padding:0 16px;
+    ">
+
+      <div>
+        <h4>HTML Grundlagen</h4>
+        <p>Lerne die Grundlagen von HTML.</p>
+        <div style="position:relative; padding-top:56.25%;">
+          <iframe 
+            src="https://www.youtube.com/embed/pQN-pnXPaVg"
+            style="
+              position:absolute;
+              top:0; left:0;
+              width:100%;
+              height:100%;
+              border-radius:8px;
+            "
+            frameborder="0"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+
+      <div>
+        <h4>CSS Crashkurs</h4>
+        <p>Ein schneller Einstieg in CSS.</p>
+        <div style="position:relative; padding-top:56.25%;">
+          <iframe 
+            src="https://www.youtube.com/embed/yfoY53QXEnI"
+            style="
+              position:absolute;
+              top:0; left:0;
+              width:100%;
+              height:100%;
+              border-radius:8px;
+            "
+            frameborder="0"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+
+      <div>
+        <h4>Python</h4>
+        <p>Einführung in die Programmiersprache Python.</p>
+        <div style="position:relative; padding-top:56.25%;">
+          <iframe 
+            src="https://www.youtube.com/embed/_uQrJ0TkZlc"
+            style="
+              position:absolute;
+              top:0; left:0;
+              width:100%;
+              height:100%;
+              border-radius:8px;
+            "
+            frameborder="0"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+
+    </div>
+  `;
+
+  // Sidebar schließen
+  sidebar.classList.remove("active");
+  overlay.classList.remove("active");
+  burger.innerHTML = "&#9776;";
+}
+function showVideosPage() {
+  mainContent.innerHTML = `
+    <h3 style="text-align:center;">LernCoding Videos</h3>
+    <p style="text-align:center;">Hier findest du nützliche Lernvideos!</p>
+
+    <div style="
+      display:flex;
+      flex-direction:column;
+      gap:32px;
+      margin-top:24px;
+      padding:0 16px;
+      max-width:1200px;
+      margin-left:auto;
+      margin-right:auto;
+    ">
+
+      ${createVideo(
+        "HTML Grundlagen",
+        "https://www.youtube.com/embed/pQN-pnXPaVg"
+      )}
+
+      ${createVideo(
+        "CSS Crashkurs",
+        "https://www.youtube.com/embed/yfoY53QXEnI"
+      )}
+
+      ${createVideo("Python", "https://www.youtube.com/embed/_uQrJ0TkZlc")}
+
+    </div>
+  `;
+}
+
+function createVideo(title, src) {
+  return `
+    <div>
+      <h4 style="margin-bottom:8px;">${title}</h4>
+      <div style="
+        position:relative;
+        width:100%;
+        padding-top:56.25%;
+      ">
+        <iframe
+          src="${src}"
+          style="
+            position:absolute;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            border-radius:12px;
+          "
+          frameborder="0"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+  `;
+}
+
 function showNotesPage() {
   mainContent.innerHTML = `
     <h3>LernCoding Notizen</h3>
