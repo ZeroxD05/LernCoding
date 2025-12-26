@@ -859,48 +859,6 @@ function showAGB() {
   burger.innerHTML = "&#9776;";
 }
 
-let touchStartX = 0;
-let touchEndX = 0;
-
-// Mindestlänge für einen Swipe
-const swipeThreshold = 80;
-
-// Touch starten
-document.addEventListener(
-  "touchstart",
-  function (e) {
-    touchStartX = e.changedTouches[0].screenX;
-  },
-  false
-);
-
-// Touch beenden
-document.addEventListener(
-  "touchend",
-  function (e) {
-    touchEndX = e.changedTouches[0].screenX;
-    handleSwipe();
-  },
-  false
-);
-
-function handleSwipe() {
-  const sidebar = document.getElementById("sidebar");
-  const overlay = document.getElementById("overlay");
-
-  // 👉 Swipe von links nach rechts (Sidebar öffnen)
-  if (touchEndX - touchStartX > swipeThreshold) {
-    sidebar.classList.add("open");
-    overlay.classList.add("active");
-  }
-
-  // 👉 Swipe von rechts nach links (Sidebar schließen)
-  if (touchStartX - touchEndX > swipeThreshold) {
-    sidebar.classList.remove("open");
-    overlay.classList.remove("active");
-  }
-}
-
 // Beim Laden gespeichertes Bild setzen
 window.addEventListener("load", () => {
   const savedPic = localStorage.getItem("profilePic");
