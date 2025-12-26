@@ -563,6 +563,23 @@ function showVideosPage() {
   overlay.classList.remove("active");
   burger.innerHTML = "&#9776;";
 }
+
+function showContactPage() {
+  mainContent.innerHTML = `
+    <h3>Support</h3>
+    <p>Falls du Hilfe brauchst, oder etwas mit der App nicht stimmt, kannst du dich gerne an folgende Mail wenden:</p>
+    <ul>
+      Mail: ata2005hh@gmail.com
+    </ul>
+    <br/>
+    <p>Du musst im Wissen sein, dass du durch das Senden einer Mail deine E-Mail-Adresse an mich übermittelst. Diese wird nur zur Beantwortung deiner Anfrage genutzt und nicht weitergegeben.</p>
+  `;
+  // Sidebar schließen
+  sidebar.classList.remove("active");
+  overlay.classList.remove("active");
+  burger.innerHTML = "&#9776;";
+}
+
 function showVideosPage() {
   mainContent.innerHTML = `
     <h3 style="text-align:center;">LernCoding Videos</h3>
