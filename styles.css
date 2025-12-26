@@ -183,3 +183,15 @@ code {
     transform: translateY(0px);
   }
 }
+.sidebar-legal {
+  margin-top: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sidebar-legal .sidebar-link {
+  font-size: 14px;
+  opacity: 0.8;
+}

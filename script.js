@@ -569,7 +569,7 @@ function showContactPage() {
     <h3>Support</h3>
     <p>Falls du Hilfe brauchst, oder etwas mit der App nicht stimmt, kannst du dich gerne an folgende Mail wenden:</p>
     <ul>
-      Mail: ata2005hh@gmail.com
+      Mail: lerncoding2026@gmail.com
     </ul>
     <br/>
     <p>Du musst im Wissen sein, dass du durch das Senden einer Mail deine E-Mail-Adresse an mich übermittelst. Diese wird nur zur Beantwortung deiner Anfrage genutzt und nicht weitergegeben.</p>
@@ -792,6 +792,72 @@ profilePic.addEventListener("click", () => {
     }
   };
 });
+
+function showImpressum() {
+  document.getElementById("main-content").innerHTML = `
+    <h1>Impressum</h1>
+    <p><strong>Angaben gemäß § 5 TMG</strong></p>
+
+    <p>
+      Ata --<br>
+      LernCoding<br>
+      Abc Straße 1<br>
+      12345 Musterstadt
+    </p>
+
+    <p>
+      <strong>Kontakt:</strong><br>
+      E-Mail: ata2005hh@gmail.com
+    </p>
+
+    <p>
+      Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:<br>
+      Ata --
+    </p>
+  `;
+  // Sidebar schließen
+  sidebar.classList.remove("active");
+  overlay.classList.remove("active");
+  burger.innerHTML = "&#9776;";
+}
+
+function showAGB() {
+  document.getElementById("main-content").innerHTML = `
+    <h1>AGB & Datenschutz</h1>
+
+    <h2>Allgemeines</h2>
+    <p>
+      Diese Website dient ausschließlich zu Lern- und Informationszwecken.
+      Die Nutzung ist kostenlos.
+    </p>
+
+    <h2>Datenspeicherung</h2>
+    <p>
+      Auf dieser Website werden <strong>keine personenbezogenen Daten in einer Cloud
+      oder auf einem Server gespeichert</strong>.
+      Alle Daten (z. B. Fortschritt oder Einstellungen) werden ausschließlich
+      <strong>lokal im Browser</strong> gespeichert.
+    </p>
+
+    <h2>E-Mail-Kontakt</h2>
+    <p>
+      Wenn Sie mir eine E-Mail über die angegebene E-Mail-Adresse senden,
+      erhalte ich die E-Mail inklusive der Absenderadresse,
+      um auf Ihre Anfrage antworten zu können.
+      Eine weitere Verarbeitung oder Weitergabe der Daten erfolgt nicht.
+    </p>
+
+    <h2>Haftung</h2>
+    <p>
+      Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte
+      übernehme ich keine Gewähr.
+    </p>
+  `;
+  // Sidebar schließen
+  sidebar.classList.remove("active");
+  overlay.classList.remove("active");
+  burger.innerHTML = "&#9776;";
+}
 
 // Beim Laden gespeichertes Bild setzen
 window.addEventListener("load", () => {
