@@ -614,7 +614,7 @@ function showVideosPage() {
         <p>Einführung in die Programmiersprache Python.</p>
         <div style="position:relative; padding-top:56.25%;">
           <iframe 
-            src="https://www.youtube.com/embed/_uQrJ0TkZlc"
+            src=""
             style="
               position:absolute;
               top:0; left:0;
@@ -675,7 +675,7 @@ function showVideosPage() {
       )}
 
    
-      ${createVideo("Python", "https://www.youtube.com/embed/_uQrJ0TkZlc")}
+      ${createVideo("Mehr Videos folgen", "")}
 
     </div>
   `;
