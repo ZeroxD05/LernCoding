@@ -148,6 +148,97 @@ const quizzes = {
         hint: "Hilfreich für Barrierefreiheit und wenn Bild nicht lädt.",
       },
     ],
+    3: [
+      {
+        type: "mcq-multi",
+        question:
+          "Welche Inhalte sind in der Regel urheberrechtlich geschützt?",
+        options: ["Quellcode", "Ideen", "Texte", "Grafiken"],
+        answer: [0, 2, 3],
+        hint: "Geschützt ist die konkrete Ausgestaltung, nicht die bloße Idee.",
+      },
+      {
+        type: "mcq",
+        question: "Was bedeutet 'Open Source' im rechtlichen Sinne?",
+        options: [
+          "Der Code ist automatisch gemeinfrei",
+          "Der Code darf unter bestimmten Bedingungen genutzt werden",
+          "Der Code darf nicht verändert werden",
+          "Der Code ist nicht urheberrechtlich geschützt",
+        ],
+        answer: [1],
+        hint: "Open Source heißt nicht 'keine Regeln'.",
+      },
+      {
+        type: "tf",
+        question: "Ohne Einwilligung dürfen Tracking-Cookies gesetzt werden.",
+        answer: false,
+        hint: "Tracking ist nicht technisch notwendig.",
+      },
+      {
+        type: "mcq-multi",
+        question:
+          "Welche Angaben gehören typischerweise in eine Datenschutzerklärung?",
+        options: [
+          "Zweck der Datenverarbeitung",
+          "Verwendete Schriftarten",
+          "Rechte der betroffenen Personen",
+          "Kontakt des Verantwortlichen",
+        ],
+        answer: [0, 2, 3],
+        hint: "Nutzer müssen wissen, was mit ihren Daten passiert.",
+      },
+
+      {
+        type: "tf",
+        question:
+          "Fremde Bilder aus Google dürfen ohne Erlaubnis verwendet werden, wenn man die Quelle nennt.",
+        answer: false,
+        hint: "Quellenangabe ersetzt keine Lizenz.",
+      },
+      {
+        type: "mcq-multi",
+        question: "Wann ist ein Cookie als technisch notwendig einzustufen?",
+        options: [
+          "Warenkorb-Funktion",
+          "Login-Session",
+          "Webanalyse",
+          "Sprachauswahl",
+        ],
+        answer: [0, 1, 3],
+        hint: "Ohne diese Cookies funktioniert die Seite nicht korrekt.",
+      },
+      {
+        type: "mcq",
+        question: "Was ist eine mögliche Rechtsgrundlage nach DSGVO?",
+        options: [
+          "Einwilligung",
+          "Gute Absicht",
+          "Technische Machbarkeit",
+          "Designentscheidung",
+        ],
+        answer: [0],
+        hint: "Art. 6 DSGVO regelt die Grundlagen.",
+      },
+      {
+        type: "tf",
+        question: "Ein Impressum ist nur für Online-Shops verpflichtend.",
+        answer: false,
+        hint: "Auch viele andere geschäftsmäßige Websites benötigen eins.",
+      },
+      {
+        type: "mcq-multi",
+        question: "Welche Folgen kann ein Verstoß gegen die DSGVO haben?",
+        options: [
+          "Bußgelder",
+          "Abmahnungen",
+          "Automatische Abschaltung der Website",
+          "Imageschäden",
+        ],
+        answer: [0, 1, 3],
+        hint: "Die Konsequenzen können finanziell und reputativ sein.",
+      },
+    ],
   },
   python: {
     1: [
@@ -479,7 +570,7 @@ function nextQuestion() {
       renderQuestion();
     } else {
       mainContent.innerHTML =
-        "<h2>Quiz beendet!</h2><p>Alle Fragen korrekt beantwortet.</p>";
+        "<h2>Quiz beendet!</h2><p>Alle Fragen korrekt beantwortet. Tippe auf die drei Striche oben für weitere Optionen.</p>";
       localStorage.removeItem("currentQuiz"); // optional
     }
   }
@@ -546,15 +637,15 @@ function showVideosPage() {
   burger.innerHTML = "&#9776;";
 }
 
-function showContactPage() {
+function showTextPage() {
   mainContent.innerHTML = `
-    <h3>Support</h3>
-    <p>Falls du Hilfe brauchst, oder etwas mit der App nicht stimmt, kannst du dich gerne an folgende Mail wenden:</p>
+    <h3>PDF Texte</h3>
+    <p>Hier findest du nützliche PDF Texte zum Download!</p>
     <ul>
-      Mail: lerncoding2026@gmail.com
+      <li><a href="texts/html_grundlagen.pdf" target="_blank">HTML Grundlagen (PDF)</a></li>
+      <li><a href="texts/python_einfuehrung.pdf" target="_blank">Python Einführung (PDF)</a></li>
     </ul>
-    <br/>
-    <p>Du musst im Wissen sein, dass du durch das Senden einer Mail deine E-Mail-Adresse an mich übermittelst. Diese wird nur zur Beantwortung deiner Anfrage genutzt und nicht weitergegeben.</p>
+
   `;
   // Sidebar schließen
   sidebar.classList.remove("active");
