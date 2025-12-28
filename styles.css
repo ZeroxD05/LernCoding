@@ -90,7 +90,7 @@ button {
   transition: color 0.2s;
 }
 .accordion li button:hover {
-  color: #4a90e2;
+  color: black;
 }
 .accordion li ul {
   list-style: none;
