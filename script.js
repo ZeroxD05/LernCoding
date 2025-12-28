@@ -642,8 +642,8 @@ function showTextPage() {
     <h3>PDF Texte</h3>
     <p>Hier findest du nützliche PDF Texte zum Download!</p>
     <ul>
-      <li><a href="texts/html_grundlagen.pdf" target="_blank">HTML Grundlagen (PDF)</a></li>
-      <li><a href="texts/python_einfuehrung.pdf" target="_blank">Python Einführung (PDF)</a></li>
+      <li><a href="HTML_WebDev_Grundlagen_und_Recht_LernCoding.pdf" target="_blank">HTML Grundlagen (PDF)</a></li>
+      <li><a href="Python_Grundlagen_LernCoding.pdf" target="_blank">Python Einführung (PDF)</a></li>
     </ul>
 
   `;
