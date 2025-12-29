@@ -578,7 +578,7 @@ function nextQuestion() {
 
 function showVideosPage() {
   mainContent.innerHTML = `
-    <h3>LernCoding Videos</h3>
+    <h1>LernCoding Videos</h1>
     <p>Hier findest du nützliche Lernvideos!</p>
 
     <div style="
@@ -655,7 +655,7 @@ function showTextPage() {
 
 function showVideosPage() {
   mainContent.innerHTML = `
-    <h3 style="text-align:center;">LernCoding Videos</h3>
+    <h1 style="text-align:center;">LernCoding Videos</h1>
     <p style="text-align:center;">Hier findest du nützliche Lernvideos!</p>
 
     <div style="
