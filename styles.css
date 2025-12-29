@@ -79,6 +79,17 @@ button {
   color: black;
 }
 
+.accordion-toggle {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 10px 0;
+  width: 100%;
+  text-align: left;
+  transition: max-height 0.35s ease, padding 0.3s ease;
+}
+
 .accordion li button {
   width: 100%;
   background: none;
@@ -160,12 +171,6 @@ code {
   margin-bottom: 20px;
 }
 
-/* Desktop: Bild ausblenden */
-@media (min-width: 768px) {
-  #main-content img {
-    display: none;
-  }
-}
 .floating-cloud {
   display: block;
   width: 100px; /* optional, anpassen */
