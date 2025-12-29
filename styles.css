@@ -21,6 +21,9 @@ header {
   cursor: pointer;
   margin-right: 20px;
 }
+.burger:active {
+  text-decoration: none;
+}
 header h1 {
   margin: 0;
   font-size: 20px;
