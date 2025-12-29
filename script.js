@@ -639,7 +639,7 @@ function showVideosPage() {
 
 function showTextPage() {
   mainContent.innerHTML = `
-    <h3>PDF Texte</h3>
+    <h2>PDF Texte</h2>
     <p>Hier findest du nützliche PDF Texte zum Download!</p>
     <ul>
       <li><a href="HTML_WebDev_Grundlagen_und_Recht_LernCoding.pdf" target="_blank">HTML Grundlagen (PDF)</a></li>
@@ -714,7 +714,7 @@ function createVideo(title, src) {
 
 function showNotesPage() {
   mainContent.innerHTML = `
-    <h3>LernCoding Notizen</h3>
+    <h2>LernCoding Notizen</h2>
     <p>Hier kannst du deine Notizen machen!</p>
     <div id="notes-container"></div>
     <button id="add-note-btn" style="margin-top:10px; padding:5px 10px; background-color:#5a9de0; color:white; border:none; border-radius:4px; cursor:pointer;">
@@ -788,7 +788,7 @@ function showNotesPage() {
 
 function showStartPage() {
   mainContent.innerHTML = `
-    <h1>Willkommen!</h1>     
+    <h1>Startseite</h1>     
 
     <p>Stelle sicher, dass du die App <b><i>zur Startseite hinzugefügt</i></b> hast, damit dein Stand gespeichert wird!</p>
 
