@@ -21,8 +21,9 @@ header {
   cursor: pointer;
   margin-right: 20px;
 }
-.burger:active {
-  text-decoration: none;
+button:active,
+a:active {
+  background-color: inherit; /* verhindert grauen Hintergrund */
 }
 header h1 {
   margin: 0;
