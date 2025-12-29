@@ -21,6 +21,14 @@ header {
   cursor: pointer;
   margin-right: 20px;
 }
+
+button,
+a,
+input[type="button"],
+input[type="submit"] {
+  -webkit-tap-highlight-color: transparent; /* iOS / Safari / Chrome */
+}
+
 button:active,
 a:active {
   background-color: inherit; /* verhindert grauen Hintergrund */
