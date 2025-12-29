@@ -953,6 +953,124 @@ function showAGB() {
   burger.innerHTML = "&#9776;";
 }
 
+function showCreatePage() {
+  mainContent.innerHTML = `
+<style>
+  .section {
+    margin-bottom: 20px;
+  }
+
+  .section h3 {
+    margin-bottom: 10px;
+    color: #333;
+  }
+
+  .section p {
+    margin-bottom: 10px;
+  }
+
+  pre {
+    background-color: #1e1e1e;
+    color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+  }
+
+  a {
+    color: #4da6ff;
+  }
+</style>
+
+<h2>Eigene Website erstellen</h2>
+
+<div style="border: 2px solid red; background-color: #ffe6e6; color: red; padding: 10px; margin: 15px 0; font-weight: bold; max-width: 600px;">
+  Achtung: Die Website darf nur mit Erlaubnis der Lehrkraft erstellt werden!
+</div>
+
+<p>Denk daran, dass du die rechtlichen Aspekte beachtest (Urheberrecht, Datenschutz etc.), damit du keine Abmahnungen bekommst und gegebenfalls Bußgeld zahlen musst.</p>
+<hr margin="30px 0" />
+
+<div class="section">
+  <h3>1. Visual Studio Code herunterladen (geht nur auf PC)</h3>
+  <p>Lade Visual Studio Code herunter von <a href="https://code.visualstudio.com/" target="_blank">https://code.visualstudio.com/</a> und installiere es.</p>
+</div>
+
+<div class="section">
+  <h3>2. Neues Projekt erstellen</h3>
+  <p>Erstelle einen neuen Ordner für deine Website und öffne ihn in VS Code.</p>
+</div>
+
+<div class="section">
+  <h3>3. HTML & CSS Dateien erstellen</h3>
+  <p>Erstelle eine <code>index.html</code> Datei und optional eine <code>style.css</code>.</p>
+  <pre>
+&lt;!DOCTYPE html&gt;
+&lt;html lang="de"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title>Meine Website&lt;/title&gt;
+  &lt;link rel="stylesheet" href="style.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Willkommen auf meiner Website!&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+  </pre>
+  <pre>
+/* style.css */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  text-align: center;
+}
+h1 {
+  color: #333;
+}
+  </pre>
+</div>
+
+<div class="section">
+  <h3>4. GitHub Repository erstellen</h3>
+  <p>Gehe zu <a href="https://github.com" target="_blank">GitHub</a>, melde dich an und erstelle ein neues Repository, z.B. <code>meine-website</code>.</p>
+</div>
+
+<div class="section">
+  <h3>5. Dateien hochladen / pushen</h3>
+  <p>Initialisiere Git und pushe deine Dateien ins Repository:</p>
+  <pre>
+git init
+git add .
+git commit -m "Meine erste Website"
+git branch -M main
+git remote add origin https://github.com/USERNAME/meine-website.git
+git push -u origin main
+  </pre>
+</div>
+
+<div class="section">
+  <h3>6. GitHub Pages aktivieren</h3>
+  <p>Gehe zu deinem Repository auf GitHub → <strong>Settings</strong> → <strong>Pages</strong>.</p>
+  <p>Wähle den Branch <strong>main</strong> und den Ordner <strong>/ (root)</strong>. Klicke auf <strong>Save</strong>. Nach wenigen Minuten ist deine Website online unter:</p>
+  <p><code>https://USERNAME.github.io/meine-website/</code></p>
+</div>
+
+<div class="section">
+  <h3>7. Fertig!</h3>
+  <p>Deine Website ist jetzt online und kann von überall besucht werden. Du kannst sie jederzeit aktualisieren, indem du neue Änderungen pushst.</p>
+</div>
+`;
+
+  // Sidebar schließen
+  sidebar.classList.remove("active");
+  overlay.classList.remove("active");
+  burger.innerHTML = "&#9776;";
+
+  // Quiz-Zustand zurücksetzen
+  localStorage.removeItem("currentQuiz");
+  currentQuiz = null;
+}
+
 // Beim Laden gespeichertes Bild setzen
 window.addEventListener("load", () => {
   const savedPic = localStorage.getItem("profilePic");
