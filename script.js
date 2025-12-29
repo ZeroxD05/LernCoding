@@ -985,7 +985,7 @@ function showCreatePage() {
 <h2>Eigene Website erstellen</h2>
 
 <div style="border: 2px solid red; background-color: #ffe6e6; color: red; padding: 10px; margin: 15px 0; font-weight: bold; max-width: 600px;">
-  Achtung: Die Website darf nur mit Erlaubnis der Lehrkraft erstellt werden!
+  Achtung: Die Website darf nur mit Erlaubnis der Lehrkraft erstellt werden! Keine Haftung für Missbrauch!
 </div>
 
 <p>Denk daran, dass du die rechtlichen Aspekte beachtest (Urheberrecht, Datenschutz etc.), damit du keine Abmahnungen bekommst und gegebenfalls Bußgeld zahlen musst.</p>
