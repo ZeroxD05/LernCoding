@@ -712,80 +712,6 @@ function createVideo(title, src) {
   `;
 }
 
-function showNotesPage() {
-  mainContent.innerHTML = `
-    <h2>LernCoding Notizen</h2>
-    <p>Hier kannst du deine Notizen machen!</p>
-    <div id="notes-container"></div>
-    <button id="add-note-btn" style="margin-top:10px; padding:5px 10px; background-color:#5a9de0; color:white; border:none; border-radius:4px; cursor:pointer;">
-      Neue Notiz hinzufügen
-    </button>
-  `;
-
-  const notesContainer = document.getElementById("notes-container");
-  const addNoteBtn = document.getElementById("add-note-btn");
-
-  // Lade gespeicherte Notizen
-  let notes = JSON.parse(localStorage.getItem("userNotes") || "[]");
-
-  // Funktion, um alle Notizen darzustellen
-  function renderNotes() {
-    notesContainer.innerHTML = "";
-    notes.forEach((note, index) => {
-      const noteDiv = document.createElement("div");
-      noteDiv.style.border = "1px solid #ccc";
-      noteDiv.style.borderRadius = "5px";
-      noteDiv.style.padding = "10px";
-      noteDiv.style.marginBottom = "10px";
-      noteDiv.style.backgroundColor = "#f9f9f9";
-      noteDiv.style.maxWidth = "60vw";
-
-      noteDiv.innerHTML = `
-        <textarea style="width:100%; height:100px; max-width: 70vw; font-size:16px; border-radius:5px; border:1px solid #ccc;">${note}</textarea>
-        <div style="margin-top:5px;">
-          <button style="padding:3px 8px; background-color:#5a9de0; color:white; border:none; border-radius:4px; cursor:pointer;" class="save-note-btn">Speichern</button>
-          <button style="padding:3px 8px; background-color:#d9534f; color:white; border:none; border-radius:4px; cursor:pointer;" class="delete-note-btn">Löschen</button>
-        </div>
-        <p class="note-feedback" style="color:green; margin-top:5px;"></p>
-      `;
-
-      // Save-Button
-      noteDiv.querySelector(".save-note-btn").addEventListener("click", () => {
-        const textarea = noteDiv.querySelector("textarea");
-        notes[index] = textarea.value;
-        localStorage.setItem("userNotes", JSON.stringify(notes));
-        const feedback = noteDiv.querySelector(".note-feedback");
-        feedback.textContent = "✅ Notiz gespeichert!";
-        setTimeout(() => {
-          feedback.textContent = "";
-        }, 2000);
-      });
-
-      // Delete-Button
-      noteDiv
-        .querySelector(".delete-note-btn")
-        .addEventListener("click", () => {
-          notes.splice(index, 1);
-          localStorage.setItem("userNotes", JSON.stringify(notes));
-          renderNotes();
-        });
-
-      notesContainer.appendChild(noteDiv);
-    });
-  }
-  // Sidebar schließen
-  sidebar.classList.remove("active");
-  overlay.classList.remove("active");
-  burger.innerHTML = "&#9776;";
-  // Neue Notiz hinzufügen
-  addNoteBtn.addEventListener("click", () => {
-    notes.push("");
-    renderNotes();
-  });
-
-  renderNotes();
-}
-
 function showStartPage() {
   mainContent.innerHTML = `
     <h1>Startseite</h1>     
@@ -953,113 +879,75 @@ function showAGB() {
   burger.innerHTML = "&#9776;";
 }
 
-function showCreatePage() {
+function showCreateWPage() {
   mainContent.innerHTML = `
 <style>
-  .section {
-    margin-bottom: 20px;
+  .editor-container {
+    display: flex;
+    gap: 50px;
+    margin-top: 20px;
   }
 
-  .section h3 {
-    margin-bottom: 10px;
-    color: #333;
+  .editor, .preview {
+    width: 50%;
   }
 
-  .section p {
-    margin-bottom: 10px;
-  }
-
-  pre {
-    background-color: #1e1e1e;
-    color: #fff;
-    padding: 15px;
+  textarea {
+    width: 100%;
+    height: 300px;
+    font-family: monospace;
+    font-size: 14px;
+    padding: 12px;
     border-radius: 8px;
-    overflow-x: auto;
+    border: 1px solid #ccc;
+    resize: vertical;
   }
 
-  a {
-    color: #4da6ff;
+  iframe {
+    width: 100%;
+    height: 300px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: white;
   }
+
+
 </style>
 
 <h2>Eigene Website erstellen</h2>
 
-<div style="border: 2px solid red; background-color: #ffe6e6; color: red; padding: 10px; margin: 15px 0; font-weight: bold; max-width: 600px;">
-  Achtung: Die Website darf nur mit Erlaubnis der Lehrkraft erstellt werden! Keine Haftung für Missbrauch!
-</div>
 
-<p>Denk daran, dass du die rechtlichen Aspekte beachtest (Urheberrecht, Datenschutz etc.), damit du keine Abmahnungen bekommst und gegebenfalls Bußgeld zahlen musst.</p>
-<hr margin="30px 0" />
+<p>Schreibe unten HTML & CSS und sieh dir sofort das Ergebnis:</p>
 
-<div class="section">
-  <h3>1. Visual Studio Code herunterladen (geht nur auf PC)</h3>
-  <p>Lade Visual Studio Code herunter von <a href="https://code.visualstudio.com/" target="_blank">https://code.visualstudio.com/</a> und installiere es.</p>
-</div>
+<div class="editor-container">
+  <div class="editor">
+    <h3>HTML Code</h3>
+    <textarea id="htmlCode">
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Meine Website</title>
 
-<div class="section">
-  <h3>2. Neues Projekt erstellen</h3>
-  <p>Erstelle einen neuen Ordner für deine Website und öffne ihn in VS Code.</p>
-</div>
+</head>
+<body>
+  <h1>Hallo Website 👋</h1>
+  <p>Das ist meine erste eigene Website.</p>
+</body>
+</html>
+    </textarea>
 
-<div class="section">
-  <h3>3. HTML & CSS Dateien erstellen</h3>
-  <p>Erstelle eine <code>index.html</code> Datei und optional eine <code>style.css</code>.</p>
-  <pre>
-&lt;!DOCTYPE html&gt;
-&lt;html lang="de"&gt;
-&lt;head&gt;
-  &lt;meta charset="UTF-8"&gt;
-  &lt;title>Meine Website&lt;/title&gt;
-  &lt;link rel="stylesheet" href="style.css"&gt;
-&lt;/head&gt;
-&lt;body&gt;
-  &lt;h1&gt;Willkommen auf meiner Website!&lt;/h1&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-  </pre>
-  <pre>
-/* style.css */
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f0f0f0;
-  text-align: center;
-}
-h1 {
-  color: #333;
-}
-  </pre>
-</div>
+    <button class="run-btn" onclick="updatePreview()">▶ Vorschau aktualisieren</button>
+  </div>
 
-<div class="section">
-  <h3>4. GitHub Repository erstellen</h3>
-  <p>Gehe zu <a href="https://github.com" target="_blank">GitHub</a>, melde dich an und erstelle ein neues Repository, z.B. <code>meine-website</code>.</p>
-</div>
-
-<div class="section">
-  <h3>5. Dateien hochladen / pushen</h3>
-  <p>Initialisiere Git und pushe deine Dateien ins Repository:</p>
-  <pre>
-git init
-git add .
-git commit -m "Meine erste Website"
-git branch -M main
-git remote add origin https://github.com/USERNAME/meine-website.git
-git push -u origin main
-  </pre>
-</div>
-
-<div class="section">
-  <h3>6. GitHub Pages aktivieren</h3>
-  <p>Gehe zu deinem Repository auf GitHub → <strong>Settings</strong> → <strong>Pages</strong>.</p>
-  <p>Wähle den Branch <strong>main</strong> und den Ordner <strong>/ (root)</strong>. Klicke auf <strong>Save</strong>. Nach wenigen Minuten ist deine Website online unter:</p>
-  <p><code>https://USERNAME.github.io/meine-website/</code></p>
-</div>
-
-<div class="section">
-  <h3>7. Fertig!</h3>
-  <p>Deine Website ist jetzt online und kann von überall besucht werden. Du kannst sie jederzeit aktualisieren, indem du neue Änderungen pushst.</p>
+  <div class="preview">
+    <h3>Vorschau</h3>
+    <iframe id="previewFrame"></iframe>
+  </div>
 </div>
 `;
+
+  updatePreview();
 
   // Sidebar schließen
   sidebar.classList.remove("active");
@@ -1069,6 +957,98 @@ git push -u origin main
   // Quiz-Zustand zurücksetzen
   localStorage.removeItem("currentQuiz");
   currentQuiz = null;
+}
+function updatePreview() {
+  const html = document.getElementById("htmlCode").value;
+  const iframe = document.getElementById("previewFrame");
+
+  iframe.srcdoc = html;
+}
+// ================================
+// Python-Seite anzeigen
+// ================================
+function showCreatePPage() {
+  mainContent.innerHTML = `
+    <h2>Eigene Python Programme erstellen</h2>
+    <p>Schreibe einfachen Python-Code und führe ihn direkt aus:</p>
+
+    <textarea id="pythonCode" style="width:80vw; height:150px; font-family:monospace; background:#f0f0f0; padding:20px; border-radius:20px; border:1px solid #ccc;">
+print("Hallo Welt!")
+
+    </textarea>
+
+    <br><br>
+<button id="runBtn" class="run-btn">
+  ▶ Run
+</button>
+
+    <pre id="output" style="width:80vw; height:150px; font-family:monospace; background:#f0f0f0; padding:20px; border-radius:20px; border:1px solid #ccc;"></pre>
+  `;
+
+  document.getElementById("runBtn").onclick = runPython;
+
+  loadPyodideIfNeeded();
+
+  // Sidebar schließen
+  sidebar.classList.remove("active");
+  overlay.classList.remove("active");
+  burger.innerHTML = "&#9776;";
+
+  // Quiz-Zustand zurücksetzen
+  localStorage.removeItem("currentQuiz");
+  currentQuiz = null;
+}
+
+// ================================
+// Pyodide laden (einmal)
+// ================================
+let pyodideReady = false;
+
+async function loadPyodideIfNeeded() {
+  if (pyodideReady) return;
+
+  const script = document.createElement("script");
+  script.src = "https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js";
+
+  script.onload = async () => {
+    window.pyodide = await loadPyodide();
+    pyodideReady = true;
+  };
+
+  document.head.appendChild(script);
+}
+
+// ================================
+// Python-Code ausführen
+// ================================
+async function runPython() {
+  const code = document.getElementById("pythonCode").value;
+  const output = document.getElementById("output");
+
+  if (!pyodideReady) {
+    output.textContent = "Python wird noch geladen...";
+    return;
+  }
+
+  output.textContent = "";
+
+  try {
+    // stdout abfangen
+    pyodide.runPython(`
+import sys
+from io import StringIO
+sys.stdout = StringIO()
+`);
+
+    // User-Code ausführen
+    pyodide.runPython(code);
+
+    // Ausgabe anzeigen
+    const result = pyodide.runPython("sys.stdout.getvalue()");
+    output.textContent = result || "(kein Output)";
+  } catch (err) {
+    output.textContent = err;
+  }
 }
 
 // Beim Laden gespeichertes Bild setzen
