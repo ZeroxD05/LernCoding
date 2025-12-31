@@ -1268,6 +1268,34 @@ feedBtn.addEventListener("mouseenter", () => {
 feedBtn.addEventListener("mouseleave", () => {
   if (!feedBtn.disabled);
 });
+
+let feedCount = localStorage.getItem("feedCount")
+  ? parseInt(localStorage.getItem("feedCount"))
+  : 0;
+
+const feedCountDiv = document.createElement("div");
+feedCountDiv.style.marginTop = "10px";
+feedCountDiv.style.fontWeight = "bold";
+feedCountDiv.textContent = `Drachen gefüttert: ${feedCount} mal`;
+petContainer.appendChild(feedCountDiv);
+
+function feedDragon() {
+  const now = Date.now();
+  if (now - lastFed >= cooldown) {
+    lastFed = now;
+    localStorage.setItem("lastFed", lastFed);
+    animateDragon();
+    feedCount++; // Zähler erhöhen
+    localStorage.setItem("feedCount", feedCount);
+    feedCountDiv.textContent = `Drachen gefüttert: ${feedCount} mal`; // UI aktualisieren
+    updateCountdown();
+  } else {
+    alert(
+      "Drachen kann erst wieder gefüttert werden, wenn der Countdown abgelaufen ist!"
+    );
+  }
+}
+
 // Beim Laden gespeichertes Bild setzen
 window.addEventListener("load", () => {
   const savedPic = localStorage.getItem("profilePic");
