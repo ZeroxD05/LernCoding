@@ -911,33 +911,24 @@ function showCreateWPage() {
     background: white;
   }
 
-
+  .btn-group {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+  }
 </style>
 
 <h2>Eigene Website erstellen</h2>
-
-
 <p>Schreibe unten HTML & CSS und sieh dir sofort das Ergebnis:</p>
 <p>Zum kopieren: " ; , . () [] </p>
 <div class="editor-container">
   <div class="editor">
     <h3>HTML Code</h3>
-    <textarea id="htmlCode">
-<!DOCTYPE html>
-<html lang="de">
-<head>
-  <meta charset="UTF-8">
-  <title>Meine Website</title>
+    <textarea id="htmlCode"></textarea>
 
-</head>
-<body>
-  <h1>Hallo Website 👋</h1>
-  <p>Das ist meine erste eigene Website.</p>
-</body>
-</html>
-    </textarea>
-
-    <button class="run-btn" onclick="updatePreview()">▶ Vorschau aktualisieren</button>
+    <div class="btn-group">
+      <button class="run-btn" onclick="resetCode()">⟲</button>
+    </div>
   </div>
 
   <div class="preview">
@@ -947,7 +938,31 @@ function showCreateWPage() {
 </div>
 `;
 
+  const textarea = document.getElementById("htmlCode");
+
+  const defaultHTML = `<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Meine Website</title>
+</head>
+<body>
+  <h1>Hey Website</h1>
+  <p>Das ist meine eigene Website.</p>
+</body>
+</html>`;
+
+  // Inhalt aus LocalStorage laden, wenn vorhanden
+  const savedHTML = localStorage.getItem("myWebsiteHTML");
+  textarea.value = savedHTML || defaultHTML;
+
   updatePreview();
+
+  // Änderungen speichern
+  textarea.addEventListener("input", () => {
+    localStorage.setItem("myWebsiteHTML", textarea.value);
+    updatePreview();
+  });
 
   // Sidebar schließen
   sidebar.classList.remove("active");
@@ -957,13 +972,22 @@ function showCreateWPage() {
   // Quiz-Zustand zurücksetzen
   localStorage.removeItem("currentQuiz");
   currentQuiz = null;
+
+  // Funktion zum Zurücksetzen
+  window.resetCode = function () {
+    textarea.value = defaultHTML;
+    localStorage.setItem("myWebsiteHTML", defaultHTML);
+    updatePreview();
+  };
 }
+
 function updatePreview() {
   const html = document.getElementById("htmlCode").value;
   const iframe = document.getElementById("previewFrame");
 
   iframe.srcdoc = html;
 }
+
 // ================================
 // Python-Seite anzeigen
 // ================================
