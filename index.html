@@ -2,7 +2,10 @@
 <html lang="de">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0  maximum-scale=1, user-scalable=no"
+    />
     <title>LernCoding</title>
     <link rel="icon" type="image/png" href="image.png" />
     <!-- Favicon für Browser -->
@@ -11,6 +14,18 @@
       href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap"
       rel="stylesheet"
     />
+    <style>
+      textarea,
+      input,
+      select,
+      button {
+        font-size: 16px; /* Mindestens 16px verhindert automatisches Zoomen */
+        -webkit-text-size-adjust: 100%; /* Safari / iOS */
+        -moz-text-size-adjust: 100%; /* Firefox */
+        -ms-text-size-adjust: 100%; /* IE */
+        text-size-adjust: 100%; /* Standard */
+      }
+    </style>
     <meta
       name="description"
       content="Deine interaktive Plattform zum Programmieren lernen"
