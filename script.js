@@ -1090,6 +1090,184 @@ sys.stdout = StringIO()
   }
 }
 
+const toggleBtn = document.getElementById("togglePetBtn");
+const petContainer = document.getElementById("pet-container");
+
+const canvas = document.getElementById("petCanvas");
+const ctx = canvas.getContext("2d");
+const feedBtn = document.getElementById("feedBtn");
+const countdownDiv = document.getElementById("countdown");
+
+const tileSize = 10;
+
+// Drachen-Sprite
+let dragon = {
+  x: 6,
+  y: 7,
+  bodyColor: "#FF4500",
+  wingColor: "#800000",
+  eyeColor: "#FFFFFF",
+};
+
+// Boden
+const groundY = 10;
+
+// Fütterung
+let lastFed = localStorage.getItem("lastFed")
+  ? parseInt(localStorage.getItem("lastFed"))
+  : 0;
+const cooldown = 30 * 60 * 1000; // 30 Minuten
+
+// Toggle Panel
+toggleBtn.addEventListener("click", () => {
+  if (petContainer.style.display === "none") {
+    petContainer.style.display = "block";
+  } else {
+    petContainer.style.display = "none";
+  }
+});
+
+// Zeichne Szene
+function drawScene() {
+  ctx.fillStyle = "#87CEEB";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Gras
+  ctx.fillStyle = "#4CAF50";
+  for (let i = 0; i < canvas.width / tileSize; i++) {
+    ctx.fillRect(i * tileSize, groundY * tileSize, tileSize, tileSize);
+  }
+
+  // Erde
+  ctx.fillStyle = "#8B4513";
+  for (let y = groundY + 1; y < canvas.height / tileSize; y++) {
+    for (let x = 0; x < canvas.width / tileSize; x++) {
+      ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
+    }
+  }
+
+  // Drachen
+  // Körper
+  for (let y = 0; y < 2; y++) {
+    for (let x = 0; x < 3; x++) {
+      ctx.fillStyle = dragon.bodyColor;
+      ctx.fillRect(
+        (dragon.x + x) * tileSize,
+        (dragon.y + y) * tileSize,
+        tileSize,
+        tileSize
+      );
+    }
+  }
+  // Kopf
+  ctx.fillStyle = dragon.bodyColor;
+  ctx.fillRect(
+    (dragon.x + 3) * tileSize,
+    (dragon.y + 0) * tileSize,
+    tileSize,
+    tileSize
+  );
+  // Auge
+  ctx.fillStyle = dragon.eyeColor;
+  ctx.fillRect(
+    (dragon.x + 3) * tileSize,
+    (dragon.y + 0) * tileSize,
+    tileSize / 2,
+    tileSize / 2
+  );
+  // Flügel
+  ctx.fillStyle = dragon.wingColor;
+  ctx.fillRect(
+    (dragon.x + 1) * tileSize,
+    (dragon.y - 1) * tileSize,
+    tileSize,
+    tileSize
+  );
+  ctx.fillRect(
+    (dragon.x + 2) * tileSize,
+    (dragon.y - 1) * tileSize,
+    tileSize,
+    tileSize
+  );
+  // Schwanz
+  ctx.fillStyle = dragon.bodyColor;
+  ctx.fillRect(
+    (dragon.x - 1) * tileSize,
+    (dragon.y + 1) * tileSize,
+    tileSize,
+    tileSize
+  );
+}
+
+// Animation
+function animateDragon() {
+  let jumpHeight = 2,
+    steps = 0,
+    up = true;
+  const interval = setInterval(() => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (up) {
+      dragon.y -= 0.3;
+      steps++;
+      if (steps >= jumpHeight * 2) up = false;
+    } else {
+      dragon.y += 0.3;
+      steps--;
+      if (steps <= 0) {
+        clearInterval(interval);
+        dragon.y = 7;
+      }
+    }
+    drawScene();
+  }, 30);
+}
+
+// Füttern
+function feedDragon() {
+  const now = Date.now();
+  if (now - lastFed >= cooldown) {
+    lastFed = now;
+    localStorage.setItem("lastFed", lastFed);
+    animateDragon();
+    updateCountdown();
+  } else {
+    alert(
+      "Drachen kann erst wieder gefüttert werden, wenn der Countdown abgelaufen ist!"
+    );
+  }
+}
+
+feedBtn.addEventListener("click", feedDragon);
+
+// Countdown
+function updateCountdown() {
+  const now = Date.now();
+  let remaining = cooldown - (now - lastFed);
+  if (remaining <= 0) {
+    countdownDiv.textContent = "Bereit zum Füttern!";
+    feedBtn.disabled = false;
+    toggleBtn.textContent = "Drachen füttern - Bereit!";
+    return;
+  }
+  feedBtn.disabled = true;
+  feedBtn.style.background = "#ccc";
+  const minutes = Math.floor(remaining / 60000);
+  const seconds = Math.floor((remaining % 60000) / 1000);
+  toggleBtn.textContent = ` Drachen füttern - ${minutes}m ${seconds}s`;
+}
+
+// Initial
+drawScene();
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+// Button Hover
+feedBtn.addEventListener("mouseenter", () => {
+  if (!feedBtn.disabled);
+});
+feedBtn.addEventListener("mouseleave", () => {
+  if (!feedBtn.disabled);
+});
 // Beim Laden gespeichertes Bild setzen
 window.addEventListener("load", () => {
   const savedPic = localStorage.getItem("profilePic");
