@@ -1244,7 +1244,6 @@ function updateCountdown() {
   const now = Date.now();
   let remaining = cooldown - (now - lastFed);
   if (remaining <= 0) {
-    countdownDiv.textContent = "Bereit zum Füttern!";
     feedBtn.disabled = false;
     toggleBtn.textContent = "Drachen füttern - Bereit!";
     return;
