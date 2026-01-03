@@ -670,12 +670,15 @@ function showVideosPage() {
     ">
 
       ${createVideo(
-        "HTML Grundlagen",
+        "HTML Grundlagen einfach erklärt – Dein Einstieg in die Webentwicklung",
         "https://www.youtube.com/embed/nmiWXn6aIAs"
       )}
 
    
-      ${createVideo("Mehr Videos folgen", "")}
+      ${createVideo(
+        "Visual Studio Code installieren – Schritt für Schritt erklärt (Anfänger Tutorial)",
+        "https://www.youtube.com/embed/Glolz8NG0qY"
+      )}
 
     </div>
   `;
