@@ -679,6 +679,10 @@ function showVideosPage() {
         "Visual Studio Code installieren – Schritt für Schritt erklärt (Anfänger Tutorial)",
         "https://www.youtube.com/embed/Glolz8NG0qY"
       )}
+ ${createVideo(
+   "SEO optimieren – So rankst du bei Google besser",
+   "https://www.youtube.com/embed/rNRjB60CXI0"
+ )}
 
     </div>
   `;
