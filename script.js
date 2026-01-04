@@ -935,7 +935,7 @@ function saveAccountSettings() {
   usernameElem.textContent = name;
   userclassElem.textContent = userClass;
 
-  alert("✅ Account gespeichert!");
+  alert("Erfolgreich gespeichert!");
 }
 
 function showImpressum() {
