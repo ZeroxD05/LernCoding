@@ -1135,16 +1135,10 @@ print("Hallo Welt!")
 
 <br>
     <div style="width:80vw; background:#e8f4ff; padding:20px; border-radius:15px; border:1px solid #99c2ff; font-family:monospace;">
-      <h3>Beispiele:</h3>
+      <h3>Beispiel:</h3>
       <ul>
         <li><strong>print("Text")</strong> – Text ausgeben</li>
-        <li><strong>len("Text")</strong> – Länge eines Strings ermitteln</li>
-        <li><strong>sum([1,2,3])</strong> – Summe einer Liste berechnen</li>
-        <li><strong>range(5)</strong> – Zahlen von 0 bis 4 erzeugen</li>
-        <li><strong>for i in range(5): print(i)</strong> – Schleife durch Zahlen</li>
-        <li><strong>if x &gt; 10: ...</strong> – Bedingte Anweisungen</li>
-        <li><strong>import math</strong> – Mathematische Funktionen nutzen</li>
-        <li><strong>help(list)</strong> – Hilfe zu Funktionen/Objekten anzeigen</li>
+        
       </ul>
     </div>
   `;
