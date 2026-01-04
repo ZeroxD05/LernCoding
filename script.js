@@ -819,6 +819,124 @@ profilePic.addEventListener("click", () => {
     }
   };
 });
+function showAccountPage() {
+  const savedName = localStorage.getItem("firstName") || "";
+  const savedClass = localStorage.getItem("userClass") || "";
+  const savedLang = localStorage.getItem("appLanguage") || "de";
+
+  mainContent.innerHTML = `
+    <h2>Account Einstellungen</h2>
+<p>Hier kannst du deine Account Einstellungen anpassen.</p>
+<br>
+    <div style="
+      max-width:420px;
+      margin:auto;
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+    ">
+
+      <!-- Profilbild -->
+      <div style="text-align:center;">
+        <img
+          id="accountProfilePic"
+          src="${
+            localStorage.getItem("profilePic") ||
+            "https://via.placeholder.com/120"
+          }"
+          style="
+            width:120px;
+            height:120px;
+            border-radius:50%;
+            object-fit:cover;
+            cursor:pointer;
+            border:2px solid #ccc;
+          "
+        />
+      </div>
+
+      <!-- Name -->
+      <label>
+        <strong>Name</strong>
+        <input id="accName" value="${savedName}" style="width:100%;padding:8px;border-radius:8px;border:1px solid #ccc;">
+      </label>
+
+      <!-- Klasse -->
+      <label>
+        <strong>Klasse</strong>
+        <input id="accClass" value="${savedClass}" style="width:100%;padding:8px;border-radius:8px;border:1px solid #ccc;">
+      </label>
+
+ 
+
+      <!-- Speichern -->
+      <button
+        style="
+          padding:12px;
+          border:none;
+          border-radius:10px;
+          background:#4CAF50;
+          color:white;
+          font-size:16px;
+          cursor:pointer;
+        "
+        onclick="saveAccountSettings()"
+      >
+        Speichern
+      </button>
+
+    </div>
+  `;
+
+  // Profilbild Klick
+  const pic = document.getElementById("accountProfilePic");
+  pic.addEventListener("click", () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.click();
+
+    input.onchange = () => {
+      const file = input.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        pic.src = e.target.result;
+        profilePic.src = e.target.result; // Header aktualisieren
+        localStorage.setItem("profilePic", e.target.result);
+      };
+      reader.readAsDataURL(file);
+    };
+  });
+
+  // Sidebar schließen
+  sidebar.classList.remove("active");
+  overlay.classList.remove("active");
+  burger.innerHTML = "&#9776;";
+
+  localStorage.removeItem("currentQuiz");
+  currentQuiz = null;
+}
+
+function saveAccountSettings() {
+  const name = document.getElementById("accName").value.trim();
+  const userClass = document.getElementById("accClass").value.trim();
+
+  if (!name || !userClass) {
+    alert("Bitte Name und Klasse ausfüllen!");
+    return;
+  }
+
+  localStorage.setItem("firstName", name);
+  localStorage.setItem("userClass", userClass);
+
+  // Header sofort aktualisieren
+  usernameElem.textContent = name;
+  userclassElem.textContent = userClass;
+
+  alert("✅ Account gespeichert!");
+}
 
 function showImpressum() {
   document.getElementById("main-content").innerHTML = `
