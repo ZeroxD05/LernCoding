@@ -722,6 +722,8 @@ function createVideo(title, src) {
 function showStartPage() {
   mainContent.innerHTML = `
          <h1 style="text-align: center">Homepage</h1>
+               <p style="text-align: center">Drücke einen Knopf um zu starten.</p>
+
       <div class="start-list">
         <button class="start-item" onclick="showCreateWPage()">
           <div>
@@ -1019,6 +1021,10 @@ function showCreateWPage() {
 <h2>Eigene Website erstellen</h2>
 <p>Schreibe unten HTML & CSS und sieh dir sofort das Ergebnis:</p>
 <p>Zum kopieren: " ; , . () [] </p>
+  <p style="margin-top:15px; cursor:pointer;"
+     onclick="showVideosPage()">
+     Kleiner Tipp: Schau dir die <span style="text-decoration:underline; color:#007bff;">Videos</span> an, um mehr über Python zu lernen!
+  </p> 
 <div class="editor-container">
   <div class="editor">
     <h3>HTML Code</h3>
@@ -1093,8 +1099,12 @@ function showCreatePPage() {
   mainContent.innerHTML = `
     <h2>Eigene Python Programme erstellen</h2>
     <p>Schreibe einfachen Python-Code und führe ihn direkt aus:</p>
-
-    <textarea id="pythonCode" style="width:80vw; height:150px; font-family:monospace; background:#f0f0f0; padding:20px; border-radius:20px; border:1px solid #ccc;">
+  <p style="margin-top:15px; cursor:pointer;"
+     onclick="showVideosPage()">
+    Tipp: Schau dir die <span style="text-decoration:underline; color:#007bff;">Videos</span> an, um mehr über Python zu lernen!
+  </p>
+ 
+  <textarea id="pythonCode" style="width:80vw; height:150px; font-family:monospace; background:#f0f0f0; padding:20px; border-radius:20px; border:1px solid #ccc;">
 print("Hallo Welt!")
 
     </textarea>
