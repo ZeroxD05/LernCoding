@@ -721,7 +721,7 @@ function createVideo(title, src) {
 
 function showStartPage() {
   mainContent.innerHTML = `
-         <h1 style="text-align: center">Was möchtest du machen?</h1>
+         <h1 style="text-align: center">Homepage</h1>
       <div class="start-list">
         <button class="start-item" onclick="showCreateWPage()">
           <div>
