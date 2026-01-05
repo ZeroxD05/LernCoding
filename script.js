@@ -721,72 +721,45 @@ function createVideo(title, src) {
 
 function showStartPage() {
   mainContent.innerHTML = `
-    <h1>Startseite</h1>     
-
-    <p>Stelle sicher, dass du die App <b><i>zur Startseite hinzugefügt</i></b> hast, damit dein Stand gespeichert wird!</p>
-
-
-   
-
-    <hr style="margin: 30px 0" />
-
-    <h2>LernCoding zum Startbildschirm hinzufügen</h2>
-
-      <ol
-        style="
-          font-size: 16px;
-          background-color: rgb(247, 247, 177);
-          border-radius: 20px;
-          border: 1px solid #e0e0a3;
-          display: flex;
-          justify-content: center;
-          align-items: start;
-          flex-direction: column;
-          text-align: left;
-          padding-bottom: 15px;
-                    max-width: 420px;
-
-        "
-      >
-      <h2>Auf Apple Geräten</h2>
-        <li>Öffne diese Webseite in <strong>Safari</strong> (nicht Chrome).</li>
-        <li>Tippe unten auf das <strong>Teilen-Symbol</strong>.</li>
-        <li>
-          Scrolle nach unten und tippe auf
-          <strong>„Zum Home-Bildschirm“</strong>.
-        </li>
-        <li>Wähle einen Namen (z. B. <strong>LernCoding</strong>).</li>
-        <li>Tippe auf <strong>„Hinzufügen“</strong>.</li>
-      </ol>
-<ol
-        style="
-          font-size: 16px;
-          background-color: rgb(247, 247, 177);
-          border-radius: 20px;
-          border: 1px solid #e0e0a3;
-          display: flex;
-          justify-content: center;
-          align-items: start;
-          flex-direction: column;
-          text-align: left;
-          padding-bottom: 15px;
-                    max-width: 420px;
-
-        "
-      >
-      <h2>Auf Android Geräten</h2>
-        <li>Chrome öffnen.</li>
-        <li>Auf das <strong>Drei-Punkte-Menü</strong> oben rechts tippen.</li>
-        <li>Auf <strong>„Zum Startbildschirm hinzufügen“</strong> tippen.</li>
-        <li>Einen Namen wählen (z. B. <strong>LernCoding</strong>).</li>
-        <li>Auf <strong>„Hinzufügen“</strong> tippen.</li>
-      </ol>
-        
-
-
-      <p style="margin-top: 15px">
-        Die App erscheint jetzt wie eine echte App auf deinem Gerät!
-      </p>
+         <h1 style="text-align: center">Was möchtest du machen?</h1>
+      <div class="start-list">
+        <button class="start-item" onclick="showCreateWPage()">
+          <div>
+            <strong>Website erstellen</strong>
+            <span>Baue deine eigene Webseite mit HTML & CSS</span>
+          </div>
+        </button>
+        <button class="start-item" onclick="showCreatePPage()">
+          <div>
+            <strong>Programmieren lernen</strong>
+            <span>Starte dein eigenes Python-Programm</span>
+          </div>
+        </button>
+        <button class="start-item" onclick="startQuiz('webdev',1)">
+          <div>
+            <strong>Quiz machen</strong>
+            <span>Teste dein Wissen spielerisch</span>
+          </div>
+        </button>
+        <button class="start-item" onclick="showVideosPage()">
+          <div>
+            <strong>Videos ansehen</strong>
+            <span>Erklärvideos einfach & verständlich</span>
+          </div>
+        </button>
+        <button class="start-item" onclick="showTextPage()">
+          <div>
+            <strong>Lern-PDFs</strong>
+            <span>Alles zum Nachlesen</span>
+          </div>
+        </button>
+        <button class="start-item" onclick="showAccountPage()">
+          <div>
+            <strong>Mein Account</strong>
+            <span>Fortschritt & Einstellungen</span>
+          </div>
+        </button>
+      </div>
   `;
 
   // Sidebar schließen
