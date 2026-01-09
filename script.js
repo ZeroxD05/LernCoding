@@ -637,6 +637,44 @@ function filterVideos() {
       : "none";
   });
 }
+document.addEventListener("DOMContentLoaded", () => {
+  const consent = localStorage.getItem("ga_consent");
+
+  if (consent === "accepted") {
+    loadGoogleAnalytics();
+  } else if (consent !== "declined") {
+    document.getElementById("cookie-banner").style.display = "block";
+  }
+});
+
+function acceptCookies() {
+  localStorage.setItem("ga_consent", "accepted");
+  document.getElementById("cookie-banner").style.display = "none";
+  loadGoogleAnalytics();
+}
+
+function declineCookies() {
+  localStorage.setItem("ga_consent", "declined");
+  document.getElementById("cookie-banner").style.display = "none";
+}
+
+function loadGoogleAnalytics() {
+  const script = document.createElement("script");
+  script.async = true;
+  script.src = "https://www.googletagmanager.com/gtag/js?id=G-491YP8KSQ2";
+  document.head.appendChild(script);
+
+  script.onload = () => {
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    window.gtag = gtag;
+
+    gtag("js", new Date());
+    gtag("config", "G-491YP8KSQ2");
+  };
+}
 
 function showTextPage() {
   mainContent.innerHTML = `
