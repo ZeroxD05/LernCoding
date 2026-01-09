@@ -578,85 +578,16 @@ function nextQuestion() {
 
 function showVideosPage() {
   mainContent.innerHTML = `
-    <h1>LernCoding Videos</h1>
-    <p>Hier findest du nützliche Lernvideos!</p>
-
-    <div style="
-      display:flex;
-      flex-direction:column;
-      gap:24px;
-      margin-top:16px;
-      padding:0 16px;
-    ">
-
-      <div>
-        <h4>HTML Grundlagen</h4>
-        <p>Lerne die Grundlagen von HTML.</p>
-        <div style="position:relative; padding-top:56.25%;">
-          <iframe 
-      src="https://www.youtube.com/embed/nmiWXn6aIAs" 
-            style="
-              position:absolute;
-              top:0; left:0;
-              width:100%;
-              height:100%;
-              border-radius:8px;
-            "
-            frameborder="0"
-            allowfullscreen>
-          </iframe>
-        </div>
-      </div>
-
-
-      <div>
-        <h4>Python</h4>
-        <p>Einführung in die Programmiersprache Python.</p>
-        <div style="position:relative; padding-top:56.25%;">
-          <iframe 
-            src=""
-            style="
-              position:absolute;
-              top:0; left:0;
-              width:100%;
-              height:100%;
-              border-radius:8px;
-            "
-            frameborder="0"
-            allowfullscreen>
-          </iframe>
-        </div>
-      </div>
-
-    </div>
-  `;
-
-  // Sidebar schließen
-  sidebar.classList.remove("active");
-  overlay.classList.remove("active");
-  burger.innerHTML = "&#9776;";
-}
-
-function showTextPage() {
-  mainContent.innerHTML = `
-    <h2>PDF Texte</h2>
-    <p>Hier findest du nützliche PDF Texte zum Download!</p>
-    <ul>
-      <li><a href="HTML_WebDev_Grundlagen_und_Recht_LernCoding.pdf" target="_blank">HTML Grundlagen (PDF)</a></li>
-      <li><a href="Python_Grundlagen_LernCoding.pdf" target="_blank">Python Einführung (PDF)</a></li>
-    </ul>
-
-  `;
-  // Sidebar schließen
-  sidebar.classList.remove("active");
-  overlay.classList.remove("active");
-  burger.innerHTML = "&#9776;";
-}
-
-function showVideosPage() {
-  mainContent.innerHTML = `
     <h1 style="text-align:center;">LernCoding Videos</h1>
     <p style="text-align:center;">Hier findest du nützliche Lernvideos!</p>
+
+    <input
+      type="text"
+      id="videoSearch"
+      placeholder="Suche Videos..."
+      style="width:100%;padding:8px;margin:16px auto;border-radius:8px;border:1px solid #ccc;max-width:600px;display:block;"
+      onkeyup="filterVideos()"
+    >
 
     <div style="
       display:flex;
@@ -669,22 +600,53 @@ function showVideosPage() {
       margin-right:auto;
     ">
 
-      ${createVideo(
-        "HTML Grundlagen einfach erklärt – Dein Einstieg in die Webentwicklung",
-        "https://www.youtube.com/embed/nmiWXn6aIAs"
-      )}
+      <div class="video" data-search="html grundlagen webentwicklung">
+        ${createVideo(
+          "HTML Grundlagen einfach erklärt – Dein Einstieg in die Webentwicklung",
+          "https://www.youtube.com/embed/nmiWXn6aIAs"
+        )}
+      </div>
 
-   
-      ${createVideo(
-        "Visual Studio Code installieren – Schritt für Schritt erklärt (Anfänger Tutorial)",
-        "https://www.youtube.com/embed/Glolz8NG0qY"
-      )}
- ${createVideo(
-   "SEO optimieren – So rankst du bei Google besser",
-   "https://www.youtube.com/embed/rNRjB60CXI0"
- )}
+      <div class="video" data-search="vscode visual studio code installieren">
+        ${createVideo(
+          "Visual Studio Code installieren – Schritt für Schritt erklärt",
+          "https://www.youtube.com/embed/Glolz8NG0qY"
+        )}
+      </div>
+
+      <div class="video" data-search="seo google ranking optimieren">
+        ${createVideo(
+          "SEO optimieren – So rankst du bei Google besser",
+          "https://www.youtube.com/embed/rNRjB60CXI0"
+        )}
+      </div>
 
     </div>
+  `;
+
+  sidebar.classList.remove("active");
+  overlay.classList.remove("active");
+  burger.innerHTML = "&#9776;";
+}
+function filterVideos() {
+  const search = document.getElementById("videoSearch").value.toLowerCase();
+
+  document.querySelectorAll(".video").forEach((video) => {
+    video.style.display = video.dataset.search.includes(search)
+      ? "block"
+      : "none";
+  });
+}
+
+function showTextPage() {
+  mainContent.innerHTML = `
+    <h2>PDF Texte</h2>
+    <p>Hier findest du nützliche PDF Texte zum Download!</p>
+    <ul>
+      <li><a href="HTML_WebDev_Grundlagen_und_Recht_LernCoding.pdf" target="_blank">HTML Grundlagen (PDF)</a></li>
+      <li><a href="Python_Grundlagen_LernCoding.pdf" target="_blank">Python Einführung (PDF)</a></li>
+    </ul>
+
   `;
   // Sidebar schließen
   sidebar.classList.remove("active");
@@ -1023,7 +985,7 @@ function showCreateWPage() {
 <p>Zum kopieren: " ; , . () [] </p>
   <p style="margin-top:15px; cursor:pointer;"
      onclick="showVideosPage()">
-     Kleiner Tipp: Schau dir die <span style="text-decoration:underline; color:#007bff;">Videos</span> an, um mehr über Python zu lernen!
+     Kleiner Tipp: Schau dir die <span style="text-decoration:underline; color:#007bff;">Videos</span> an, um einfacher zu lernen!
   </p> 
 <div class="editor-container">
   <div class="editor">
@@ -1101,7 +1063,7 @@ function showCreatePPage() {
     <p>Schreibe einfachen Python-Code und führe ihn direkt aus:</p>
   <p style="margin-top:15px; cursor:pointer;"
      onclick="showVideosPage()">
-    Tipp: Schau dir die <span style="text-decoration:underline; color:#007bff;">Videos</span> an, um mehr über Python zu lernen!
+    Tipp: Schau dir die <span style="text-decoration:underline; color:#007bff;">Videos</span> an, um einfacher zu lernen!
   </p>
  
   <textarea id="pythonCode" style="width:80vw; height:150px; font-family:monospace; background:#f0f0f0; padding:20px; border-radius:20px; border:1px solid #ccc;">
