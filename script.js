@@ -508,14 +508,12 @@ function checkAnswer(selected) {
   if (correct) {
     feedback.textContent = "✅";
     currentQuiz.answers[index] = true;
-    addXP(5);
     setTimeout(nextQuestion, 700);
   } else {
     feedback.textContent = "❌ Falsch! Wiederholen.";
     if (!currentQuiz.repeatQueue.includes(index))
       currentQuiz.repeatQueue.push(index);
     currentQuiz.answers[index] = false;
-    addXP(-2);
     setTimeout(nextQuestion, 700);
   }
   saveAppState();
@@ -533,14 +531,12 @@ function checkMulti() {
   if (correct) {
     feedback.textContent = "✅ Richtig!";
     currentQuiz.answers[index] = true;
-    addXP(5);
     setTimeout(nextQuestion, 700);
   } else {
     feedback.textContent = "❌ Falsch! Wiederholen.";
     if (!currentQuiz.repeatQueue.includes(index))
       currentQuiz.repeatQueue.push(index);
     currentQuiz.answers[index] = false;
-    addXP(-2);
     setTimeout(nextQuestion, 700);
   }
   saveAppState();
@@ -555,14 +551,12 @@ function checkText() {
   if (correct) {
     feedback.textContent = "✅ Richtig!";
     currentQuiz.answers[index] = true;
-    addXP(5);
     setTimeout(nextQuestion, 700);
   } else {
     feedback.textContent = "❌ Falsch! Wiederholen.";
     if (!currentQuiz.repeatQueue.includes(index))
       currentQuiz.repeatQueue.push(index);
     currentQuiz.answers[index] = false;
-    addXP(-2);
     setTimeout(nextQuestion, 700);
   }
   saveAppState();
@@ -636,7 +630,6 @@ function showVideosPage() {
   sidebar.classList.remove("active");
   overlay.classList.remove("active");
   burger.classList.remove("open");
-  
 }
 function filterVideos() {
   const search = document.getElementById("videoSearch").value.toLowerCase();
@@ -661,7 +654,6 @@ function showTextPage() {
   sidebar.classList.remove("active");
   overlay.classList.remove("active");
   burger.classList.remove("open");
-  hideXPBar();
 }
 
 function createVideo(title, src) {
@@ -1061,8 +1053,6 @@ function showCreateWPage() {
   sidebar.classList.remove("active");
   overlay.classList.remove("active");
   burger.classList.remove("open");
-
-  hideXPBar();
 
   // Quiz-Zustand zurücksetzen
   localStorage.removeItem("currentQuiz");
