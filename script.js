@@ -685,6 +685,17 @@ function showStartPage() {
          <h1 style="text-align: center">Homepage</h1>
                <p style="text-align: center">Drücke einen Knopf um zu starten.</p>
 
+      <div class="stat-cards">
+        <div class="stat-card" id="screentime-box">
+          <div class="stat-title">Screentime</div>
+          <div class="stat-value" id="screentime-value">0s</div>
+        </div>
+        <div class="stat-card" id="streak-box">
+          <div class="stat-title">Streak</div>
+          <div class="stat-value" id="streak-value">0 Tage</div>
+        </div>
+      </div>
+
       <div class="start-list">
         <button class="start-item" onclick="showCreateWPage()">
           <div>
@@ -733,6 +744,8 @@ function showStartPage() {
   // Quiz-Zustand zurücksetzen
   localStorage.removeItem("currentQuiz");
   currentQuiz = null;
+  // Stats initialisieren (wichtig nach Inhaltserzeugung)
+  if (typeof initStats === "function") initStats();
 }
 
 const profilePic = document.getElementById("profile-pic");
@@ -1364,7 +1377,89 @@ window.addEventListener("load", () => {
   if (savedPic) profilePic.src = savedPic;
 });
 
+// ===== Screentime und Streak Tracking =====
+let totalSeconds = parseInt(localStorage.getItem("totalSeconds")) || 0;
+let streak = parseInt(localStorage.getItem("streak")) || 0;
+let screentimeInterval = null;
+
+function formatTime(sec) {
+  const h = Math.floor(sec / 3600);
+  const m = Math.floor((sec % 3600) / 60);
+  const s = sec % 60;
+  if (h > 0) return `${h}h ${m}m ${s}s`;
+  if (m > 0) return `${m}m ${s}s`;
+  return `${s}s`;
+}
+
+function updateStatDisplays() {
+  const st = document.getElementById("screentime-value");
+  const sk = document.getElementById("streak-value");
+  if (st) st.textContent = formatTime(totalSeconds);
+  if (sk) sk.textContent = `${streak} Tage`;
+}
+
+function startScreentimeTracker() {
+  function tick() {
+    totalSeconds++;
+    localStorage.setItem("totalSeconds", totalSeconds);
+    updateStatDisplays();
+  }
+
+  if (document.visibilityState === "visible") {
+    if (!screentimeInterval) screentimeInterval = setInterval(tick, 1000);
+  }
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") {
+      if (!screentimeInterval) screentimeInterval = setInterval(tick, 1000);
+    } else {
+      if (screentimeInterval) {
+        clearInterval(screentimeInterval);
+        screentimeInterval = null;
+      }
+    }
+  });
+
+  window.addEventListener("beforeunload", () => {
+    localStorage.setItem("totalSeconds", totalSeconds);
+    localStorage.setItem("streak", streak);
+    localStorage.setItem(
+      "lastVisitDate",
+      new Date().toISOString().slice(0, 10)
+    );
+  });
+}
+
+function initStats() {
+  const todayStr = new Date().toISOString().slice(0, 10);
+  const storedLast = localStorage.getItem("lastVisitDate");
+
+  if (storedLast !== todayStr) {
+    if (storedLast) {
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      const yStr = yesterday.toISOString().slice(0, 10);
+      if (storedLast === yStr) {
+        streak = (parseInt(localStorage.getItem("streak")) || 0) + 1;
+      } else {
+        streak = 1;
+      }
+    } else {
+      streak = 1;
+    }
+    localStorage.setItem("streak", streak);
+    localStorage.setItem("lastVisitDate", todayStr);
+  } else {
+    streak = parseInt(localStorage.getItem("streak")) || 1;
+  }
+
+  totalSeconds = parseInt(localStorage.getItem("totalSeconds")) || 0;
+  updateStatDisplays();
+  startScreentimeTracker();
+}
+
 window.addEventListener("load", () => {
   askUserInfo();
   loadLastState();
+  initStats();
 });
