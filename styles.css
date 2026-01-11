@@ -65,6 +65,50 @@ header h1 {
   margin-right: 20px;
 }
 
+/* New hamburger lines */
+.burger {
+  width: 30px;
+  height: 22px;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 4px 6px;
+  box-sizing: content-box;
+}
+.burger .bar {
+  display: block;
+  height: 3px;
+  background: var(--header-text);
+  border-radius: 3px;
+  transition: transform 0.25s ease, opacity 0.2s ease, background 0.2s ease;
+}
+.burger.open .bar1 {
+  transform: translateY(7px) rotate(45deg);
+}
+.burger.open .bar2 {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.burger.open .bar3 {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Prevent mobile tap highlight on header and burger */
+header h1,
+.burger {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* ensure bars follow theme color */
+.burger .bar {
+  background: currentColor;
+}
+.dark-theme .burger .bar {
+  background: currentColor;
+}
+
 /* ===== Sidebar ===== */
 .sidebar {
   position: fixed;

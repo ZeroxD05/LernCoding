@@ -395,9 +395,12 @@ function askUserInfo() {
 function toggleSidebar() {
   sidebar.classList.toggle("active");
   overlay.classList.toggle("active");
-  burger.innerHTML = sidebar.classList.contains("active")
-    ? "&times;"
-    : "&#9776;";
+  // animate burger lines
+  if (sidebar.classList.contains("active")) {
+    burger.classList.add("open");
+  } else {
+    burger.classList.remove("open");
+  }
 }
 burger.addEventListener("click", toggleSidebar);
 overlay.addEventListener("click", toggleSidebar);
@@ -421,7 +424,7 @@ function loadLastState() {
 function startQuiz(subject, level) {
   sidebar.classList.remove("active");
   overlay.classList.remove("active");
-  burger.innerHTML = "&#9776;";
+  burger.classList.remove("open");
   let savedProgress = JSON.parse(
     localStorage.getItem(`${subject}-level${level}`) || "{}"
   );
@@ -626,7 +629,7 @@ function showVideosPage() {
 
   sidebar.classList.remove("active");
   overlay.classList.remove("active");
-  burger.innerHTML = "&#9776;";
+  burger.classList.remove("open");
 }
 function filterVideos() {
   const search = document.getElementById("videoSearch").value.toLowerCase();
@@ -650,7 +653,7 @@ function showTextPage() {
   // Sidebar schließen
   sidebar.classList.remove("active");
   overlay.classList.remove("active");
-  burger.innerHTML = "&#9776;";
+  burger.classList.remove("open");
 }
 
 function createVideo(title, src) {
@@ -739,7 +742,7 @@ function showStartPage() {
   // Sidebar schließen
   sidebar.classList.remove("active");
   overlay.classList.remove("active");
-  burger.innerHTML = "&#9776;";
+  burger.classList.remove("open");
 
   // Quiz-Zustand zurücksetzen
   localStorage.removeItem("currentQuiz");
@@ -864,7 +867,7 @@ function showAccountPage() {
   // Sidebar schließen
   sidebar.classList.remove("active");
   overlay.classList.remove("active");
-  burger.innerHTML = "&#9776;";
+  burger.classList.remove("open");
 
   localStorage.removeItem("currentQuiz");
   currentQuiz = null;
@@ -914,7 +917,7 @@ function showImpressum() {
   // Sidebar schließen
   sidebar.classList.remove("active");
   overlay.classList.remove("active");
-  burger.innerHTML = "&#9776;";
+  burger.classList.remove("open");
 }
 
 function showAGB() {
@@ -952,7 +955,7 @@ function showAGB() {
   // Sidebar schließen
   sidebar.classList.remove("active");
   overlay.classList.remove("active");
-  burger.innerHTML = "&#9776;";
+  burger.classList.remove("open");
 }
 
 function showCreateWPage() {
@@ -1047,7 +1050,7 @@ function showCreateWPage() {
   // Sidebar schließen
   sidebar.classList.remove("active");
   overlay.classList.remove("active");
-  burger.innerHTML = "&#9776;";
+  burger.classList.remove("open");
 
   // Quiz-Zustand zurücksetzen
   localStorage.removeItem("currentQuiz");
@@ -1125,7 +1128,7 @@ print("Hallo Welt!")
   // Sidebar schließen
   sidebar.classList.remove("active");
   overlay.classList.remove("active");
-  burger.innerHTML = "&#9776;";
+  burger.classList.remove("open");
 
   // Quiz-Zustand zurücksetzen
   localStorage.removeItem("currentQuiz");
