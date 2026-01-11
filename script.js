@@ -437,8 +437,6 @@ function startQuiz(subject, level) {
   };
   saveAppState();
   renderQuestion();
-  // show xp bar while quiz active
-  createXPBar();
 }
 
 // Speichern des Quizzustands
@@ -583,8 +581,6 @@ function nextQuestion() {
       mainContent.innerHTML =
         "<h2>Quiz beendet!</h2><p>Quiz beendet. Tippe auf die drei Striche oben für weitere Optionen.</p>";
       localStorage.removeItem("currentQuiz"); // optional
-      // hide xp bar when quiz finished
-      hideXPBar();
     }
   }
 }
@@ -640,7 +636,7 @@ function showVideosPage() {
   sidebar.classList.remove("active");
   overlay.classList.remove("active");
   burger.classList.remove("open");
-  hideXPBar();
+  
 }
 function filterVideos() {
   const search = document.getElementById("videoSearch").value.toLowerCase();
@@ -760,10 +756,10 @@ function showStartPage() {
   localStorage.removeItem("currentQuiz");
   currentQuiz = null;
   // Stats initialisieren (wichtig nach Inhaltserzeugung)
+
   if (typeof initStats === "function") initStats();
   // remove python page class when showing start
   mainContent.classList.remove("python-page");
-  hideXPBar();
 }
 
 const profilePic = document.getElementById("profile-pic");
@@ -882,8 +878,6 @@ function showAccountPage() {
   sidebar.classList.remove("active");
   overlay.classList.remove("active");
   burger.classList.remove("open");
-  // show xp bar on account page
-  createXPBar();
 
   localStorage.removeItem("currentQuiz");
   currentQuiz = null;
@@ -1474,8 +1468,24 @@ function createXPBar() {
       <div class="xp-info"><span id="xp-text"></span></div>
       <div class="xp-progress"><div id="xp-fill" class="xp-fill"></div></div>
     </div>
+    <div class="xp-note">sammel xp durchs beantworten vom quiz</div>
   `;
   document.body.appendChild(container);
+  updateXPDisplay();
+}
+
+function createCompactXPBar(parentId) {
+  const parent = document.getElementById(parentId);
+  if (!parent) return;
+  const container = document.createElement("div");
+  container.id = `xp-bar-compact-${parentId}`;
+  container.innerHTML = `
+    <div class="xp-bar compact">
+      <div class="xp-info"><span class="xp-text-compact"></span></div>
+      <div class="xp-progress"><div class="xp-fill-compact xp-fill"></div></div>
+    </div>
+  `;
+  parent.appendChild(container);
   updateXPDisplay();
 }
 
@@ -1495,6 +1505,12 @@ function updateXPDisplay() {
     fill.style.width = pct + "%";
   }
   if (acc) acc.textContent = xp;
+  // compact variants (update all instances)
+  const txtcAll = document.querySelectorAll(".xp-text-compact");
+  const fillcAll = document.querySelectorAll(".xp-fill-compact");
+  txtcAll.forEach((n) => (n.textContent = formatXPForDisplay(xp)));
+  const pctc = Math.max(0, Math.min(100, xp % 100));
+  fillcAll.forEach((n) => (n.style.width = pctc + "%"));
 }
 
 function formatTime(sec) {
