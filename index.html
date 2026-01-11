@@ -44,9 +44,22 @@
   <body>
     <header>
       <div class="burger" id="burger">&#9776;</div>
-      <h1 style="text-decoration: none; color: white" onclick="showStartPage()">
+      <h1 style="text-decoration: none" onclick="showStartPage()">
         LernCoding
       </h1>
+      <button
+        id="theme-toggle"
+        aria-label="Theme wechseln"
+        title="Theme wechseln"
+        style="
+          border: none;
+          background: transparent;
+          font-size: 20px;
+          cursor: pointer;
+        "
+      >
+        <!-- SVG icon wird per JS gesetzt -->
+      </button>
     </header>
 
     <div class="overlay" id="overlay"></div>

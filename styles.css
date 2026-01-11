@@ -1,8 +1,43 @@
-/* ===== Grundlegendes Styling ===== */
+/* ===== Grundlegendes Styling & Theme-Variablen ===== */
+:root {
+  --bg: #f0f2f5;
+  --text: #111111;
+  --header-bg: #5da9e9;
+  --header-text: #ffffff;
+  --sidebar-bg: rgba(255, 255, 255, 0.95);
+  --card-bg: #ffffff;
+  --muted: #666666;
+  --overlay: rgba(0, 0, 0, 0.2);
+  --accent: #111111;
+  --accent-text: #ffffff;
+  --start-bg: #fffbe6;
+  --start-hover: #ffe97a;
+  --stat-shadow: rgba(0, 0, 0, 0.06);
+  --pet-bg: #87ceeb;
+}
+
+.dark-theme {
+  --bg: #0f1720;
+  --text: #e6eef8;
+  --header-bg: #0b3a5b;
+  --header-text: #ffffff;
+  --sidebar-bg: rgba(12, 18, 24, 0.95);
+  --card-bg: #0c1722;
+  --muted: #9aa6b2;
+  --overlay: rgba(0, 0, 0, 0.6);
+  --accent: #1f2937;
+  --accent-text: #ffffff;
+  --start-bg: #1a2430;
+  --start-hover: #263241;
+  --stat-shadow: rgba(0, 0, 0, 0.4);
+  --pet-bg: #2b5b7a;
+}
+
 body {
   margin: 0;
   font-family: "Comic Neue", cursive;
-  background: #f0f2f5;
+  background: var(--bg);
+  color: var(--text);
 }
 
 header {
@@ -11,8 +46,8 @@ header {
   left: 0;
   right: 0;
   height: 60px;
-  background: #5da9e9;
-  color: white;
+  background: var(--header-bg);
+  color: var(--header-text);
   display: flex;
   align-items: center;
   padding: 0 20px;
@@ -37,7 +72,7 @@ header h1 {
   left: -100%;
   width: 270px;
   height: calc(100% - 60px);
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--sidebar-bg);
   backdrop-filter: blur(10px);
   box-shadow: 2px 0 15px rgba(0, 0, 0, 0.2);
   padding: 20px;
@@ -76,7 +111,64 @@ header h1 {
 
 .sidebar .class {
   font-size: 18px;
-  color: #555;
+  color: var(--muted);
+}
+
+/* Ensure sidebar text is readable in dark theme */
+.dark-theme .sidebar {
+  color: var(--header-text);
+}
+.dark-theme .sidebar button,
+.dark-theme .sidebar .sidebar-link,
+.dark-theme .sidebar .accordion-toggle {
+  color: var(--header-text);
+}
+
+/* Theme toggle button placement */
+#theme-toggle {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card-bg);
+  color: var(--text);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  z-index: 2000;
+  transition: transform 0.12s ease, background 0.18s ease;
+}
+
+#theme-toggle:hover {
+  transform: translateY(-3px);
+}
+
+/* Dark theme variation for floating button */
+.dark-theme #theme-toggle {
+  background: var(--accent);
+  color: var(--accent-text);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+/* Sidebar SVGs adapt to theme: force fill/stroke to currentColor */
+.sidebar svg,
+.sidebar svg * {
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
+/* Ensure sidebar uses theme-appropriate color */
+.sidebar {
+  color: var(--text);
+}
+.dark-theme .sidebar {
+  color: var(--header-text);
 }
 
 .sidebar-legal {
@@ -99,7 +191,7 @@ header h1 {
   left: 0;
   width: 100%;
   height: calc(100% - 60px);
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--overlay);
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s;
@@ -248,7 +340,7 @@ input[type="text"] {
 
 /* Code Styling */
 code {
-  background: #e0e0e0;
+  background: rgba(224, 224, 224, 0.3);
   padding: 2px 5px;
   border-radius: 3px;
   font-family: monospace;
@@ -264,8 +356,8 @@ button {
   align-items: center;
   gap: 6px;
 
-  background: #111;
-  color: #fff;
+  background: var(--accent);
+  color: var(--accent-text);
 
   border: 1px solid #000;
   border-radius: 8px;
@@ -297,7 +389,7 @@ button {
   padding: 16px 18px;
   border-radius: 18px;
   border: 2px solid #ddd;
-  background: #fffbe6;
+  background: var(--start-bg);
   cursor: pointer;
   transition: 0.2s;
   text-align: left;
@@ -310,11 +402,11 @@ button {
 
 .start-item span {
   font-size: 14px;
-  opacity: 0.7;
+  color: var(--muted);
 }
 
 .start-item:hover {
-  background: #ffe97a;
+  background: var(--start-hover);
   transform: scale(1.02);
 }
 
@@ -329,28 +421,81 @@ button {
   margin-top: 20px;
   justify-content: center;
   flex-wrap: wrap;
-  max-width: 500px;
+  max-width: 680px;
   margin-left: auto;
   margin-right: auto;
 }
 
 .stat-card {
-  background: #ffffff;
+  background: var(--card-bg);
   border-radius: 12px;
   padding: 12px 18px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 6px 18px var(--stat-shadow);
   min-width: 100px;
   text-align: center;
 }
 
 .stat-title {
   font-size: 14px;
-  color: #666;
+  color: var(--muted);
   margin-bottom: 6px;
 }
 
 .stat-value {
   font-weight: 700;
   font-size: 20px;
-  color: #111;
+  color: var(--text);
+}
+
+/* Pet canvas background override (replaces inline color) */
+#petCanvas {
+  background: var(--pet-bg) !important;
+}
+
+/* Python page: force readable light container text/background */
+.python-page #pythonCode,
+.python-page #output {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border-color: #cccccc !important;
+}
+
+.python-example {
+  color: #000 !important;
+}
+
+/* Startseiten-Button Überschriften im Dark-Mode weiß machen */
+.dark-theme .start-item strong {
+  color: var(--header-text) !important;
+}
+
+/* Drachen-UI: Toggle / Feed button & countdown text colors (override inline styles) */
+#togglePetBtn {
+  color: var(--text) !important;
+  border-color: rgba(0, 0, 0, 0.2) !important;
+  background: transparent !important;
+}
+
+.dark-theme #togglePetBtn {
+  color: var(--header-text) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+#feedBtn {
+  color: var(--text) !important;
+  border-color: rgba(0, 0, 0, 0.2) !important;
+  background: transparent !important;
+}
+
+.dark-theme #feedBtn {
+  color: var(--header-text) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* countdown text */
+#countdown {
+  color: var(--muted);
+}
+.dark-theme #countdown {
+  color: var(--header-text);
 }

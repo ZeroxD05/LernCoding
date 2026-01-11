@@ -746,6 +746,8 @@ function showStartPage() {
   currentQuiz = null;
   // Stats initialisieren (wichtig nach Inhaltserzeugung)
   if (typeof initStats === "function") initStats();
+  // remove python page class when showing start
+  mainContent.classList.remove("python-page");
 }
 
 const profilePic = document.getElementById("profile-pic");
@@ -1096,7 +1098,7 @@ print("Hallo Welt!")
     </div>
 
 <br>
-    <div style="width:80vw; background:#e8f4ff; padding:20px; border-radius:15px; border:1px solid #99c2ff; font-family:monospace;">
+    <div class="python-example" style="width:80vw; background:#e8f4ff; padding:20px; border-radius:15px; border:1px solid #99c2ff; font-family:monospace;">
       <h3>Beispiel:</h3>
       <ul>
         <li><strong>print("Text")</strong> – Text ausgeben</li>
@@ -1116,6 +1118,9 @@ print("Hallo Welt!")
   });
 
   loadPyodideIfNeeded();
+
+  // Mark main content as python page for specific styling
+  mainContent.classList.add("python-page");
 
   // Sidebar schließen
   sidebar.classList.remove("active");
@@ -1503,8 +1508,45 @@ function initStats() {
   startScreentimeTracker();
 }
 
+// ===== Theme (Dark / Light) =====
+function applyTheme(theme) {
+  if (theme === "dark") {
+    document.documentElement.classList.add("dark-theme");
+  } else {
+    document.documentElement.classList.remove("dark-theme");
+  }
+  localStorage.setItem("theme", theme);
+  const btn = document.getElementById("theme-toggle");
+  if (btn) {
+    // use SVG icons instead of emoji
+    const sunSVG = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    const moonSVG = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    btn.innerHTML = theme === "dark" ? sunSVG : moonSVG;
+  }
+}
+
+function initTheme() {
+  const stored = localStorage.getItem("theme");
+  const prefersDark =
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const theme = stored || (prefersDark ? "dark" : "light");
+  applyTheme(theme);
+
+  const btn = document.getElementById("theme-toggle");
+  if (btn) {
+    btn.addEventListener("click", () => {
+      const isDark = document.documentElement.classList.contains("dark-theme");
+      applyTheme(isDark ? "light" : "dark");
+      // ensure focus stays visible for keyboard users
+      btn.blur();
+    });
+  }
+}
+
 window.addEventListener("load", () => {
   askUserInfo();
   loadLastState();
   initStats();
+  initTheme();
 });
