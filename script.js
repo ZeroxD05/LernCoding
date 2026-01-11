@@ -437,6 +437,8 @@ function startQuiz(subject, level) {
   };
   saveAppState();
   renderQuestion();
+  // show xp bar while quiz active
+  createXPBar();
 }
 
 // Speichern des Quizzustands
@@ -508,12 +510,14 @@ function checkAnswer(selected) {
   if (correct) {
     feedback.textContent = "✅";
     currentQuiz.answers[index] = true;
+    addXP(5);
     setTimeout(nextQuestion, 700);
   } else {
     feedback.textContent = "❌ Falsch! Wiederholen.";
     if (!currentQuiz.repeatQueue.includes(index))
       currentQuiz.repeatQueue.push(index);
     currentQuiz.answers[index] = false;
+    addXP(-2);
     setTimeout(nextQuestion, 700);
   }
   saveAppState();
@@ -531,12 +535,14 @@ function checkMulti() {
   if (correct) {
     feedback.textContent = "✅ Richtig!";
     currentQuiz.answers[index] = true;
+    addXP(5);
     setTimeout(nextQuestion, 700);
   } else {
     feedback.textContent = "❌ Falsch! Wiederholen.";
     if (!currentQuiz.repeatQueue.includes(index))
       currentQuiz.repeatQueue.push(index);
     currentQuiz.answers[index] = false;
+    addXP(-2);
     setTimeout(nextQuestion, 700);
   }
   saveAppState();
@@ -551,12 +557,14 @@ function checkText() {
   if (correct) {
     feedback.textContent = "✅ Richtig!";
     currentQuiz.answers[index] = true;
+    addXP(5);
     setTimeout(nextQuestion, 700);
   } else {
     feedback.textContent = "❌ Falsch! Wiederholen.";
     if (!currentQuiz.repeatQueue.includes(index))
       currentQuiz.repeatQueue.push(index);
     currentQuiz.answers[index] = false;
+    addXP(-2);
     setTimeout(nextQuestion, 700);
   }
   saveAppState();
@@ -573,8 +581,10 @@ function nextQuestion() {
       renderQuestion();
     } else {
       mainContent.innerHTML =
-        "<h2>Quiz beendet!</h2><p>Alle Fragen korrekt beantwortet. Tippe auf die drei Striche oben für weitere Optionen.</p>";
+        "<h2>Quiz beendet!</h2><p>Quiz beendet. Tippe auf die drei Striche oben für weitere Optionen.</p>";
       localStorage.removeItem("currentQuiz"); // optional
+      // hide xp bar when quiz finished
+      hideXPBar();
     }
   }
 }
@@ -630,6 +640,7 @@ function showVideosPage() {
   sidebar.classList.remove("active");
   overlay.classList.remove("active");
   burger.classList.remove("open");
+  hideXPBar();
 }
 function filterVideos() {
   const search = document.getElementById("videoSearch").value.toLowerCase();
@@ -654,6 +665,7 @@ function showTextPage() {
   sidebar.classList.remove("active");
   overlay.classList.remove("active");
   burger.classList.remove("open");
+  hideXPBar();
 }
 
 function createVideo(title, src) {
@@ -751,6 +763,7 @@ function showStartPage() {
   if (typeof initStats === "function") initStats();
   // remove python page class when showing start
   mainContent.classList.remove("python-page");
+  hideXPBar();
 }
 
 const profilePic = document.getElementById("profile-pic");
@@ -789,6 +802,7 @@ function showAccountPage() {
       flex-direction:column;
       gap:16px;
     ">
+
 
       <!-- Profilbild -->
       <div style="text-align:center;">
@@ -868,6 +882,8 @@ function showAccountPage() {
   sidebar.classList.remove("active");
   overlay.classList.remove("active");
   burger.classList.remove("open");
+  // show xp bar on account page
+  createXPBar();
 
   localStorage.removeItem("currentQuiz");
   currentQuiz = null;
@@ -1051,6 +1067,8 @@ function showCreateWPage() {
   sidebar.classList.remove("active");
   overlay.classList.remove("active");
   burger.classList.remove("open");
+
+  hideXPBar();
 
   // Quiz-Zustand zurücksetzen
   localStorage.removeItem("currentQuiz");
@@ -1434,6 +1452,50 @@ window.addEventListener("load", () => {
 let totalSeconds = parseInt(localStorage.getItem("totalSeconds")) || 0;
 let streak = parseInt(localStorage.getItem("streak")) || 0;
 let screentimeInterval = null;
+// XP for quizzes
+let xp = parseInt(localStorage.getItem("xp")) || 0;
+
+function addXP(delta) {
+  xp = (parseInt(xp) || 0) + delta;
+  localStorage.setItem("xp", xp);
+  updateXPDisplay();
+}
+
+function formatXPForDisplay(v) {
+  return `${v} XP`;
+}
+
+function createXPBar() {
+  if (document.getElementById("xp-bar-container")) return;
+  const container = document.createElement("div");
+  container.id = "xp-bar-container";
+  container.innerHTML = `
+    <div class="xp-bar">
+      <div class="xp-info"><span id="xp-text"></span></div>
+      <div class="xp-progress"><div id="xp-fill" class="xp-fill"></div></div>
+    </div>
+  `;
+  document.body.appendChild(container);
+  updateXPDisplay();
+}
+
+function hideXPBar() {
+  const el = document.getElementById("xp-bar-container");
+  if (el) el.remove();
+}
+
+function updateXPDisplay() {
+  const txt = document.getElementById("xp-text");
+  const fill = document.getElementById("xp-fill");
+  const acc = document.getElementById("account-xp-value");
+  if (txt) txt.textContent = formatXPForDisplay(xp);
+  if (fill) {
+    // simple progress to next 100 XP
+    const pct = Math.max(0, Math.min(100, xp % 100));
+    fill.style.width = pct + "%";
+  }
+  if (acc) acc.textContent = xp;
+}
 
 function formatTime(sec) {
   const h = Math.floor(sec / 3600);
@@ -1552,4 +1614,5 @@ window.addEventListener("load", () => {
   loadLastState();
   initStats();
   initTheme();
+  updateXPDisplay();
 });

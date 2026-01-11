@@ -201,6 +201,47 @@ header h1,
 }
 
 /* Sidebar SVGs adapt to theme: force fill/stroke to currentColor */
+#xp-bar-container {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 86px; /* above floating theme button */
+  z-index: 2000;
+  width: calc(100% - 40px);
+  max-width: 720px;
+  pointer-events: none; /* allow clicks through padding except inner */
+}
+.xp-bar {
+  pointer-events: auto;
+  background: var(--card-bg);
+  padding: 10px 12px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px var(--stat-shadow);
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.xp-info {
+  font-weight: 700;
+  min-width: 90px;
+  color: var(--text);
+}
+.xp-progress {
+  flex: 1;
+  height: 12px;
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.xp-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #ffd54f, #ffb74d);
+  transition: width 0.25s ease;
+}
+.dark-theme .xp-fill {
+  background: linear-gradient(90deg, #6fc3ff, #4da6ff);
+}
 .sidebar svg,
 .sidebar svg * {
   fill: currentColor !important;
