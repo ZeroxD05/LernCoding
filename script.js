@@ -1090,17 +1090,30 @@ print("Hallo Welt!")
 
     <pre id="output" style="width:80vw; height:150px; font-family:monospace; background:#f0f0f0; padding:20px; border-radius:20px; border:1px solid #ccc;"></pre>
 
+    <div style="max-width:80vw; margin-top:12px; display:flex; gap:8px; align-items:center;">
+      <input id="terminalInput" placeholder="Terminal: Python-Ausdruck oder Eingabe (z.B. 2+2 oder name = input('Wie heißt du?'))" style="flex:1; padding:8px; border-radius:8px; border:1px solid #ccc; font-family:monospace;">
+      <button id="terminalRunBtn" class="run-btn">↵ Ausführen</button>
+    </div>
+
 <br>
     <div style="width:80vw; background:#e8f4ff; padding:20px; border-radius:15px; border:1px solid #99c2ff; font-family:monospace;">
       <h3>Beispiel:</h3>
       <ul>
         <li><strong>print("Text")</strong> – Text ausgeben</li>
-        
+        <li><strong>input("Frage")</strong> – Eingabe vom Benutzer</li>
+        <li><strong>Zahlen rechnen:</strong> +, -, *, /, ** (Hoch)</li>
       </ul>
     </div>
   `;
 
   document.getElementById("runBtn").onclick = runPython;
+  document.getElementById("terminalRunBtn").onclick = runTerminal;
+  document.getElementById("terminalInput").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      runTerminal();
+    }
+  });
 
   loadPyodideIfNeeded();
 
@@ -1148,12 +1161,15 @@ async function runPython() {
   output.textContent = "";
 
   try {
+    // input() in Python mit browser-prompt verbinden
+    pyodide.runPython(
+      `from js import prompt as js_prompt\ninput = lambda prompt='': js_prompt(prompt)`
+    );
+
     // stdout abfangen
-    pyodide.runPython(`
-import sys
-from io import StringIO
-sys.stdout = StringIO()
-`);
+    pyodide.runPython(
+      `import sys\nfrom io import StringIO\nsys.stdout = StringIO()`
+    );
 
     // User-Code ausführen
     pyodide.runPython(code);
@@ -1164,6 +1180,35 @@ sys.stdout = StringIO()
   } catch (err) {
     output.textContent = err;
   }
+}
+
+// Terminal-Eingabe: versucht zuerst eval, dann exec
+function runTerminal() {
+  const input = document.getElementById("terminalInput").value.trim();
+  const output = document.getElementById("output");
+  if (!pyodideReady) {
+    output.textContent = "Python wird noch geladen...";
+    return;
+  }
+  if (!input) return;
+
+  try {
+    // Versuch: als Ausdruck auswerten
+    const res = pyodide.runPython(`eval(${JSON.stringify(input)})`);
+    output.textContent += `\n>>> ${input}\n${String(res)}`;
+  } catch (e) {
+    try {
+      // Falls kein Ausdruck, als Statement ausführen
+      pyodide.runPython(`exec(${JSON.stringify(input)})`);
+      output.textContent += `\n>>> ${input}\n(Executed)`;
+    } catch (err) {
+      output.textContent += `\n>>> ${input}\nError: ${err}`;
+    }
+  }
+
+  document.getElementById("terminalInput").value = "";
+  // scroll to bottom
+  output.scrollTop = output.scrollHeight;
 }
 
 const toggleBtn = document.getElementById("togglePetBtn");
