@@ -382,7 +382,7 @@ const quizzes = {
 function askUserInfo() {
   let firstName =
     localStorage.getItem("firstName") ||
-    prompt("Bitte deinen Vornamen eingeben:");
+    prompt("Bitte deinen Nutzernamen eingeben:");
   let userClass =
     localStorage.getItem("userClass") || prompt("Bitte deine Klasse eingeben:");
   localStorage.setItem("firstName", firstName);
