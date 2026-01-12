@@ -288,6 +288,25 @@ header h1,
   color: var(--header-text);
 }
 
+/* Dark mode: make icons white with black outline */
+.dark-theme .sidebar svg,
+.dark-theme .sidebar svg *,
+.dark-theme .start-item svg,
+.dark-theme .start-item svg *,
+.dark-theme #theme-toggle svg,
+.dark-theme #theme-toggle svg * {
+  fill: #ffffff !important;
+  stroke-width: 1.25px !important;
+}
+
+/* Make PDF icon fully white in dark theme (no black outline) */
+.dark-theme .icon-pdf,
+.dark-theme .icon-pdf * {
+  fill: #ffffff !important;
+  stroke: #ffffff !important;
+  color: #ffffff !important;
+}
+
 .sidebar-legal {
   margin-top: auto;
   padding: 10px;
