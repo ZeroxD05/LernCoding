@@ -11,7 +11,6 @@
   --accent: #111111;
   --accent-text: #ffffff;
   --start-bg: #ffffff;
-  --start-hover: none;
   --stat-shadow: rgba(0, 0, 0, 0.06);
   --pet-bg: #87ceeb;
 }
@@ -28,7 +27,6 @@
   --accent: #1f2937;
   --accent-text: #ffffff;
   --start-bg: #1a2430;
-  --start-hover: #263241;
   --stat-shadow: rgba(0, 0, 0, 0.4);
   --pet-bg: #2b5b7a;
 }
@@ -540,11 +538,6 @@ button {
 .start-item span {
   font-size: 14px;
   color: var(--muted);
-}
-
-.start-item:hover {
-  background: var(--start-hover);
-  transform: scale(1.02);
 }
 
 .start-item:active {
