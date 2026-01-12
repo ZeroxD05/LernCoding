@@ -12,7 +12,6 @@
   --accent-text: #ffffff;
   --start-bg: #ffffff;
   --stat-shadow: rgba(0, 0, 0, 0.06);
-  --pet-bg: #87ceeb;
 }
 
 .dark-theme {
@@ -28,7 +27,6 @@
   --accent-text: #ffffff;
   --start-bg: #1a2430;
   --stat-shadow: rgba(0, 0, 0, 0.4);
-  --pet-bg: #2b5b7a;
 }
 
 body {
@@ -578,10 +576,7 @@ button {
 }
 
 /* Pet canvas background override (replaces inline color) */
-#petCanvas {
-  background: var(--pet-bg) !important;
-}
-
+/* Pet UI removed */
 /* Python page: force readable light container text/background */
 .python-page #pythonCode,
 .python-page #output {
@@ -600,35 +595,7 @@ button {
 }
 
 /* Drachen-UI: Toggle / Feed button & countdown text colors (override inline styles) */
-#togglePetBtn {
-  color: var(--text) !important;
-  border-color: rgba(0, 0, 0, 0.2) !important;
-  background: transparent !important;
-}
-
-.dark-theme #togglePetBtn {
-  color: var(--header-text) !important;
-  border-color: rgba(255, 255, 255, 0.15) !important;
-}
-
-#feedBtn {
-  color: var(--text) !important;
-  border-color: rgba(0, 0, 0, 0.2) !important;
-  background: transparent !important;
-}
-
-.dark-theme #feedBtn {
-  color: var(--header-text) !important;
-  border-color: rgba(255, 255, 255, 0.15) !important;
-}
-
-/* countdown text */
-#countdown {
-  color: var(--muted);
-}
-.dark-theme #countdown {
-  color: var(--header-text);
-}
+/* Pet UI removed */
 
 /* ===== Offline Screen ===== */
 .offline-screen {
