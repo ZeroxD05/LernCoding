@@ -404,11 +404,15 @@ function toggleSidebar() {
 }
 burger.addEventListener("click", toggleSidebar);
 overlay.addEventListener("click", toggleSidebar);
-accordions.forEach((toggle) =>
-  toggle.addEventListener("click", (e) =>
-    e.target.parentElement.classList.toggle("active")
-  )
-);
+accordions.forEach((toggle) => {
+  toggle.addEventListener("click", function (e) {
+    // Use the button itself as the source (this/currentTarget)
+    // and toggle its closest <li>. This ensures clicking the SVG
+    // inside the button also toggles the accordion.
+    const li = this.closest("li");
+    if (li) li.classList.toggle("active");
+  });
+});
 
 let currentQuiz = null;
 
@@ -998,38 +1002,46 @@ function showCreateWPage() {
   mainContent.innerHTML = `
 <style>
   .editor-container {
-    display: flex;
-    gap: 50px;
+    width: 92vw;
+    max-width: 1000px;
     margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-sizing: border-box;
   }
 
   .editor, .preview {
-    width: 50%;
+    width: 100%;
   }
 
-  textarea {
+  .editor textarea,
+  .preview iframe {
     width: 100%;
-    height: 300px;
+    min-height: 180px;
     font-family: monospace;
     font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
     padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    resize: vertical;
-  }
-
-  iframe {
-    width: 100%;
-    height: 300px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background: white;
+    background: #ffffff;
+    box-sizing: border-box;
   }
 
   .btn-group {
     margin-top: 10px;
     display: flex;
     gap: 10px;
+  }
+
+  @media (min-width: 900px) {
+    .editor-container {
+      flex-direction: row;
+      gap: 24px;
+    }
+    .editor { flex: 1 1 55%; }
+    .preview { flex: 1 1 45%; }
+    .editor textarea, .preview iframe { min-height: 300px; }
   }
 </style>
 
@@ -1101,10 +1113,37 @@ function showCreateWPage() {
 }
 
 function updatePreview() {
-  const html = document.getElementById("htmlCode").value;
+  const html = document.getElementById("htmlCode").value || "";
   const iframe = document.getElementById("previewFrame");
 
-  iframe.srcdoc = html;
+  // Default preview CSS: white background and black text by default.
+  // Inserted at the START of <head> so the user's own styles (if present)
+  // can override these defaults when they explicitly set different colors.
+  const defaultStyle = `<style>
+    html,body{background:#ffffff;color:#000000;height:100%;}
+    body{margin:0;padding:12px;box-sizing:border-box;}
+    *{color:inherit;}
+  </style>`;
+
+  let srcdoc = html;
+
+  if (/<\s*html/i.test(html)) {
+    // If a full HTML document is provided, inject defaultStyle after <head>
+    if (/\<\s*head[^>]*\>/i.test(html)) {
+      srcdoc = html.replace(/(\<\s*head[^>]*\>)/i, `$1${defaultStyle}`);
+    } else {
+      // has <html> but no <head>
+      srcdoc = html.replace(
+        /(\<\s*html[^>]*\>)/i,
+        `$1<head>${defaultStyle}</head>`
+      );
+    }
+  } else {
+    // Not a full document — wrap user content into a full HTML document
+    srcdoc = `<!doctype html><html><head>${defaultStyle}</head><body>${html}</body></html>`;
+  }
+
+  iframe.srcdoc = srcdoc;
 }
 
 // ================================
@@ -1119,25 +1158,23 @@ function showCreatePPage() {
     Tipp: Schau dir die <span style="text-decoration:underline; color:#007bff;">Videos</span> an, um einfacher zu lernen!
   </p>
  
-  <textarea id="pythonCode" style="width:80vw; height:150px; font-family:monospace; background:#f0f0f0; padding:20px; border-radius:20px; border:1px solid #ccc;">
-print("Hallo Welt!")
+  <div class="python-row">
+    <textarea id="pythonCode" class="python-editor">print("Hallo Welt!")
+</textarea>
 
-    </textarea>
+    <pre id="output" class="python-output"></pre>
+  </div>
 
-   <br> <br>
-<button id="runBtn" class="run-btn">
-  ▶ Run
-</button>
+  <div style="width:100%; max-width:1000px; margin-top:6px; display:flex; justify-content:flex-start;">
+    <button id="runBtn" class="run-btn">▶ Run</button>
+  </div>
 
-    <pre id="output" style="width:80vw; height:150px; font-family:monospace; background:#f0f0f0; padding:20px; border-radius:20px; border:1px solid #ccc;"></pre>
+  <div class="python-row terminal-row">
+    <input id="terminalInput" class="python-terminal-input" placeholder="Terminal: Python-Ausdruck oder Eingabe (z.B. 2+2)">
+    <button id="terminalRunBtn" class="run-btn">↵ Ausführen</button>
+  </div>
 
-    <div style="max-width:80vw; margin-top:12px; display:flex; gap:8px; align-items:center;">
-      <input id="terminalInput" placeholder="Terminal: Python-Ausdruck oder Eingabe (z.B. 2+2 oder name = input('Wie heißt du?'))" style="flex:1; padding:8px; border-radius:8px; border:1px solid #ccc; font-family:monospace;">
-      <button id="terminalRunBtn" class="run-btn">↵ Ausführen</button>
-    </div>
-
-<br>
-    <div class="python-example" style="width:80vw; background:#e8f4ff; padding:20px; border-radius:15px; border:1px solid #99c2ff; font-family:monospace;">
+  <div class="python-example">
       <h3>Beispiel:</h3>
       <ul>
         <li><strong>print("Text")</strong> – Text ausgeben</li>

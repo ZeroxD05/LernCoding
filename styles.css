@@ -379,6 +379,21 @@ main {
   margin-bottom: 10px;
 }
 
+/* Normalize sidebar button spacing and layout */
+.sidebar .sidebar-link,
+.sidebar .accordion-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  margin: 6px 0;
+  width: 100%;
+}
+
+.sidebar .accordion li {
+  margin-bottom: 8px;
+}
+
 .accordion-toggle {
   background: none;
   border: none;
@@ -405,7 +420,7 @@ main {
   color: black;
 }
 
-.accordion li ul {
+.accordion li > ul {
   list-style: none;
   padding-left: 20px;
   display: none;
@@ -415,7 +430,7 @@ main {
   margin-bottom: 5px;
 }
 
-.accordion li.active ul {
+.accordion li.active > ul {
   display: block;
 }
 
@@ -528,6 +543,25 @@ button {
   text-align: left;
 }
 
+/* Vertical separator between SVG icon and text inside start buttons */
+.start-item > div {
+  position: relative;
+  padding-left: 12px; /* space for the separator */
+}
+.start-item > div::before {
+  content: "";
+  position: absolute;
+  left: -12px; /* place between svg and text */
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: #000; /* default (light theme): black */
+  opacity: 0.9;
+}
+.dark-theme .start-item > div::before {
+  background: #ffffff; /* dark theme: white */
+}
+
 .start-item div {
   display: flex;
   flex-direction: column;
@@ -578,15 +612,89 @@ button {
 /* Pet canvas background override (replaces inline color) */
 /* Pet UI removed */
 /* Python page: force readable light container text/background */
-.python-page #pythonCode,
-.python-page #output {
-  background: #ffffff !important;
-  color: #000000 !important;
-  border-color: #cccccc !important;
+.python-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.python-page .python-row {
+  width: 92vw;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.python-page .python-editor,
+.python-page .python-output {
+  width: 100%;
+  min-height: 180px;
+  font-family: monospace;
+  background: #ffffff;
+  color: #000000;
+  padding: 18px;
+  border-radius: 14px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  overflow: auto;
+}
+
+.python-page .python-output {
+  white-space: pre-wrap;
+}
+
+.python-page .terminal-row {
+  width: 92vw;
+  max-width: 1000px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.python-page .python-terminal-input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-family: monospace;
 }
 
 .python-example {
+  width: 92vw;
+  max-width: 1000px;
+  background: #e8f4ff;
+  padding: 18px;
+  border-radius: 12px;
+  border: 1px solid #99c2ff;
+  font-family: monospace;
+  box-sizing: border-box;
+}
+
+/* In dark-theme make the example box text explicitly black (user request) */
+.dark-theme .python-example {
   color: #000 !important;
+}
+
+/* Desktop: show editor and output side-by-side */
+@media (min-width: 900px) {
+  .python-page .python-row {
+    flex-direction: row;
+  }
+  .python-page .python-editor,
+  .python-page .python-output {
+    min-height: 300px;
+  }
+  .python-page .python-editor {
+    flex: 1 1 55%;
+  }
+  .python-page .python-output {
+    flex: 1 1 45%;
+  }
+  .python-page .terminal-row {
+    gap: 12px;
+  }
 }
 
 /* Startseiten-Button Überschriften im Dark-Mode weiß machen */
