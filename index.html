@@ -472,6 +472,23 @@
       </div>
     </main>
 
+    <!-- Offline-Meldung (wird angezeigt, wenn kein Internet vorhanden ist) -->
+    <div
+      id="offline-screen"
+      class="offline-screen"
+      role="alert"
+      aria-live="assertive"
+      aria-hidden="true"
+    >
+      <div class="offline-content">
+        <h2>Kein Internet</h2>
+        <p>Verbinde dich mit dem Internet um die App öffnen zu können.</p>
+        <div class="offline-actions">
+          <button id="reload-btn" class="run-btn">Neu laden</button>
+        </div>
+      </div>
+    </div>
+
     <script src="script.js"></script>
   </body>
 </html>

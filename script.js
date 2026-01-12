@@ -1621,3 +1621,45 @@ window.addEventListener("load", () => {
   initTheme();
   updateXPDisplay();
 });
+
+// ===== Online / Offline Handling =====
+function setOfflineVisible(visible) {
+  const offlineScreen = document.getElementById("offline-screen");
+  if (!offlineScreen) return;
+  offlineScreen.setAttribute("aria-hidden", String(!visible));
+  if (visible) {
+    offlineScreen.classList.add("active");
+  } else {
+    offlineScreen.classList.remove("active");
+  }
+}
+
+function updateOnlineStatus() {
+  setOfflineVisible(!navigator.onLine);
+}
+
+window.addEventListener("online", updateOnlineStatus);
+window.addEventListener("offline", updateOnlineStatus);
+
+// Initialize state after DOM ready
+if (
+  document.readyState === "complete" ||
+  document.readyState === "interactive"
+) {
+  updateOnlineStatus();
+} else {
+  window.addEventListener("DOMContentLoaded", updateOnlineStatus);
+}
+
+// Reload-Button Verhalten
+document.addEventListener("click", (e) => {
+  if (e.target && e.target.id === "reload-btn") {
+    const btn = e.target;
+    if (navigator.onLine) {
+      location.reload();
+    } else {
+      btn.textContent = "Kein Internet";
+      setTimeout(() => (btn.textContent = "Neu laden"), 1400);
+    }
+  }
+});
