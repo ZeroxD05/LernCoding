@@ -42,6 +42,39 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <!-- Loading Overlay: Dark mode, zentriertes Icon + animierender Kreis -->
+    <div id="loader-overlay" class="loader-overlay" aria-hidden="false">
+      <div class="loader-center" role="status" aria-live="polite">
+        <img src="image.png" alt="App Icon" class="loader-image" />
+        <svg
+          class="loader-ring"
+          viewBox="0 0 120 120"
+          width="160"
+          height="160"
+          aria-hidden="true"
+        >
+          <circle
+            class="ring-bg"
+            cx="60"
+            cy="60"
+            r="54"
+            fill="none"
+            stroke="rgba(255,255,255,0.06)"
+            stroke-width="12"
+          />
+          <circle
+            class="ring"
+            cx="60"
+            cy="60"
+            r="54"
+            fill="none"
+            stroke="#7dd3fc"
+            stroke-width="12"
+            stroke-linecap="round"
+          />
+        </svg>
+      </div>
+    </div>
     <header>
       <div
         class="burger"

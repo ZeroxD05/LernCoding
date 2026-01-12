@@ -740,3 +740,88 @@ button {
 .offline-actions .run-btn {
   padding: 10px 16px;
 }
+
+/* ===== Loading Overlay (Dark Mode, centered icon, closing circle) ===== */
+.loader-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #05060a 0%, #0b1220 100%);
+  z-index: 4000;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+  opacity: 1;
+  visibility: visible;
+}
+.loader-overlay.done {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.loader-center {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.loader-image {
+  width: 72px;
+  height: 72px;
+  border-radius: 14px;
+  object-fit: cover;
+  z-index: 2;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6),
+    0 1px 0 rgba(255, 255, 255, 0.02) inset;
+}
+.loader-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: rotate(-90deg);
+  z-index: 1;
+}
+.loader-ring .ring,
+.loader-ring .ring-bg {
+  transition: stroke-dashoffset 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    stroke 400ms ease;
+}
+.loader-ring .ring {
+  stroke-dasharray: 339.292; /* 2 * PI * 54 */
+  stroke-dashoffset: 339.292; /* hidden */
+}
+.loader-overlay.closing .loader-ring .ring {
+  stroke-dashoffset: 0; /* closed */
+}
+
+/* small pulse while waiting */
+.loader-overlay .loader-center::after {
+  content: "";
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at center,
+    rgba(125, 211, 252, 0.06),
+    transparent 40%
+  );
+  z-index: 0;
+  filter: blur(10px);
+  opacity: 0.9;
+  transform: scale(1);
+  transition: transform 0.9s ease;
+}
+.loader-overlay.closing .loader-center::after {
+  transform: scale(0.9);
+  opacity: 0;
+}
+
+/* ensure loader always looks dark even if theme changes */
+.loader-overlay .loader-image,
+.loader-overlay .loader-ring {
+  -webkit-user-select: none;
+  user-select: none;
+}

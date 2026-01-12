@@ -793,25 +793,69 @@ function showStartPage() {
 }
 
 const profilePic = document.getElementById("profile-pic");
-
 profilePic.addEventListener("click", () => {
   const fileInput = document.createElement("input");
   fileInput.type = "file";
   fileInput.accept = "image/*";
-  fileInput.click();
 
-  fileInput.onchange = () => {
-    const file = fileInput.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        profilePic.src = e.target.result;
-        localStorage.setItem("profilePic", e.target.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  fileInput.addEventListener("change", (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      profilePic.src = ev.target.result;
+      localStorage.setItem("profilePic", ev.target.result);
+    };
+    reader.readAsDataURL(file);
+  });
+
+  fileInput.click();
 });
+
+/* ===== Loading overlay animation: schließt Kreis und verschwindet nach load ===== */
+document.addEventListener("DOMContentLoaded", () => {
+  const loader = document.getElementById("loader-overlay");
+  if (!loader) return;
+  const ring = loader.querySelector(".ring");
+
+  // ensure a minimum visible time (ms)
+  const minVisible = 500;
+  let done = false;
+
+  function closeLoader() {
+    if (done) return;
+    done = true;
+    loader.classList.add("closing");
+    // wait for stroke animation to finish, then fade out
+    const onEnd = (e) => {
+      loader.classList.add("done");
+      loader.setAttribute("aria-hidden", "true");
+      setTimeout(() => {
+        if (loader && loader.parentNode) loader.parentNode.removeChild(loader);
+      }, 600);
+    };
+    if (ring) ring.addEventListener("transitionend", onEnd, { once: true });
+    else setTimeout(onEnd, 1000);
+  }
+
+  // If the window load event already fired, close after minVisible
+  const whenLoaded = () => setTimeout(closeLoader, minVisible);
+
+  if (document.readyState === "complete") {
+    whenLoaded();
+  } else {
+    window.addEventListener("load", whenLoaded);
+  }
+});
+
+// Lade gespeichertes Profilbild in Header (falls vorhanden)
+try {
+  const savedPic = localStorage.getItem("profilePic");
+  if (savedPic) profilePic.src = savedPic;
+} catch (e) {
+  // ignore
+}
+
 function showAccountPage() {
   const savedName = localStorage.getItem("firstName") || "";
   const savedClass = localStorage.getItem("userClass") || "";
