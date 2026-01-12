@@ -10,8 +10,8 @@
   --overlay: rgba(0, 0, 0, 0.2);
   --accent: #111111;
   --accent-text: #ffffff;
-  --start-bg: #fffbe6;
-  --start-hover: #ffe97a;
+  --start-bg: #ffffff;
+  --start-hover: none;
   --stat-shadow: rgba(0, 0, 0, 0.06);
   --pet-bg: #87ceeb;
 }
