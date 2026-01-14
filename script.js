@@ -675,7 +675,7 @@ function showTextPage() {
           </div>
 
           <a class="download-btn" href="HTML_WebDev_Grundlagen_und_Recht_LernCoding.pdf" download>
-            ⬇ PDF herunterladen
+            PDF herunterladen
           </a>
         </div>
 
@@ -689,7 +689,7 @@ function showTextPage() {
           </div>
 
           <a class="download-btn" href="Python_Grundlagen_LernCoding.pdf" download>
-            ⬇ PDF herunterladen
+            PDF herunterladen
           </a>
         </div>
   <div class="material-card" data-title="Steckbrief erstellen mit HTML">
@@ -702,7 +702,7 @@ function showTextPage() {
           </div>
 
           <a class="download-btn" href="Arbeitsplan_Steckbrief_HTML_CSS.pdf" download>
-            ⬇ PDF herunterladen
+            PDF herunterladen
           </a>
         </div>
           <div class="material-card" data-title="Python Geburtstagsnachricht Generator">
@@ -715,7 +715,7 @@ function showTextPage() {
           </div>
 
           <a class="download-btn" href="Python_gratuliere.pdf" download>
-            ⬇ PDF herunterladen
+            PDF herunterladen
           </a>
         </div>
       </div>
@@ -947,69 +947,67 @@ function showAccountPage() {
   const savedLang = localStorage.getItem("appLanguage") || "de";
 
   mainContent.innerHTML = `
-    <h2>Account Einstellungen</h2>
+<h2>Account Einstellungen</h2>
 <p>Hier kannst du deine Account Einstellungen anpassen.</p>
 <br>
-    <div style="
-      max-width:420px;
-      margin:auto;
-      display:flex;
-      flex-direction:column;
-      gap:16px;
-    ">
+<div style="
+  max-width:420px;
+  margin:auto;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  align-items:flex-start; /* Alles links ausrichten */
+">
 
+  <!-- Profilbild -->
+  <div style="text-align:left;">
+    <img
+      id="accountProfilePic"
+      src="${
+        localStorage.getItem("profilePic") || "https://via.placeholder.com/120"
+      }"
+      style="
+        width:120px;
+        height:120px;
+        border-radius:50%;
+        object-fit:cover;
+        cursor:pointer;
+        border:2px solid #ccc;
+      "
+    />
+  </div>
 
-      <!-- Profilbild -->
-      <div style="text-align:center;">
-        <img
-          id="accountProfilePic"
-          src="${
-            localStorage.getItem("profilePic") ||
-            "https://via.placeholder.com/120"
-          }"
-          style="
-            width:120px;
-            height:120px;
-            border-radius:50%;
-            object-fit:cover;
-            cursor:pointer;
-            border:2px solid #ccc;
-          "
-        />
-      </div>
+  <!-- Name -->
+  <label style="width:100%;">
+    <strong>Name</strong>
+    <input id="accName" value="${savedName}" style="width:100%;padding:8px;border-radius:8px;border:1px solid #ccc;">
+  </label>
 
-      <!-- Name -->
-      <label>
-        <strong>Name</strong>
-        <input id="accName" value="${savedName}" style="width:100%;padding:8px;border-radius:8px;border:1px solid #ccc;">
-      </label>
+  <!-- Klasse -->
+  <label style="width:100%;">
+    <strong>Klasse</strong>
+    <input id="accClass" value="${savedClass}" style="width:100%;padding:8px;border-radius:8px;border:1px solid #ccc;">
+  </label>
 
-      <!-- Klasse -->
-      <label>
-        <strong>Klasse</strong>
-        <input id="accClass" value="${savedClass}" style="width:100%;padding:8px;border-radius:8px;border:1px solid #ccc;">
-      </label>
+  <!-- Speichern -->
+  <button
+    style="
+      padding:12px;
+      border:none;
+      border-radius:10px;
+      background:#4CAF50;
+      color:white;
+      font-size:16px;
+      cursor:pointer;
+      align-self:flex-start; /* Button auch links */
+    "
+    onclick="saveAccountSettings()"
+  >
+    Speichern
+  </button>
 
- 
-
-      <!-- Speichern -->
-      <button
-        style="
-          padding:12px;
-          border:none;
-          border-radius:10px;
-          background:#4CAF50;
-          color:white;
-          font-size:16px;
-          cursor:pointer;
-        "
-        onclick="saveAccountSettings()"
-      >
-        Speichern
-      </button>
-
-    </div>
-  `;
+</div>
+`;
 
   // Profilbild Klick
   const pic = document.getElementById("accountProfilePic");
