@@ -384,7 +384,8 @@ function askUserInfo() {
     localStorage.getItem("firstName") ||
     prompt("Bitte deinen Nutzernamen eingeben:");
   let userClass =
-    localStorage.getItem("userClass") || prompt("Bitte deine Klasse eingeben:");
+    localStorage.getItem("userClass") ||
+    prompt("Falls zutrifft - deine Klasse:");
   localStorage.setItem("firstName", firstName);
   localStorage.setItem("userClass", userClass);
   usernameElem.textContent = firstName;
@@ -646,18 +647,102 @@ function filterVideos() {
 }
 function showTextPage() {
   mainContent.innerHTML = `
-    <h2>PDF Texte</h2>
-    <p>Hier findest du nützliche PDF Texte zum Download!</p>
-    <ul>
-      <li><a href="HTML_WebDev_Grundlagen_und_Recht_LernCoding.pdf" target="_blank">HTML Grundlagen (PDF)</a></li>
-      <li><a href="Python_Grundlagen_LernCoding.pdf" target="_blank">Python Einführung (PDF)</a></li>
-    </ul>
+    <section class="materials">
+      <h2>Unterrichtsmaterialien</h2>
+      <p class="intro">
+        Hier findest du nützliche Arbeitsblätter zum Download.
+      </p>
 
+      <!-- Suchleiste -->
+      <input 
+        type="text" 
+        id="searchInput" 
+        placeholder="Thema suchen..." 
+        class="search-bar"
+        onkeyup="filterMaterials()"
+      >
+
+      <!-- Container für alle Karten -->
+      <div class="materials-grid" id="materialsGrid">
+
+        <div class="material-card" data-title="HTML Grundlagen">
+          <h3>Arbeitsblatt: HTML Grundlagen</h3>
+          <p>Grundlagen zu HTML.</p>
+
+          <div class="pdf-preview">
+            <embed src="HTML_WebDev_Grundlagen_und_Recht_LernCoding.pdf"
+              type="application/pdf" width="100%" height="300px">
+          </div>
+
+          <a class="download-btn" href="HTML_WebDev_Grundlagen_und_Recht_LernCoding.pdf" download>
+            ⬇ PDF herunterladen
+          </a>
+        </div>
+
+        <div class="material-card" data-title="Python Grundlagen">
+          <h3>Arbeitsblatt: Python Grundlagen</h3>
+          <p>Einführung in Python.</p>
+
+          <div class="pdf-preview">
+            <embed src="Python_Grundlagen_LernCoding.pdf"
+              type="application/pdf" width="100%" height="300px">
+          </div>
+
+          <a class="download-btn" href="Python_Grundlagen_LernCoding.pdf" download>
+            ⬇ PDF herunterladen
+          </a>
+        </div>
+  <div class="material-card" data-title="Steckbrief erstellen mit HTML">
+          <h3>Arbeitsblatt: Steckbrief erstellen mit HTML</h3>
+          <p>Erstelle ein Steckbrief mit HTML.</p>
+
+          <div class="pdf-preview">
+            <embed src="Arbeitsplan_Steckbrief_HTML_CSS.pdf"
+              type="application/pdf" width="100%" height="300px">
+          </div>
+
+          <a class="download-btn" href="Arbeitsplan_Steckbrief_HTML_CSS.pdf" download>
+            ⬇ PDF herunterladen
+          </a>
+        </div>
+          <div class="material-card" data-title="Python Geburtstagsnachricht Generator">
+          <h3>Arbeitsblatt: Python Geburtstagsnachricht Generator</h3>
+          <p>Erstelle eine Geburtstagsnachricht mit Python.</p>
+
+          <div class="pdf-preview">
+            <embed src="Python_gratuliere.pdf"
+              type="application/pdf" width="100%" height="300px">
+          </div>
+
+          <a class="download-btn" href="Python_gratuliere.pdf" download>
+            ⬇ PDF herunterladen
+          </a>
+        </div>
+      </div>
+    </section>
   `;
+
   // Sidebar schließen
   sidebar.classList.remove("active");
   overlay.classList.remove("active");
   burger.classList.remove("open");
+}
+function filterMaterials() {
+  const input = document.getElementById("searchInput").value.toLowerCase();
+  const cards = document.querySelectorAll(".material-card");
+
+  cards.forEach((card) => {
+    // Titel und Beschreibung auslesen
+    const title = card.querySelector("h3").textContent.toLowerCase();
+    const description = card.querySelector("p").textContent.toLowerCase();
+
+    // Prüfen, ob Titel oder Beschreibung den Suchbegriff enthalten
+    if (title.includes(input) || description.includes(input)) {
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+  });
 }
 
 function createVideo(title, src) {
@@ -759,8 +844,8 @@ function showStartPage() {
             <line x1="4" y1="16" x2="14" y2="16" stroke="currentColor" stroke-width="1.5" />
           </svg>
           <div>
-            <strong>Lern-PDFs</strong>
-            <span>Alles zum Nachlesen</span>
+            <strong>Unterrichtsmaterialien</strong>
+            <span>Geeignet für Einsteiger</span>
           </div>
         </button>
 

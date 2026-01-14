@@ -970,3 +970,99 @@ body::after {
     );
   opacity: 0.7;
 }
+.materials {
+  max-width: 1100px;
+  padding: 20px;
+  margin: auto;
+}
+
+.materials h2 {
+  text-align: center;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.intro {
+  text-align: center;
+  color: var(--muted);
+  margin-bottom: 30px;
+}
+
+/* ===== Suchleiste ===== */
+.search-bar {
+  width: 100%;
+  padding: 12px 16px;
+  margin-bottom: 30px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--overlay);
+  background-color: var(--card-bg);
+  color: var(--text);
+}
+
+.search-bar::placeholder {
+  color: var(--muted);
+}
+
+/* ===== Grid für Materialkarten ===== */
+.materials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+/* ===== Materialkarte ===== */
+.material-card {
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px var(--stat-shadow);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.material-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px var(--stat-shadow);
+}
+
+.material-card h3 {
+  margin-top: 0;
+  color: var(--text);
+}
+
+.material-card p {
+  color: var(--muted);
+}
+
+/* ===== PDF Preview ===== */
+.pdf-preview {
+  margin: 15px 0;
+  border: 1px solid var(--overlay);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* ===== Download Button ===== */
+.download-btn {
+  display: inline-block;
+  margin-top: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  color: var(--accent-text);
+  background-color: var(--accent);
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.download-btn:hover {
+  background-color: var(--header-bg);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  .search-bar {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
