@@ -809,7 +809,7 @@ function showStartPage() {
             <circle cx="13" cy="17" r="1" fill="currentColor" />
           </svg>
           <div>
-            <strong>Programmieren lernen</strong>
+            <strong>Programme schreiben</strong>
             <span>Starte dein eigenes Python-Programm</span>
           </div>
         </button>
@@ -857,6 +857,33 @@ function showStartPage() {
           <div>
             <strong>Mein Account</strong>
             <span>Fortschritt & Einstellungen</span>
+          </div>
+        </button>
+              <button class="start-item" onclick="showTutorialPage()">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="36"
+            height="36"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            viewBox="0 0 24 24"
+            style="
+              margin-right: 12px;
+              flex-shrink: 0;
+              vertical-align: middle;
+              fill: currentColor;
+            "
+          >
+            <rect x="6" y="2" width="12" height="20" rx="2" ry="2" />
+            <line x1="12" y1="18" x2="12" y2="18" />
+          </svg>
+
+          <div>
+            <strong>Zur App machen</strong>
+            <span>Tutorial wie man die Website zur App macht</span>
           </div>
         </button>
       </div>
@@ -1537,6 +1564,161 @@ function startScreentimeTracker() {
       new Date().toISOString().slice(0, 10)
     );
   });
+}
+
+function showTutorialPage() {
+  mainContent.innerHTML = `
+<div class="pwa-install-instruction">
+  <h2>Als App auf deinem Homescreen hinzufügen</h2>
+  <p>So wird unsere Website zur echten App auf deinem Gerät:</p>
+
+  <div class="platform-instructions">
+    <!-- Android -->
+    <div class="platform android">
+      <h3>Android (Chrome / Samsung Internet)</h3>
+      <video class="tutorial-video" controls src="android-get-app.mp4"></video>
+      <div class="steps">
+        <div class="step">
+          <div class="number">1</div>
+          <div>Öffne die Website in deinem Browser.</div>
+        </div>
+        <div class="step">
+          <div class="number">2</div>
+          <div>Klicke auf das Menü und wähle <strong>"Zum Home-Bildschirm hinzufügen"</strong>.</div>
+        </div>
+        <div class="step">
+          <div class="number">3</div>
+          <div>Bestätige die Installation. Fertig!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- iOS / iPhone -->
+    <div class="platform ios">
+      <h3>iPhone / iPad (Safari)</h3>
+      <video class="tutorial-video" controls src="Apple-get-App.mov"></video>
+      <div class="steps">
+        <div class="step">
+          <div class="number">1</div>
+          <div>Öffne die Website in Safari.</div>
+        </div>
+        <div class="step">
+          <div class="number">2</div>
+          <div>Klicke auf das <strong>Teilen-Symbol</strong> unten und wähle <strong>"Zum Home-Bildschirm"</strong>.</div>
+        </div>
+        <div class="step">
+          <div class="number">3</div>
+          <div>Benenne die App, falls gewünscht, und tippe auf <strong>"Hinzufügen"</strong>.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.pwa-install-instruction {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: var(--bg);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px var(--stat-shadow);
+  color: var(--text);
+}
+
+h2 {
+  margin-top: 0;
+  text-align: center;
+  color: var(--text);
+}
+
+.platform-instructions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+@media (min-width: 768px) {
+  .platform-instructions {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.platform {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid #e0e0e0;
+}
+
+.android {
+  border-top: 4px solid #3ddc84;
+}
+
+.ios {
+  border-top: 4px solid #000;
+}
+
+h3 {
+  margin-top: 0;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid #eee;
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-top: 1.2rem;
+}
+
+.step {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.number {
+  width: 32px;
+  height: 32px;
+  background: var(--header-bg);
+  color: var(--header-text);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+/* Videos responsive machen, aber Vollbild möglich */
+.tutorial-video {
+  width: 100%;
+  max-height: 500px; /* Optional: Begrenzung auf Desktop */
+  height: auto;
+  border-radius: 12px;
+  object-fit: contain; /* zeigt das ganze Video */
+  margin-bottom: 1rem;
+}
+
+.note {
+  text-align: center;
+  font-style: italic;
+  color: var(--muted);
+  margin-top: 1.5rem;
+}
+
+strong {
+  color: var(--header-bg);
+}
+</style>
+`;
+
+  sidebar.classList.remove("active");
+  overlay.classList.remove("active");
+  burger.classList.remove("open");
 }
 
 function initStats() {
