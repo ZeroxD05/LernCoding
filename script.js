@@ -1200,7 +1200,7 @@ function showCreateWPage() {
 </style>
 
 <h2>Eigene Website erstellen</h2>
-<p>Schreibe unten HTML & CSS und sieh dir sofort das Ergebnis:</p>
+<p>Schreibe unten HTML & CSS und sieh dir sofort das Ergebnis an:</p>
 <p>Zum kopieren: " ; , . () [] </p>
   <p style="margin-top:15px; cursor:pointer;"
      onclick="showVideosPage()">
