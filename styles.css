@@ -167,8 +167,8 @@ header h1,
 /* Theme toggle button placement */
 #theme-toggle {
   position: fixed;
-  right: 18px;
-  bottom: 18px;
+  right: 25px;
+  bottom: 40px;
   width: 52px;
   height: 52px;
   border-radius: 50%;
