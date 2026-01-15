@@ -461,7 +461,7 @@ function renderQuestion() {
   html += `<div id="feedback" class="feedback"></div>`;
 
   if (q.hint) {
-    html += `<button id="hintBtn" style="margin:5px;font-size:16px;cursor:pointer;">💡 Hinweis</button>`;
+    html += `<button id="hintBtn" style="margin:5px;font-size:16px;cursor:pointer;">Hinweis</button>`;
     html += `<div id="hintText" style="display:none;color:#555;margin-top:5px;">${escapeHTML(
       q.hint
     )}</div>`;
@@ -511,11 +511,11 @@ function checkAnswer(selected) {
   let correct =
     q.type === "mcq" ? q.answer.includes(selected) : selected === q.answer;
   if (correct) {
-    feedback.textContent = "✅";
+    feedback.textContent = "Richtig!";
     currentQuiz.answers[index] = true;
     setTimeout(nextQuestion, 700);
   } else {
-    feedback.textContent = "❌ Falsch! Wiederholen.";
+    feedback.textContent = "Falsch! Wiederholen.";
     if (!currentQuiz.repeatQueue.includes(index))
       currentQuiz.repeatQueue.push(index);
     currentQuiz.answers[index] = false;
@@ -534,11 +534,11 @@ function checkMulti() {
   const correct =
     JSON.stringify(selected.sort()) === JSON.stringify(q.answer.sort());
   if (correct) {
-    feedback.textContent = "✅ Richtig!";
+    feedback.textContent = "Richtig!";
     currentQuiz.answers[index] = true;
     setTimeout(nextQuestion, 700);
   } else {
-    feedback.textContent = "❌ Falsch! Wiederholen.";
+    feedback.textContent = "Falsch! Wiederholen.";
     if (!currentQuiz.repeatQueue.includes(index))
       currentQuiz.repeatQueue.push(index);
     currentQuiz.answers[index] = false;
