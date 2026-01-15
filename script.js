@@ -1932,7 +1932,7 @@ document.addEventListener("click", (e) => {
 });
 
 // Deine GA4-Mess-ID hier einfügen
-const GA_MEASUREMENT_ID = "G-518174301";
+const GA_MEASUREMENT_ID = "G-491YP8KSQ2";
 
 // Funktion zum Laden des GA4-Skripts
 (function () {
