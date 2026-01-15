@@ -1569,47 +1569,55 @@ function startScreentimeTracker() {
 function showTutorialPage() {
   mainContent.innerHTML = `
 <div class="pwa-install-instruction">
-  <h2>Als App auf deinem Homescreen hinzufügen</h2>
-  <p>So wird unsere Website zur echten App auf deinem Gerät:</p>
+  <h2>Als App auf den Homescreen</h2>
+  <p>So machst du aus unserer Website eine echte App:</p>
 
-  <div class="platform-instructions">
+  <div class="platform-cards">
     <!-- Android -->
     <div class="platform android">
-      <h3>Android (Chrome / Samsung Internet)</h3>
-      <video class="tutorial-video" controls src="android-get-app.mp4"></video>
-      <div class="steps">
-        <div class="step">
-          <div class="number">1</div>
-          <div>Öffne die Website in deinem Browser.</div>
+      <button class="accordion-header" aria-expanded="false" aria-controls="android-content">
+        <span>Android (Chrome · Samsung Internet)</span>
+        <span class="accordion-icon">+</span>
+      </button>
+      
+      <div class="accordion-content" id="android-content">
+        <div class="tutorial-media">
+          <video class="tutorial-video" controls playsinline preload="metadata">
+            <source src="android-get-app.mp4" type="video/mp4">
+            Dein Browser unterstützt kein Video.
+          </video>
         </div>
-        <div class="step">
-          <div class="number">2</div>
-          <div>Klicke auf das Menü und wähle <strong>"Zum Home-Bildschirm hinzufügen"</strong>.</div>
-        </div>
-        <div class="step">
-          <div class="number">3</div>
-          <div>Bestätige die Installation. Fertig!</div>
-        </div>
+        
+        <ol class="steps">
+          <li>Öffne die Website im Browser</li>
+          <li>Tippe auf das <strong>Menü</strong> (meist drei Punkte ⋮)</li>
+          <li>Wähle <strong>Zum Startbildschirm hinzufügen</strong> / <strong>Home-Bildschirm</strong></li>
+          <li>Bestätige mit <strong>Hinzufügen</strong></li>
+        </ol>
       </div>
     </div>
 
-    <!-- iOS / iPhone -->
+    <!-- iOS -->
     <div class="platform ios">
-      <h3>iPhone / iPad (Safari)</h3>
-      <video class="tutorial-video" controls src="Apple-get-App.mov"></video>
-      <div class="steps">
-        <div class="step">
-          <div class="number">1</div>
-          <div>Öffne die Website in Safari.</div>
+      <button class="accordion-header" aria-expanded="false" aria-controls="ios-content">
+        <span>iPhone / iPad (Safari)</span>
+        <span class="accordion-icon">+</span>
+      </button>
+      
+      <div class="accordion-content" id="ios-content">
+        <div class="tutorial-media">
+          <video class="tutorial-video" controls playsinline preload="metadata">
+            <source src="Apple-get-App.mov" type="video/quicktime">
+            Dein Browser unterstützt kein Video.
+          </video>
         </div>
-        <div class="step">
-          <div class="number">2</div>
-          <div>Klicke auf das <strong>Teilen-Symbol</strong> unten und wähle <strong>"Zum Home-Bildschirm"</strong>.</div>
-        </div>
-        <div class="step">
-          <div class="number">3</div>
-          <div>Benenne die App, falls gewünscht, und tippe auf <strong>"Hinzufügen"</strong>.</div>
-        </div>
+        
+        <ol class="steps">
+          <li>Öffne die Seite in Safari</li>
+          <li>Tippe unten auf das <strong>Teilen-Symbol</strong> <span class="share-icon">□</span> mit Pfeil</li>
+          <li>Scrolle und wähle <strong>Zum Home-Bildschirm</strong></li>
+          <li>Tippe auf <strong>Hinzufügen</strong> (oben rechts)</li>
+        </ol>
       </div>
     </div>
   </div>
@@ -1617,108 +1625,188 @@ function showTutorialPage() {
 
 <style>
 .pwa-install-instruction {
-  max-width: 900px;
-  margin: 2rem auto;
+  max-width: 960px;
+  margin: 1.5rem auto;
   padding: 1.5rem;
-  background: var(--bg);
+  background: var(--card-bg, #fff);
   border-radius: 16px;
-  box-shadow: 0 4px 20px var(--stat-shadow);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
   color: var(--text);
 }
 
-h2 {
-  margin-top: 0;
-  text-align: center;
-  color: var(--text);
+.pwa-install-instruction h2 {
+  margin: 0 0 0.6rem 0;
+  font-size: clamp(1.6rem, 5vw, 2.1rem);
 }
 
-.platform-instructions {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2rem;
-  margin: 2rem 0;
+.pwa-install-instruction > p {
+  margin: 0 0 1.8rem 0;
+  color: var(--text-secondary, #666);
+  font-size: 1.05rem;
 }
 
-@media (min-width: 768px) {
-  .platform-instructions {
-    grid-template-columns: 1fr 1fr;
-  }
+.platform-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .platform {
-  background: var(--card-bg);
   border-radius: 12px;
-  padding: 1.5rem;
-  border: 1px solid #e0e0e0;
+  overflow: hidden;
+  background: var(--card-bg, #f9f9f9);
+  border: 1px solid rgba(0,0,0,0.08);
+  transition: all 0.2s ease;
 }
 
-.android {
-  border-top: 4px solid #3ddc84;
+.platform.android { border-top: 5px solid #000; }
+.platform.ios     { border-top: 5px solid #000; }
+
+.accordion-header {
+  width: 100%;
+  padding: 1.1rem 1.3rem;
+  background: transparent;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text);
+  transition: background-color 0.2s;
 }
 
-.ios {
-  border-top: 4px solid #000;
+.accordion-header:hover,
+.accordion-header:focus {
+  background: rgba(0,0,0,0.04);
 }
 
-h3 {
-  margin-top: 0;
-  padding-bottom: 0.8rem;
-  border-bottom: 1px solid #eee;
+.accordion-icon {
+  font-size: 1.6rem;
+  font-weight: bold;
+  transition: transform 0.25s ease;
+  transform-origin: center;
+}
+
+.platform.open .accordion-icon {
+  transform: rotate(45deg);
+}
+
+.accordion-content {
+  display: none;
+  padding: 0 1.3rem 1.6rem;
+}
+
+.platform.open .accordion-content {
+  display: block;
+  animation: fadeInUp 0.35s ease-out;
+}
+
+.tutorial-media {
+  margin: 1rem 0 1.4rem;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+}
+
+.tutorial-video {
+  width: 100%;
+  height: auto;
+  display: block;
+  aspect-ratio: 9 / 16;
+  object-fit: cover;
 }
 
 .steps {
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-  margin-top: 1.2rem;
+  counter-reset: step;
+  list-style: none;
+  padding: 0;
+  margin: 0.8rem 0 0.4rem;
+  font-size: 1.03rem;
+  line-height: 1.45;
 }
 
-.step {
-  display: flex;
-  gap: 1rem;
-  align-items: flex-start;
+.steps li {
+  position: relative;
+  padding-left: 2.6rem;
+  margin-bottom: 1rem;
 }
 
-.number {
-  width: 32px;
-  height: 32px;
-  background: var(--header-bg);
-  color: var(--header-text);
+.steps li:last-child {
+  margin-bottom: 0.3rem;
+}
+
+.steps li::before {
+  counter-increment: step;
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2rem;
+  height: 2rem;
+  background: var(--primary, #0066cc);
+  color: white;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 0.9rem;
   font-weight: bold;
-  flex-shrink: 0;
-  margin-top: 3px;
 }
 
-/* Videos responsive machen, aber Vollbild möglich */
-.tutorial-video {
-  width: 100%;
-  max-height: 500px; /* Optional: Begrenzung auf Desktop */
-  height: auto;
-  border-radius: 12px;
-  object-fit: contain; /* zeigt das ganze Video */
-  margin-bottom: 1rem;
+.share-icon {
+  font-size: 1.3em;
+  vertical-align: -0.15em;
 }
 
-.note {
-  text-align: center;
-  font-style: italic;
-  color: var(--muted);
-  margin-top: 1.5rem;
+/* Responsive Anpassungen */
+@media (min-width: 680px) {
+  .platform-cards {
+    flex-direction: row;
+    gap: 1.5rem;
+  }
+  
+  .platform {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .tutorial-video {
+    aspect-ratio: 9 / 19.5; /* etwas schlanker für Desktop */
+  }
 }
 
-strong {
-  color: var(--header-bg);
+@media (max-width: 480px) {
+  .pwa-install-instruction {
+    margin: 1rem;
+    padding: 1.2rem;
+  }
+  
+  .accordion-header {
+    padding: 1rem 1.2rem;
+  }
 }
 </style>
 `;
 
-  sidebar.classList.remove("active");
-  overlay.classList.remove("active");
-  burger.classList.remove("open");
+  // Accordion Funktionalität
+  document.querySelectorAll(".accordion-header").forEach((header) => {
+    header.addEventListener("click", () => {
+      const platform = header.closest(".platform");
+      const isOpen = platform.classList.contains("open");
+
+      // Optional: nur ein Panel gleichzeitig offen
+      // document.querySelectorAll('.platform').forEach(p => p.classList.remove('open'));
+
+      platform.classList.toggle("open");
+      header.setAttribute("aria-expanded", !isOpen);
+    });
+  });
+
+  sidebar?.classList.remove("active");
+  overlay?.classList.remove("active");
+  burger?.classList.remove("open");
 }
 
 function initStats() {
