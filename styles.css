@@ -31,7 +31,8 @@
 
 body {
   margin: 0;
-  font-family: "Comic Neue", cursive;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, sans-serif;
   background: var(--bg);
   color: var(--text);
 }
@@ -373,6 +374,7 @@ main {
   list-style: none;
   padding: 0;
   margin: 20px 0;
+  transition: max-height 0.3s ease; /* Smooth-Transition */
 }
 
 .accordion li {
@@ -402,6 +404,7 @@ main {
   padding: 10px 0;
   width: 100%;
   text-align: left;
+
   transition: max-height 0.35s ease, padding 0.3s ease;
 }
 
