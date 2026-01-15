@@ -420,7 +420,7 @@ main {
 }
 
 .accordion li button:hover {
-  color: black;
+  color: var(--header-bg);
 }
 
 .accordion li > ul {
