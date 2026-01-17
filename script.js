@@ -80,6 +80,39 @@ const quizzes = {
         answer: true,
         hint: "Denke an Container, die ganze Zeilen einnehmen.",
       },
+      {
+        type: "mcq",
+        question: "Welches Tag enthält den sichtbaren Seiteninhalt?",
+        options: ["<head>", "<body>", "<html>"],
+        answer: [1],
+        hint: "Alles, was im Browser angezeigt wird, liegt hier.",
+      },
+      {
+        type: "tf",
+        question: "<h1> ist größer als <h3>.",
+        answer: true,
+        hint: "Überschriften haben verschiedene Ebenen.",
+      },
+      {
+        type: "text",
+        question: "Schreibe das HTML-Tag für eine ungeordnete Liste:",
+        answer: "<ul>",
+        hint: "Listen ohne Nummerierung.",
+      },
+      {
+        type: "mcq-multi",
+        question: "Welche sind gültige HTML-Tags?",
+        options: ["<section>", "<footer>", "<bold>", "<header>"],
+        answer: [0, 1, 3],
+        hint: "HTML5 brachte neue semantische Tags.",
+      },
+      {
+        type: "mcq",
+        question: "Welches Attribut beschreibt ein Bild?",
+        options: ["alt", "href", "title"],
+        answer: [0],
+        hint: "Wichtig für Barrierefreiheit.",
+      },
     ],
     2: [
       {
@@ -146,6 +179,43 @@ const quizzes = {
         question: "<img> kann einen alt-Text haben.",
         answer: true,
         hint: "Hilfreich für Barrierefreiheit und wenn Bild nicht lädt.",
+      },
+      {
+        type: "mcq",
+        question: "Wofür steht CSS?",
+        options: [
+          "Cascading Style Sheets",
+          "Creative Style System",
+          "Computer Styled Sections",
+        ],
+        answer: [0],
+        hint: "Es beschreibt das Design von Webseiten.",
+      },
+      {
+        type: "tf",
+        question: "<span> ist ein Inline-Element.",
+        answer: true,
+        hint: "Es unterbricht keinen Textfluss.",
+      },
+      {
+        type: "mcq-multi",
+        question: "Welche Attribute gehören zu <img>?",
+        options: ["src", "alt", "href", "width"],
+        answer: [0, 1, 3],
+        hint: "Ein Bild braucht eine Quelle.",
+      },
+      {
+        type: "text",
+        question: "Schreibe das Tag für eine Tabellenzelle:",
+        answer: "<td>",
+        hint: "Nicht die Zeile, sondern die Zelle.",
+      },
+      {
+        type: "mcq",
+        question: "Wo wird externes CSS eingebunden?",
+        options: ["<body>", "<style>", "<head>"],
+        answer: [2],
+        hint: "Styles werden vor dem Inhalt geladen.",
       },
     ],
     3: [
@@ -238,6 +308,43 @@ const quizzes = {
         answer: [0, 1, 3],
         hint: "Die Konsequenzen können finanziell und reputativ sein.",
       },
+      {
+        type: "tf",
+        question: "IP-Adressen gelten als personenbezogene Daten.",
+        answer: true,
+        hint: "Sie können einer Person zugeordnet werden.",
+      },
+      {
+        type: "mcq",
+        question: "Was regelt die DSGVO?",
+        options: [
+          "Datenschutz in der EU",
+          "Webdesign-Standards",
+          "Urheberrecht weltweit",
+        ],
+        answer: [0],
+        hint: "Sie schützt personenbezogene Daten.",
+      },
+      {
+        type: "mcq-multi",
+        question: "Welche Inhalte benötigen eine Lizenz?",
+        options: ["Musik", "Fotos", "Eigene Texte", "Fremde Grafiken"],
+        answer: [0, 1, 3],
+        hint: "Eigene Inhalte sind unproblematisch.",
+      },
+      {
+        type: "tf",
+        question: "Open-Source-Code darf immer ohne Nennung genutzt werden.",
+        answer: false,
+        hint: "Lizenzen enthalten Pflichten.",
+      },
+      {
+        type: "mcq",
+        question: "Was ist ein Auftragsverarbeiter?",
+        options: ["Hosting-Anbieter", "Website-Besucher", "Grafikdesigner"],
+        answer: [0],
+        hint: "Er verarbeitet Daten im Auftrag.",
+      },
     ],
   },
   python: {
@@ -307,6 +414,39 @@ const quizzes = {
         answer: true,
         hint: "Wie wird eine neue Funktion in Python gestartet?",
       },
+      {
+        type: "mcq",
+        question: "Wie prüft man Gleichheit?",
+        options: ["=", "==", "==="],
+        answer: [1],
+        hint: "Ein Zeichen ist Zuweisung.",
+      },
+      {
+        type: "tf",
+        question: "Python ist case-sensitive.",
+        answer: true,
+        hint: "Groß- und Kleinschreibung zählt.",
+      },
+      {
+        type: "text",
+        question: "Wie heißt der Datentyp für Kommazahlen?",
+        answer: "float",
+        hint: "Nicht int.",
+      },
+      {
+        type: "mcq",
+        question: "Wie bekommt man die Länge einer Liste?",
+        options: ["size()", "length()", "len()"],
+        answer: [2],
+        hint: "Eine eingebaute Funktion.",
+      },
+      {
+        type: "mcq-multi",
+        question: "Welche sind gültige Variablennamen?",
+        options: ["my_var", "2var", "_test", "my-var"],
+        answer: [0, 2],
+        hint: "Keine Bindestriche, keine Zahlen am Anfang.",
+      },
     ],
     2: [
       {
@@ -373,6 +513,43 @@ const quizzes = {
         options: ["True", "False"],
         answer: [0],
         hint: "Ist 5 größer als 3?",
+      },
+      {
+        type: "tf",
+        question: "Ein Dictionary speichert Key-Value-Paare.",
+        answer: true,
+        hint: "Schlüssel → Wert.",
+      },
+      {
+        type: "mcq",
+        question: "Welche Klammern für Tupel?",
+        options: ["()", "[]", "{}"],
+        answer: [0],
+        hint: "Runde Klammern.",
+      },
+      {
+        type: "text",
+        question: "Wie greift man auf das erste Listenelement zu?",
+        answer: "liste[0]",
+        hint: "Index beginnt bei 0.",
+      },
+      {
+        type: "mcq-multi",
+        question: "Welche sind Vergleichsoperatoren?",
+        options: ["==", "!=", "=", "<="],
+        answer: [0, 1, 3],
+        hint: "= ist keine Abfrage.",
+      },
+      {
+        type: "mcq",
+        question: "Was macht break?",
+        options: [
+          "Beendet eine Schleife",
+          "Springt zum Anfang",
+          "Pausiert das Programm",
+        ],
+        answer: [0],
+        hint: "Wird in Schleifen genutzt.",
       },
     ],
   },
@@ -540,11 +717,11 @@ function checkText() {
   const feedback = document.getElementById("feedback");
   const correct = val.toLowerCase() === q.answer.toLowerCase();
   if (correct) {
-    feedback.textContent = "✅ Richtig!";
+    feedback.textContent = "Richtig!";
     currentQuiz.answers[index] = true;
     setTimeout(nextQuestion, 700);
   } else {
-    feedback.textContent = "❌ Falsch! Wiederholen.";
+    feedback.textContent = "Falsch! Wiederholen.";
     if (!currentQuiz.repeatQueue.includes(index))
       currentQuiz.repeatQueue.push(index);
     currentQuiz.answers[index] = false;
