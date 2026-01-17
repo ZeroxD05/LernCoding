@@ -704,6 +704,19 @@ function showTextPage() {
             PDF herunterladen
           </a>
         </div>
+         <div class="material-card" data-title="To Do App mit HTML, CSS & JavaScript">
+          <h3>Arbeitsblatt: To Do App mit HTML, CSS & JavaScript</h3>
+          <p>Erstelle eine To Do App mit HTML, CSS & JavaScript.</p>
+
+          <div class="pdf-preview">
+            <embed src="to_do.pdf"
+              type="application/pdf" width="100%" height="300px">
+          </div>
+
+          <a class="download-btn" href="to_do.pdf" download>
+            PDF herunterladen
+          </a>
+        </div>
       </div>
     </section>
   `;
