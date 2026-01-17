@@ -378,20 +378,6 @@ const quizzes = {
   },
 };
 
-// Benutzerinfo mit lokal Speicherung
-function askUserInfo() {
-  let firstName =
-    localStorage.getItem("firstName") ||
-    prompt("Bitte deinen Nutzernamen eingeben:");
-  let userClass =
-    localStorage.getItem("userClass") ||
-    prompt("Falls zutrifft - deine Klasse:");
-  localStorage.setItem("firstName", firstName);
-  localStorage.setItem("userClass", userClass);
-  usernameElem.textContent = firstName;
-  userclassElem.textContent = userClass;
-}
-
 // Sidebar Toggle
 function toggleSidebar() {
   sidebar.classList.toggle("active");
@@ -1874,7 +1860,6 @@ function initTheme() {
 }
 
 window.addEventListener("load", () => {
-  askUserInfo();
   loadLastState();
   initStats();
   initTheme();
@@ -1949,3 +1934,25 @@ const GA_MEASUREMENT_ID = "G-491YP8KSQ2";
   gtag("js", new Date());
   gtag("config", GA_MEASUREMENT_ID);
 })();
+function showProfileNotice() {
+  const notice = document.getElementById("profileNotice");
+  const hasSeen = localStorage.getItem("hasSeenProfileNotice");
+
+  if (!hasSeen) {
+    notice.classList.add("show");
+  }
+}
+
+function closeNotice() {
+  const notice = document.getElementById("profileNotice");
+  notice.classList.remove("show");
+
+  // Merken, dass der User das gesehen/weggeklickt hat
+  localStorage.setItem("hasSeenProfileNotice", "true");
+}
+
+// Start
+document.addEventListener("DOMContentLoaded", () => {
+  // Kleine Verzögerung damit es nicht zu aggressiv wirkt
+  setTimeout(showProfileNotice, 1200);
+});

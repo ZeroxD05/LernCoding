@@ -31,8 +31,9 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+    sans-serif;
   background: var(--bg);
   color: var(--text);
 }
@@ -77,7 +78,10 @@ header h1 {
   height: 3px;
   background: var(--header-text);
   border-radius: 3px;
-  transition: transform 0.25s ease, opacity 0.2s ease, background 0.2s ease;
+  transition:
+    transform 0.25s ease,
+    opacity 0.2s ease,
+    background 0.2s ease;
 }
 .burger.open .bar1 {
   transform: translateY(7px) rotate(45deg);
@@ -182,7 +186,9 @@ header h1,
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
   cursor: pointer;
   z-index: 2000;
-  transition: transform 0.12s ease, background 0.18s ease;
+  transition:
+    transform 0.12s ease,
+    background 0.18s ease;
 }
 
 #theme-toggle:hover {
@@ -405,7 +411,9 @@ main {
   width: 100%;
   text-align: left;
 
-  transition: max-height 0.35s ease, padding 0.3s ease;
+  transition:
+    max-height 0.35s ease,
+    padding 0.3s ease;
 }
 
 .accordion li button {
@@ -445,7 +453,9 @@ a {
   -webkit-tap-highlight-color: transparent; /* kein Grauflash */
   outline: none;
   cursor: pointer;
-  transition: transform 0.1s ease, background-color 0.2s ease;
+  transition:
+    transform 0.1s ease,
+    background-color 0.2s ease;
 }
 
 /* Active / Focus neutralisieren */
@@ -753,7 +763,9 @@ button {
   justify-content: center;
   background: linear-gradient(180deg, #05060a 0%, #0b1220 100%);
   z-index: 4000;
-  transition: opacity 0.6s ease, visibility 0.6s ease;
+  transition:
+    opacity 0.6s ease,
+    visibility 0.6s ease;
   opacity: 1;
   visibility: visible;
 }
@@ -776,7 +788,8 @@ button {
   border-radius: 14px;
   object-fit: cover;
   z-index: 2;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6),
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.6),
     0 1px 0 rgba(255, 255, 255, 0.02) inset;
 }
 .loader-ring {
@@ -788,7 +801,8 @@ button {
 }
 .loader-ring .ring,
 .loader-ring .ring-bg {
-  transition: stroke-dashoffset 900ms cubic-bezier(0.22, 1, 0.36, 1),
+  transition:
+    stroke-dashoffset 900ms cubic-bezier(0.22, 1, 0.36, 1),
     stroke 400ms ease;
 }
 .loader-ring .ring {
@@ -845,7 +859,8 @@ body::before {
   inset: 0;
   pointer-events: none;
   z-index: -2;
-  background-image: radial-gradient(
+  background-image:
+    radial-gradient(
       circle at 12% 20%,
       rgba(93, 169, 233, 0.04) 0px,
       rgba(93, 169, 233, 0.03) 100px,
@@ -895,7 +910,8 @@ body::after {
   pointer-events: none;
   z-index: -1;
   /* layers: short horizontal dashes, short vertical dashes, small dot-grid */
-  background-image: repeating-linear-gradient(
+  background-image:
+    repeating-linear-gradient(
       90deg,
       rgba(0, 0, 0, 0.03) 0 3px,
       rgba(0, 0, 0, 0) 3px 28px
@@ -906,8 +922,14 @@ body::after {
       rgba(0, 0, 0, 0) 3px 28px
     ),
     radial-gradient(circle, rgba(0, 0, 0, 0.06) 22%, transparent 23%);
-  background-size: 22px 22px, 22px 22px, 22px 22px;
-  background-position: 0 0, 0 0, 11px 11px; /* punkt zentriert zwischen Strichen */
+  background-size:
+    22px 22px,
+    22px 22px,
+    22px 22px;
+  background-position:
+    0 0,
+    0 0,
+    11px 11px; /* punkt zentriert zwischen Strichen */
   background-repeat: repeat, repeat, repeat;
   opacity: 0.085; /* etwas sichtbarer, gleiche Größe */
   mix-blend-mode: normal;
@@ -938,7 +960,8 @@ body::after {
 
 /* Dark theme: helle Linien / Punkte mit gleicher Zurückhaltung */
 .dark-theme body::after {
-  background-image: repeating-linear-gradient(
+  background-image:
+    repeating-linear-gradient(
       90deg,
       rgba(255, 255, 255, 0.03) 0 3px,
       rgba(255, 255, 255, 0) 3px 28px
@@ -953,7 +976,8 @@ body::after {
 }
 
 .dark-theme body::before {
-  background-image: radial-gradient(
+  background-image:
+    radial-gradient(
       circle at 12% 20%,
       rgba(111, 195, 255, 0.03) 0px,
       rgba(111, 195, 255, 0.02) 100px,
@@ -1020,7 +1044,9 @@ body::after {
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 4px 12px var(--stat-shadow);
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
 }
 
 .material-card:hover {
@@ -1068,4 +1094,71 @@ body::after {
     font-size: 14px;
     padding: 10px;
   }
+}
+.first-time-notice {
+  position: fixed;
+  top: 30px;
+  right: 15px;
+  left: 15px;
+
+  width: 340px;
+  background: rgba(45, 55, 72, 0.6); /* halbtransparent */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px); /* Safari */
+  color: white;
+  padding: 18px 22px;
+  border-radius: 12px;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.45);
+  z-index: 9999;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  border-left: 5px solid #394b62;
+  display: none;
+}
+
+.first-time-notice.show {
+  display: block;
+  animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.notice-content {
+  position: relative;
+}
+
+.close-btn {
+  position: absolute;
+  top: -4px;
+  right: -8px;
+  background: #e53e3e;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.close-btn:hover {
+  background: #c53030;
+}
+
+.profile-button-hint {
+  color: #a0d2ff;
+  font-weight: bold;
 }
