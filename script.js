@@ -1052,7 +1052,14 @@ function showAccountPage() {
   localStorage.removeItem("currentQuiz");
   currentQuiz = null;
 }
+function updateSidebarUserInfo() {
+  const name = localStorage.getItem("firstName") || "Gast";
+  const klasse = localStorage.getItem("userClass") || "—";
 
+  // Die beiden Elemente in der Sidebar aktualisieren
+  if (usernameElem) usernameElem.textContent = name;
+  if (userclassElem) userclassElem.textContent = klasse;
+}
 function saveAccountSettings() {
   const name = document.getElementById("accName").value.trim();
   const userClass = document.getElementById("accClass").value.trim();
@@ -1065,9 +1072,12 @@ function saveAccountSettings() {
   localStorage.setItem("firstName", name);
   localStorage.setItem("userClass", userClass);
 
-  // Header sofort aktualisieren
-  usernameElem.textContent = name;
-  userclassElem.textContent = userClass;
+  // ── Wichtig ── beide Orte aktualisieren!
+  updateSidebarUserInfo();
+
+  // Optional: auch im Account-Bereich selbst aktualisieren (falls gewünscht)
+  // usernameElem.textContent = name;
+  // userclassElem.textContent = userClass;
 
   alert("Erfolgreich gespeichert!");
 }
@@ -1864,6 +1874,15 @@ window.addEventListener("load", () => {
   initStats();
   initTheme();
   updateXPDisplay();
+  updateSidebarUserInfo();
+
+  // Optional: Falls du auch beim ersten Laden prüfen willst
+  const savedName = localStorage.getItem("firstName");
+  const savedClass = localStorage.getItem("userClass");
+
+  if (savedName) usernameElem.textContent = savedName;
+  if (savedClass) userclassElem.textContent = savedClass;
+
   // Load saved profile picture if present
   try {
     const savedPic = localStorage.getItem("profilePic");
