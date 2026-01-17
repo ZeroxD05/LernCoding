@@ -431,7 +431,7 @@ function startQuiz(subject, level) {
   overlay.classList.remove("active");
   burger.classList.remove("open");
   let savedProgress = JSON.parse(
-    localStorage.getItem(`${subject}-level${level}`) || "{}"
+    localStorage.getItem(`${subject}-level${level}`) || "{}",
   );
   currentQuiz = {
     subject,
@@ -463,21 +463,21 @@ function renderQuestion() {
   if (q.hint) {
     html += `<button id="hintBtn" style="margin:5px;font-size:16px;cursor:pointer;">Hinweis</button>`;
     html += `<div id="hintText" style="display:none;color:#555;margin-top:5px;">${escapeHTML(
-      q.hint
+      q.hint,
     )}</div>`;
   }
 
   if (q.type === "mcq") {
     q.options.forEach((opt, i) => {
       html += `<button class="quiz-btn" onclick="checkAnswer(${i})"><code>${escapeHTML(
-        opt
+        opt,
       )}</code></button>`;
     });
   } else if (q.type === "mcq-multi") {
     html += `<form id="mcqMultiForm">`;
     q.options.forEach((opt, i) => {
       html += `<label><input type="checkbox" name="option" value="${i}"><code>${escapeHTML(
-        opt
+        opt,
       )}</code></label><br>`;
     });
     html += `<button style="margin-top:5px;font-size:16px;cursor:pointer;" type="button" onclick="checkMulti()">Antwort prüfen</button></form>`;
@@ -528,7 +528,7 @@ function checkMulti() {
   const { subject, level, index } = currentQuiz;
   const q = quizzes[subject][level][index];
   const selected = Array.from(
-    document.querySelectorAll("input[name=option]:checked")
+    document.querySelectorAll("input[name=option]:checked"),
   ).map((i) => parseInt(i.value));
   const feedback = document.getElementById("feedback");
   const correct =
@@ -611,21 +611,21 @@ function showVideosPage() {
       <div class="video" data-search="html grundlagen webentwicklung">
         ${createVideo(
           "HTML Grundlagen einfach erklärt – Dein Einstieg in die Webentwicklung",
-          "https://www.youtube.com/embed/nmiWXn6aIAs"
+          "https://www.youtube.com/embed/nmiWXn6aIAs",
         )}
       </div>
 
       <div class="video" data-search="vscode visual studio code installieren">
         ${createVideo(
           "Visual Studio Code installieren – Schritt für Schritt erklärt",
-          "https://www.youtube.com/embed/Glolz8NG0qY"
+          "https://www.youtube.com/embed/Glolz8NG0qY",
         )}
       </div>
 
       <div class="video" data-search="seo google ranking optimieren">
         ${createVideo(
           "SEO optimieren – So rankst du bei Google besser",
-          "https://www.youtube.com/embed/rNRjB60CXI0"
+          "https://www.youtube.com/embed/rNRjB60CXI0",
         )}
       </div>
 
@@ -1092,7 +1092,7 @@ function showImpressum() {
     <p><strong>Angaben gemäß § 5 TMG</strong></p>
 
     <p>
-      Ata --<br>
+      Ata Zeran<br>
       LernCoding<br>
       Abc Straße 1<br>
       12345 Musterstadt
@@ -1100,12 +1100,12 @@ function showImpressum() {
 
     <p>
       <strong>Kontakt:</strong><br>
-      E-Mail: ata2005hh@gmail.com
+      E-Mail: lerncoding2026@gmail.com
     </p>
 
     <p>
       Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:<br>
-      Ata --
+      Ata Zeran
     </p>
   `;
   // Sidebar schließen
@@ -1289,7 +1289,7 @@ function updatePreview() {
       // has <html> but no <head>
       srcdoc = html.replace(
         /(\<\s*html[^>]*\>)/i,
-        `$1<head>${defaultStyle}</head>`
+        `$1<head>${defaultStyle}</head>`,
       );
     }
   } else {
@@ -1398,12 +1398,12 @@ async function runPython() {
   try {
     // input() in Python mit browser-prompt verbinden
     pyodide.runPython(
-      `from js import prompt as js_prompt\ninput = lambda prompt='': js_prompt(prompt)`
+      `from js import prompt as js_prompt\ninput = lambda prompt='': js_prompt(prompt)`,
     );
 
     // stdout abfangen
     pyodide.runPython(
-      `import sys\nfrom io import StringIO\nsys.stdout = StringIO()`
+      `import sys\nfrom io import StringIO\nsys.stdout = StringIO()`,
     );
 
     // User-Code ausführen
@@ -1561,7 +1561,7 @@ function startScreentimeTracker() {
     localStorage.setItem("streak", streak);
     localStorage.setItem(
       "lastVisitDate",
-      new Date().toISOString().slice(0, 10)
+      new Date().toISOString().slice(0, 10),
     );
   });
 }
