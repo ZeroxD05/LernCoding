@@ -980,30 +980,7 @@ function showStartPage() {
       </div>
 
       <div class="start-list">
-        <button class="start-item" onclick="showCreateWPage()">
-          <svg width="36" height="36" viewBox="0 0 24 24" aria-hidden="true" style="margin-right:12px;flex-shrink:0;vertical-align:middle;fill:currentColor">
-            <rect x="3" y="4" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.5" fill="none" />
-            <line x1="8" y1="18" x2="16" y2="18" stroke="currentColor" stroke-width="1.5" />
-            <line x1="12" y1="18" x2="12" y2="20" stroke="currentColor" stroke-width="1.5" />
-          </svg>
-          <div>
-            <strong>Website erstellen</strong>
-            <span>Baue deine eigene Webseite mit HTML & CSS</span>
-          </div>
-        </button>
-
-        <button class="start-item" onclick="showCreatePPage()">
-          <svg width="36" height="36" viewBox="0 0 24 24" aria-hidden="true" style="margin-right:12px;flex-shrink:0;vertical-align:middle;fill:currentColor">
-            <path d="M7 8c0-2 1.5-3 3-3h4v4h-4c-.6 0-1 .4-1 1v2H7V8z" />
-            <path d="M17 16c0 2-1.5 3-3 3h-4v-4h4c.6 0 1-.4 1-1v-2h2v4z" />
-            <circle cx="11" cy="7" r="1" fill="currentColor" />
-            <circle cx="13" cy="17" r="1" fill="currentColor" />
-          </svg>
-          <div>
-            <strong>Programme schreiben</strong>
-            <span>Starte dein eigenes Python-Programm</span>
-          </div>
-        </button>
+       
 
         <button class="start-item" onclick="startQuiz('webdev',1)">
           <svg width="36" height="36" viewBox="0 0 32 32" aria-hidden="true" style="margin-right:12px;flex-shrink:0;vertical-align:middle;fill:currentColor">
@@ -1519,7 +1496,7 @@ function showCreatePPage() {
   </div>
 
   <div class="python-row terminal-row">
-    <input id="terminalInput" class="python-terminal-input" placeholder="Terminal: Python-Ausdruck oder Eingabe (z.B. 2+2)">
+    <input id="terminalInput" class="python-terminal-input" placeholder="Eingabe (z.B. 2+2)">
     <button id="terminalRunBtn" class="run-btn">↵ Ausführen</button>
   </div>
 
