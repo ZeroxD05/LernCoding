@@ -36,6 +36,7 @@ body {
     sans-serif;
   background: var(--bg);
   color: var(--text);
+  overflow-x: hidden;
 }
 
 header {
@@ -1161,4 +1162,85 @@ body::after {
 .profile-button-hint {
   color: #a0d2ff;
   font-weight: bold;
+}
+.language-navbar {
+  position: sticky;
+  top: 60px;
+  z-index: 900;
+  background: #3b83f669;
+  color: white;
+  padding: 8px 16px;
+  /* Zentrierung */
+  display: flex;
+  justify-content: center; /* ← das Wichtigste für Desktop-Zentrierung */
+  gap: 12px;
+  border-bottom: #00000033 1px solid;
+  height: 25px; /* etwas mehr Höhe → angenehmer */
+  align-items: center;
+  overflow-x: auto;
+  scroll-padding-left: 16px;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Entfernt das unnötige nowrap + snap für besseres Gefühl */
+.language-navbar button {
+  flex: 0 0 auto;
+  padding: 6px 14px;
+  border-radius: 6px;
+  background: transparent;
+  color: white;
+  border: none;
+  white-space: nowrap;
+  font-size: 0.95rem;
+  position: relative; /* für den underline */
+  transition: background-color 0.2s ease;
+}
+
+/* === Smooth underline effect von links nach rechts === */
+.language-navbar button::after {
+  content: "";
+  position: absolute;
+  bottom: 4px;
+  left: 14px; /* passt zu padding */
+  width: 0;
+  height: 2px;
+  background: #ffffff;
+  border-radius: 2px;
+  transition: width 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transform-origin: left;
+}
+
+.language-navbar button:hover::after,
+.language-navbar button.active::after {
+  width: calc(100% - 28px); /* 14px padding links + 14px rechts */
+}
+
+/* Scrollbar verstecken */
+.language-navbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ================= Dark Mode ================= */
+body.dark .language-navbar {
+  background: #1e1e1ecc; /* etwas transparenter wirkt meist besser */
+  border-bottom-color: #333;
+}
+
+body.dark .language-navbar button {
+  color: white;
+}
+
+body.dark .language-navbar button:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+body.dark .language-navbar button::after {
+  background: #4da3ff;
+}
+
+/* Bei sehr wenig Platz → trotzdem linksbündig starten */
+@media (max-width: 480px) {
+  .language-navbar {
+    justify-content: flex-start;
+  }
 }

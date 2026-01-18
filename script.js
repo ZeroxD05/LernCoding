@@ -1400,12 +1400,10 @@ function showCreateWPage() {
   }
 </style>
 
-<h2>Eigene Website erstellen</h2>
 <p>Schreibe unten HTML & CSS und sieh dir sofort das Ergebnis an:</p>
-<p>Zum kopieren: " ; , . () [] </p>
+<p style="display:flex; align-items:start;">Zum kopieren: " ; , . () [] </p>
   <p style="margin-top:15px; cursor:pointer;"
      onclick="showVideosPage()">
-     Kleiner Tipp: Schau dir die <span style="text-decoration:underline; color:#007bff;">Videos</span> an, um einfacher zu lernen!
   </p> 
 <div class="editor-container">
   <div class="editor">
@@ -1506,12 +1504,8 @@ function updatePreview() {
 // ================================
 function showCreatePPage() {
   mainContent.innerHTML = `
-    <h2>Eigene Python Programme erstellen</h2>
     <p>Schreibe einfachen Python-Code und führe ihn direkt aus:</p>
-  <p style="margin-top:15px; cursor:pointer;"
-     onclick="showVideosPage()">
-    Tipp: Schau dir die <span style="text-decoration:underline; color:#007bff;">Videos</span> an, um einfacher zu lernen!
-  </p>
+
  
   <div class="python-row">
     <textarea id="pythonCode" class="python-editor">print("Hallo Welt!")
@@ -2180,3 +2174,22 @@ document.addEventListener("DOMContentLoaded", () => {
   // Kleine Verzögerung damit es nicht zu aggressiv wirkt
   setTimeout(showProfileNotice, 1200);
 });
+function showCreateHTML() {
+  showCreateWPage();
+}
+
+function showCreateJS() {
+  alert("JavaScript Page kommt bald");
+}
+
+function showCreatePython() {
+  showCreatePPage();
+}
+
+function showCreatePHP() {
+  alert("PHP Page kommt bald");
+}
+
+function showCreateJava() {
+  alert("Java Page kommt bald");
+}
