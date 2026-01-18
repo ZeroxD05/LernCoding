@@ -2324,9 +2324,9 @@ System.out.println(a + b);
 int alter = 18;
 
 if (alter >= 18) {
-  System.out.println("Erwachsen");
+  System.out.println("E");
 } else {
-  System.out.println("Minderjährig");
+  System.out.println("M");
 }
     </div>
 
