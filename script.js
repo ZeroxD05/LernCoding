@@ -1330,292 +1330,191 @@ function showAGB() {
   burger.classList.remove("open");
 }
 
-function showCreateWPage() {
+function showCreateHTMLCSS() {
   mainContent.innerHTML = `
-<style>
-  .editor-container {
-    width: 92vw;
-    max-width: 1000px;
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    box-sizing: border-box;
-  }
+  <div class="learn-container">
 
-  .editor, .preview {
-    width: 100%;
-  }
 
-  .editor textarea,
-  .preview iframe {
-    width: 100%;
-    min-height: 180px;
-    font-family: monospace;
-    font-size: 14px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    padding: 12px;
-    background: #ffffff;
-    box-sizing: border-box;
-  }
-
-  .btn-group {
-    margin-top: 10px;
-    display: flex;
-    gap: 10px;
-  }
-
-  @media (min-width: 900px) {
-    .editor-container {
-      flex-direction: row;
-      gap: 24px;
-    }
-    .editor { flex: 1 1 55%; }
-    .preview { flex: 1 1 45%; }
-    .editor textarea, .preview iframe { min-height: 300px; }
-  }
-</style>
-
-<p>Schreibe unten HTML & CSS und sieh dir sofort das Ergebnis an:</p>
-<p style="display:flex; align-items:start;">Zum kopieren: " ; , . () [] </p>
-  <p style="margin-top:15px; cursor:pointer;"
-     onclick="showVideosPage()">
-  </p> 
-<div class="editor-container">
-  <div class="editor">
-    <h3>HTML Code</h3>
-    <textarea id="htmlCode"></textarea>
-
-    <div class="btn-group">
-      <button class="run-btn" onclick="resetCode()">⟲</button>
+    <div class="info-box">
+      HTML strukturiert Webseiten. CSS gestaltet das Aussehen (Farben, Layout, Schriftgrößen usw.).
     </div>
-  </div>
 
-  <div class="preview">
-    <h3>Vorschau</h3>
-    <iframe id="previewFrame"></iframe>
-  </div>
-</div>
-`;
+    <h3>✍ Code ausprobieren</h3>
 
-  const textarea = document.getElementById("htmlCode");
-
-  const defaultHTML = `<!DOCTYPE html>
-<html lang="de">
+    <div class="editor-box">
+  <textarea id="htmlcssCode" class="python-editor">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Meine Website</title>
+<style>
+h1 {
+  color: blue;
+}
+</style>
 </head>
 <body>
-  <h1>Hey Website</h1>
-  <p>Das ist meine eigene Website.</p>
+
+<h1>Hallo Welt</h1>
+<p>Das ist ein Absatz.</p>
+
 </body>
-</html>`;
+</html>
+  </textarea>
+</div>
 
-  // Inhalt aus LocalStorage laden, wenn vorhanden
-  const savedHTML = localStorage.getItem("myWebsiteHTML");
-  textarea.value = savedHTML || defaultHTML;
+    <button id="runBtn" class="run-btn">▶ Anzeigen</button>
 
-  updatePreview();
+    <iframe id="previewFrame" style="width:100%; height:300px; border-radius:8px; border:1px solid #ccc; margin-top:12px; background:white;"></iframe>
 
-  // Änderungen speichern
-  textarea.addEventListener("input", () => {
-    localStorage.setItem("myWebsiteHTML", textarea.value);
-    updatePreview();
-  });
+    <hr>
 
-  // Sidebar schließen
-  sidebar.classList.remove("active");
-  overlay.classList.remove("active");
-  burger.classList.remove("open");
+    <h3>1. HTML Grundstruktur</h3>
+    <div class="example-box">
+&lt;html&gt;
+  &lt;body&gt;
+    Inhalt
+  &lt;/body&gt;
+&lt;/html&gt;
+    </div>
 
-  // Quiz-Zustand zurücksetzen
-  localStorage.removeItem("currentQuiz");
-  currentQuiz = null;
+    <h3>2. HTML Tags</h3>
+    <div class="example-box">
+&lt;h1&gt;Überschrift&lt;/h1&gt;
+&lt;p&gt;Text&lt;/p&gt;
+&lt;a href="#"&gt;Link&lt;/a&gt;
+    </div>
 
-  // Funktion zum Zurücksetzen
-  window.resetCode = function () {
-    textarea.value = defaultHTML;
-    localStorage.setItem("myWebsiteHTML", defaultHTML);
-    updatePreview();
-  };
+    <h3>3. CSS Farben</h3>
+    <div class="example-box">
+h1 {
+  color: red;
 }
+    </div>
 
-function updatePreview() {
-  const html = document.getElementById("htmlCode").value || "";
-  const iframe = document.getElementById("previewFrame");
+    <h3>4. CSS Klassen</h3>
+    <div class="example-box">
+&lt;p class="text"&gt;Hallo&lt;/p&gt;
 
-  // Default preview CSS: white background and black text by default.
-  // Inserted at the START of <head> so the user's own styles (if present)
-  // can override these defaults when they explicitly set different colors.
-  const defaultStyle = `<style>
-    html,body{background:#ffffff;color:#000000;height:100%;}
-    body{margin:0;padding:12px;box-sizing:border-box;}
-    *{color:inherit;}
-  </style>`;
+.text {
+  color: green;
+}
+    </div>
 
-  let srcdoc = html;
+    <h3>5. Box Model</h3>
+    <div class="example-box">
+div {
+  margin: 10px;
+  padding: 20px;
+  border: 2px solid black;
+}
+    </div>
 
-  if (/<\s*html/i.test(html)) {
-    // If a full HTML document is provided, inject defaultStyle after <head>
-    if (/\<\s*head[^>]*\>/i.test(html)) {
-      srcdoc = html.replace(/(\<\s*head[^>]*\>)/i, `$1${defaultStyle}`);
-    } else {
-      // has <html> but no <head>
-      srcdoc = html.replace(
-        /(\<\s*html[^>]*\>)/i,
-        `$1<head>${defaultStyle}</head>`,
-      );
-    }
-  } else {
-    // Not a full document — wrap user content into a full HTML document
-    srcdoc = `<!doctype html><html><head>${defaultStyle}</head><body>${html}</body></html>`;
-  }
+    <h3>6. Flexbox</h3>
+    <div class="example-box">
+.container {
+  display: flex;
+  gap: 10px;
+}
+    </div>
 
-  iframe.srcdoc = srcdoc;
+  </div>
+  `;
+
+  document.getElementById("runBtn").onclick = () => {
+    const code = document.getElementById("htmlcssCode").value;
+    document.getElementById("previewFrame").srcdoc = code;
+  };
+
+  mainContent.classList.add("python-page");
+  closeSidebar();
 }
 
 // ================================
 // Python-Seite anzeigen
 // ================================
-function showCreatePPage() {
+function showCreatePython() {
   mainContent.innerHTML = `
-    <p>Schreibe einfachen Python-Code und führe ihn direkt aus:</p>
+  <div class="learn-container">
 
- 
-  <div class="python-row">
-    <textarea id="pythonCode" class="python-editor">print("Hallo Welt!")
-</textarea>
 
-    <pre id="output" class="python-output"></pre>
-  </div>
+    <div class="info-box">
+Python wird verwendet, um Programme zu schreiben, Daten zu analysieren, Webseiten zu entwickeln und Automatisierungen zu erstellen.    </div>
 
-  <div style="width:100%; max-width:1000px; margin-top:6px; display:flex; justify-content:flex-start;">
-    <button id="runBtn" class="run-btn">▶ Run</button>
-  </div>
+    <h3>✍ Code ausprobieren</h3>
 
-  <div class="python-row terminal-row">
-    <input id="terminalInput" class="python-terminal-input" placeholder="Eingabe (z.B. 2+2)">
-    <button id="terminalRunBtn" class="run-btn">↵ Ausführen</button>
-  </div>
+    <div class="editor-box">
+      <textarea id="pythonCode" class="python-editor">
+name = "Anna"
+alter = 20
 
-  <div class="python-example">
-      <h3>Beispiel:</h3>
-      <ul>
-        <li><strong>print("Text")</strong> – Text ausgeben</li>
-        <li><strong>input("Frage")</strong> – Eingabe vom Benutzer</li>
-        <li><strong>Zahlen rechnen:</strong> +, -, *, /, ** (Hoch)</li>
-      </ul>
+print("Name:", name)
+print("Alter:", alter)
+      </textarea>
+
+      <pre id="output" class="python-output"></pre>
     </div>
+
+    <button id="runBtn" class="run-btn">▶ Code ausführen</button>
+
+    <hr>
+
+    <h3>1. Variablen</h3>
+    <div class="example-box">
+a = 5
+text = "Hallo"
+    </div>
+
+    <h3>2. Datentypen</h3>
+    <div class="example-box">
+zahl = 10
+text = "Hallo"
+ok = True
+    </div>
+
+    <h3>3. Rechnen</h3>
+    <div class="example-box">
+a = 10
+b = 3
+print(a + b)
+    </div>
+
+    <h3>4. Bedingungen</h3>
+    <div class="example-box">
+alter = 18
+
+if alter >= 18:
+    print("Erwachsen")
+else:
+    print("Minderjährig")
+    </div>
+
+    <h3>5. Schleifen</h3>
+    <div class="example-box">
+for i in range(5):
+    print(i)
+    </div>
+
+    <h3>6. Funktionen</h3>
+    <div class="example-box">
+def add(a, b):
+    return a + b
+    </div>
+
+    <h3>7. Listen (Arrays)</h3>
+    <div class="example-box">
+namen = ["Anna", "Tom", "Lena"]
+print(namen[0])
+    </div>
+
+  </div>
   `;
 
   document.getElementById("runBtn").onclick = runPython;
-  document.getElementById("terminalRunBtn").onclick = runTerminal;
-  document.getElementById("terminalInput").addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      runTerminal();
-    }
-  });
 
   loadPyodideIfNeeded();
 
-  // Mark main content as python page for specific styling
   mainContent.classList.add("python-page");
-
-  // Sidebar schließen
-  sidebar.classList.remove("active");
-  overlay.classList.remove("active");
-  burger.classList.remove("open");
-
-  // Quiz-Zustand zurücksetzen
-  localStorage.removeItem("currentQuiz");
-  currentQuiz = null;
-}
-
-// ================================
-// Pyodide laden (einmal)
-// ================================
-let pyodideReady = false;
-
-async function loadPyodideIfNeeded() {
-  if (pyodideReady) return;
-
-  const script = document.createElement("script");
-  script.src = "https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js";
-
-  script.onload = async () => {
-    window.pyodide = await loadPyodide();
-    pyodideReady = true;
-  };
-
-  document.head.appendChild(script);
-}
-
-// ================================
-// Python-Code ausführen
-// ================================
-async function runPython() {
-  const code = document.getElementById("pythonCode").value;
-  const output = document.getElementById("output");
-
-  if (!pyodideReady) {
-    output.textContent = "Python wird noch geladen...";
-    return;
-  }
-
-  output.textContent = "";
-
-  try {
-    // input() in Python mit browser-prompt verbinden
-    pyodide.runPython(
-      `from js import prompt as js_prompt\ninput = lambda prompt='': js_prompt(prompt)`,
-    );
-
-    // stdout abfangen
-    pyodide.runPython(
-      `import sys\nfrom io import StringIO\nsys.stdout = StringIO()`,
-    );
-
-    // User-Code ausführen
-    pyodide.runPython(code);
-
-    // Ausgabe anzeigen
-    const result = pyodide.runPython("sys.stdout.getvalue()");
-    output.textContent = result || "(kein Output)";
-  } catch (err) {
-    output.textContent = err;
-  }
-}
-
-// Terminal-Eingabe: versucht zuerst eval, dann exec
-function runTerminal() {
-  const input = document.getElementById("terminalInput").value.trim();
-  const output = document.getElementById("output");
-  if (!pyodideReady) {
-    output.textContent = "Python wird noch geladen...";
-    return;
-  }
-  if (!input) return;
-
-  try {
-    // Versuch: als Ausdruck auswerten
-    const res = pyodide.runPython(`eval(${JSON.stringify(input)})`);
-    output.textContent += `\n>>> ${input}\n${String(res)}`;
-  } catch (e) {
-    try {
-      // Falls kein Ausdruck, als Statement ausführen
-      pyodide.runPython(`exec(${JSON.stringify(input)})`);
-      output.textContent += `\n>>> ${input}\n(Executed)`;
-    } catch (err) {
-      output.textContent += `\n>>> ${input}\nError: ${err}`;
-    }
-  }
-
-  document.getElementById("terminalInput").value = "";
-  // scroll to bottom
-  output.scrollTop = output.scrollHeight;
+  closeSidebar();
 }
 
 /* Pet UI removed */
@@ -2156,17 +2055,350 @@ function showCreateHTML() {
 }
 
 function showCreateJS() {
-  alert("JavaScript Page kommt bald");
+  mainContent.innerHTML = `
+  <div class="learn-container">
+
+
+    <div class="info-box">
+      JavaScript ist eine Programmiersprache für Webseiten. Sie wird im Browser ausgeführt und macht Webseiten interaktiv.
+    </div>
+
+    <h3>✍ Code ausprobieren</h3>
+
+    <div class="editor-box">
+      <textarea id="jsCode" class="python-editor">
+let name = "Anna";
+let alter = 20;
+
+console.log("Name:", name);
+console.log("Alter:", alter);
+      </textarea>
+      <pre id="output" class="python-output"></pre>
+    </div>
+
+    <button id="runBtn" class="run-btn">▶ Code ausführen</button>
+
+    <hr>
+
+    <h3>1. Variablen</h3>
+    <div class="info-box">
+      Variablen speichern Werte. In JavaScript nutzt man <b>let</b> oder <b>const</b>.
+    </div>
+    <div class="example-box">
+let zahl = 5;
+const pi = 3.14;
+console.log(zahl + pi);
+    </div>
+
+    <h3>2. Datentypen</h3>
+    <div class="info-box">
+      Häufige Datentypen: Number, String, Boolean.
+    </div>
+    <div class="example-box">
+let a = 10;
+let text = "Hallo";
+let ok = true;
+    </div>
+
+    <h3>3. Rechnen</h3>
+    <div class="example-box">
+let x = 10;
+let y = 3;
+
+console.log(x + y);
+console.log(x - y);
+console.log(x * y);
+console.log(x / y);
+    </div>
+
+    <h3>4. Bedingungen (if)</h3>
+    <div class="example-box">
+let alter = 18;
+
+if (alter >= 18) {
+  console.log("Erwachsen");
+} else {
+  console.log("Minderjährig");
+}
+    </div>
+
+    <h3>5. Schleifen (for)</h3>
+    <div class="example-box">
+for (let i = 1; i <= 5; i++) {
+  console.log(i);
+}
+    </div>
+
+    <h3>6. Funktionen</h3>
+    <div class="example-box">
+function add(a, b) {
+  return a + b;
 }
 
-function showCreatePython() {
-  showCreatePPage();
+console.log(add(3, 4));
+    </div>
+
+    <h3>7. Arrays</h3>
+    <div class="example-box">
+let namen = ["Anna", "Tom", "Lena"];
+
+console.log(namen[0]);
+console.log(namen.length);
+    </div>
+
+  </div>
+  `;
+
+  document.getElementById("runBtn").onclick = () => {
+    const code = document.getElementById("jsCode").value;
+    const output = document.getElementById("output");
+    output.textContent = "";
+
+    try {
+      const oldLog = console.log;
+      console.log = (...args) => (output.textContent += args.join(" ") + "\n");
+      eval(code);
+      console.log = oldLog;
+    } catch (e) {
+      output.textContent = e.toString();
+    }
+  };
+
+  mainContent.classList.add("python-page");
+  closeSidebar();
 }
 
 function showCreatePHP() {
-  alert("PHP Page kommt bald");
+  mainContent.innerHTML = `
+  <div class="learn-container">
+
+
+    <div class="info-box">
+      PHP wird verwendet, um dynamische Webseiten und Webanwendungen zu erstellen.
+    </div>
+    <h3>✍ Code ausprobieren</h3>
+
+    <div class="editor-box">
+      <textarea id="phpCode" class="python-editor">
+<?php
+$name = "Anna";
+$alter = 20;
+
+echo "Name: $name\n";
+echo "Alter: $alter\n";
+?>
+      </textarea>
+      <pre id="output" class="python-output"></pre>
+    </div>
+
+    <button id="runBtn" class="run-btn">▶ Code ausführen</button>
+
+    <hr>
+
+    <h3>1. Variablen</h3>
+    <div class="example-box">
+$zahl = 5;
+$text = "Hallo";
+echo $zahl;
+    </div>
+
+    <h3>2. Datentypen</h3>
+    <div class="example-box">
+$int = 10;
+$string = "Text";
+$bool = true;
+    </div>
+
+    <h3>3. Rechnen</h3>
+    <div class="example-box">
+$a = 10;
+$b = 3;
+echo $a + $b;
+    </div>
+
+    <h3>4. if-Bedingungen</h3>
+    <div class="example-box">
+$alter = 18;
+
+if ($alter >= 18) {
+  echo "Erwachsen";
+} else {
+  echo "Minderjährig";
+}
+    </div>
+
+    <h3>5. Schleifen (for)</h3>
+    <div class="example-box">
+for ($i = 1; $i <= 5; $i++) {
+  echo $i;
+}
+    </div>
+
+    <h3>6. Funktionen</h3>
+    <div class="example-box">
+function add($a, $b) {
+  return $a + $b;
+}
+
+echo add(3, 4);
+    </div>
+
+    <h3>7. Arrays</h3>
+    <div class="example-box">
+$namen = ["Anna", "Tom", "Lena"];
+echo $namen[0];
+    </div>
+
+  </div>
+  `;
+
+  document.getElementById("runBtn").onclick = () => {
+    const code = document.getElementById("phpCode").value;
+    const output = document.getElementById("output");
+    output.textContent = "";
+
+    const matches = code.match(/echo\s+"([^"]*)"/g);
+
+    if (matches) {
+      matches.forEach((m) => {
+        const text = m.match(/"([^"]*)"/)[1];
+        output.textContent += text.replace("\\n", "\n") + "\n";
+      });
+    } else {
+      output.textContent = "⚠ PHP wird hier nur simuliert.";
+    }
+  };
+
+  mainContent.classList.add("python-page");
+  closeSidebar();
 }
 
 function showCreateJava() {
-  alert("Java Page kommt bald");
+  mainContent.innerHTML = `
+  <div class="learn-container">
+
+
+    <div class="info-box">
+Java wird genutzt, um plattformunabhängige Anwendungen, Android-Apps und serverseitige Software zu entwickeln.
+  </div>
+
+    <h3>✍ Code ausprobieren</h3>
+
+    <div class="editor-box">
+      <textarea id="javaCode" class="python-editor">
+int alter = 20;
+String name = "Anna";
+
+System.out.println("Name: " + name);
+System.out.println("Alter: " + alter);
+      </textarea>
+      <pre id="output" class="python-output"></pre>
+    </div>
+
+    <button id="runBtn" class="run-btn">▶ Code ausführen</button>
+
+    <hr>
+
+    <h3>1. Variablen</h3>
+    <div class="example-box">
+int a = 5;
+String text = "Hallo";
+    </div>
+
+    <h3>2. Datentypen</h3>
+    <div class="example-box">
+int zahl = 10;
+double pi = 3.14;
+boolean ok = true;
+    </div>
+
+    <h3>3. Rechnen</h3>
+    <div class="example-box">
+int a = 10;
+int b = 3;
+System.out.println(a + b);
+    </div>
+
+    <h3>4. if-Bedingungen</h3>
+    <div class="example-box">
+int alter = 18;
+
+if (alter >= 18) {
+  System.out.println("Erwachsen");
+} else {
+  System.out.println("Minderjährig");
+}
+    </div>
+
+    <h3>5. Schleifen (for)</h3>
+    <div class="example-box">
+for (int i = 1; i <= 5; i++) {
+  System.out.println(i);
+}
+    </div>
+
+    <h3>6. Funktionen (Methoden)</h3>
+    <div class="example-box">
+static int add(int a, int b) {
+  return a + b;
+}
+    </div>
+
+    <h3>7. Arrays</h3>
+    <div class="example-box">
+String[] namen = {"Anna", "Tom", "Lena"};
+System.out.println(namen[0]);
+    </div>
+
+  </div>
+  `;
+
+  document.getElementById("runBtn").onclick = () => {
+    const code = document.getElementById("javaCode").value;
+    const output = document.getElementById("output");
+    output.textContent = "";
+
+    const matches = code.match(/println\("([^"]*)"\)/g);
+
+    if (matches) {
+      matches.forEach((m) => {
+        const text = m.match(/"([^"]*)"/)[1];
+        output.textContent += text + "\n";
+      });
+    } else {
+      output.textContent = "⚠ Java wird hier nur simuliert.";
+    }
+  };
+
+  mainContent.classList.add("python-page");
+  closeSidebar();
+}
+let pyodide = null;
+
+async function loadPyodideIfNeeded() {
+  if (!pyodide) {
+    pyodide = await loadPyodide();
+  }
+}
+
+async function runPython() {
+  const code = document.getElementById("pythonCode").value;
+  const output = document.getElementById("output");
+
+  output.textContent = "⏳ Läuft...";
+
+  try {
+    await loadPyodideIfNeeded();
+
+    pyodide.setStdout({
+      batched: (text) => {
+        output.textContent += text;
+      },
+    });
+
+    output.textContent = "";
+    await pyodide.runPythonAsync(code);
+  } catch (err) {
+    output.textContent = err.toString();
+  }
 }

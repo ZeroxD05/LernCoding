@@ -1245,3 +1245,130 @@ body.dark .language-navbar button::after {
     justify-content: flex-start;
   }
 }
+/* Seiten-Container */
+.python-page {
+  display: flex;
+  justify-content: center;
+  padding: 30px 12px;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Haupt-Wrapper */
+.learn-container {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 28px;
+  width: 100%;
+  max-width: 1000px;
+  box-shadow: 0 10px 30px var(--stat-shadow);
+}
+
+/* Überschriften */
+.learn-container h2 {
+  margin-top: 0;
+  text-align: center;
+  font-size: 28px;
+  color: var(--text);
+}
+
+.learn-container h3 {
+  margin-top: 30px;
+  color: var(--text);
+}
+
+/* Erklärungskarten */
+.info-box {
+  background: var(--start-bg);
+  border-left: 5px solid var(--header-bg);
+  padding: 15px;
+  border-radius: 8px;
+  margin: 15px 0;
+  color: var(--text);
+}
+
+/* Editor Container */
+.editor-box {
+  background: var(--accent);
+  border-radius: 10px;
+  padding: 12px;
+  margin-top: 12px;
+}
+
+/* Textarea */
+.python-editor {
+  width: 100%;
+  height: 170px;
+  background: var(--sidebar-bg);
+  color: var(--text);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 12px;
+  font-family: monospace;
+  resize: vertical;
+  font-size: 14px;
+}
+
+/* Output */
+.python-output {
+  margin-top: 10px;
+  background: var(--sidebar-bg);
+  color: #22c55e;
+  padding: 10px;
+  border-radius: 8px;
+  min-height: 80px;
+  font-family: monospace;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Run Button */
+.run-btn {
+  margin-top: 12px;
+  padding: 10px 20px;
+  background: var(--header-bg);
+  border: none;
+  color: var(--header-text);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.run-btn:hover {
+  opacity: 0.85;
+}
+
+/* Beispiel Box */
+.example-box {
+  background: var(--start-bg);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  padding: 14px;
+  margin-top: 10px;
+  font-family: monospace;
+  white-space: pre-wrap;
+  color: var(--text);
+}
+
+/* Trennlinie */
+.learn-container hr {
+  margin: 35px 0;
+  border: none;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+/* Dark Mode Verbesserungen */
+.dark-theme .python-editor,
+.dark-theme .python-output,
+.dark-theme .example-box,
+.dark-theme .info-box {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .learn-container {
+    padding: 18px;
+  }
+}
