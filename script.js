@@ -1267,25 +1267,37 @@ function saveAccountSettings() {
 function showImpressum() {
   document.getElementById("main-content").innerHTML = `
     <h1>Impressum</h1>
-    <p><strong>Angaben gemäß § 5 TMG</strong></p>
 
+    <p><strong>Angaben gemäß § 5 TMG:</strong></p>
     <p>
       Ata Zeran<br>
       LernCoding<br>
       Abc Straße 1<br>
-      12345 Musterstadt
+      12345 Musterstadt<br>
+      Deutschland
     </p>
 
+    <p><strong>Kontakt:</strong></p>
     <p>
-      <strong>Kontakt:</strong><br>
-      E-Mail: lerncoding2026@gmail.com
+      E-Mail: <a href="mailto:lerncoding2026@gmail.com">lerncoding2026@gmail.com</a><br>
     </p>
 
+    <p><strong>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:</strong></p>
     <p>
-      Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:<br>
-      Ata Zeran
+      Ata Zeran<br>
+      Anschrift wie oben
     </p>
+
+    <p><strong>Haftungshinweis:</strong></p>
+    <p>
+      Die Inhalte dieser Website dienen ausschließlich zu Lern- und Informationszwecken.  
+      Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Haftung für die Vollständigkeit, Richtigkeit und Aktualität der Inhalte.  
+      Für Schäden, die direkt oder indirekt aus der Nutzung der Website entstehen, wird keine Haftung übernommen.
+    </p>
+
+ 
   `;
+
   // Sidebar schließen
   sidebar.classList.remove("active");
   overlay.classList.remove("active");
@@ -1294,36 +1306,51 @@ function showImpressum() {
 
 function showAGB() {
   document.getElementById("main-content").innerHTML = `
-    <h1>AGB & Datenschutz</h1>
+    <h1>AGB & Datenschutzerklärung</h1>
 
     <h2>Allgemeines</h2>
     <p>
       Diese Website dient ausschließlich zu Lern- und Informationszwecken.
-      Die Nutzung ist kostenlos.
-    </p>
-
-    <h2>Datenspeicherung</h2>
-    <p>
-      Auf dieser Website werden <strong>keine personenbezogenen Daten in einer Cloud
-      oder auf einem Server gespeichert</strong>.
-      Alle Daten (z. B. Fortschritt oder Einstellungen) werden ausschließlich
-      <strong>lokal im Browser</strong> gespeichert.
-    </p>
-
-    <h2>E-Mail-Kontakt</h2>
-    <p>
-      Wenn Sie mir eine E-Mail über die angegebene E-Mail-Adresse senden,
-      erhalte ich die E-Mail inklusive der Absenderadresse,
-      um auf Ihre Anfrage antworten zu können.
-      Eine weitere Verarbeitung oder Weitergabe der Daten erfolgt nicht.
+      Die Nutzung ist kostenlos. Durch die Nutzung dieser Website erklären Sie sich mit diesen
+      Bedingungen einverstanden.
     </p>
 
     <h2>Haftung</h2>
     <p>
       Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte
-      übernehme ich keine Gewähr.
+      übernehme ich keine Gewähr.  
+      Die Nutzung erfolgt auf eigene Verantwortung.
+    </p>
+
+    <h2>Datenspeicherung</h2>
+    <p>
+      Diese Website speichert keine personenbezogenen Daten auf Servern oder in einer Cloud.  
+      Alle Daten (z. B. Lernfortschritt oder Einstellungen) werden ausschließlich 
+      <strong>temporär im Browser während der Sitzung</strong> gespeichert (Session Storage).  
+      Diese Daten gehen verloren, sobald der Browser geschlossen oder neu gestartet wird.
+    </p>
+
+    <h2>E-Mail-Kontakt</h2>
+    <p>
+      Wenn Sie mir eine E-Mail über die angegebene E-Mail-Adresse senden, werden Ihre
+      Absenderadresse und die Inhalte Ihrer Nachricht gespeichert, um Ihre Anfrage zu beantworten.  
+      Eine Weitergabe an Dritte oder sonstige Verarbeitung erfolgt nicht.
+    </p>
+
+    <h2>Rechte der Nutzer</h2>
+    <p>
+      Da alle Daten nur temporär im Browser gespeichert werden, können sie nach Beendigung
+      der Sitzung nicht abgerufen werden.  
+      Für E-Mail-Kontakt können Sie jederzeit die Löschung Ihrer Daten per E-Mail anfordern.
+    </p>
+
+    <h2>Nutzung der Inhalte</h2>
+    <p>
+      Alle Inhalte dieser Website sind für private, nicht-kommerzielle Zwecke bestimmt.  
+      Die Vervielfältigung oder Weitergabe an Dritte ist nur im Rahmen der privaten Nutzung erlaubt.
     </p>
   `;
+
   // Sidebar schließen
   sidebar.classList.remove("active");
   overlay.classList.remove("active");
