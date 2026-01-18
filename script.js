@@ -1339,7 +1339,7 @@ function showCreateHTMLCSS() {
       HTML strukturiert Webseiten. CSS gestaltet das Aussehen (Farben, Layout, Schriftgrößen usw.).
     </div>
 
-    <h3>✍ Code ausprobieren</h3>
+    <h3>Code ausprobieren</h3>
 
     <div class="editor-box">
   <textarea id="htmlcssCode" class="python-editor">
@@ -1440,7 +1440,7 @@ function showCreatePython() {
     <div class="info-box">
 Python wird verwendet, um Programme zu schreiben, Daten zu analysieren, Webseiten zu entwickeln und Automatisierungen zu erstellen.    </div>
 
-    <h3>✍ Code ausprobieren</h3>
+    <h3>Code ausprobieren</h3>
 
     <div class="editor-box">
       <textarea id="pythonCode" class="python-editor">
@@ -2063,7 +2063,7 @@ function showCreateJS() {
       JavaScript ist eine Programmiersprache für Webseiten. Sie wird im Browser ausgeführt und macht Webseiten interaktiv.
     </div>
 
-    <h3>✍ Code ausprobieren</h3>
+    <h3>Code ausprobieren</h3>
 
     <div class="editor-box">
       <textarea id="jsCode" class="python-editor">
@@ -2176,7 +2176,7 @@ function showCreatePHP() {
     <div class="info-box">
       PHP wird verwendet, um dynamische Webseiten und Webanwendungen zu erstellen.
     </div>
-    <h3>✍ Code ausprobieren</h3>
+    <h3>Code ausprobieren</h3>
 
     <div class="editor-box">
       <textarea id="phpCode" class="python-editor">
@@ -2282,7 +2282,7 @@ function showCreateJava() {
 Java wird genutzt, um plattformunabhängige Anwendungen, Android-Apps und serverseitige Software zu entwickeln.
   </div>
 
-    <h3>✍ Code ausprobieren</h3>
+    <h3>Code ausprobieren</h3>
 
     <div class="editor-box">
       <textarea id="javaCode" class="python-editor">
