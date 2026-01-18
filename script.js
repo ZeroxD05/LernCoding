@@ -869,7 +869,7 @@ function showTextPage() {
           </a>
         </div>
           <div class="material-card" data-title="Python Geburtstagsnachricht Generator">
-          <h3>Arbeitsblatt: Python Geburtstagsnachricht Generator</h3>
+          <h3>Code: Python Geburtstagsnachricht Generator</h3>
           <p>Erstelle eine Geburtstagsnachricht mit Python.</p>
 
           <div class="pdf-preview">
@@ -882,7 +882,7 @@ function showTextPage() {
           </a>
         </div>
          <div class="material-card" data-title="To Do App mit HTML, CSS & JavaScript">
-          <h3>Arbeitsblatt: To Do App mit HTML, CSS & JavaScript</h3>
+          <h3>Code: To Do App mit HTML, CSS & JavaScript</h3>
           <p>Erstelle eine To Do App mit HTML, CSS & JavaScript.</p>
 
           <div class="pdf-preview">
@@ -894,6 +894,21 @@ function showTextPage() {
             PDF herunterladen
           </a>
         </div>
+
+<div class="material-card" data-title="Erstelle einen Discord Bot">
+          <h3>Code: Discord Bot</h3>
+          <p>Erstelle einen Discord Bot mit Python.</p>
+
+          <div class="pdf-preview">
+            <embed src="DiscordBot-Standard.pdf"
+              type="application/pdf" width="100%" height="300px">
+          </div>
+
+          <a class="download-btn" href="DiscordBot-Standard.pdf" download>
+            PDF herunterladen
+          </a>
+        </div>
+
       </div>
     </section>
   `;

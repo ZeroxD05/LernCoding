@@ -1040,7 +1040,7 @@ body::after {
 
 /* ===== Materialkarte ===== */
 .material-card {
-  background-color: var(--card-bg);
+  background-color: #3a6a917a;
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 4px 12px var(--stat-shadow);
