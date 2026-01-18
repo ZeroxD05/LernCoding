@@ -1378,3 +1378,6 @@ iframe {
   max-width: 100%;
   box-sizing: border-box;
 }
+.learn-container {
+  max-width: fit-content;
+}
