@@ -1180,6 +1180,7 @@ body::after {
   overflow-x: auto;
   scroll-padding-left: 16px;
   -webkit-overflow-scrolling: touch;
+  overflow-y: hidden;
 }
 
 /* Entfernt das unnötige nowrap + snap für besseres Gefühl */
