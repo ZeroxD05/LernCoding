@@ -559,14 +559,28 @@
         </button>
       </div>
     </main>
-    <!-- Cookie Banner + Google Consent Mode v2 -->
+    <!-- =============================================
+     GOOGLE CONSENT MODE v2 + Cookie Banner
+     + AdSense mit verzögerter Aktivierung
+============================================= -->
+
+    <!-- 1. AdSense-Skript IMMER laden (Consent Mode steuert die Aktivierung) -->
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2488050397015626"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- =============================================
+     Cookie Banner + Consent Logic
+============================================= -->
     <div id="cookie-banner" class="cookie-banner hidden">
       <div class="cookie-content">
         <h3>Wir nutzen Cookies</h3>
         <p>
           Diese Website verwendet Cookies und ähnliche Technologien, um die
           Funktionalität zu gewährleisten und das Nutzererlebnis zu verbessern
-          (z. B. für Statistiken und personalisierte Inhalte).
+          (z. B. für Statistiken und personalisierte Werbung).
         </p>
 
         <div class="cookie-options">
@@ -574,15 +588,13 @@
             <input type="checkbox" id="necessary" checked disabled />
             <span><strong>Notwendig</strong> (immer aktiv)</span>
           </label>
-
           <label>
             <input type="checkbox" id="analytics" checked />
-            <span>Statistiken & Analyse (Google Analytics)</span>
+            <span>Statistiken & Analyse (z. B. Google Analytics)</span>
           </label>
-
           <label>
             <input type="checkbox" id="marketing" checked />
-            <span>Marketing & Personalisierung (z. B. Google Ads)</span>
+            <span>Werbung & Personalisierung (Google Ads/AdSense)</span>
           </label>
         </div>
 
@@ -722,16 +734,12 @@
     </style>
 
     <script>
-      // =============================================
-      //   GOOGLE CONSENT MODE v2 + Cookie Banner
-      // =============================================
-
+      // Google Consent Mode v2 – Default = alles denied (DSGVO-konform)
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         dataLayer.push(arguments);
       }
 
-      // Standardmäßig alles auf denied (DSGVO-konform!)
       gtag("consent", "default", {
         ad_storage: "denied",
         analytics_storage: "denied",
@@ -739,9 +747,12 @@
         ad_personalization: "denied",
         functionality_storage: "denied",
         personalization_storage: "denied",
-        security_storage: "granted", // immer erlaubt
+        security_storage: "granted",
       });
 
+      // =============================================
+      //   Consent Logik & Speicherung
+      // =============================================
       function updateConsent() {
         const analytics = document.getElementById("analytics").checked;
         const marketing = document.getElementById("marketing").checked;
@@ -753,10 +764,12 @@
           ad_personalization: marketing ? "granted" : "denied",
         });
 
-        // Optional: Analytics / Ads nach Zustimmung nachladen
-        if (analytics || marketing) {
-          loadAdSenseOrAnalytics();
-        }
+        console.log(
+          "Consent aktualisiert → Analytics:",
+          analytics,
+          "Marketing:",
+          marketing,
+        );
       }
 
       function acceptAll() {
@@ -771,37 +784,31 @@
         saveAndHide();
       }
 
-      function saveSettings() {
-        saveAndHide();
-      }
-
       function saveAndHide() {
         updateConsent();
         localStorage.setItem("cookieConsent", "set");
+        localStorage.setItem(
+          "consent_analytics",
+          document.getElementById("analytics").checked,
+        );
+        localStorage.setItem(
+          "consent_marketing",
+          document.getElementById("marketing").checked,
+        );
         document.getElementById("cookie-banner").classList.add("hidden");
       }
 
-      // Hilfsfunktion – hier AdSense / GA4 / andere Skripte nachladen
-      function loadAdSenseOrAnalytics() {
-        if (window.adsOrAnalyticsLoaded) return;
-        window.adsOrAnalyticsLoaded = true;
-
-        // Beispiel: Google Analytics / Tag Manager / AdSense nachladen
-        // (füge hier deine eigenen Tracking-Skripte ein)
-        console.log("→ Externe Tracking-Skripte werden geladen...");
-        // z.B.:
-        // (gtag ist schon geladen, Consent wird über update gesteuert)
-      }
-
-      // Beim Laden prüfen
+      // =============================================
+      //   Beim Seitenladen prüfen & wiederherstellen
+      // =============================================
       document.addEventListener("DOMContentLoaded", () => {
-        const consent = localStorage.getItem("cookieConsent");
+        const consentSet = localStorage.getItem("cookieConsent");
 
-        if (!consent) {
+        if (!consentSet) {
           // Banner zeigen, wenn noch keine Entscheidung getroffen
           document.getElementById("cookie-banner").classList.remove("hidden");
         } else {
-          // Vorherige Entscheidung wiederherstellen
+          // Vorherige Auswahl wiederherstellen
           const analytics =
             localStorage.getItem("consent_analytics") === "true";
           const marketing =
@@ -814,30 +821,16 @@
         }
       });
 
-      // Event Listener
-      document.getElementById("btn-accept")?.addEventListener("click", () => {
-        acceptAll();
-        localStorage.setItem("consent_analytics", "true");
-        localStorage.setItem("consent_marketing", "true");
-      });
-
-      document.getElementById("btn-reject")?.addEventListener("click", () => {
-        rejectAll();
-        localStorage.setItem("consent_analytics", "false");
-        localStorage.setItem("consent_marketing", "false");
-      });
-
-      document.getElementById("btn-save")?.addEventListener("click", () => {
-        saveSettings();
-        localStorage.setItem(
-          "consent_analytics",
-          document.getElementById("analytics").checked,
-        );
-        localStorage.setItem(
-          "consent_marketing",
-          document.getElementById("marketing").checked,
-        );
-      });
+      // Event-Listener für die Buttons
+      document
+        .getElementById("btn-accept")
+        ?.addEventListener("click", acceptAll);
+      document
+        .getElementById("btn-reject")
+        ?.addEventListener("click", rejectAll);
+      document
+        .getElementById("btn-save")
+        ?.addEventListener("click", saveAndHide);
     </script>
     <!-- Offline-Meldung (wird angezeigt, wenn kein Internet vorhanden ist) -->
     <div
