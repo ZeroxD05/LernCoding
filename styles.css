@@ -1388,6 +1388,7 @@ iframe {
   background: #222;
   color: #fff;
   padding: 15px;
+  padding-right: 30px;
   z-index: 9999;
   display: flex;
   justify-content: space-between;
