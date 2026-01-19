@@ -2429,3 +2429,162 @@ async function runPython() {
     output.textContent = err.toString();
   }
 }
+function showCreateCS() {
+  mainContent.innerHTML = `
+  <div class="learn-container">
+    <div class="info-box">
+      C# ist eine moderne, sichere und leistungsstarke Programmiersprache von Microsoft.<br>
+      Wird sehr häufig verwendet für: Desktop-Programme (WPF, WinForms), Spiele (Unity), Web-Backends (ASP.NET), Mobile (MAUI), Cloud...
+      <br><br>
+      → Läuft nicht direkt im Browser (wie JavaScript), sondern braucht .NET
+    </div>
+
+    <h3>Wichtige Datentypen in C# (ähnlich wie bei Python)</h3>
+    <div class="info-box" style="font-size: 0.95em;">
+      <b>string</b>   → Text              ("Hallo")     &nbsp;&nbsp;wie str in Python<br>
+      <b>int</b>       → ganze Zahl       (42, -17)     &nbsp;&nbsp;wie int in Python<br>
+      <b>double</b>    → Kommazahl        (3.14, -0.001)&nbsp;&nbsp;wie float in Python<br>
+      <b>bool</b>      → wahr/falsch      (true/false)  &nbsp;&nbsp;wie bool in Python (True/False)<br>
+      <b>char</b>      → einzelnes Zeichen ('A', 'x')   &nbsp;&nbsp;kein direktes Äquivalent in Python<br>
+      <br>
+      → C# ist <b>streng typisiert</b>: Der Datentyp muss (fast immer) sofort angegeben werden!
+    </div>
+
+    <h3>Beispielcode (C#)</h3>
+    <div class="example-box">
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        // Verschiedene Datentypen demonstriert
+        string name = "Anna";
+        int alter = 20;
+        double groesse = 1.68;
+        bool istStudent = true;
+        char lieblingsBuchstabe = 'A';
+
+        Console.WriteLine("Name: " + name);
+        Console.WriteLine("Alter: " + alter);
+        Console.WriteLine("Größe: " + groesse + " m");
+        Console.WriteLine("Ist Student? " + istStudent);
+        Console.WriteLine("Lieblingsbuchstabe: " + lieblingsBuchstabe);
+    }
+}
+    </div>
+
+    <h3>Erklärung – Schritt für Schritt</h3>
+    <div class="info-box">
+      <b>using System;</b> – gibt Zugriff auf Console, String, Math usw.<br>
+      <b>class Program</b> – fast jedes C#-Programm braucht eine Klasse<br>
+      <b>static void Main()</b> – Startpunkt des Programms (wie if __name__ == "__main__" in Python)<br>
+      <b>string name = ...</b> – Variable vom Typ Text (wie str)<br>
+      <b>int, double, bool</b> – verschiedene Zahlentypen & Wahrheitswerte<br>
+      <b>Console.WriteLine()</b> – Ausgabe auf der Konsole (ähnlich print())<br>
+      <b>+</b> – für Text + Variablen zusammenfügen (String-Konkatenation)
+    </div>
+  </div>
+  `;
+  mainContent.classList.add("python-page");
+  closeSidebar();
+}
+function showCreateTypeScript() {
+  mainContent.innerHTML = `
+  <div class="learn-container">
+    <div class="info-box">
+      TypeScript = JavaScript + Typen<br><br>
+      → Alles, was JavaScript kann + Sicherheit durch Datentypen<br>
+      → Wird heute fast überall im modernen Web-Frontend verwendet (React, Angular, Vue, Node.js-Backends...)
+    </div>
+
+    <h3>Wichtige Datentypen in TypeScript</h3>
+    <div class="info-box" style="font-size: 0.95em;">
+      <b>string</b>   → Text                  ("Hallo")<br>
+      <b>number</b>   → Zahl (ganz & Komma)   (42, 3.14)   – es gibt keinen separaten int/float!<br>
+      <b>boolean</b>  → wahr/falsch           (true/false)<br>
+      <b>any</b>      → beliebiger Typ        (vermeiden!)<br>
+      <b>undefined</b>, <b>null</b>  → "nichts" / "absichtlich leer"<br><br>
+      → Sehr ähnlich zu Python, aber Typen werden meist direkt angegeben (: string)
+    </div>
+
+    <h3>Beispielcode (TypeScript)</h3>
+    <div class="example-box">
+let name: string = "Anna";
+let age: number = 20;
+let height: number = 1.68;
+let isStudent: boolean = true;
+
+console.log("Name:", name);
+console.log("Alter:", age);
+console.log("Größe:", height, "m");
+console.log("Ist Student?", isStudent);
+
+// TypeScript erkennt Fehler schon beim Schreiben!
+let falsch: number = "25";   // ← roter Fehler im Editor!
+    </div>
+
+    <h3>Erklärung</h3>
+    <div class="info-box">
+      <b>let</b> / <b>const</b> – Variablen erstellen (wie in modernem JS)<br>
+      <b>: string</b> / <b>: number</b> – Typ-Annotation (das gibt es bei normalem JS nicht!)<br>
+      <b>console.log()</b> – Ausgabe in der Browser-Konsole / Node.js<br>
+      → Fehler werden oft schon beim Tippen im Editor angezeigt (großer Vorteil!)
+    </div>
+  </div>
+  `;
+  mainContent.classList.add("python-page");
+  closeSidebar();
+}
+function showCreateCPP() {
+  mainContent.innerHTML = `
+  <div class="learn-container">
+    <div class="info-box">
+      C++ ist eine der schnellsten Programmiersprachen überhaupt.<br>
+      Wird verwendet für: Spiele-Engines, Betriebssysteme, Treiber, Hochleistungs-Software, Embedded...
+    </div>
+
+    <h3>Wichtige Datentypen in C++ (Anfänger-Level)</h3>
+    <div class="info-box" style="font-size: 0.95em;">
+      <b>std::string</b>   → Text                  ("Hallo")<br>
+      <b>int</b>           → ganze Zahl            (42, -1000)<br>
+      <b>double</b> / <b>float</b> → Kommazahl     (3.14, 0.001)<br>
+      <b>bool</b>          → wahr/falsch           (true/false)<br>
+      <b>char</b>          → einzelnes Zeichen     ('A')<br><br>
+      → Sehr ähnlich zu C#, aber mehr manueller Arbeit (Speicherverwaltung!)
+    </div>
+
+    <h3>Beispielcode (C++)</h3>
+    <div class="example-box">
+#include <iostream>
+#include <string>           // für std::string nötig!
+using namespace std;
+
+int main() {
+    string name = "Anna";
+    int alter = 20;
+    double groesse = 1.68;
+    bool magKaffee = true;
+
+    cout << "Name: " << name << endl;
+    cout << "Alter: " << alter << endl;
+    cout << "Größe: " << groesse << " m" << endl;
+    cout << "Mag Kaffee? " << (magKaffee ? "Ja" : "Nein") << endl;
+
+    return 0;
+}
+    </div>
+
+    <h3>Erklärung</h3>
+    <div class="info-box">
+      <b>#include</b> – Bibliotheken einbinden (wie import in Python)<br>
+      <b>using namespace std;</b> – spart viel Tippen (cout statt std::cout)<br>
+      <b>int main()</b> – Startpunkt des Programms<br>
+      <b>cout << ... << endl;</b> – Ausgabe (endl = Zeilenumbruch)<br>
+      <b>return 0;</b> – sagt dem Betriebssystem: "alles gut gelaufen"
+    </div>
+  </div>
+  `;
+  mainContent.classList.add("python-page");
+  closeSidebar();
+}
