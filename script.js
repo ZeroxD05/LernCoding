@@ -2653,12 +2653,3 @@ function loadAdSense() {
   script.crossOrigin = "anonymous";
   document.head.appendChild(script);
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  const consent = localStorage.getItem("cookieConsent");
-  if (consent === "accepted") {
-    loadAdSense();
-  } else {
-    showCookieBannerIfNeeded();
-  }
-});
