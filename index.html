@@ -859,8 +859,14 @@
 
         const banner = document.getElementById("cookie-banner");
 
-        // Zuerst die Animation starten
+        // Animation starten
         banner.classList.add("hidden");
+
+        // Fallback: Nach 500ms definitiv entfernen (mobile-safe)
+        setTimeout(() => {
+          banner.style.display = "none";
+          banner.remove(); // optional aber sehr effektiv
+        }, 500);
 
         // Nach Abschluss der Transition komplett entfernen / unsichtbar machen
         banner.addEventListener(
