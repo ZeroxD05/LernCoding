@@ -639,12 +639,23 @@
         box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
         z-index: 9999;
         border-top: 1px solid rgba(100, 100, 255, 0.25);
+        opacity: 0;
+        visibility: hidden;
         transform: translateY(100%);
-        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+          visibility 0s linear 0.4s;
       }
 
       .cookie-banner:not(.hidden) {
+        opacity: 1;
+        visibility: visible;
         transform: translateY(0);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+          visibility 0s linear 0s; /* sofort sichtbar */
       }
 
       .cookie-content {
@@ -793,6 +804,7 @@
 
       function saveAndHide() {
         updateConsent();
+
         localStorage.setItem("cookieConsent", "set");
         localStorage.setItem(
           "consent_analytics",
@@ -802,7 +814,21 @@
           "consent_marketing",
           document.getElementById("marketing").checked,
         );
-        document.getElementById("cookie-banner").classList.add("hidden");
+
+        const banner = document.getElementById("cookie-banner");
+
+        // Zuerst die Animation starten
+        banner.classList.add("hidden");
+
+        // Nach Abschluss der Transition komplett entfernen / unsichtbar machen
+        banner.addEventListener(
+          "transitionend",
+          function handler() {
+            banner.style.display = "none"; // oder opacity: 0; visibility: hidden;
+            banner.removeEventListener("transitionend", handler);
+          },
+          { once: true },
+        );
       }
 
       // =============================================
