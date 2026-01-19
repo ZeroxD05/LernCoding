@@ -1256,12 +1256,11 @@ body.dark .language-navbar button::after {
 
 /* Haupt-Wrapper */
 .learn-container {
-  background: var(--card-bg);
+  background: transparent;
   border-radius: 12px;
   padding: 28px;
   width: 100%;
   max-width: 1000px;
-  box-shadow: 0 10px 30px var(--stat-shadow);
 }
 
 /* Überschriften */
