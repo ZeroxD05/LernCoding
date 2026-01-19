@@ -1306,52 +1306,89 @@ function showImpressum() {
 
 function showAGB() {
   document.getElementById("main-content").innerHTML = `
-    <h1>AGB & Datenschutzerklärung</h1>
+<h1>AGB & Datenschutzerklärung</h1>
 
-    <h2>Allgemeines</h2>
-    <p>
-      Diese Website dient ausschließlich zu Lern- und Informationszwecken.
-      Die Nutzung ist kostenlos. Durch die Nutzung dieser Website erklären Sie sich mit diesen
-      Bedingungen einverstanden.
-    </p>
+<h2>1. Verantwortlicher</h2>
+<p>
+[DEIN NAME]<br>
+[DEINE STRASSE + HAUSNUMMER]<br>
+[PLZ ORT]<br>
+E-Mail: [DEINE E-MAIL]
+</p>
 
-    <h2>Haftung</h2>
-    <p>
-      Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte
-      übernehme ich keine Gewähr.  
-      Die Nutzung erfolgt auf eigene Verantwortung.
-    </p>
+<h2>2. Allgemeines</h2>
+<p>
+Diese Website dient zu Informations- und Lernzwecken. Die Nutzung ist kostenlos.
+Mit der Nutzung erklären Sie sich mit diesen Bedingungen einverstanden.
+</p>
 
-    <h2>Datenspeicherung</h2>
-    <p>
-      Diese Website speichert keine personenbezogenen Daten auf Servern oder in einer Cloud.  
-      Alle Daten (z. B. Lernfortschritt oder Einstellungen) werden ausschließlich 
-      <strong>temporär im Browser während der Sitzung</strong> gespeichert (Session Storage).  
-      Diese Daten gehen verloren, sobald der Browser geschlossen oder neu gestartet wird.
-    </p>
+<h2>3. Haftung für Inhalte</h2>
+<p>
+Die Inhalte wurden mit größtmöglicher Sorgfalt erstellt. Für Richtigkeit, Vollständigkeit
+und Aktualität wird keine Haftung übernommen.
+</p>
 
-    <h2>E-Mail-Kontakt</h2>
-    <p>
-      Wenn Sie mir eine E-Mail über die angegebene E-Mail-Adresse senden, werden Ihre
-      Absenderadresse und die Inhalte Ihrer Nachricht gespeichert, um Ihre Anfrage zu beantworten.  
-      Eine Weitergabe an Dritte oder sonstige Verarbeitung erfolgt nicht.
-    </p>
+<h2>4. Lokale Datenspeicherung</h2>
+<p>
+Diese Website speichert Daten (z. B. Einstellungen oder Lernfortschritt) ausschließlich
+temporär im Browser (Session Storage). Diese Daten werden nicht an Server übertragen
+und beim Schließen des Browsers gelöscht.
+</p>
 
-    <h2>Rechte der Nutzer</h2>
-    <p>
-      Da alle Daten nur temporär im Browser gespeichert werden, können sie nach Beendigung
-      der Sitzung nicht abgerufen werden.  
-      Für E-Mail-Kontakt können Sie jederzeit die Löschung Ihrer Daten per E-Mail anfordern.
-    </p>
+<h2>5. E-Mail-Kontakt</h2>
+<p>
+Bei Kontaktaufnahme per E-Mail werden Ihre E-Mail-Adresse und der Inhalt der Nachricht
+ausschließlich zur Bearbeitung gespeichert. Keine Weitergabe an Dritte.
+</p>
 
-    <h2>Nutzung der Inhalte</h2>
-    <p>
-      Alle Inhalte dieser Website sind für private, nicht-kommerzielle Zwecke bestimmt.  
-      Die Vervielfältigung oder Weitergabe an Dritte ist nur im Rahmen der privaten Nutzung erlaubt.
-    </p>
+<h2>6. Google AdSense</h2>
+<p>
+Diese Website nutzt Google AdSense der Google Ireland Limited, Gordon House, Barrow Street,
+Dublin 4, Irland.
+</p>
+<p>
+Google verarbeitet u. a. IP-Adresse, Geräteinformationen, Browserdaten und Nutzungsverhalten
+mittels Cookies zur Anzeige personalisierter oder nicht-personalisierter Werbung.
+</p>
+<p>
+Die Verarbeitung erfolgt ausschließlich auf Grundlage Ihrer Einwilligung gemäß Art. 6 Abs. 1 lit. a DSGVO.
+</p>
+<p>
+Es kann zu einer Übertragung von Daten in die USA kommen (EU-US Data Privacy Framework).
+</p>
+<p>
+Google Datenschutzerklärung:
+<a href="https://policies.google.com/privacy" target="_blank">https://policies.google.com/privacy</a>
+</p>
+
+<h2>7. Cookie-Einwilligung</h2>
+<p>
+Beim ersten Besuch wird Ihre Einwilligung zur Nutzung nicht notwendiger Cookies eingeholt.
+Sie können diese jederzeit widerrufen, indem Sie Cookies im Browser löschen.
+</p>
+
+<h2>8. Rechte der Nutzer</h2>
+<p>
+Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung
+sowie Widerruf erteilter Einwilligungen.
+</p>
+
+<h2>9. Nutzung der Inhalte</h2>
+<p>
+Alle Inhalte sind ausschließlich für den privaten, nicht-kommerziellen Gebrauch bestimmt.
+</p>
+
+<h2>10. Impressum</h2>
+<p>
+Angaben gemäß §5 TMG:
+</p>
+<p>
+[DEIN NAME]<br>
+[ADRESSE]<br>
+E-Mail: [E-MAIL]
+</p>
   `;
 
-  // Sidebar schließen
   sidebar.classList.remove("active");
   overlay.classList.remove("active");
   burger.classList.remove("open");
@@ -2588,3 +2625,40 @@ int main() {
   mainContent.classList.add("python-page");
   closeSidebar();
 }
+function showCookieBannerIfNeeded() {
+  const consent = localStorage.getItem("cookieConsent");
+  if (!consent) {
+    document.getElementById("cookie-banner").classList.remove("hidden");
+  }
+}
+
+function acceptCookies() {
+  localStorage.setItem("cookieConsent", "accepted");
+  document.getElementById("cookie-banner").classList.add("hidden");
+  loadAdSense();
+}
+
+function rejectCookies() {
+  localStorage.setItem("cookieConsent", "rejected");
+  document.getElementById("cookie-banner").classList.add("hidden");
+}
+
+function loadAdSense() {
+  if (window.adsLoaded) return;
+  window.adsLoaded = true;
+
+  const script = document.createElement("script");
+  script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
+  script.async = true;
+  script.crossOrigin = "anonymous";
+  document.head.appendChild(script);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const consent = localStorage.getItem("cookieConsent");
+  if (consent === "accepted") {
+    loadAdSense();
+  } else {
+    showCookieBannerIfNeeded();
+  }
+});
