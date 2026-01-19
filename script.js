@@ -1310,10 +1310,10 @@ function showAGB() {
 
 <h2>1. Verantwortlicher</h2>
 <p>
-[DEIN NAME]<br>
-[DEINE STRASSE + HAUSNUMMER]<br>
-[PLZ ORT]<br>
-E-Mail: [DEINE E-MAIL]
+Ata Zeran<br>
+Abc Straße 1<br>
+12345 Musterstadt<br>
+E-Mail: lerncoding2026@gmail.com
 </p>
 
 <h2>2. Allgemeines</h2>

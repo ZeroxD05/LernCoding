@@ -559,7 +559,286 @@
         </button>
       </div>
     </main>
+    <!-- Cookie Banner + Google Consent Mode v2 -->
+    <div id="cookie-banner" class="cookie-banner hidden">
+      <div class="cookie-content">
+        <h3>Wir nutzen Cookies</h3>
+        <p>
+          Diese Website verwendet Cookies und ähnliche Technologien, um die
+          Funktionalität zu gewährleisten und das Nutzererlebnis zu verbessern
+          (z. B. für Statistiken und personalisierte Inhalte).
+        </p>
 
+        <div class="cookie-options">
+          <label>
+            <input type="checkbox" id="necessary" checked disabled />
+            <span><strong>Notwendig</strong> (immer aktiv)</span>
+          </label>
+
+          <label>
+            <input type="checkbox" id="analytics" checked />
+            <span>Statistiken & Analyse (Google Analytics)</span>
+          </label>
+
+          <label>
+            <input type="checkbox" id="marketing" checked />
+            <span>Marketing & Personalisierung (z. B. Google Ads)</span>
+          </label>
+        </div>
+
+        <div class="cookie-buttons">
+          <button id="btn-reject" class="btn secondary">Nur notwendig</button>
+          <button id="btn-accept" class="btn primary">Alle akzeptieren</button>
+          <button id="btn-save" class="btn outline">
+            Einstellungen speichern
+          </button>
+        </div>
+
+        <p class="cookie-info">
+          Mehr Informationen in unserer
+          <a
+            onclick="
+              showAGB();
+              return false;
+            "
+            >Datenschutzerklärung</a
+          >.
+        </p>
+      </div>
+    </div>
+
+    <style>
+      .cookie-banner {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(30, 30, 46, 0.96);
+        backdrop-filter: blur(10px);
+        color: #e0e0ff;
+        padding: 24px;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
+        z-index: 9999;
+        border-top: 1px solid rgba(100, 100, 255, 0.25);
+        transform: translateY(100%);
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .cookie-banner:not(.hidden) {
+        transform: translateY(0);
+      }
+
+      .cookie-content {
+        max-width: 860px;
+        margin: 0 auto;
+      }
+
+      .cookie-content h3 {
+        margin: 0 0 12px 0;
+        color: #a5b4fc;
+      }
+
+      .cookie-options {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 16px;
+        margin: 20px 0;
+      }
+
+      .cookie-options label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px;
+        background: rgba(40, 40, 70, 0.4);
+        border-radius: 10px;
+        border: 1px solid rgba(100, 100, 255, 0.2);
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .cookie-options label:hover {
+        background: rgba(60, 60, 100, 0.5);
+        border-color: rgba(120, 120, 255, 0.4);
+      }
+
+      .cookie-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 20px;
+        justify-content: flex-end;
+      }
+
+      .btn {
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .btn.primary {
+        background: #6366f1;
+        color: white;
+        border: none;
+      }
+
+      .btn.primary:hover {
+        background: #4f46e5;
+        transform: translateY(-1px);
+      }
+
+      .btn.secondary {
+        background: #374151;
+        color: #e5e7eb;
+        border: none;
+      }
+
+      .btn.secondary:hover {
+        background: #4b5563;
+      }
+
+      .btn.outline {
+        background: transparent;
+        border: 1px solid #818cf8;
+        color: #a5b4fc;
+      }
+
+      .btn.outline:hover {
+        background: rgba(99, 102, 241, 0.15);
+      }
+
+      .cookie-info {
+        margin-top: 16px;
+        font-size: 0.9rem;
+        color: #94a3b8;
+        text-align: center;
+      }
+
+      .cookie-info a {
+        color: #a5b4fc;
+      }
+    </style>
+
+    <script>
+      // =============================================
+      //   GOOGLE CONSENT MODE v2 + Cookie Banner
+      // =============================================
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      // Standardmäßig alles auf denied (DSGVO-konform!)
+      gtag("consent", "default", {
+        ad_storage: "denied",
+        analytics_storage: "denied",
+        ad_user_data: "denied",
+        ad_personalization: "denied",
+        functionality_storage: "denied",
+        personalization_storage: "denied",
+        security_storage: "granted", // immer erlaubt
+      });
+
+      function updateConsent() {
+        const analytics = document.getElementById("analytics").checked;
+        const marketing = document.getElementById("marketing").checked;
+
+        gtag("consent", "update", {
+          analytics_storage: analytics ? "granted" : "denied",
+          ad_storage: marketing ? "granted" : "denied",
+          ad_user_data: marketing ? "granted" : "denied",
+          ad_personalization: marketing ? "granted" : "denied",
+        });
+
+        // Optional: Analytics / Ads nach Zustimmung nachladen
+        if (analytics || marketing) {
+          loadAdSenseOrAnalytics();
+        }
+      }
+
+      function acceptAll() {
+        document.getElementById("analytics").checked = true;
+        document.getElementById("marketing").checked = true;
+        saveAndHide();
+      }
+
+      function rejectAll() {
+        document.getElementById("analytics").checked = false;
+        document.getElementById("marketing").checked = false;
+        saveAndHide();
+      }
+
+      function saveSettings() {
+        saveAndHide();
+      }
+
+      function saveAndHide() {
+        updateConsent();
+        localStorage.setItem("cookieConsent", "set");
+        document.getElementById("cookie-banner").classList.add("hidden");
+      }
+
+      // Hilfsfunktion – hier AdSense / GA4 / andere Skripte nachladen
+      function loadAdSenseOrAnalytics() {
+        if (window.adsOrAnalyticsLoaded) return;
+        window.adsOrAnalyticsLoaded = true;
+
+        // Beispiel: Google Analytics / Tag Manager / AdSense nachladen
+        // (füge hier deine eigenen Tracking-Skripte ein)
+        console.log("→ Externe Tracking-Skripte werden geladen...");
+        // z.B.:
+        // (gtag ist schon geladen, Consent wird über update gesteuert)
+      }
+
+      // Beim Laden prüfen
+      document.addEventListener("DOMContentLoaded", () => {
+        const consent = localStorage.getItem("cookieConsent");
+
+        if (!consent) {
+          // Banner zeigen, wenn noch keine Entscheidung getroffen
+          document.getElementById("cookie-banner").classList.remove("hidden");
+        } else {
+          // Vorherige Entscheidung wiederherstellen
+          const analytics =
+            localStorage.getItem("consent_analytics") === "true";
+          const marketing =
+            localStorage.getItem("consent_marketing") === "true";
+
+          document.getElementById("analytics").checked = analytics;
+          document.getElementById("marketing").checked = marketing;
+
+          updateConsent();
+        }
+      });
+
+      // Event Listener
+      document.getElementById("btn-accept")?.addEventListener("click", () => {
+        acceptAll();
+        localStorage.setItem("consent_analytics", "true");
+        localStorage.setItem("consent_marketing", "true");
+      });
+
+      document.getElementById("btn-reject")?.addEventListener("click", () => {
+        rejectAll();
+        localStorage.setItem("consent_analytics", "false");
+        localStorage.setItem("consent_marketing", "false");
+      });
+
+      document.getElementById("btn-save")?.addEventListener("click", () => {
+        saveSettings();
+        localStorage.setItem(
+          "consent_analytics",
+          document.getElementById("analytics").checked,
+        );
+        localStorage.setItem(
+          "consent_marketing",
+          document.getElementById("marketing").checked,
+        );
+      });
+    </script>
     <!-- Offline-Meldung (wird angezeigt, wenn kein Internet vorhanden ist) -->
     <div
       id="offline-screen"
