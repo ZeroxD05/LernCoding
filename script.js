@@ -1383,9 +1383,9 @@ Alle Inhalte sind ausschließlich für den privaten, nicht-kommerziellen Gebrauc
 Angaben gemäß §5 TMG:
 </p>
 <p>
-[DEIN NAME]<br>
-[ADRESSE]<br>
-E-Mail: [E-MAIL]
+Ata Zeran<br>
+Abc Straße 1<br>
+E-Mail: lerncoding2026@gmail.com
 </p>
   `;
 
