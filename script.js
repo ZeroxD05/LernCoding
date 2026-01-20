@@ -647,12 +647,19 @@ function renderQuestion() {
         opt,
       )}</code></label><br>`;
     });
-    html += `<button style="margin-top:5px;font-size:16px;cursor:pointer;" type="button" onclick="checkMulti()">Antwort prüfen</button></form>`;
+    html += `<button type="button" class="check-btn" onclick="checkMulti()">
+  Antwort prüfen
+</button></form>`;
   } else if (q.type === "tf") {
     html += `<button class="quiz-btn" onclick="checkAnswer(true)">Richtig</button>`;
     html += `<button class="quiz-btn" onclick="checkAnswer(false)">Falsch</button>`;
   } else if (q.type === "text") {
-    html += `<input type="text" id="textAnswer" placeholder="Antwort hier..."><button onclick="checkText()">Antwort prüfen</button>`;
+    html += `
+    <div style="max-width: 480px; margin: 20px auto;">
+      <input type="text" id="textAnswer" placeholder="Antwort hier..." style="width: 100%;">
+      <button onclick="checkText()" class="check-btn" style="margin-top: 12px;">Antwort prüfen</button>
+    </div>
+  `;
   }
 
   mainContent.innerHTML = html;
@@ -1148,6 +1155,7 @@ function showAccountPage() {
   mainContent.innerHTML = `
 <h2>Account Einstellungen</h2>
 <p>Hier kannst du deine Account Einstellungen anpassen.</p>
+<br>
 <br>
 <div style="
   max-width:420px;

@@ -349,6 +349,21 @@ main {
   padding: 30px;
   font-size: 18px;
   line-height: 1.6;
+  max-width: 800px;
+  margin-left: auto;
+  display: flex;
+  margin-right: auto;
+  justify-content: start;
+  align-items: start;
+  flex-direction: column;
+}
+
+#main-content {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+  align-items: center;
 }
 
 #main-content img {
@@ -356,6 +371,8 @@ main {
   max-width: 100%;
   height: auto;
   margin-bottom: 20px;
+  justify-content: center;
+  align-items: center;
 }
 
 .floating-cloud {
@@ -483,6 +500,33 @@ button.quiz-btn {
   display: block;
   padding: 12px 16px;
   font-size: 18px;
+  min-width: 306px;
+  width: 100%; /* ← wichtig: nimmt verfügbare Breite */
+  max-width: 306px; /* verhindert, dass es auf großen Bildschirmen zu breit wird */
+  text-align: left;
+  font-family: system-ui, sans-serif;
+  box-sizing: border-box; /* padding wird in die Breite mit eingerechnet */
+  border-radius: 8px; /* meist schöner bei Quiz-Buttons */
+  cursor: pointer;
+}
+
+/* Responsive Anpassungen */
+@media (max-width: 600px) {
+  /* ab ca. Handy- & kleinem Tablet-Format */
+  button.quiz-btn {
+    font-size: 16px; /* etwas kleinerer Text */
+    padding: 10px 14px; /* weniger Innenabstand */
+    min-width: 0; /* min-width aufheben → wird schmaler */
+    /* max-width: 100%; */ /* optional – meist nicht nötig wegen width:100% */
+  }
+}
+
+@media (max-width: 400px) {
+  /* sehr kleine Displays (ältere Handys etc.) */
+  button.quiz-btn {
+    font-size: 15px;
+    padding: 9px 12px;
+  }
 }
 
 input[type="text"] {
@@ -1414,6 +1458,7 @@ iframe {
 .discord {
   background: #5865f2;
 }
+
 .hint-button {
   margin: 8px 4px;
   padding: 10px 20px;
@@ -1437,4 +1482,66 @@ iframe {
 .hint-button:active {
   transform: translateY(0);
   box-shadow: 0 1px 4px rgba(99, 102, 241, 0.4);
+}
+/* Quiz immer schön zentriert und konsistent breit */
+.quiz-container-wrapper {
+  width: 100%;
+  max-width: 720px; /* passt gut zu deinen anderen Inhalten (XP-Bar 720px etc.) */
+  margin: 0 auto 40px auto; /* immer horizontal zentriert */
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+/* Falls du den Quiz-Inhalt noch enger willst auf Mobilgeräten */
+@media (max-width: 600px) {
+  .quiz-container-wrapper {
+    max-width: 100%;
+    padding: 0 12px;
+  }
+}
+
+/* Optional: Quiz-Karten / Fragen etwas mehr Luft geben */
+.quiz-question,
+.quiz-options,
+.feedback {
+  margin: 20px 0;
+}
+
+/* Falls du die Options-Buttons zentrieren willst */
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Buttons mittig untereinander */
+  gap: 12px;
+}
+
+.quiz-option {
+  width: 100%;
+  max-width: 480px; /* verhindert, dass lange Antworten zu breit werden */
+  text-align: left;
+}
+.check-btn {
+  margin: 12px 0 8px 0;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  min-width: 180px;
+}
+
+.check-btn:hover {
+  background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(79, 70, 229, 0.3);
+}
+
+.check-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
