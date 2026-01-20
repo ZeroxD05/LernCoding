@@ -1,101 +1,54 @@
 <!doctype html>
 <html lang="de">
-<head>
+  <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
-
-    <title>Programmieren lernen – kostenlos & interaktiv | LernCoding.de</title>
-
-    <!-- Favicon -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0  maximum-scale=1, user-scalable=no"
+    />
+    <title>LernCoding – Programmieren lernen für jeden</title>
     <link rel="icon" type="image/png" href="lightdark.png" alt="Favicon" />
-    <link rel="apple-touch-icon" sizes="180x180" href="lightdark.png" alt="Favicon" />
+    <!-- Favicon für Browser -->
 
-    <!-- SEO Meta Tags (wichtig zuerst) -->
-    <meta name="description" content="Programmieren lernen leicht gemacht: Interaktive Tutorials, Coding-Challenges und echte Projekte für Anfänger & Fortgeschrittene. Starte jetzt kostenlos und werde zum Coder!" />
-    <meta name="keywords" content="programmieren lernen, kostenlos programmieren lernen, interaktiv programmieren, python lernen anfänger, javascript lernen, coding lernen deutsch, programmieren lernen online, coding challenges" />
-    <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://www.lern-coding.de/" />
-
-    <!-- Open Graph / Facebook & LinkedIn -->
-    <meta property="og:title" content="Programmieren lernen – kostenlos, interaktiv & praxisnah | LernCoding" />
-    <meta property="og:description" content="Kostenlos programmieren lernen mit interaktiven Kursen, Coding-Challenges und echten Projekten. Für totale Anfänger bis Fortgeschrittene – direkt im Browser starten!" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.lern-coding.de/" />
-    <meta property="og:image" content="lightdark.png" />
-    <meta property="og:site_name" content="LernCoding.de" />
-    <meta property="og:locale" content="de_DE" />
-
-    <!-- Twitter / X Cards -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Programmieren lernen – kostenlos & interaktiv | LernCoding" />
-    <meta name="twitter:description" content="Interaktive Tutorials + Coding-Challenges + Projekte → werde zum Coder! Jetzt gratis starten." />
-    <meta name="twitter:image" content="lightdark.png" />
-
-    <!-- Theme & Mobile -->
-    <meta name="theme-color" content="#ffffff" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-
-    <!-- Pyodide -->
-    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js" defer></script>
-
-    <!-- Structured Data (JSON-LD) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "LernCoding",
-      "url": "https://www.lern-coding.de/",
-      "description": "Kostenlose interaktive Plattform um Programmieren zu lernen – für Anfänger und Fortgeschrittene.",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://www.lern-coding.de/suche?q={search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
-    }
-    </script>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "EducationalSite",
-      "name": "LernCoding – Programmieren lernen",
-      "url": "https://www.lern-coding.de/",
-      "description": "Interaktive Tutorials, Coding Challenges und reale Programmierprojekte – kostenlos und direkt im Browser.",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "EUR",
-        "availability": "https://schema.org/InStock"
-      },
-      "inLanguage": "de-DE",
-      "audience": {
-        "@type": "EducationalAudience",
-        "educationalRole": ["student", "beginner", "learner"]
-      }
-    }
-    </script>
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="styles.css" />
-
-    <!-- Mobile-Optimierung: verhindert Zoomen bei Eingabefeldern -->
+    <link rel="icon" type="image/png" href="lightdark.png" alt="Favicon" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
       textarea,
       input,
       select,
       button {
-        font-size: 16px;
-        -webkit-text-size-adjust: 100%;
-        -moz-text-size-adjust: 100%;
-        -ms-text-size-adjust: 100%;
-        text-size-adjust: 100%;
+        font-size: 16px; /* Mindestens 16px verhindert automatisches Zoomen */
+        -webkit-text-size-adjust: 100%; /* Safari / iOS */
+        -moz-text-size-adjust: 100%; /* Firefox */
+        -ms-text-size-adjust: 100%; /* IE */
+        text-size-adjust: 100%; /* Standard */
       }
     </style>
-</head>
+    <meta
+      name="description"
+      content="Lerne Programmieren interaktiv und praxisnah! Entdecke Tutorials, Coding-Challenges und Projekte für Anfänger und Fortgeschrittene auf einer benutzerfreundlichen Plattform."
+    />
+
+    <!-- Apple Touch Icons für Home-Bildschirm -->
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="lightdark.png"
+      alt="Favicon"
+    />
+
+    <!-- Optional: Theme-Farbe für Statusleiste -->
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
   <body>
     <!-- Loading Overlay: Dark mode, zentriertes Icon + animierender Kreis -->
     <div id="loader-overlay" class="loader-overlay" aria-hidden="false">
