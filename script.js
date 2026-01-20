@@ -1453,6 +1453,9 @@ h1 {
           "https://www.youtube.com/embed/nmiWXn6aIAs",
         )}
       </div>
+
+      <hr>
+
     <h3>1. HTML Grundstruktur</h3>
     <div class="example-box">
 &lt;html&gt;
