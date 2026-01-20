@@ -623,37 +623,41 @@
     <!-- =============================================
      Cookie Banner + Consent Logic
 ============================================= -->
-    <div id="cookie-banner" class="cookie-banner hidden">
-      <div class="cookie-content">
-        <h3>Wir nutzen Cookies</h3>
-        <p>
-          Diese Website verwendet Cookies und ähnliche Technologien, um die
-          Funktionalität zu gewährleisten und das Nutzererlebnis zu verbessern
-          (z. B. für Statistiken und personalisierte Werbung).
-        </p>
+   <div id="cookie-banner" class="cookie-banner hidden">
+  <div class="cookie-content">
+    <h3>Wir nutzen Cookies</h3>
+    <p>
+      Diese Website verwendet Cookies und ähnliche Technologien, um die Funktionalität zu gewährleisten und das Nutzererlebnis zu verbessern 
+      (z. B. für Statistiken und personalisierte Werbung).
+    </p>
 
-        <div class="cookie-options">
-          <label>
-            <input type="checkbox" id="necessary" checked disabled />
-            <span><strong>Notwendig</strong> (immer aktiv)</span>
-          </label>
-          <label>
-            <input type="checkbox" id="analytics" checked />
-            <span>Statistiken & Analyse (z. B. Google Analytics)</span>
-          </label>
-          <label>
-            <input type="checkbox" id="marketing" checked />
-            <span>Werbung & Personalisierung (Google Ads/AdSense)</span>
-          </label>
-        </div>
+    <div class="cookie-options">
+      <label>
+        <input type="checkbox" id="necessary" checked disabled />
+        <span><strong>Notwendig</strong> (immer aktiv)</span>
+      </label>
+      <label>
+        <input type="checkbox" id="analytics" checked />
+        <span>Statistiken & Analyse (z. B. Google Analytics)</span>
+      </label>
+      <label>
+        <input type="checkbox" id="marketing" checked />
+        <span>Werbung & Personalisierung (Google Ads/AdSense)</span>
+      </label>
+    </div>
 
-        <div class="cookie-buttons">
-          <button id="btn-reject" class="btn secondary">Nur notwendig</button>
-          <button id="btn-accept" class="btn primary">Alle akzeptieren</button>
-          <button id="btn-save" class="btn outline">
-            Einstellungen speichern
-          </button>
-        </div>
+    <div class="cookie-buttons">
+      <button id="btn-reject-all" class="btn reject-all">Alle ablehnen</button>
+      <button id="btn-reject" class="btn secondary">Nur notwendig</button>
+      <button id="btn-accept" class="btn primary">Alle akzeptieren</button>
+    </div>
+
+    <p class="cookie-info">
+      Mehr Informationen in unserer 
+      <a onclick="showAGB(); return false;">Datenschutzerklärung</a>.
+    </p>
+  </div>
+</div>
 
         <p class="cookie-info">
           Mehr Informationen in unserer
@@ -669,6 +673,26 @@
     </div>
 
     <style>
+      .btn.reject-all {
+  background: #dc2626;          /* rot */
+  color: white;
+  border: none;
+}
+
+.btn.reject-all:hover {
+  background: #b91c1c;
+  transform: translateY(-1px);
+}
+
+/* Optional: Etwas mehr Abstand zum rechten Rand */
+.cookie-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+  justify-content: flex-end;
+  flex-direction: row-reverse;   /* neueste Buttons ganz rechts */
+}
       .cookie-banner {
         position: fixed;
         bottom: 0;
@@ -838,11 +862,11 @@
         saveAndHide();
       }
 
-      function rejectAll() {
-        document.getElementById("analytics").checked = false;
-        document.getElementById("marketing").checked = false;
-        saveAndHide();
-      }
+      function rejectAll() {                    // ← das war vorher nur "reject", jetzt wirklich ALLES ablehnen
+  document.getElementById("analytics").checked = false;
+  document.getElementById("marketing").checked = false;
+  saveAndHide();
+}
 
       function saveAndHide() {
         updateConsent();
@@ -903,15 +927,9 @@
       });
 
       // Event-Listener für die Buttons
-      document
-        .getElementById("btn-accept")
-        ?.addEventListener("click", acceptAll);
-      document
-        .getElementById("btn-reject")
-        ?.addEventListener("click", rejectAll);
-      document
-        .getElementById("btn-save")
-        ?.addEventListener("click", saveAndHide);
+      document.getElementById("btn-accept")?.addEventListener("click", acceptAll);
+document.getElementById("btn-reject-all")?.addEventListener("click", rejectAll);   // ← neu
+document.getElementById("btn-reject")?.addEventListener("click", rejectAll);       // auch "Nur notwendig" macht jetzt alles denied
     </script>
     <!-- Offline-Meldung (wird angezeigt, wenn kein Internet vorhanden ist) -->
     <div
