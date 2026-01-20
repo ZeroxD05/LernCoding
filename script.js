@@ -2048,17 +2048,13 @@ window.addEventListener("load", () => {
   if (savedName) usernameElem.textContent = savedName;
   if (savedClass) userclassElem.textContent = savedClass;
 
-  // Load saved profile picture if present
   try {
     const savedPic = localStorage.getItem("profilePic");
     if (savedPic && typeof profilePic !== "undefined" && profilePic)
       profilePic.src = savedPic;
-  } catch (e) {
-    /* ignore */
-  }
+  } catch (e) {}
 });
 
-// ===== Online / Offline Handling =====
 function setOfflineVisible(visible) {
   const offlineScreen = document.getElementById("offline-screen");
   if (!offlineScreen) return;
@@ -2077,7 +2073,6 @@ function updateOnlineStatus() {
 window.addEventListener("online", updateOnlineStatus);
 window.addEventListener("offline", updateOnlineStatus);
 
-// Initialize state after DOM ready
 if (
   document.readyState === "complete" ||
   document.readyState === "interactive"
@@ -2087,7 +2082,6 @@ if (
   window.addEventListener("DOMContentLoaded", updateOnlineStatus);
 }
 
-// Reload-Button Verhalten
 document.addEventListener("click", (e) => {
   if (e.target && e.target.id === "reload-btn") {
     const btn = e.target;
@@ -2100,7 +2094,6 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// Deine GA4-Mess-ID hier einfügen
 const GA_MEASUREMENT_ID = "G-491YP8KSQ2";
 
 // Funktion zum Laden des GA4-Skripts
