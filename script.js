@@ -624,7 +624,11 @@ function renderQuestion() {
   html += `<div id="feedback" class="feedback"></div>`;
 
   if (q.hint) {
-    html += `<button id="hintBtn" style="margin:5px;font-size:16px;cursor:pointer;">Hinweis</button>`;
+    html += `
+  <button id="hintBtn" class="hint-button">
+    Hinweis anzeigen
+  </button>
+`;
     html += `<div id="hintText" style="display:none;color:#555;margin-top:5px;">${escapeHTML(
       q.hint,
     )}</div>`;
