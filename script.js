@@ -1414,7 +1414,9 @@ function showCreateHTMLCSS() {
     <div class="info-box">
       HTML strukturiert Webseiten. CSS gestaltet das Aussehen (Farben, Layout, Schriftgrößen usw.).
     </div>
-
+  <div class="info-box">
+      Unten findest du Material.
+    </div>
     <h3>Code ausprobieren</h3>
 
     <div class="editor-box">
@@ -1444,6 +1446,13 @@ h1 {
 
     <hr>
 
+
+<div class="video" data-search="html grundlagen webentwicklung">
+        ${createVideo(
+          "HTML Grundlagen",
+          "https://www.youtube.com/embed/nmiWXn6aIAs",
+        )}
+      </div>
     <h3>1. HTML Grundstruktur</h3>
     <div class="example-box">
 &lt;html&gt;
@@ -1515,7 +1524,9 @@ function showCreatePython() {
 
     <div class="info-box">
 Python wird verwendet, um Programme zu schreiben, Daten zu analysieren, Webseiten zu entwickeln und Automatisierungen zu erstellen.    </div>
-
+<div class="info-box">
+      Unten findest du Material.
+    </div>
     <h3>Code ausprobieren</h3>
 
     <div class="editor-box">
@@ -2138,7 +2149,9 @@ function showCreateJS() {
     <div class="info-box">
       JavaScript ist eine Programmiersprache für Webseiten. Sie wird im Browser ausgeführt und macht Webseiten interaktiv.
     </div>
-
+<div class="info-box">
+      Unten findest du Material.
+    </div>
     <h3>Code ausprobieren</h3>
 
     <div class="editor-box">
@@ -2252,6 +2265,9 @@ function showCreatePHP() {
     <div class="info-box">
       PHP wird verwendet, um dynamische Webseiten und Webanwendungen zu erstellen.
     </div>
+    <div class="info-box">
+      Unten findest du Material.
+    </div>
     <h3>Code ausprobieren</h3>
 
     <div class="editor-box">
@@ -2357,7 +2373,9 @@ function showCreateJava() {
     <div class="info-box">
 Java wird genutzt, um plattformunabhängige Anwendungen, Android-Apps und serverseitige Software zu entwickeln.
   </div>
-
+<div class="info-box">
+      Unten findest du Material.
+    </div>
     <h3>Code ausprobieren</h3>
 
     <div class="editor-box">
@@ -2487,7 +2505,9 @@ function showCreateCS() {
       <br><br>
       → Läuft nicht direkt im Browser (wie JavaScript), sondern braucht .NET
     </div>
-
+<div class="info-box">
+      Unten findest du Material.
+    </div>
     <h3>Wichtige Datentypen in C# (ähnlich wie bei Python)</h3>
     <div class="info-box" style="font-size: 0.95em;">
       <b>string</b>   → Text              ("Hallo")     &nbsp;&nbsp;wie str in Python<br>
@@ -2546,7 +2566,9 @@ function showCreateTypeScript() {
       → Alles, was JavaScript kann + Sicherheit durch Datentypen<br>
       → Wird heute fast überall im modernen Web-Frontend verwendet (React, Angular, Vue, Node.js-Backends...)
     </div>
-
+<div class="info-box">
+      Unten findest du Material.
+    </div>
     <h3>Wichtige Datentypen in TypeScript</h3>
     <div class="info-box" style="font-size: 0.95em;">
       <b>string</b>   → Text                  ("Hallo")<br>
@@ -2592,7 +2614,9 @@ function showCreateCPP() {
       C++ ist eine der schnellsten Programmiersprachen überhaupt.<br>
       Wird verwendet für: Spiele-Engines, Betriebssysteme, Treiber, Hochleistungs-Software, Embedded...
     </div>
-
+<div class="info-box">
+      Unten findest du Material.
+    </div>
     <h3>Wichtige Datentypen in C++ (Anfänger-Level)</h3>
     <div class="info-box" style="font-size: 0.95em;">
       <b>std::string</b>   → Text                  ("Hallo")<br>
