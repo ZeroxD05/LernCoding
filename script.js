@@ -1121,7 +1121,19 @@ perfekt für Anfänger und Fortgeschrittene. </p>
   
 </div>
 
+<section  class="video-section" id="videos">
+  <div class="video-container">
+    <h2>Was ist LernCoding?</h2>
+    <iframe
+  src="https://www.youtube.com/embed/sXjFND-XXyQ"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  allowfullscreen>
+</iframe>
 
+  </div>
+</section>
 
 
 <section class="top-courses" id="intro">
