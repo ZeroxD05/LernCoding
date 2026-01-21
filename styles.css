@@ -2085,22 +2085,20 @@ iframe {
 
 .video-section {
   clip-path: polygon(
-    0% 4rem,
-    /* links gerade starten */ 8% 0rem,
-    /* 1. Welle hoch */ 16% 3rem,
-    /* runter */ 25% 0.5rem,
-    /* hoch */ 34% 2.5rem,
-    /* runter */ 43% 0.8rem,
-    /* hoch */ 52% 2.2rem,
-    /* runter */ 62% 1rem,
-    /* hoch */ 71% 2.8rem,
-    /* runter */ 81% 0.3rem,
-    /* hoch */ 90% 2rem,
-    /* runter */ 100% 4rem,
-    /* rechts gerade enden */ 100% 100%,
-    /* unten rechts */ 0% 100% /* unten links */
+    0 20px,
+    /* linke obere Ecke */ 10% 0,
+    20% 20px,
+    30% 0,
+    40% 20px,
+    50% 0,
+    60% 20px,
+    70% 0,
+    80% 20px,
+    90% 0,
+    100% 20px,
+    /* rechte obere Ecke */ 100% 100%,
+    0 100%
   );
-
   /* Macht den Container bildschirmbreit */
   width: 100vw;
   margin-left: calc(50% - 50vw); /* zentriert perfekt zum Viewport */
