@@ -1023,12 +1023,9 @@ type(); // Start
 function showStartPage() {
   mainContent.innerHTML = `
  <section id="homepage">
- <h1 style="text-align: center">Entwickle deine</h1> 
- <h2 style="max-width: 100px;" class="start-item"> #<span id="typing-text" class="gradiant-text"></span></h2>
-<p class="info-box">Interaktive Kurse, echte Projekte und  <br>Challenges
-perfekt für Anfänger und Fortgeschrittene. </p>
+<h1 style="text-align: start">Entwickle deine</h1>  <h2 style="max-width: 100px;" class="start-item"> #<span id="typing-text" class="gradiant-text"></span></h2>
 
-      <div class="stat-cards">
+ <div style="display:flex; justify-content: start; align-items: start;" class="stat-cards">
         <div class="stat-card" id="screentime-box">
           <div class="stat-title">Screentime</div>
           <div class="stat-value" id="screentime-value">0s</div>
@@ -1038,6 +1035,10 @@ perfekt für Anfänger und Fortgeschrittene. </p>
           <div class="stat-value" id="streak-value">0 Tage</div>
         </div>
       </div>
+<p class="info-box">Interaktive Kurse, echte Projekte und  <br>Challenges
+perfekt für Anfänger und Fortgeschrittene. </p>
+
+      
 
       <div class="start-list">
        
