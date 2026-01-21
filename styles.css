@@ -595,7 +595,6 @@ button {
   margin-left: auto;
   margin-right: auto;
 }
-
 .start-item {
   display: flex;
   align-items: center;
@@ -610,7 +609,6 @@ button {
   transition: 0.2s;
   text-align: left;
 }
-
 /* Vertical separator between SVG icon and text inside start buttons */
 .start-item > div {
   position: relative;
