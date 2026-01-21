@@ -973,11 +973,60 @@ function createVideo(title, src) {
     </div>
   `;
 }
+// Typing-Effect mit Light/Dark Mode Unterstützung
+const words = ["Hobbys", "Fähigkeiten", "Karriere"];
+let wordIndex = 0;
+let charIndex = 0;
+let isDeleting = false;
+
+const typingElement = document.getElementById("typing-text");
+const typingSpeed = 120;
+const deleteSpeed = 70;
+const waitTime = 1800;
+
+// Funktion, um die aktuelle Farbe aus CSS-Variable zu holen
+function updateTypingColor() {
+  const style = getComputedStyle(document.documentElement);
+  const color = style.getPropertyValue("--typing-color").trim();
+  typingElement.style.color = color;
+}
+
+function type() {
+  updateTypingColor(); // Farbe vor jedem Schritt updaten (für Theme-Wechsel)
+
+  const currentWord = words[wordIndex];
+
+  if (isDeleting) {
+    typingElement.textContent = currentWord.substring(0, charIndex - 1);
+    charIndex--;
+  } else {
+    typingElement.textContent = currentWord.substring(0, charIndex + 1);
+    charIndex++;
+  }
+
+  if (!isDeleting && charIndex === currentWord.length) {
+    isDeleting = true;
+    setTimeout(type, waitTime);
+    return;
+  }
+
+  if (isDeleting && charIndex === 0) {
+    isDeleting = false;
+    wordIndex = (wordIndex + 1) % words.length;
+  }
+
+  setTimeout(type, isDeleting ? deleteSpeed : typingSpeed);
+}
+
+type(); // Start
 
 function showStartPage() {
   mainContent.innerHTML = `
-         <h1 style="text-align: center">Homepage</h1>
-               <p style="text-align: center">Drücke einen Knopf um zu starten.</p>
+ <section id="homepage">
+ <h1 style="text-align: center">Entwickle deine</h1> 
+ <h2 style="max-width: 100px;" class="start-item"> #<span id="typing-text" class="gradiant-text"></span></h2>
+<p class="info-box">Interaktive Kurse, echte Projekte und  <br>Challenges
+perfekt für Anfänger und Fortgeschrittene. </p>
 
       <div class="stat-cards">
         <div class="stat-card" id="screentime-box">
@@ -1066,14 +1115,18 @@ function showStartPage() {
           </div>
         </button>
       </div>
+      </section>
       <div class="scroll-down-arrow" onclick="scrollToNextSection()" title="Nach unten scrollen">
   ↓
 </div>
+
+
+
+
 <section class="top-courses" id="intro">
   <div class="content-wrapper">
     <div class="header">
       <h2>Top-Kurse</h2>
-      <a href="#" class="go-to-catalog">Fange an mit HTML →</a>
     </div>
 
     <div class="grid">
@@ -1081,7 +1134,7 @@ function showStartPage() {
         <div class="badge career">Karrierepfad</div>
         <h3 class="title">Data Scientist: Spezialist für Maschinelles Lernen</h3>
         <p class="description">
-          Data Scientists im Bereich Maschinelles Lernen lösen komplexe Probleme, treffen Vorhersagen, erkennen Muster und vieles mehr! Sie nutzen Python, SQL und verschiedene Algorithmen.
+          Data Scientists im Bereich Maschinelles Lernen lösen komplexe Probleme, treffen Vorhersagen, erkennen Muster und vieles mehr! Sie nutzen Python, C# und verschiedene Algorithmen.
         </p>
         <div class="meta">
           <div class="level">Für Einsteiger geeignet</div>
@@ -1090,9 +1143,9 @@ function showStartPage() {
 
       <div class="card">
         <div class="badge course">Kurs</div>
-        <h3 class="title">Python 3 lernen</h3>
+        <h3 class="title">Python lernen</h3>
         <p class="description">
-          Lerne die Grundlagen von Python 3.12 – eine der leistungsstärksten, vielseitigsten und gefragtesten Programmiersprachen heutzutage.
+          Lerne die Grundlagen von Python – eine der leistungsstärksten, vielseitigsten und gefragtesten Programmiersprachen heutzutage.
         </p>
         <div class="meta">
           <div class="level">Für Einsteiger geeignet</div>
@@ -1115,7 +1168,52 @@ function showStartPage() {
   </div>
 </section>
   `;
+  // Typing-Effect mit Light/Dark Mode Unterstützung
+  const words = ["Hobbys", "Fähigkeiten", "Karriere"];
+  let wordIndex = 0;
+  let charIndex = 0;
+  let isDeleting = false;
 
+  const typingElement = document.getElementById("typing-text");
+  const typingSpeed = 120;
+  const deleteSpeed = 70;
+  const waitTime = 1800;
+
+  // Funktion, um die aktuelle Farbe aus CSS-Variable zu holen
+  function updateTypingColor() {
+    const style = getComputedStyle(document.documentElement);
+    const color = style.getPropertyValue("--typing-color").trim();
+    typingElement.style.color = color;
+  }
+
+  function type() {
+    updateTypingColor(); // Farbe vor jedem Schritt updaten (für Theme-Wechsel)
+
+    const currentWord = words[wordIndex];
+
+    if (isDeleting) {
+      typingElement.textContent = currentWord.substring(0, charIndex - 1);
+      charIndex--;
+    } else {
+      typingElement.textContent = currentWord.substring(0, charIndex + 1);
+      charIndex++;
+    }
+
+    if (!isDeleting && charIndex === currentWord.length) {
+      isDeleting = true;
+      setTimeout(type, waitTime);
+      return;
+    }
+
+    if (isDeleting && charIndex === 0) {
+      isDeleting = false;
+      wordIndex = (wordIndex + 1) % words.length;
+    }
+
+    setTimeout(type, isDeleting ? deleteSpeed : typingSpeed);
+  }
+
+  type(); // Start
   // Sidebar schließen
   sidebar.classList.remove("active");
   overlay.classList.remove("active");

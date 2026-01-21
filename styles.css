@@ -39,10 +39,6 @@
   --intro-text: #ffffff;
 }
 
-* {
-  overflow-x: hidden;
-}
-
 body {
   margin: 0;
   font-family:
