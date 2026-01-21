@@ -1071,75 +1071,21 @@ function showStartPage() {
 </div>
 
 <section id="intro" class="intro-section">
+
   <div class="intro-content">
     <h1>Programmieren lernen online</h1>
     <h3>Lerne programmieren von jedem Gerät aus</h3>
+    
+  
     <p>
-      Auf <strong>lern-coding.de</strong> lernst du Programmieren von Grund auf, praxisnah, verständlich und komplett kostenlos. 
+      Auf <strong>lern-coding.de</strong> lernst du Programmieren von Grund auf, praxisnah, verständlich und komplett kostenlos.
       Die Plattform richtet sich an Anfänger, Schüler, Studenten und alle, die Webentwicklung oder Softwareentwicklung lernen möchten.
     </p>
     <p>
       Mit interaktiven Tutorials, Schritt-für-Schritt-Anleitungen und echten Projekten baust du dir systematisch fundiertes Wissen auf.
     </p>
 
-    <div class="accordion">
-      <div class="accordion-item">
-        <button class="accordion-header">
-          Was du auf lern-coding.de lernen kannst
-          <span class="icon">+</span>
-        </button>
-        <div class="accordion-content">
-          <p>Unsere Inhalte decken die wichtigsten Bereiche der modernen Webentwicklung ab:</p>
-          <ul>
-            <li>HTML – Struktur und Aufbau von Webseiten</li>
-            <li>CSS – modernes Design und Responsive Layouts</li>
-            <li>JavaScript – Interaktive Webseiten programmieren</li>
-            <li>Python – Grundlagen der Programmierung</li>
-            <li>PHP – Serverseitige Programmierung</li>
-            <li>Java – Grundlagen der Programmierung</li>
-            <li>C# – Programmieren für Windows und Spieleentwicklung</li>
-            <li>C++ – Leistungsstarke Anwendungen entwickeln</li>
-            <li>TypeScript – Erweiterung von JavaScript für große Projekte</li>
-            <li>Best Practices für sauberen, wartbaren Code</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="accordion-item">
-        <button class="accordion-header">
-          Warum Programmieren lernen?
-          <span class="icon">+</span>
-        </button>
-        <div class="accordion-content">
-          <p>
-            Programmierkenntnisse öffnen Türen zu spannenden Karrieren in IT, Webdesign und Softwareentwicklung, egal ob für Schule, Studium, Beruf oder als leidenschaftliches Hobby.
-          </p>
-          <p>
-            Auf lern-coding.de steht praxisnahes Lernen im Vordergrund: Klare Erklärungen, direkt umsetzbare Projekte und echte Ergebnisse.
-          </p>
-        </div>
-      </div>
-
-      <!-- Neue Frage hinzugefügt -->
-      <div class="accordion-item">
-        <button class="accordion-header">
-          Für wen ist lern-coding.de genau das Richtige?
-          <span class="icon">+</span>
-        </button>
-        <div class="accordion-content">
-          <p>
-            Perfekt für dich, wenn du:
-          </p>
-          <ul>
-            <li>noch nie programmiert hast und von Null starten möchtest</li>
-            <li>deine ersten eigenen Webseiten oder kleinen Apps bauen willst</li>
-            <li>dich auf Ausbildung, Studium oder einen Job in der IT vorbereiten möchtest</li>
-            <li>einfach Spaß am kreativen Problemlösen hast</li>
-          </ul>
-          <p>Keine Vorkenntnisse nötig, nur Neugier und Lust aufs Ausprobieren!</p>
-        </div>
-      </div>
-    </div>
+    
   </div>
 </section>
   `;
@@ -2768,24 +2714,3 @@ function scrollToNextSection() {
     section.scrollIntoView({ behavior: "smooth" });
   }
 }
-const accordionHeaders = document.querySelectorAll(".accordion-header");
-
-accordionHeaders.forEach((header) => {
-  header.addEventListener("click", () => {
-    const item = header.parentElement;
-    const content = item.querySelector(".accordion-content");
-
-    const isOpen = item.classList.contains("active");
-
-    // Optional: nur ein Accordion gleichzeitig offen
-    document.querySelectorAll(".accordion-item").forEach((i) => {
-      i.classList.remove("active");
-      i.querySelector(".accordion-content").style.maxHeight = null;
-    });
-
-    if (!isOpen) {
-      item.classList.add("active");
-      content.style.maxHeight = content.scrollHeight + "px";
-    }
-  });
-});

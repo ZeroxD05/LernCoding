@@ -1596,23 +1596,49 @@ iframe {
 }
 #intro {
   margin-top: 10vh;
+  margin-bottom: -10vh;
+  padding: 10px;
 }
 
 .intro-section {
+  clip-path: polygon(
+    0 20px,
+    /* linke obere Ecke */ 10% 0,
+    20% 20px,
+    30% 0,
+    40% 20px,
+    50% 0,
+    60% 20px,
+    70% 0,
+    80% 20px,
+    90% 0,
+    100% 20px,
+    /* rechte obere Ecke */ 100% 100%,
+    0 100%
+  );
   width: 100vw;
-  min-height: 60vh;
+  min-height: 100vh; /* ← volle Höhe des Viewports */
   background: var(--intro-bg);
   color: var(--intro-text);
   text-align: start;
   position: relative;
+  display: flex;
+  justify-content: center; /* zentriert vertikal den inneren Inhalt */
+  align-items: center; /* vertikal */
 }
 
 .intro-section > .intro-content {
-  /* ← dein innerer div */
-  padding: 100px 20px; /* ← hier kommt das Padding hin */
+  padding: 100px 20px;
   position: relative;
   z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* optional: mittig vertikal */
+  align-items: start; /* Text linksbündig */
 }
+
 .intro-content {
   max-width: 800px;
   margin: 0 auto;
@@ -1643,55 +1669,4 @@ iframe {
   border-radius: 6px;
   text-decoration: none;
   font-weight: bold;
-}
-
-.accordion {
-  margin: 40px 0;
-  text-align: left;
-}
-
-.accordion-item {
-  background: #1e293b;
-  border-radius: 8px;
-  margin-bottom: 15px;
-  overflow: hidden;
-}
-
-.accordion-header {
-  width: 100%;
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 1.1rem;
-  font-weight: bold;
-  padding: 18px 20px;
-  text-align: left;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.accordion-content {
-  max-height: 0;
-  overflow: hidden;
-  transition:
-    max-height 0.4s ease,
-    padding 0.3s ease;
-  padding: 0 20px;
-}
-.accordion-content .img {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.accordion-content p,
-.accordion-content ul {
-  margin: 10px 0;
-}
-
-.icon {
-  font-size: 1.4rem;
-  transition: transform 0.3s ease;
 }
