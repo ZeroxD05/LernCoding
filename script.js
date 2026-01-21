@@ -2843,3 +2843,19 @@ function scrollToNextSection() {
     section.scrollIntoView({ behavior: "smooth" });
   }
 }
+let lastScrollTop = 0;
+const navbar = document.getElementById("languageNavbar");
+
+window.addEventListener("scroll", () => {
+  let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+  if (scrollTop > lastScrollTop) {
+    // Nach unten scrollen → ausblenden
+    navbar.style.transform = "translateY(-100%)";
+  } else {
+    // Nach oben scrollen → einblenden
+    navbar.style.transform = "translateY(0)";
+  }
+
+  lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // Für Mobile Bounce
+});

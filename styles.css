@@ -1219,7 +1219,8 @@ body::after {
   position: sticky;
   top: 60px;
   z-index: 900;
-  background: #3b83f669;
+  border-top: 1px solid var(--overlay);
+  background: var(--header-bg);
   color: white;
   padding: 8px 16px;
   /* Zentrierung */
@@ -1232,6 +1233,10 @@ body::after {
   scroll-padding-left: 16px;
   -webkit-overflow-scrolling: touch;
   overflow-y: hidden;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    transform 0.3s ease;
 }
 
 /* Entfernt das unnötige nowrap + snap für besseres Gefühl */
