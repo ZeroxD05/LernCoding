@@ -12,6 +12,8 @@
   --accent-text: #ffffff;
   --start-bg: #ffffff;
   --stat-shadow: rgba(0, 0, 0, 0.06);
+  --intro-bg: linear-gradient(135deg, #e0e7ff, #dbeafe);
+  --intro-text: #111111;
 }
 
 .dark-theme {
@@ -27,6 +29,8 @@
   --accent-text: #ffffff;
   --start-bg: #1a2430;
   --stat-shadow: rgba(0, 0, 0, 0.4);
+  --intro-bg: linear-gradient(135deg, #1e293b, #0f172a);
+  --intro-text: #ffffff;
 }
 
 body {
@@ -1597,23 +1601,9 @@ iframe {
 .intro-section {
   width: 100vw;
   min-height: 60vh;
-  background: linear-gradient(135deg, #1e293b, #0f172a);
-  color: #fff;
+  background: var(--intro-bg);
+  color: var(--intro-text);
   text-align: start;
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    black 10%,
-    /* etwas mehr Spielraum oben */ black 90%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    black 10%,
-    black 90%,
-    transparent 100%
-  );
   position: relative;
 }
 
@@ -1682,10 +1672,6 @@ iframe {
   align-items: center;
 }
 
-.accordion-header:hover {
-  background: rgba(255, 255, 255, 0.05);
-}
-
 .accordion-content {
   max-height: 0;
   overflow: hidden;
@@ -1694,9 +1680,10 @@ iframe {
     padding 0.3s ease;
   padding: 0 20px;
 }
-
-.accordion-item.active .accordion-content {
-  padding: 15px 20px 20px;
+.accordion-content .img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .accordion-content p,
@@ -1707,8 +1694,4 @@ iframe {
 .icon {
   font-size: 1.4rem;
   transition: transform 0.3s ease;
-}
-
-.accordion-item.active .icon {
-  transform: rotate(45deg);
 }
