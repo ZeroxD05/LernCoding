@@ -1069,23 +1069,49 @@ function showStartPage() {
       <div class="scroll-down-arrow" onclick="scrollToNextSection()" title="Nach unten scrollen">
   ↓
 </div>
+<section class="top-courses" id="intro">
+  <div class="content-wrapper">
+    <div class="header">
+      <h2>Top-Kurse</h2>
+      <a href="#" class="go-to-catalog">Fange an mit HTML →</a>
+    </div>
 
-<section id="intro" class="intro-section">
+    <div class="grid">
+      <div class="card">
+        <div class="badge career">Karrierepfad</div>
+        <h3 class="title">Data Scientist: Spezialist für Maschinelles Lernen</h3>
+        <p class="description">
+          Data Scientists im Bereich Maschinelles Lernen lösen komplexe Probleme, treffen Vorhersagen, erkennen Muster und vieles mehr! Sie nutzen Python, SQL und verschiedene Algorithmen.
+        </p>
+        <div class="meta">
+          <div class="level">Für Einsteiger geeignet</div>
+        </div>
+      </div>
 
-  <div class="intro-content">
-    <h1>Programmieren lernen online</h1>
-    <h3>Lerne programmieren von jedem Gerät aus</h3>
-    
-  
-    <p>
-      Auf <strong>lern-coding.de</strong> lernst du Programmieren von Grund auf, praxisnah, verständlich und komplett kostenlos.
-      Die Plattform richtet sich an Anfänger, Schüler, Studenten und alle, die Webentwicklung oder Softwareentwicklung lernen möchten.
-    </p>
-    <p>
-      Mit interaktiven Tutorials, Schritt-für-Schritt-Anleitungen und echten Projekten baust du dir systematisch fundiertes Wissen auf.
-    </p>
+      <div class="card">
+        <div class="badge course">Kurs</div>
+        <h3 class="title">Python 3 lernen</h3>
+        <p class="description">
+          Lerne die Grundlagen von Python 3.12 – eine der leistungsstärksten, vielseitigsten und gefragtesten Programmiersprachen heutzutage.
+        </p>
+        <div class="meta">
+          <div class="level">Für Einsteiger geeignet</div>
+        </div>
+      </div>
 
-    
+      <div class="card">
+        <div class="badge webdev">WebDev-Pfad</div>
+        <h3 class="title">Front-End Webentwicklung</h3>
+        <p class="description">
+          Lerne HTML, CSS und JavaScript, um moderne und responsive Webseiten zu erstellen. Ideal für angehende Webentwickler:innen.
+        </p>
+        <div class="meta">
+          <div class="level">Für Einsteiger geeignet</div>
+        </div>
+      </div>
+
+      <!-- Weitere Karten können hier hinzugefügt werden -->
+    </div>
   </div>
 </section>
   `;

@@ -408,230 +408,317 @@
     </div>
 
     <main id="main-content">
-      <h1 style="text-align: center">Homepage</h1>
+<section class="hero-section">
+  <div class="hero-container">
 
-      <h2 style="text-align: center">Drücke einen Knopf um zu starten.</h2>
-      <div class="stat-cards">
-        <div class="stat-card" id="screentime-box">
-          <div class="stat-title">Screentime</div>
-          <div class="stat-value" id="screentime-value">0s</div>
-        </div>
-        <div class="stat-card" id="streak-box">
-          <div class="stat-title">Streak</div>
-          <div class="stat-value" id="streak-value">0 Tage</div>
+    <!-- Linke Seite – Text + CTA -->
+    <div class="hero-left">
+      <div class="hero-content">
+        <h1>
+          Lerne Programmieren –<br>
+          #<span class="gradient-text" id="typing-text"></span>
+        </h1>
+
+        <p class="hero-subtitle">
+          Interaktive Kurse, echte Projekte und Challenges –<br>
+          perfekt für Anfänger und Fortgeschrittene.
+        </p>
+
+   
+
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-value" id="streak-value">0</span>
+            <span class="stat-label">Tage Streak</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value" id="screentime-value">0s</span>
+            <span class="stat-label">Screentime</span>
+          </div>
         </div>
       </div>
-      <div class="first-time-notice" id="profileNotice">
-        <div class="notice-content">
-          <button class="close-btn" onclick="closeNotice()">×</button>
+    </div>
 
-          <strong>Hey!</strong><br /><br />
-          Drück gerne mal auf den
-          <span class="profile-button-hint">Mein Account</span> Knopf unten ,<br />
-          damit du deinen Nutzernamen, (Klasse) und Profilbild einstellen
-          kannst!
+    <!-- Rechte Seite – Visual / Illustration -->
+    <div class="hero-right">
+      <div class="hero-visual">
+        <!-- Option A: Statisches modernes Bild / Illustration -->
+        <img 
+          src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=1200" 
+          alt="Modernes Coding Setup" 
+          class="hero-image"
+        >
+
+        <!-- Option B: Subtiler Code-Snippet Overlay (kann man ein-/ausblenden) -->
+        <div class="code-float" aria-hidden="true">
+          <pre><code>def learn_coding():
+    return "Spaß + Wissen + Zukunft"</code></pre>
         </div>
       </div>
-      <div class="start-list">
-        <button class="start-item" onclick="startQuiz('webdev', 1)">
-          <svg
-            width="36"
-            height="36"
-            viewBox="0 0 32 32"
-            aria-hidden="true"
-            style="
-              margin-right: 12px;
-              flex-shrink: 0;
-              vertical-align: middle;
-              fill: currentColor;
-            "
-          >
-            <rect
-              x="4"
-              y="6"
-              width="24"
-              height="20"
-              rx="2"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-            />
-            <line
-              x1="4"
-              y1="10"
-              x2="28"
-              y2="10"
-              stroke="currentColor"
-              stroke-width="1.5"
-            />
-            <rect
-              x="8"
-              y="14"
-              width="16"
-              height="10"
-              rx="1"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1"
-            />
-          </svg>
-          <div>
-            <strong>Quiz machen</strong>
-            <span>Teste dein Wissen spielerisch</span>
-          </div>
-        </button>
+    </div>
 
-        <button class="start-item" onclick="showVideosPage()">
-          <svg
-            width="36"
-            height="36"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-            style="
-              margin-right: 12px;
-              flex-shrink: 0;
-              vertical-align: middle;
-              fill: currentColor;
-            "
-          >
-            <rect
-              x="2"
-              y="4"
-              width="20"
-              height="16"
-              rx="3"
-              fill="currentColor"
-            />
-            <polygon points="10,8 10,16 16,12" fill="#fff" />
-          </svg>
-          <div>
-            <strong>Videos ansehen</strong>
-            <span>Erklärvideos einfach & verständlich</span>
-          </div>
-        </button>
+  </div>
+</section>
 
-        <button class="start-item" onclick="showTextPage()">
-          <svg
-            class="icon-pdf"
-            width="36"
-            height="36"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-            style="
-              margin-right: 12px;
-              flex-shrink: 0;
-              vertical-align: middle;
-              fill: currentColor;
-            "
-          >
-            <line
-              x1="4"
-              y1="6"
-              x2="20"
-              y2="6"
-              stroke="currentColor"
-              stroke-width="1.5"
-            />
-            <line
-              x1="4"
-              y1="11"
-              x2="20"
-              y2="11"
-              stroke="currentColor"
-              stroke-width="1.5"
-            />
-            <line
-              x1="4"
-              y1="16"
-              x2="14"
-              y2="16"
-              stroke="currentColor"
-              stroke-width="1.5"
-            />
-          </svg>
-          <div>
-            <strong>Unterrichtsmaterialien</strong>
-            <span>Geeignet für Einsteiger</span>
-          </div>
-        </button>
+<style>
+  
 
-        <button class="start-item" onclick="showAccountPage()">
-          <svg
-            width="36"
-            height="36"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-            style="
-              margin-right: 12px;
-              flex-shrink: 0;
-              vertical-align: middle;
-              fill: currentColor;
-            "
-          >
-            <circle cx="12" cy="8" r="4" />
-            <path
-              d="M4 20c0-4 4-6 8-6s8 2 8 6"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-            />
-          </svg>
-          <div>
-            <strong>Mein Account</strong>
-            <span>Fortschritt & Einstellungen</span>
-          </div>
-        </button>
-        <button class="start-item" onclick="showTutorialPage()">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="36"
-            height="36"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            viewBox="0 0 24 24"
-            style="
-              margin-right: 12px;
-              flex-shrink: 0;
-              vertical-align: middle;
-              fill: currentColor;
-            "
-          >
-            <rect x="6" y="2" width="12" height="20" rx="2" ry="2" />
-            <line x1="12" y1="18" x2="12" y2="18" />
-          </svg>
+  .hero-section {
+    display: flex;
+    justify-content: center;
+      background: transparent;
 
-          <div>
-            <strong>Zur App machen</strong>
-            <span>Tutorial wie man die Website zur App macht</span>
-          </div>
-        </button>
-      </div>
+    align-items: center;
+    width: 90vw;
+    max-width: 1200px;
+    padding: 40px 20px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    color: var(--text, #111111);
+    padding: 60px;
+  }
+
+  .hero-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    align-items: center;
+    justify-content: center; /* Mittig */
+    
+  }
+
+  .hero-left, .hero-right {
+    flex: 1;
+    min-width: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Zentriert */
+  }
+
+  .typing-wrapper h1 {
+    font-size: 2.8rem;
+    margin: 0;
+    color: #1a1a1a;
+    text-align: center;
+  }
+
+  .typing-text {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #0066cc;
+    min-height: 60px;
+    margin: 8px 0 30px;
+    white-space: pre;
+    text-align: center;
+  }
+
+  .typing-text::after {
+    content: "|";
+    animation: blink 0.7s infinite;
+  }
+
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .start-list.vertical, .start-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center; /* Alle Buttons zentriert */
+    text-align: center;
+  }
+
+  .start-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  width: 100%;
+}
+
+.start-item {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Abstand zwischen Icon und Text */
+  width: 100%;
+  max-width: 400px;
+  padding: 14px 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  text-align: left;
+}
+
+.start-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.start-item svg {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  fill: currentColor;
+}
+
+.start-item div {
+  display: flex;
+  flex-direction: column;
+}
+
+.start-item strong {
+  font-size: 1rem;
+  color: #111;
+}
+
+.start-item span {
+  font-size: 0.875rem;
+  color: #555;
+}
+
+
+  .image-carousel {
+    position: relative;
+    width: 100%;
+    height: 380px;
+    overflow: hidden;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+  }
+
+  .carousel-img {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+  }
+
+  .carousel-img.active { opacity: 1; }
+
+  @media (max-width: 768px) {
+    .hero-container { flex-direction: column; gap: 30px; }
+    .image-carousel { height: 280px; }
+    .typing-wrapper h1 { font-size: 2.2rem; }
+    .typing-text { font-size: 2rem; }
+  }
+</style>
+
+<script>
+  // Typing-Effect
+  // Typing-Effect mit Light/Dark Mode Unterstützung
+const words = ["Hobbys", "Fähigkeiten", "Karriere"];
+let wordIndex = 0;
+let charIndex = 0;
+let isDeleting = false;
+
+const typingElement = document.getElementById("typing-text");
+const typingSpeed = 120;
+const deleteSpeed = 70;
+const waitTime = 1800;
+
+// Funktion, um die aktuelle Farbe aus CSS-Variable zu holen
+function updateTypingColor() {
+  const style = getComputedStyle(document.documentElement);
+  const color = style.getPropertyValue('--typing-color').trim();
+  typingElement.style.color = color;
+}
+
+function type() {
+  updateTypingColor(); // Farbe vor jedem Schritt updaten (für Theme-Wechsel)
+  
+  const currentWord = words[wordIndex];
+
+  if (isDeleting) {
+    typingElement.textContent = currentWord.substring(0, charIndex - 1);
+    charIndex--;
+  } else {
+    typingElement.textContent = currentWord.substring(0, charIndex + 1);
+    charIndex++;
+  }
+
+  if (!isDeleting && charIndex === currentWord.length) {
+    isDeleting = true;
+    setTimeout(type, waitTime);
+    return;
+  }
+
+  if (isDeleting && charIndex === 0) {
+    isDeleting = false;
+    wordIndex = (wordIndex + 1) % words.length;
+  }
+
+  setTimeout(type, isDeleting ? deleteSpeed : typingSpeed);
+}
+
+type(); // Start
+
+
+  // Bild-Karussell
+  const images = document.querySelectorAll(".carousel-img");
+  let currentIndex = 0;
+  function nextImage() {
+    images[currentIndex].classList.remove("active");
+    currentIndex = (currentIndex + 1) % images.length;
+    images[currentIndex].classList.add("active");
+  }
+  setInterval(nextImage, 5000);
+</script>
+
+      
 <div class="scroll-down-arrow" onclick="scrollToNextSection()" title="Nach unten scrollen">
   ↓
 </div>
 
-<section id="intro" class="intro-section">
 
-  <div class="intro-content">
-    <h1>Programmieren lernen online</h1>
-    <h3>Lerne programmieren von jedem Gerät aus</h3>
-    
-  
-    <p>
-      Auf <strong><a style="text-decoration: none;" href="https://lern-coding.de">lern-coding.de</a></strong> lernst du Programmieren von Grund auf, praxisnah, verständlich und komplett kostenlos. <br> <br>
-      Die Plattform richtet sich an Anfänger, Schüler, Studenten und alle, die Webentwicklung oder Softwareentwicklung lernen möchten.
-    </p>
-    <p>
-      Mit interaktiven Tutorials, Schritt-für-Schritt-Anleitungen und echten Projekten baust du dir systematisch fundiertes Wissen auf.
-    </p>
 
-    
+<section class="top-courses" id="intro">
+  <div class="content-wrapper">
+    <div class="header">
+      <h2>Top-Kurse</h2>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="badge career">Karrierepfad</div>
+        <h3 class="title">Data Scientist: Spezialist für Maschinelles Lernen</h3>
+        <p class="description">
+          Data Scientists im Bereich Maschinelles Lernen lösen komplexe Probleme, treffen Vorhersagen, erkennen Muster und vieles mehr! Sie nutzen Python, C# und verschiedene Algorithmen.
+        </p>
+        <div class="meta">
+          <div class="level">Für Einsteiger geeignet</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="badge course">Kurs</div>
+        <h3 class="title">Python lernen</h3>
+        <p class="description">
+          Lerne die Grundlagen von Python – eine der leistungsstärksten, vielseitigsten und gefragtesten Programmiersprachen heutzutage.
+        </p>
+        <div class="meta">
+          <div class="level">Für Einsteiger geeignet</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="badge webdev">WebDev-Pfad</div>
+        <h3 class="title">Front-End Webentwicklung</h3>
+        <p class="description">
+          Lerne HTML, CSS und JavaScript, um moderne und responsive Webseiten zu erstellen. Ideal für angehende Webentwickler:innen.
+        </p>
+        <div class="meta">
+          <div class="level">Für Einsteiger geeignet</div>
+        </div>
+      </div>
+
+      <!-- Weitere Karten können hier hinzugefügt werden -->
+    </div>
   </div>
 </section>
-
 
 
 </div>
