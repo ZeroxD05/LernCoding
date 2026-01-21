@@ -2055,4 +2055,41 @@ iframe {
   background: linear-gradient(to right, #a78bfa, #7dd3fc);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  display: flex;
+  justify-content: center;
+  text-align: center;
 } /* Basis Styles bleiben unverändert */
+
+.video-section {
+  padding: 40px 20px;
+  background: var(--start-bg);
+  color: var(--text);
+  text-align: center;
+  width: 100vw;
+  margin-top: 10vh;
+  margin-bottom: -15vh;
+  padding-bottom: 100px;
+}
+
+.video-container {
+  max-width: 800px;
+  margin: 0 auto;
+  border-radius: 25px;
+  overflow: hidden;
+  padding: 0 20px; /* Abstand links & rechts */
+  padding: 10px;
+}
+
+.video-container iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: none;
+  border-radius: 12px;
+}
+.video-container h2 {
+  font-size: 2.8rem;
+  margin-bottom: 16px;
+  background: linear-gradient(to right, #a78bfa, #7dd3fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
