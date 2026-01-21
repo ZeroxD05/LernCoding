@@ -2044,3 +2044,11 @@ iframe {
     text-align: center;
   }
 }
+
+#intro .header h2 {
+  font-size: 2.8rem;
+  margin-bottom: 16px;
+  background: linear-gradient(to right, #a78bfa, #7dd3fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
