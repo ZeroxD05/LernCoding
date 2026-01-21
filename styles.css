@@ -2069,6 +2069,7 @@ iframe {
   margin-top: 10vh;
   margin-bottom: -15vh;
   padding-bottom: 100px;
+  overflow-x: hidden;
 }
 
 .video-container {
