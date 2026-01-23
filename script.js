@@ -1155,7 +1155,7 @@ perfekt für Anfänger und Fortgeschrittene. </p>
           Data Scientists im Bereich Maschinelles Lernen lösen komplexe Probleme, treffen Vorhersagen, erkennen Muster und vieles mehr! Sie nutzen Python, C# und verschiedene Algorithmen.
         </p>
         <div class="meta">
-          <div class="level">Für Einsteiger geeignet</div>
+          <div class="level">Für Fortgeschrittene geeignet</div>
         </div>
       </div>
 
