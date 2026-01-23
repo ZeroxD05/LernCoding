@@ -1120,26 +1120,31 @@ perfekt für Anfänger und Fortgeschrittene. </p>
       </section>
   
 </div>
-
-<section  class="video-section" id="videos">
-  <div class="video-container">
+<section class="video-section wavy-top" id="videos">
+  <div class="video-container" style="text-align: center;">
     <h2>Was ist LernCoding?</h2>
+    <div class="info-box">
+      <p>Entdecke, wie LernCoding dir hilft, Programmieren einfach und
+      interaktiv zu lernen, perfekt für Anfänger und Fortgeschrittene und von jedem Gerät aus!</p> 
+    </div>
     <iframe
-  src="https://www.youtube.com/embed/sXjFND-XXyQ"
-  title="YouTube video player"
-  frameborder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-  allowfullscreen>
-</iframe>
-
+      src="https://www.youtube.com/embed/sXjFND-XXyQ"
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen>
+    </iframe>
   </div>
 </section>
 
 
+
 <section class="top-courses" id="intro">
   <div class="content-wrapper">
-    <div class="header">
-      <h2>Top-Kurse</h2>
+    <div  class="header" style="display: flex;justify-content: center;
+    align-items: center; flex-direction: column; text-align: center; margin-bottom: 24px;">
+      <h2 >Top-Kurse</h2>
+      <div class="info-box"><p>Starte deine Programmierreise mit unseren beliebtesten Kursen und Karrierepfaden!</p></div>
     </div>
 
     <div class="grid">
@@ -1181,7 +1186,6 @@ perfekt für Anfänger und Fortgeschrittene. </p>
   </div>
 
 </section>
-
 
 
 
