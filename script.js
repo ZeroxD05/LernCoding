@@ -1753,18 +1753,28 @@ E-Mail: lerncoding2026@gmail.com
 function showCreateHTMLCSS() {
   mainContent.innerHTML = `
   <div class="learn-container">
-
+    <h1>Html / Css</h1>
+    <!-- Suchleiste -->
+    <div class="search-box">
+      <input 
+        type="text" 
+        id="searchInput" 
+        placeholder="z. B. flexbox, farben, klassen, box model..." 
+        autocomplete="off"
+      >
+      <button id="searchBtn">Suchen</button>
+    </div>
 
     <div class="info-box">
       HTML strukturiert Webseiten. CSS gestaltet das Aussehen (Farben, Layout, Schriftgrößen usw.).
     </div>
-  <div class="info-box">
+    <div class="info-box">
       Unten findest du Material.
     </div>
-    <h3>Code ausprobieren</h3>
 
+    <h3>Code ausprobieren</h3>
     <div class="editor-box">
-  <textarea id="htmlcssCode" class="python-editor">
+      <textarea id="htmlcssCode" class="python-editor">
 <!DOCTYPE html>
 <html>
 <head>
@@ -1775,32 +1785,27 @@ h1 {
 </style>
 </head>
 <body>
-
 <h1>Hallo Welt</h1>
 <p>Das ist ein Absatz.</p>
-
 </body>
 </html>
-  </textarea>
-</div>
-
+      </textarea>
+    </div>
     <button id="runBtn" class="run-btn">▶ Anzeigen</button>
-
     <iframe id="previewFrame" style="width:100%; height:300px; border-radius:8px; border:1px solid #ccc; margin-top:12px; background:white;"></iframe>
-
+    
     <hr>
 
+    <div class="video" data-search="html grundlagen webentwicklung">
+      ${createVideo(
+        "HTML Grundlagen",
+        "https://www.youtube.com/embed/nmiWXn6aIAs",
+      )}
+    </div>
+    
+    <hr>
 
-<div class="video" data-search="html grundlagen webentwicklung">
-        ${createVideo(
-          "HTML Grundlagen",
-          "https://www.youtube.com/embed/nmiWXn6aIAs",
-        )}
-      </div>
-
-      <hr>
-
-    <h3>1. HTML Grundstruktur</h3>
+    <h3 data-search="grundstruktur html struktur">1. HTML Grundstruktur</h3>
     <div class="example-box">
 &lt;html&gt;
   &lt;body&gt;
@@ -1809,30 +1814,29 @@ h1 {
 &lt;/html&gt;
     </div>
 
-    <h3>2. HTML Tags</h3>
+    <h3 data-search="tags html elemente">2. HTML Tags</h3>
     <div class="example-box">
 &lt;h1&gt;Überschrift&lt;/h1&gt;
 &lt;p&gt;Text&lt;/p&gt;
 &lt;a href="#"&gt;Link&lt;/a&gt;
     </div>
 
-    <h3>3. CSS Farben</h3>
+    <h3 data-search="farben css color">3. CSS Farben</h3>
     <div class="example-box">
 h1 {
   color: red;
 }
     </div>
 
-    <h3>4. CSS Klassen</h3>
+    <h3 data-search="klassen class css">4. CSS Klassen</h3>
     <div class="example-box">
 &lt;p class="text"&gt;Hallo&lt;/p&gt;
-
 .text {
   color: green;
 }
     </div>
 
-    <h3>5. Box Model</h3>
+    <h3 data-search="box model margin padding border">5. Box Model</h3>
     <div class="example-box">
 div {
   margin: 10px;
@@ -1841,7 +1845,7 @@ div {
 }
     </div>
 
-    <h3>6. Flexbox</h3>
+    <h3 data-search="flexbox flex">6. Flexbox</h3>
     <div class="example-box">
 .container {
   display: flex;
@@ -1850,7 +1854,91 @@ div {
     </div>
 
   </div>
+
+  <!-- Kleines CSS für die Suchleiste & Highlight -->
+  <style>
+    .search-box {
+      margin: 16px 0;
+      display: flex;
+      gap: 8px;
+      max-width: 600px;
+    }
+    .search-box input {
+      flex: 1;
+      padding: 10px 14px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .search-box button {
+      padding: 0 20px;
+      background: #0066cc;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .search-box button:hover {
+      background: #0055aa;
+    }
+    .highlight-target {
+      background-color: #f8e7b3;
+      border-left: 4px solid #f8e7b3;
+      padding-left: 12px;
+      transition: all 0.4s;
+    }
+  </style>
   `;
+
+  // JavaScript für die Suche (wird nach dem Einfügen ausgeführt)
+  setTimeout(() => {
+    const input = document.getElementById("searchInput");
+    const btn = document.getElementById("searchBtn");
+
+    function performSearch() {
+      const term = input.value.trim().toLowerCase();
+      if (!term) return;
+
+      // Alle möglichen Überschriften suchen
+      const headings = document.querySelectorAll("h3[data-search]");
+      let found = false;
+
+      headings.forEach((h) => {
+        const keywords = h.getAttribute("data-search").toLowerCase();
+        if (keywords.includes(term)) {
+          // Scrollen
+          h.scrollIntoView({ behavior: "smooth", block: "center" });
+
+          // Kurz highlighten
+          h.classList.add("highlight-target");
+          setTimeout(() => {
+            h.classList.remove("highlight-target");
+          }, 1800);
+
+          found = true;
+          return; // beim ersten Treffer aufhören
+        }
+      });
+
+      if (!found) {
+        alert("Kein passender Abschnitt gefunden für: " + term);
+      }
+    }
+
+    // Klick auf Button
+    btn.addEventListener("click", performSearch);
+
+    // Enter-Taste im Input
+    input.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        performSearch();
+      }
+    });
+
+    // Optional: Live-Suche während des Tippens (kann man auskommentieren)
+    // input.addEventListener("input", performSearch);
+  }, 100);
 
   document.getElementById("runBtn").onclick = () => {
     const code = document.getElementById("htmlcssCode").value;
@@ -1867,87 +1955,212 @@ div {
 function showCreatePython() {
   mainContent.innerHTML = `
   <div class="learn-container">
-
+    <h1>Python</h1>
+    <!-- Suchleiste -->
+    <div class="search-box">
+      <input 
+        type="text" 
+        id="searchInput" 
+        placeholder="z. B. variablen, listen, funktionen, if, for, schleifen..." 
+        autocomplete="off"
+      >
+      <button id="searchBtn">Suchen</button>
+    </div>
 
     <div class="info-box">
-Python wird verwendet, um Programme zu schreiben, Daten zu analysieren, Webseiten zu entwickeln und Automatisierungen zu erstellen.    </div>
-<div class="info-box">
+      Python wird verwendet, um Programme zu schreiben, Daten zu analysieren, Webseiten zu entwickeln und Automatisierungen zu erstellen.
+    </div>
+    <div class="info-box">
       Unten findest du Material.
     </div>
+
     <h3>Code ausprobieren</h3>
-
     <div class="editor-box">
-      <!-- Editor oben -->
-<textarea id="pythonCode" class="python-editor">Vergiss nicht print("") einzusetzen</textarea>
+      <textarea id="pythonCode" class="python-editor">Vergiss nicht print("") einzusetzen</textarea>
       <pre id="output" class="python-output"></pre>
-    <button id="runBtn" class="run-btn">▶ Code ausführen</button>
+      <button id="runBtn" class="run-btn">▶ Code ausführen</button>
+    </div>
+    
+    <hr>
 
-
+    <h3 data-search="variablen variable zuweisung">1. Variablen</h3>
+    <div class="example-box example-code" data-target-id="pythonCode">
+      <pre><code>a = 5
+text = "Hallo"
+print(text, a)</code></pre>
+      <button class="load-to-editor-btn">↪</button>
     </div>
 
-
-    <hr>
-<!-- Beispiele unten -->
-<!-- ... dein Editor und der Rest der Seite bleiben unverändert ... -->
-
-<h3>1. Variablen</h3>
-<div class="example-box example-code" data-target-id="pythonCode">
-  <pre><code>a = 5
-text = "Hallo"
-print(text, a)
-</code></pre>
-  <button class="load-to-editor-btn">↪</button>
-</div>
-
-<h3>2. Datentypen</h3>
-<div class="example-box example-code" data-target-id="pythonCode">
-  <pre><code>zahl = 10
+    <h3 data-search="datentypen integer string boolean type">2. Datentypen</h3>
+    <div class="example-box example-code" data-target-id="pythonCode">
+      <pre><code>zahl = 10
 text = "Hallo"
 ok = True
-print(zahl, text, ok)
-</code></pre>
-  <button class="load-to-editor-btn">↪</button>
-</div>
+print(zahl, text, ok)</code></pre>
+      <button class="load-to-editor-btn">↪</button>
+    </div>
 
-<h3>3. Rechnen</h3>
-<div class="example-box example-code" data-target-id="pythonCode">
-  <pre><code>a = 10
+    <h3 data-search="rechnen addition subtraktion multiplikation division modulo">3. Rechnen</h3>
+    <div class="example-box example-code" data-target-id="pythonCode">
+      <pre><code>a = 10
 b = 3
-print(a + b)</code></pre>
-  <button class="load-to-editor-btn">↪</button>
-</div>
+print(a + b)      # 13
+print(a - b)      # 7
+print(a * b)      # 30
+print(a / b)      # 3.333...
+print(a // b)     # 3    (ganzzahlige Division)
+print(a % b)      # 1    (Rest)</code></pre>
+      <button class="load-to-editor-btn">↪</button>
+    </div>
 
-<h3>4. Bedingungen</h3>
-<div class="example-box example-code" data-target-id="pythonCode">
-  <pre><code>alter = 18
+    <h3 data-search="bedingungen if else elif vergleich">4. Bedingungen</h3>
+    <div class="example-box example-code" data-target-id="pythonCode">
+      <pre><code>alter = 18
 if alter >= 18:
     print("Erwachsen")
 else:
-    print("Minderjährig")</code></pre>
-  <button class="load-to-editor-btn">↪</button>
-</div>
+    print("Minderjährig")
 
-<h3>5. Schleifen</h3>
-<div class="example-box example-code" data-target-id="pythonCode">
-  <pre><code>for i in range(5):
-    print(i)</code></pre>
-  <button class="load-to-editor-btn">↪</button>
-</div>
+# Mehrere Bedingungen
+note = 2.3
+if note <= 1:
+    print("Sehr gut")
+elif note <= 2:
+    print("Gut")
+elif note <= 3:
+    print("Befriedigend")
+else:
+    print("Nicht bestanden")</code></pre>
+      <button class="load-to-editor-btn">↪</button>
+    </div>
 
-<h3>6. Funktionen</h3>
-<div class="example-box example-code" data-target-id="pythonCode">
-  <pre><code>def add(a, b):
-    return a + b</code></pre>
-  <button class="load-to-editor-btn">↪</button>
-</div>
+    <h3 data-search="schleifen for while range iteration">5. Schleifen</h3>
+    <div class="example-box example-code" data-target-id="pythonCode">
+      <pre><code># for-Schleife mit range
+for i in range(5):
+    print(i)          # 0 1 2 3 4
 
-<h3>7. Listen (Arrays)</h3>
-<div class="example-box example-code" data-target-id="pythonCode">
-  <pre><code>namen = ["Anna", "Tom", "Lena"]
-print(namen[0])</code></pre>
-  <button class="load-to-editor-btn">↪</button>
-</div>
+print("---")
+
+# Mit Schrittweite
+for i in range(0, 11, 2):
+    print(i)          # 0 2 4 6 8 10</code></pre>
+      <button class="load-to-editor-btn">↪</button>
+    </div>
+
+    <h3 data-search="funktionen function def return parameter">6. Funktionen</h3>
+    <div class="example-box example-code" data-target-id="pythonCode">
+      <pre><code>def add(a, b):
+    return a + b
+
+print(add(3, 4))       # 7
+print(add(10, 25))     # 35
+
+# Mit Default-Wert
+def begruessung(name="Gast"):
+    print(f"Hallo {name}!")
+
+begruessung()          # Hallo Gast!
+begruessung("Sara")    # Hallo Sara!</code></pre>
+      <button class="load-to-editor-btn">↪</button>
+    </div>
+
+    <h3 data-search="listen list array append pop index len">7. Listen (Arrays)</h3>
+    <div class="example-box example-code" data-target-id="pythonCode">
+      <pre><code>namen = ["Anna", "Tom", "Lena"]
+print(namen[0])           # Anna
+print(namen[-1])          # Lena (letztes Element)
+print(len(namen))         # 3
+
+namen.append("Max")       # hinzufügen
+print(namen)              # ['Anna', 'Tom', 'Lena', 'Max']
+
+namen.pop()               # entfernt letztes Element
+print(len(namen))         # 3</code></pre>
+      <button class="load-to-editor-btn">↪</button>
+    </div>
+
+  </div>
+
+  <!-- CSS für Suchleiste & Highlight (gleiches Styling wie bei HTML/CSS und JS) -->
+  <style>
+    .search-box {
+      margin: 16px 0;
+      display: flex;
+      gap: 8px;
+      max-width: 600px;
+    }
+    .search-box input {
+      flex: 1;
+      padding: 10px 14px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .search-box button {
+      padding: 0 20px;
+      background: #0066cc;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .search-box button:hover {
+      background: #0055aa;
+    }
+    .highlight-target {
+      background-color: #f8e7b3;
+      border-left: 4px solid #ffc107;
+      padding-left: 12px;
+      transition: all 0.4s;
+    }
+  </style>
   `;
+
+  // JavaScript für die Suchfunktion
+  setTimeout(() => {
+    const input = document.getElementById("searchInput");
+    const btn = document.getElementById("searchBtn");
+
+    function performSearch() {
+      const term = input.value.trim().toLowerCase();
+      if (!term) return;
+
+      const headings = document.querySelectorAll("h3[data-search]");
+      let found = false;
+
+      headings.forEach((h) => {
+        const keywords = h.getAttribute("data-search").toLowerCase();
+        if (keywords.includes(term)) {
+          h.scrollIntoView({ behavior: "smooth", block: "center" });
+
+          h.classList.add("highlight-target");
+          setTimeout(() => {
+            h.classList.remove("highlight-target");
+          }, 1800);
+
+          found = true;
+          return; // Stoppt nach dem ersten Treffer
+        }
+      });
+
+      if (!found) {
+        alert("Kein passender Abschnitt gefunden für: " + term);
+      }
+    }
+
+    btn.addEventListener("click", performSearch);
+
+    input.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        performSearch();
+      }
+    });
+
+    // Optional: Live-Suche beim Tippen (auskommentiert)
+    // input.addEventListener("input", performSearch);
+  }, 100);
 
   document.getElementById("runBtn").onclick = runPython;
 
@@ -2487,90 +2700,92 @@ function showCreateHTML() {
 function showCreateJS() {
   mainContent.innerHTML = `
   <div class="learn-container">
-
+    <h1>JavaScript</h1>
+    <!-- Suchleiste -->
+    <div class="search-box">
+      <input 
+        type="text" 
+        id="searchInput" 
+        placeholder="z. B. variablen, if, schleifen, array, funktion..." 
+        autocomplete="off"
+      >
+      <button id="searchBtn">Suchen</button>
+    </div>
 
     <div class="info-box">
       JavaScript ist eine Programmiersprache für Webseiten. Sie wird im Browser ausgeführt und macht Webseiten interaktiv.
     </div>
-<div class="info-box">
+    <div class="info-box">
       Unten findest du Material.
     </div>
-    <h3>Code ausprobieren</h3>
 
+    <h3>Code ausprobieren</h3>
     <div class="editor-box">
       <textarea id="jsCode" class="python-editor">
 let name = "Anna";
 let alter = 20;
-
 console.log("Name:", name);
 console.log("Alter:", alter);
       </textarea>
       <pre id="output" class="python-output"></pre>
     </div>
-
     <button id="runBtn" class="run-btn">▶ Code ausführen</button>
-
+    
     <hr>
 
- <h3>1. Variablen</h3>
-<div class="info-box">
-  Variablen speichern Werte. In JavaScript nutzt man <b>let</b> oder <b>const</b>.
-</div>
-<div class="example-box example-code" data-target-id="jsCode">
-  <pre><code>let zahl = 5;
+    <h3 data-search="variablen let const">1. Variablen</h3>
+    <div class="info-box">
+      Variablen speichern Werte. In JavaScript nutzt man <b>let</b> oder <b>const</b>.
+    </div>
+    <div class="example-box example-code" data-target-id="jsCode">
+      <pre><code>let zahl = 5;
 const pi = 3.14;
 let name = "Sara";
-
 console.log(zahl);       // 5
 console.log(pi);         // 3.14
 console.log(name);</code></pre>
-  <button class="load-to-editor-btn">↪</button>
-</div>
+      <button class="load-to-editor-btn">↪</button>
+    </div>
 
-<h3>2. Datentypen</h3>
-<div class="info-box">
-  Häufige Datentypen: Number, String, Boolean.
-</div>
-<div class="example-box example-code" data-target-id="jsCode">
-  <pre><code>let a = 10;              // Number
+    <h3 data-search="datentypen number string boolean typeof null undefined">2. Datentypen</h3>
+    <div class="info-box">
+      Häufige Datentypen: Number, String, Boolean.
+    </div>
+    <div class="example-box example-code" data-target-id="jsCode">
+      <pre><code>let a = 10;              // Number
 let text = "Hallo";      // String
 let ok = true;           // Boolean
 let nichts = null;       // null
 let undefiniert;         // undefined
-
 console.log(typeof a);     // "number"
 console.log(typeof text);  // "string"
 console.log(typeof ok);    // "boolean"</code></pre>
-  <button class="load-to-editor-btn">↪</button>
-</div>
+      <button class="load-to-editor-btn">↪</button>
+    </div>
 
-<h3>3. Rechnen</h3>
-<div class="example-box example-code" data-target-id="jsCode">
-  <pre><code>let x = 10;
+    <h3 data-search="rechnen addition subtraktion multiplikation division modulo potenz">3. Rechnen</h3>
+    <div class="example-box example-code" data-target-id="jsCode">
+      <pre><code>let x = 10;
 let y = 3;
-
 console.log(x + y);   // 13
 console.log(x - y);   // 7
 console.log(x * y);   // 30
 console.log(x / y);   // 3.333...
 console.log(x % y);   // 1    (Rest)
 console.log(x ** 2);  // 100  (Potenz)</code></pre>
-  <button class="load-to-editor-btn">↪</button>
-</div>
+      <button class="load-to-editor-btn">↪</button>
+    </div>
 
-<h3>4. Bedingungen (if)</h3>
-<div class="example-box example-code" data-target-id="jsCode">
-  <pre><code>let alter = 18;
-
+    <h3 data-search="bedingungen if else elseif vergleich">4. Bedingungen (if)</h3>
+    <div class="example-box example-code" data-target-id="jsCode">
+      <pre><code>let alter = 18;
 if (alter >= 18) {
   console.log("Erwachsen");
 } else {
   console.log("Minderjährig");
 }
-
 // Mit else if
 let note = 2.3;
-
 if (note <= 1) {
   console.log("Sehr gut");
 } else if (note <= 2) {
@@ -2580,59 +2795,131 @@ if (note <= 1) {
 } else {
   console.log("Nicht bestanden");
 }</code></pre>
-  <button class="load-to-editor-btn">↪</button>
-</div>
+      <button class="load-to-editor-btn">↪</button>
+    </div>
 
-<h3>5. Schleifen (for)</h3>
-<div class="example-box example-code" data-target-id="jsCode">
-  <pre><code>for (let i = 1; i <= 5; i++) {
+    <h3 data-search="schleifen for loop iteration">5. Schleifen (for)</h3>
+    <div class="example-box example-code" data-target-id="jsCode">
+      <pre><code>for (let i = 1; i <= 5; i++) {
   console.log(i);          // 1 2 3 4 5
 }
-
 console.log("---");
-
 // Mit Schrittweite
 for (let i = 0; i <= 10; i += 2) {
   console.log(i);          // 0 2 4 6 8 10
 }</code></pre>
-  <button class="load-to-editor-btn">↪</button>
-</div>
+      <button class="load-to-editor-btn">↪</button>
+    </div>
 
-<h3>6. Funktionen</h3>
-<div class="example-box example-code" data-target-id="jsCode">
-  <pre><code>function add(a, b) {
+    <h3 data-search="funktionen function arrow arrow-funktion return">6. Funktionen</h3>
+    <div class="example-box example-code" data-target-id="jsCode">
+      <pre><code>function add(a, b) {
   return a + b;
 }
-
 console.log(add(3, 4));     // 7
 console.log(add(10, 25));   // 35
-
 // Arrow-Funktion (moderne Schreibweise)
 const multiply = (x, y) => x * y;
 console.log(multiply(6, 7));   // 42</code></pre>
-  <button class="load-to-editor-btn">↪</button>
-</div>
+      <button class="load-to-editor-btn">↪</button>
+    </div>
 
-<h3>7. Arrays</h3>
-<div class="example-box example-code" data-target-id="jsCode">
-  <pre><code>let namen = ["Anna", "Tom", "Lena"];
-
+    <h3 data-search="arrays array push pop length index">7. Arrays</h3>
+    <div class="example-box example-code" data-target-id="jsCode">
+      <pre><code>let namen = ["Anna", "Tom", "Lena"];
 console.log(namen[0]);       // Anna
 console.log(namen[2]);       // Lena
 console.log(namen.length);   // 3
-
 // Element hinzufügen
 namen.push("Max");
 console.log(namen);          // ["Anna", "Tom", "Lena", "Max"]
-
 // Letztes Element entfernen
 namen.pop();
 console.log(namen.length);   // 3</code></pre>
-  <button class="load-to-editor-btn">↪</button>
-</div>
+      <button class="load-to-editor-btn">↪</button>
+    </div>
 
   </div>
+
+  <!-- CSS für Suchleiste & Highlight (gleiches Styling wie bei HTML/CSS) -->
+  <style>
+    .search-box {
+      margin: 16px 0;
+      display: flex;
+      gap: 8px;
+      max-width: 600px;
+    }
+    .search-box input {
+      flex: 1;
+      padding: 10px 14px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .search-box button {
+      padding: 0 20px;
+      background: #0066cc;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .search-box button:hover {
+      background: #0055aa;
+    }
+    .highlight-target {
+      background-color: #f8e7b3;
+      border-left: 4px solid #ffc107;
+      padding-left: 12px;
+      transition: all 0.4s;
+    }
+  </style>
   `;
+
+  // JavaScript für die Suchfunktion
+  setTimeout(() => {
+    const input = document.getElementById("searchInput");
+    const btn = document.getElementById("searchBtn");
+
+    function performSearch() {
+      const term = input.value.trim().toLowerCase();
+      if (!term) return;
+
+      const headings = document.querySelectorAll("h3[data-search]");
+      let found = false;
+
+      headings.forEach((h) => {
+        const keywords = h.getAttribute("data-search").toLowerCase();
+        if (keywords.includes(term)) {
+          h.scrollIntoView({ behavior: "smooth", block: "center" });
+
+          h.classList.add("highlight-target");
+          setTimeout(() => {
+            h.classList.remove("highlight-target");
+          }, 1800);
+
+          found = true;
+          return; // Stoppt nach dem ersten Treffer
+        }
+      });
+
+      if (!found) {
+        alert("Kein passender Abschnitt gefunden für: " + term);
+      }
+    }
+
+    btn.addEventListener("click", performSearch);
+
+    input.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        performSearch();
+      }
+    });
+
+    // Optional: Live-Suche beim Tippen (auskommentiert – kann aktiviert werden)
+    // input.addEventListener("input", performSearch);
+  }, 100);
 
   document.getElementById("runBtn").onclick = () => {
     const code = document.getElementById("jsCode").value;
@@ -2656,7 +2943,17 @@ console.log(namen.length);   // 3</code></pre>
 function showCreatePHP() {
   mainContent.innerHTML = `
   <div class="learn-container">
-
+    <h1>PHP</h1>
+    <!-- Suchleiste -->
+    <div class="search-box">
+      <input 
+        type="text" 
+        id="searchInput" 
+        placeholder="z. B. variablen, arrays, funktionen, if, echo, schleifen..." 
+        autocomplete="off"
+      >
+      <button id="searchBtn">Suchen</button>
+    </div>
 
     <div class="info-box">
       PHP wird verwendet, um dynamische Webseiten und Webanwendungen zu erstellen.
@@ -2665,65 +2962,218 @@ function showCreatePHP() {
       Unten findest du Material.
     </div>
 
-  
+    <h3>Code ausprobieren</h3>
+    <div class="editor-box">
+      <textarea id="phpCode" class="python-editor">// Schreibe hier PHP-Code
+// Wichtig: Der Code wird normalerweise zwischen <?php ... ?> ausgeführt
 
+echo "Hallo aus PHP!";
 
-    <h3>1. Variablen</h3>
-    <div class="example-box">
-$zahl = 5;
-$text = "Hallo";
-echo $zahl;
+$name = "Max";
+echo "<br>Hallo " . $name . "!";</textarea>
+      <pre id="output" class="python-output"></pre>
+      <button id="runBtn" class="run-btn">▶ Code ausführen</button>
+    </div>
+    
+    <hr>
+
+    <h3 data-search="variablen variable dollar zeichen dollar">1. Variablen</h3>
+    <div class="example-box example-code" data-target-id="phpCode">
+      <pre><code>$zahl = 42;
+$text = "Hallo Welt";
+$preis = 19.99;
+$istAktiv = true;
+
+echo $zahl . "<br>";
+echo $text . "<br>";
+echo $preis . "<br>";</code></pre>
+      <button class="load-to-editor-btn">↪</button>
     </div>
 
-    <h3>2. Datentypen</h3>
-    <div class="example-box">
-$int = 10;
-$string = "Text";
-$bool = true;
+    <h3 data-search="datentypen integer string boolean array null">2. Datentypen</h3>
+    <div class="example-box example-code" data-target-id="phpCode">
+      <pre><code>$int     = 123;
+$float   = 3.14159;
+$string  = "PHP ist cool";
+$bool    = true;
+$null    = null;
+$array   = [1, 2, 3];
+
+echo gettype($int)    . "<br>";     // integer
+echo gettype($float)  . "<br>";     // double
+echo gettype($string) . "<br>";     // string
+echo gettype($bool)   . "<br>";     // boolean</code></pre>
+      <button class="load-to-editor-btn">↪</button>
     </div>
 
-    <h3>3. Rechnen</h3>
-    <div class="example-box">
-$a = 10;
+    <h3 data-search="rechnen addition subtraktion multiplikation division modulo">3. Rechnen</h3>
+    <div class="example-box example-code" data-target-id="phpCode">
+      <pre><code>$a = 10;
 $b = 3;
-echo $a + $b;
+
+echo $a + $b . "<br>";   // 13
+echo $a - $b . "<br>";   // 7
+echo $a * $b . "<br>";   // 30
+echo $a / $b . "<br>";   // 3.333...
+echo $a % $b . "<br>";   // 1
+echo $a ** 2 . "<br>";   // 100 (Potenz seit PHP 7)</code></pre>
+      <button class="load-to-editor-btn">↪</button>
     </div>
 
-    <h3>4. if-Bedingungen</h3>
-    <div class="example-box">
-$alter = 18;
+    <h3 data-search="bedingungen if else elseif vergleich switch">4. if-Bedingungen</h3>
+    <div class="example-box example-code" data-target-id="phpCode">
+      <pre><code>$alter = 17;
 
 if ($alter >= 18) {
-  echo "Erwachsen";
+    echo "Erwachsen";
+} elseif ($alter >= 14) {
+    echo "Jugendlicher";
 } else {
-  echo "Minderjährig";
+    echo "Kind";
 }
+
+echo "<br>";
+
+// Kurzform (ternärer Operator)
+$status = ($alter >= 18) ? "volljährig" : "minderjährig";
+echo $status;</code></pre>
+      <button class="load-to-editor-btn">↪</button>
     </div>
 
-    <h3>5. Schleifen (for)</h3>
-    <div class="example-box">
+    <h3 data-search="schleifen for foreach while do while">5. Schleifen (for)</h3>
+    <div class="example-box example-code" data-target-id="phpCode">
+      <pre><code>// Klassische for-Schleife
 for ($i = 1; $i <= 5; $i++) {
-  echo $i;
-}
-    </div>
-
-    <h3>6. Funktionen</h3>
-    <div class="example-box">
-function add($a, $b) {
-  return $a + $b;
+    echo $i . " ";
 }
 
-echo add(3, 4);
+echo "<br>---<br>";
+
+// foreach mit Array
+$farben = ["rot", "grün", "blau"];
+foreach ($farben as $farbe) {
+    echo $farbe . " ";
+}</code></pre>
+      <button class="load-to-editor-btn">↪</button>
     </div>
 
-    <h3>7. Arrays</h3>
-    <div class="example-box">
+    <h3 data-search="funktionen function return parameter argument">6. Funktionen</h3>
+    <div class="example-box example-code" data-target-id="phpCode">
+      <pre><code>function begruessung($name = "Gast") {
+    return "Hallo $name, willkommen!";
+}
+
+echo begruessung() . "<br>";        // Hallo Gast, willkommen!
+echo begruessung("Sara") . "<br>";  // Hallo Sara, willkommen!
+
+// Mit Typdeklaration (seit PHP 7)
+function add(int $a, int $b): int {
+    return $a + $b;
+}
+
+echo add(5, 7);     // 12</code></pre>
+      <button class="load-to-editor-btn">↪</button>
+    </div>
+
+    <h3 data-search="arrays array assoziativ numerisch push count">7. Arrays</h3>
+    <div class="example-box example-code" data-target-id="phpCode">
+      <pre><code>// Numerisches Array
 $namen = ["Anna", "Tom", "Lena"];
-echo $namen[0];
+echo $namen[1] . "<br>";          // Tom
+
+// Assoziatives Array
+$person = [
+    "name"  => "Max",
+    "alter" => 28,
+    "stadt" => "Hamburg"
+];
+
+echo $person["name"] . " ist " . $person["alter"] . " Jahre alt.<br>";
+
+// Element hinzufügen
+$namen[] = "Sara";
+echo count($namen) . " Namen<br>";   // 4</code></pre>
+      <button class="load-to-editor-btn">↪</button>
     </div>
 
   </div>
+
+  <!-- CSS für Suchleiste & Highlight (wie bei den anderen Sprachen) -->
+  <style>
+    .search-box {
+      margin: 16px 0;
+      display: flex;
+      gap: 8px;
+      max-width: 600px;
+    }
+    .search-box input {
+      flex: 1;
+      padding: 10px 14px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .search-box button {
+      padding: 0 20px;
+      background: #0066cc;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .search-box button:hover {
+      background: #0055aa;
+    }
+    .highlight-target {
+      background-color: #f8e7b3;
+      border-left: 4px solid #ffc107;
+      padding-left: 12px;
+      transition: all 0.4s;
+    }
+  </style>
   `;
+
+  // JavaScript für die Suchfunktion
+  setTimeout(() => {
+    const input = document.getElementById("searchInput");
+    const btn = document.getElementById("searchBtn");
+
+    function performSearch() {
+      const term = input.value.trim().toLowerCase();
+      if (!term) return;
+
+      const headings = document.querySelectorAll("h3[data-search]");
+      let found = false;
+
+      headings.forEach((h) => {
+        const keywords = h.getAttribute("data-search").toLowerCase();
+        if (keywords.includes(term)) {
+          h.scrollIntoView({ behavior: "smooth", block: "center" });
+
+          h.classList.add("highlight-target");
+          setTimeout(() => {
+            h.classList.remove("highlight-target");
+          }, 1800);
+
+          found = true;
+          return; // nur erster Treffer
+        }
+      });
+
+      if (!found) {
+        alert("Kein passender Abschnitt gefunden für: " + term);
+      }
+    }
+
+    btn.addEventListener("click", performSearch);
+
+    input.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        performSearch();
+      }
+    });
+  }, 100);
 
   document.getElementById("runBtn").onclick = () => {
     const code = document.getElementById("phpCode").value;
@@ -2749,71 +3199,220 @@ echo $namen[0];
 function showCreateJava() {
   mainContent.innerHTML = `
   <div class="learn-container">
-
+    <h1>Java</h1>
+    <!-- Suchleiste -->
+    <div class="search-box">
+      <input 
+        type="text" 
+        id="searchInput" 
+        placeholder="z. B. variablen, methoden, arrays, if, for, schleifen..." 
+        autocomplete="off"
+      >
+      <button id="searchBtn">Suchen</button>
+    </div>
 
     <div class="info-box">
-Java wird genutzt, um plattformunabhängige Anwendungen, Android-Apps und serverseitige Software zu entwickeln.
-  </div>
-<div class="info-box">
+      Java wird genutzt, um plattformunabhängige Anwendungen, Android-Apps und serverseitige Software zu entwickeln.
+    </div>
+    <div class="info-box">
       Unten findest du Material.
     </div>
+
     <h3>Code ausprobieren</h3>
+    <div class="editor-box">
+      <textarea id="javaCode" class="python-editor">// Hier Java-Code schreiben
+// Beispiel:
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hallo Java!");
+    }
+}</textarea>
+      <pre id="output" class="python-output"></pre>
+      <button id="runBtn" class="run-btn">▶ Code ausführen</button>
+    </div>
+    
+    <hr>
 
-
-
-    <h3>1. Variablen</h3>
-    <div class="example-box">
-int a = 5;
+    <h3 data-search="variablen variable deklaration zuweisung">1. Variablen</h3>
+    <div class="example-box example-code" data-target-id="javaCode">
+      <pre><code>int a = 5;
 String text = "Hallo";
+System.out.println(text + " " + a);</code></pre>
+      <button class="load-to-editor-btn">↪</button>
     </div>
 
-    <h3>2. Datentypen</h3>
-    <div class="example-box">
-int zahl = 10;
-double pi = 3.14;
+    <h3 data-search="datentypen int double boolean string primitive typen">2. Datentypen</h3>
+    <div class="example-box example-code" data-target-id="javaCode">
+      <pre><code>int zahl = 10;
+double pi = 3.14159;
 boolean ok = true;
+char buchstabe = 'A';
+String name = "Java";
+System.out.println(zahl + " | " + pi + " | " + ok);</code></pre>
+      <button class="load-to-editor-btn">↪</button>
     </div>
 
-    <h3>3. Rechnen</h3>
-    <div class="example-box">
-int a = 10;
+    <h3 data-search="rechnen addition subtraktion multiplikation division modulo">3. Rechnen</h3>
+    <div class="example-box example-code" data-target-id="javaCode">
+      <pre><code>int a = 10;
 int b = 3;
-System.out.println(a + b);
+System.out.println(a + b);   // 13
+System.out.println(a - b);   // 7
+System.out.println(a * b);   // 30
+System.out.println(a / b);   // 3   (ganzzahlig!)
+System.out.println(a % b);   // 1   (Rest)</code></pre>
+      <button class="load-to-editor-btn">↪</button>
     </div>
 
-    <h3>4. if-Bedingungen</h3>
-    <div class="example-box">
-int alter = 18;
-
+    <h3 data-search="bedingungen if else elseif vergleich">4. if-Bedingungen</h3>
+    <div class="example-box example-code" data-target-id="javaCode">
+      <pre><code>int alter = 18;
 if (alter >= 18) {
-  System.out.println("E");
+    System.out.println("Erwachsen");
 } else {
-  System.out.println("M");
+    System.out.println("Minderjährig");
 }
+
+// Mehrere Bedingungen
+double note = 2.3;
+if (note <= 1.0) {
+    System.out.println("Sehr gut");
+} else if (note <= 2.0) {
+    System.out.println("Gut");
+} else if (note <= 3.0) {
+    System.out.println("Befriedigend");
+} else {
+    System.out.println("Nicht bestanden");
+}</code></pre>
+      <button class="load-to-editor-btn">↪</button>
     </div>
 
-    <h3>5. Schleifen (for)</h3>
-    <div class="example-box">
-for (int i = 1; i <= 5; i++) {
-  System.out.println(i);
+    <h3 data-search="schleifen for loop iteration">5. Schleifen (for)</h3>
+    <div class="example-box example-code" data-target-id="javaCode">
+      <pre><code>for (int i = 1; i <= 5; i++) {
+    System.out.println(i);          // 1 2 3 4 5
 }
+System.out.println("---");
+
+// Mit Schrittweite
+for (int i = 0; i <= 10; i += 2) {
+    System.out.println(i);          // 0 2 4 6 8 10
+}</code></pre>
+      <button class="load-to-editor-btn">↪</button>
     </div>
 
-    <h3>6. Funktionen (Methoden)</h3>
-    <div class="example-box">
-static int add(int a, int b) {
-  return a + b;
+    <h3 data-search="funktionen methoden static return parameter">6. Funktionen (Methoden)</h3>
+    <div class="example-box example-code" data-target-id="javaCode">
+      <pre><code>static int add(int a, int b) {
+    return a + b;
 }
+
+// Aufruf in main():
+public static void main(String[] args) {
+    System.out.println(add(3, 4));     // 7
+    System.out.println(add(10, 25));   // 35
+}</code></pre>
+      <button class="load-to-editor-btn">↪</button>
     </div>
 
-    <h3>7. Arrays</h3>
-    <div class="example-box">
-String[] namen = {"Anna", "Tom", "Lena"};
-System.out.println(namen[0]);
+    <h3 data-search="arrays array length index">7. Arrays</h3>
+    <div class="example-box example-code" data-target-id="javaCode">
+      <pre><code>String[] namen = {"Anna", "Tom", "Lena"};
+System.out.println(namen[0]);         // Anna
+System.out.println(namen.length);     // 3
+
+// Element ändern
+namen[1] = "Max";
+System.out.println(namen[1]);         // Max
+
+// For-each Schleife
+for (String n : namen) {
+    System.out.println(n);
+}</code></pre>
+      <button class="load-to-editor-btn">↪</button>
     </div>
 
   </div>
+
+  <!-- CSS für Suchleiste & Highlight (konsistent mit den anderen Sprachen) -->
+  <style>
+    .search-box {
+      margin: 16px 0;
+      display: flex;
+      gap: 8px;
+      max-width: 600px;
+    }
+    .search-box input {
+      flex: 1;
+      padding: 10px 14px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .search-box button {
+      padding: 0 20px;
+      background: #0066cc;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .search-box button:hover {
+      background: #0055aa;
+    }
+    .highlight-target {
+      background-color: #f8e7b3;
+      border-left: 4px solid #ffc107;
+      padding-left: 12px;
+      transition: all 0.4s;
+    }
+  </style>
   `;
+
+  // JavaScript für die Suchfunktion
+  setTimeout(() => {
+    const input = document.getElementById("searchInput");
+    const btn = document.getElementById("searchBtn");
+
+    function performSearch() {
+      const term = input.value.trim().toLowerCase();
+      if (!term) return;
+
+      const headings = document.querySelectorAll("h3[data-search]");
+      let found = false;
+
+      headings.forEach((h) => {
+        const keywords = h.getAttribute("data-search").toLowerCase();
+        if (keywords.includes(term)) {
+          h.scrollIntoView({ behavior: "smooth", block: "center" });
+
+          h.classList.add("highlight-target");
+          setTimeout(() => {
+            h.classList.remove("highlight-target");
+          }, 1800);
+
+          found = true;
+          return; // nur erster Treffer
+        }
+      });
+
+      if (!found) {
+        alert("Kein passender Abschnitt gefunden für: " + term);
+      }
+    }
+
+    btn.addEventListener("click", performSearch);
+
+    input.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        performSearch();
+      }
+    });
+
+    // Optional: Live-Suche beim Tippen (auskommentiert)
+    // input.addEventListener("input", performSearch);
+  }, 100);
 
   document.getElementById("runBtn").onclick = () => {
     const code = document.getElementById("javaCode").value;
@@ -2867,138 +3466,557 @@ async function runPython() {
 function showCreateCS() {
   mainContent.innerHTML = `
   <div class="learn-container">
+    <h1>C#</h1>
+    <!-- Suchleiste -->
+    <div class="search-box">
+      <input 
+        type="text" 
+        id="searchInput" 
+        placeholder="z. B. variablen, datentypen, if, schleifen, methoden, arrays, list..." 
+        autocomplete="off"
+      >
+      <button id="searchBtn">Suchen</button>
+    </div>
+
     <div class="info-box">
       C# ist eine moderne, sichere und leistungsstarke Programmiersprache von Microsoft.<br>
       Wird sehr häufig verwendet für: Desktop-Programme (WPF, WinForms), Spiele (Unity), Web-Backends (ASP.NET), Mobile (MAUI), Cloud...
       <br><br>
       → Läuft nicht direkt im Browser (wie JavaScript), sondern braucht .NET
     </div>
-<div class="info-box">
+    <div class="info-box">
       Unten findest du Material.
     </div>
-    <h3>Wichtige Datentypen in C# (ähnlich wie bei Python)</h3>
-    <div class="info-box" style="font-size: 0.95em;">
-      <b>string</b>   → Text              ("Hallo")     &nbsp;&nbsp;wie str in Python<br>
-      <b>int</b>       → ganze Zahl       (42, -17)     &nbsp;&nbsp;wie int in Python<br>
-      <b>double</b>    → Kommazahl        (3.14, -0.001)&nbsp;&nbsp;wie float in Python<br>
-      <b>bool</b>      → wahr/falsch      (true/false)  &nbsp;&nbsp;wie bool in Python (True/False)<br>
-      <b>char</b>      → einzelnes Zeichen ('A', 'x')   &nbsp;&nbsp;kein direktes Äquivalent in Python<br>
-      <br>
-      → C# ist <b>streng typisiert</b>: Der Datentyp muss (fast immer) sofort angegeben werden!
-    </div>
 
-    <h3>Beispielcode (C#)</h3>
-    <div class="example-box">
+    <h3>Code ausprobieren</h3>
+    <div class="editor-box">
+      <textarea id="csCode" class="python-editor">// Hier C#-Code schreiben
+// Minimalbeispiel:
 using System;
 
 class Program
 {
     static void Main()
     {
-        // Verschiedene Datentypen demonstriert
+        Console.WriteLine("Hallo aus C#!");
+        
+        string name = "Test";
+        Console.WriteLine("Name: " + name);
+    }
+}</textarea>
+
+    </div>
+    
+    <hr>
+
+    <h3 data-search="datentypen string int double bool char typen typisiert">Wichtige Datentypen in C#</h3>
+    <div class="info-box" style="font-size: 0.95em;">
+      <b>string</b>   → Text              ("Hallo")     &nbsp;&nbsp;wie str in Python<br>
+      <b>int</b>       → ganze Zahl       (42, -17)     &nbsp;&nbsp;wie int in Python<br>
+      <b>double</b>    → Kommazahl        (3.14, -0.001)&nbsp;&nbsp;wie float in Python<br>
+      <b>bool</b>      → wahr/falsch      (true/false)  &nbsp;&nbsp;wie bool in Python (True/False)<br>
+      <b>char</b>      → einzelnes Zeichen ('A', 'x')   &nbsp;&nbsp;kein direktes Äquivalent in Python<br>
+      <br>
+      → C# ist <b>streng typisiert</b>: Der Datentyp muss (fast immer) sofort angegeben werden!
+    </div>
+
+    <h3 data-search="beispielcode beispiel main console writeline">Beispielcode (C#)</h3>
+    <div class="example-box example-code" data-target-id="csCode">
+      <pre><code>using System;
+
+class Program
+{
+    static void Main()
+    {
         string name = "Anna";
         int alter = 20;
         double groesse = 1.68;
         bool istStudent = true;
-        char lieblingsBuchstabe = 'A';
+        char buchstabe = 'A';
 
         Console.WriteLine("Name: " + name);
-        Console.WriteLine("Alter: " + alter);
+        Console.WriteLine($"Alter: {alter} Jahre");
         Console.WriteLine("Größe: " + groesse + " m");
-        Console.WriteLine("Ist Student? " + istStudent);
-        Console.WriteLine("Lieblingsbuchstabe: " + lieblingsBuchstabe);
+        Console.WriteLine($"Student? {istStudent}");
+        Console.WriteLine("Lieblingsbuchstabe: " + buchstabe);
     }
-}
+}</code></pre>
+      <button class="load-to-editor-btn">↪</button>
     </div>
 
-    <h3>Erklärung – Schritt für Schritt</h3>
+    <h3 data-search="erklärung main using system console struktur aufbau">Erklärung – Schritt für Schritt</h3>
     <div class="info-box">
       <b>using System;</b> – gibt Zugriff auf Console, String, Math usw.<br>
       <b>class Program</b> – fast jedes C#-Programm braucht eine Klasse<br>
       <b>static void Main()</b> – Startpunkt des Programms (wie if __name__ == "__main__" in Python)<br>
-      <b>string name = ...</b> – Variable vom Typ Text (wie str)<br>
-      <b>int, double, bool</b> – verschiedene Zahlentypen & Wahrheitswerte<br>
+      <b>string name = ...</b> – Variable deklarieren und zuweisen<br>
       <b>Console.WriteLine()</b> – Ausgabe auf der Konsole (ähnlich print())<br>
-      <b>+</b> – für Text + Variablen zusammenfügen (String-Konkatenation)
+      <b>$"..."</b> – String-Interpolation (sehr praktisch seit C# 6)<br>
+      <b>+</b> – klassische String-Konkatenation
     </div>
+
+    <h3 data-search="variablen deklaration zuweisung var">1. Variablen & var</h3>
+    <div class="example-box example-code" data-target-id="csCode">
+      <pre><code>int zahl = 42;
+string stadt = "Hamburg";
+double temperatur = 18.7;
+
+// var → Typ wird automatisch erkannt (seit C# 3.0)
+var nachricht = "Heute ist super!";
+Console.WriteLine(nachricht);</code></pre>
+      <button class="load-to-editor-btn">↪</button>
+    </div>
+
+    <h3 data-search="bedingungen if else elseif switch">2. Bedingungen (if / switch)</h3>
+    <div class="example-box example-code" data-target-id="csCode">
+      <pre><code>int note = 2;
+
+if (note <= 1)
+{
+    Console.WriteLine("Sehr gut");
+}
+else if (note <= 2)
+{
+    Console.WriteLine("Gut");
+}
+else
+{
+    Console.WriteLine("Ausreichend oder schlechter");
+}
+
+// switch (sehr sauber bei vielen Fällen)
+string tag = "Montag";
+switch (tag)
+{
+    case "Montag":
+        Console.WriteLine("Wochenstart");
+        break;
+    case "Freitag":
+        Console.WriteLine("Fast Wochenende!");
+        break;
+    default:
+        Console.WriteLine("Normaler Tag");
+        break;
+}</code></pre>
+      <button class="load-to-editor-btn">↪</button>
+    </div>
+
+    <h3 data-search="schleifen for foreach while do">3. Schleifen</h3>
+    <div class="example-box example-code" data-target-id="csCode">
+      <pre><code>// for
+for (int i = 1; i <= 5; i++)
+{
+    Console.Write(i + " ");
+}
+
+Console.WriteLine();
+
+// foreach (sehr häufig bei Listen/Arrays)
+string[] namen = { "Anna", "Ben", "Clara" };
+foreach (string name in namen)
+{
+    Console.WriteLine(name);
+}</code></pre>
+      <button class="load-to-editor-btn">↪</button>
+    </div>
+
   </div>
+
+  <!-- CSS für Suchleiste & Highlight -->
+  <style>
+    .search-box {
+      margin: 16px 0;
+      display: flex;
+      gap: 8px;
+      max-width: 600px;
+    }
+    .search-box input {
+      flex: 1;
+      padding: 10px 14px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .search-box button {
+      padding: 0 20px;
+      background: #0066cc;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .search-box button:hover {
+      background: #0055aa;
+    }
+    .highlight-target {
+      background-color: #f8e7b3;
+      border-left: 4px solid #ffc107;
+      padding-left: 12px;
+      transition: all 0.4s;
+    }
+  </style>
   `;
+
+  // JavaScript für die Suchfunktion
+  setTimeout(() => {
+    const input = document.getElementById("searchInput");
+    const btn = document.getElementById("searchBtn");
+
+    function performSearch() {
+      const term = input.value.trim().toLowerCase();
+      if (!term) return;
+
+      const headings = document.querySelectorAll("h3[data-search]");
+      let found = false;
+
+      headings.forEach((h) => {
+        const keywords = h.getAttribute("data-search").toLowerCase();
+        if (keywords.includes(term)) {
+          h.scrollIntoView({ behavior: "smooth", block: "center" });
+
+          h.classList.add("highlight-target");
+          setTimeout(() => {
+            h.classList.remove("highlight-target");
+          }, 1800);
+
+          found = true;
+          return; // erster Treffer → stoppen
+        }
+      });
+
+      if (!found) {
+        alert("Kein passender Abschnitt gefunden für: " + term);
+      }
+    }
+
+    btn.addEventListener("click", performSearch);
+
+    input.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        performSearch();
+      }
+    });
+  }, 100);
+
+  // JavaScript für die Suchfunktion
+  setTimeout(() => {
+    const input = document.getElementById("searchInput");
+    const btn = document.getElementById("searchBtn");
+
+    function performSearch() {
+      const term = input.value.trim().toLowerCase();
+      if (!term) return;
+
+      const headings = document.querySelectorAll("h3[data-search]");
+      let found = false;
+
+      headings.forEach((h) => {
+        const keywords = h.getAttribute("data-search").toLowerCase();
+        if (keywords.includes(term)) {
+          h.scrollIntoView({ behavior: "smooth", block: "center" });
+
+          h.classList.add("highlight-target");
+          setTimeout(() => {
+            h.classList.remove("highlight-target");
+          }, 1800);
+
+          found = true;
+          return; // erster Treffer → stoppen
+        }
+      });
+
+      if (!found) {
+        alert("Kein passender Abschnitt gefunden für: " + term);
+      }
+    }
+
+    btn.addEventListener("click", performSearch);
+
+    input.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        performSearch();
+      }
+    });
+  }, 100);
+
   mainContent.classList.add("python-page");
   closeSidebar();
 }
 function showCreateTypeScript() {
   mainContent.innerHTML = `
   <div class="learn-container">
+    <h1>TypeScript</h1>
+    <!-- Suchleiste -->
+    <div class="search-box">
+      <input 
+        type="text" 
+        id="searchInput" 
+        placeholder="z. B. typen, interface, union, array, funktion, type alias..." 
+        autocomplete="off"
+      >
+      <button id="searchBtn">Suchen</button>
+    </div>
+
     <div class="info-box">
       TypeScript = JavaScript + Typen<br><br>
       → Alles, was JavaScript kann + Sicherheit durch Datentypen<br>
       → Wird heute fast überall im modernen Web-Frontend verwendet (React, Angular, Vue, Node.js-Backends...)
     </div>
-<div class="info-box">
+    <div class="info-box">
       Unten findest du Material.
     </div>
-    <h3>Wichtige Datentypen in TypeScript</h3>
+
+    <h3>Code ausprobieren</h3>
+    <div class="editor-box">
+      <textarea id="tsCode" class="python-editor">// Hier TypeScript-Code schreiben
+
+let name: string = "Test";
+let alter: number = 28;
+
+console.log("Hallo aus TypeScript!");
+console.log(name.toUpperCase());    // funktioniert
+// console.log(alter.toUpperCase()); // Fehler schon beim Tippen!</textarea>
+   
+    </div>
+    
+    <hr>
+
+    <h3 data-search="datentypen string number boolean any union literal">Wichtige Datentypen in TypeScript</h3>
     <div class="info-box" style="font-size: 0.95em;">
-      <b>string</b>   → Text                  ("Hallo")<br>
-      <b>number</b>   → Zahl (ganz & Komma)   (42, 3.14)   – es gibt keinen separaten int/float!<br>
-      <b>boolean</b>  → wahr/falsch           (true/false)<br>
-      <b>any</b>      → beliebiger Typ        (vermeiden!)<br>
-      <b>undefined</b>, <b>null</b>  → "nichts" / "absichtlich leer"<br><br>
-      → Sehr ähnlich zu Python, aber Typen werden meist direkt angegeben (: string)
+      <b>string</b>   → Text                  ("Hallo")<br>
+      <b>number</b>   → Zahl (ganz & Komma)   (42, 3.14)   – kein separater int/float!<br>
+      <b>boolean</b>  → wahr/falsch           (true/false)<br>
+      <b>any</b>      → beliebiger Typ        (vermeiden wenn möglich!)<br>
+      <b>undefined</b>, <b>null</b>  → "nichts" / "absichtlich leer"<br>
+      <b>unknown</b>  → wie any, aber sicherer (muss geprüft werden)<br><br>
+      → Typen werden meist direkt angegeben (: string)
     </div>
 
-    <h3>Beispielcode (TypeScript)</h3>
-    <div class="example-box">
-let name: string = "Anna";
+    <h3 data-search="beispielcode annotation typisierung console log">Beispielcode (TypeScript)</h3>
+    <div class="example-box example-code" data-target-id="tsCode">
+      <pre><code>let name: string = "Anna";
 let age: number = 20;
 let height: number = 1.68;
 let isStudent: boolean = true;
+let scores: number[] = [85, 92, 78];
 
 console.log("Name:", name);
 console.log("Alter:", age);
 console.log("Größe:", height, "m");
 console.log("Ist Student?", isStudent);
+console.log("Noten:", scores);
 
-// TypeScript erkennt Fehler schon beim Schreiben!
-let falsch: number = "25";   // ← roter Fehler im Editor!
+// Fehler werden früh erkannt:
+// let falsch: number = "25";   // ← Typfehler!
+</code></pre>
+      <button class="load-to-editor-btn">↪</button>
     </div>
 
-    <h3>Erklärung</h3>
+    <h3 data-search="erklärung let const annotation typen fehlererkennung">Erklärung</h3>
     <div class="info-box">
-      <b>let</b> / <b>const</b> – Variablen erstellen (wie in modernem JS)<br>
-      <b>: string</b> / <b>: number</b> – Typ-Annotation (das gibt es bei normalem JS nicht!)<br>
-      <b>console.log()</b> – Ausgabe in der Browser-Konsole / Node.js<br>
-      → Fehler werden oft schon beim Tippen im Editor angezeigt (großer Vorteil!)
+      <b>let</b> / <b>const</b> – Variablen erstellen (wie modernes JavaScript)<br>
+      <b>: string</b> / <b>: number</b> – Typ-Annotation (das gibt es in purem JS nicht)<br>
+      <b>console.log()</b> – Ausgabe in Konsole (Browser oder Node.js)<br>
+      → Die meisten Editoren (VS Code) zeigen Typfehler **schon beim Tippen** an<br>
+      → TypeScript wird zu JavaScript kompiliert (tsc)
     </div>
+
+    <h3 data-search="array typisierte arrays tuple">1. Arrays & Tupel</h3>
+    <div class="example-box example-code" data-target-id="tsCode">
+      <pre><code>// Normales Array
+let zahlen: number[] = [1, 2, 3, 4];
+let namen: string[] = ["Anna", "Ben", "Clara"];
+
+// Alternative Schreibweise
+let ids: Array<number> = [101, 102, 103];
+
+// Tupel (feste Länge + feste Typen)
+let person: [string, number, boolean] = ["Max", 28, true];
+
+console.log(zahlen[0]);      // 1
+console.log(person[1]);      // 28
+// person[0] = 999;          // Fehler – Typ nicht string!
+</code></pre>
+      <button class="load-to-editor-btn">↪</button>
+    </div>
+
+    <h3 data-search="union typen oder literal typen">2. Union-Typen & Literal-Typen</h3>
+    <div class="example-box example-code" data-target-id="tsCode">
+      <pre><code>// Union-Typ (kann mehrere Typen haben)
+let id: string | number = "ABC123";
+id = 456;           // ok
+// id = true;       // Fehler!
+
+// Literal-Typen (sehr präzise)
+let status: "success" | "error" | "loading" = "success";
+// status = "pending";  // Fehler – nicht erlaubt!
+</code></pre>
+      <button class="load-to-editor-btn">↪</button>
+    </div>
+
+    <h3 data-search="funktion typen parameter return typ arrow">3. Funktionen mit Typen</h3>
+    <div class="example-box example-code" data-target-id="tsCode">
+      <pre><code>function add(a: number, b: number): number {
+    return a + b;
+}
+
+const multiply = (x: number, y: number): number => x * y;
+
+console.log(add(5, 7));         // 12
+console.log(multiply(4, 6));    // 24
+
+// Optionaler Parameter
+function greet(name: string, greeting?: string): string {
+    return \`\${greeting ?? "Hallo"}, \${name}!\`;
+}
+</code></pre>
+      <button class="load-to-editor-btn">↪</button>
+    </div>
+
   </div>
+
+  <!-- CSS für Suchleiste & Highlight -->
+  <style>
+    .search-box {
+      margin: 16px 0;
+      display: flex;
+      gap: 8px;
+      max-width: 600px;
+    }
+    .search-box input {
+      flex: 1;
+      padding: 10px 14px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .search-box button {
+      padding: 0 20px;
+      background: #0066cc;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .search-box button:hover {
+      background: #0055aa;
+    }
+    .highlight-target {
+      background-color: #f8e7b3;
+      border-left: 4px solid #ffc107;
+      padding-left: 12px;
+      transition: all 0.4s;
+    }
+  </style>
   `;
+
+  // JavaScript für die Suchfunktion
+  setTimeout(() => {
+    const input = document.getElementById("searchInput");
+    const btn = document.getElementById("searchBtn");
+
+    function performSearch() {
+      const term = input.value.trim().toLowerCase();
+      if (!term) return;
+
+      const headings = document.querySelectorAll("h3[data-search]");
+      let found = false;
+
+      headings.forEach((h) => {
+        const keywords = h.getAttribute("data-search").toLowerCase();
+        if (keywords.includes(term)) {
+          h.scrollIntoView({ behavior: "smooth", block: "center" });
+
+          h.classList.add("highlight-target");
+          setTimeout(() => {
+            h.classList.remove("highlight-target");
+          }, 1800);
+
+          found = true;
+          return; // Stoppt beim ersten Treffer
+        }
+      });
+
+      if (!found) {
+        alert("Kein passender Abschnitt gefunden für: " + term);
+      }
+    }
+
+    btn.addEventListener("click", performSearch);
+
+    input.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        performSearch();
+      }
+    });
+  }, 100);
+
   mainContent.classList.add("python-page");
   closeSidebar();
 }
 function showCreateCPP() {
   mainContent.innerHTML = `
   <div class="learn-container">
+    <h1>C++</h1>
+    <!-- Suchleiste -->
+    <div class="search-box">
+      <input 
+        type="text" 
+        id="searchInput" 
+        placeholder="z. B. datentypen, cout, schleifen, pointer, vector, funktion..." 
+        autocomplete="off"
+      >
+      <button id="searchBtn">Suchen</button>
+    </div>
+
     <div class="info-box">
       C++ ist eine der schnellsten Programmiersprachen überhaupt.<br>
       Wird verwendet für: Spiele-Engines, Betriebssysteme, Treiber, Hochleistungs-Software, Embedded...
     </div>
-<div class="info-box">
+    <div class="info-box">
       Unten findest du Material.
     </div>
-    <h3>Wichtige Datentypen in C++ (Anfänger-Level)</h3>
+
+    <h3>Code ausprobieren</h3>
+    <div class="editor-box">
+      <textarea id="cppCode" class="python-editor">// Hier C++-Code schreiben
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main() {
+    cout << "Hallo aus C++!" << endl;
+    
+    string name = "Test";
+    cout << "Name: " << name << endl;
+    
+    return 0;
+}</textarea>
+  
+    </div>
+    
+    <hr>
+
+    <h3 data-search="datentypen int double float bool char string typen">Wichtige Datentypen in C++ (Anfänger-Level)</h3>
     <div class="info-box" style="font-size: 0.95em;">
-      <b>std::string</b>   → Text                  ("Hallo")<br>
-      <b>int</b>           → ganze Zahl            (42, -1000)<br>
-      <b>double</b> / <b>float</b> → Kommazahl     (3.14, 0.001)<br>
-      <b>bool</b>          → wahr/falsch           (true/false)<br>
-      <b>char</b>          → einzelnes Zeichen     ('A')<br><br>
+      <b>std::string</b>   → Text                  ("Hallo")<br>
+      <b>int</b>           → ganze Zahl            (42, -1000)<br>
+      <b>double</b> / <b>float</b> → Kommazahl     (3.14, 0.001)<br>
+      <b>bool</b>          → wahr/falsch           (true/false)<br>
+      <b>char</b>          → einzelnes Zeichen     ('A')<br><br>
       → Sehr ähnlich zu C#, aber mehr manueller Arbeit (Speicherverwaltung!)
     </div>
 
-    <h3>Beispielcode (C++)</h3>
-    <div class="example-box">
-#include <iostream>
-#include <string>           // für std::string nötig!
+    <h3 data-search="beispielcode main cout include using namespace">Beispielcode (C++)</h3>
+    <div class="example-box example-code" data-target-id="cppCode">
+      <pre><code>#include <iostream>
+#include <string>
+
 using namespace std;
 
 int main() {
@@ -3008,24 +4026,156 @@ int main() {
     bool magKaffee = true;
 
     cout << "Name: " << name << endl;
-    cout << "Alter: " << alter << endl;
+    cout << "Alter: " << alter << " Jahre" << endl;
     cout << "Größe: " << groesse << " m" << endl;
     cout << "Mag Kaffee? " << (magKaffee ? "Ja" : "Nein") << endl;
 
     return 0;
-}
+}</code></pre>
+      <button class="load-to-editor-btn">↪</button>
     </div>
 
-    <h3>Erklärung</h3>
+    <h3 data-search="erklärung include using cout endl main return">Erklärung</h3>
     <div class="info-box">
-      <b>#include</b> – Bibliotheken einbinden (wie import in Python)<br>
-      <b>using namespace std;</b> – spart viel Tippen (cout statt std::cout)<br>
-      <b>int main()</b> – Startpunkt des Programms<br>
-      <b>cout << ... << endl;</b> – Ausgabe (endl = Zeilenumbruch)<br>
-      <b>return 0;</b> – sagt dem Betriebssystem: "alles gut gelaufen"
+      <b>#include <...></b> – Bibliotheken einbinden (wie import)<br>
+      <b>using namespace std;</b> – spart std:: vor cout, string, endl usw.<br>
+      <b>int main()</b> – Einstiegspunkt des Programms<br>
+      <b>cout << ... << endl;</b> – Ausgabe + Zeilenumbruch<br>
+      <b>return 0;</b> – Programm erfolgreich beendet
     </div>
+
+    <h3 data-search="variablen deklaration initialisierung auto">1. Variablen & auto</h3>
+    <div class="example-box example-code" data-target-id="cppCode">
+      <pre><code>int zahl = 42;
+double pi = 3.14159;
+string stadt = "Hamburg";
+bool aktiv = true;
+
+// Seit C++11: auto (Typ wird automatisch erkannt)
+auto nachricht = "Automatisch string";
+cout << nachricht << endl;</code></pre>
+      <button class="load-to-editor-btn">↪</button>
+    </div>
+
+    <h3 data-search="bedingungen if else elseif switch">2. Bedingungen</h3>
+    <div class="example-box example-code" data-target-id="cppCode">
+      <pre><code>int note = 2;
+
+if (note <= 1) {
+    cout << "Sehr gut" << endl;
+} else if (note <= 2) {
+    cout << "Gut" << endl;
+} else {
+    cout << "Ausreichend oder schlechter" << endl;
+}
+
+// switch
+string tag = "Montag";
+switch (tag) {
+    case "Montag":   cout << "Wochenstart"; break;
+    case "Freitag":  cout << "Fast Wochenende"; break;
+    default:         cout << "Normaler Tag"; break;
+}
+cout << endl;</code></pre>
+      <button class="load-to-editor-btn">↪</button>
+    </div>
+
+    <h3 data-search="schleifen for while do range-based for">3. Schleifen</h3>
+    <div class="example-box example-code" data-target-id="cppCode">
+      <pre><code>// Klassische for-Schleife
+for (int i = 1; i <= 5; i++) {
+    cout << i << " ";
+}
+cout << endl;
+
+// Range-based for (seit C++11) – sehr praktisch
+int zahlen[] = {10, 20, 30, 40};
+for (int z : zahlen) {
+    cout << z << " ";
+}
+cout << endl;</code></pre>
+      <button class="load-to-editor-btn">↪</button>
+    </div>
+
   </div>
+
+  <!-- CSS für Suchleiste & Highlight -->
+  <style>
+    .search-box {
+      margin: 16px 0;
+      display: flex;
+      gap: 8px;
+      max-width: 600px;
+    }
+    .search-box input {
+      flex: 1;
+      padding: 10px 14px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .search-box button {
+      padding: 0 20px;
+      background: #0066cc;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .search-box button:hover {
+      background: #0055aa;
+    }
+    .highlight-target {
+      background-color: #f8e7b3;
+      border-left: 4px solid #ffc107;
+      padding-left: 12px;
+      transition: all 0.4s;
+    }
+  </style>
   `;
+
+  // JavaScript für die Suchfunktion
+  setTimeout(() => {
+    const input = document.getElementById("searchInput");
+    const btn = document.getElementById("searchBtn");
+
+    function performSearch() {
+      const term = input.value.trim().toLowerCase();
+      if (!term) return;
+
+      const headings = document.querySelectorAll("h3[data-search]");
+      let found = false;
+
+      headings.forEach((h) => {
+        const keywords = h.getAttribute("data-search").toLowerCase();
+        if (keywords.includes(term)) {
+          h.scrollIntoView({ behavior: "smooth", block: "center" });
+
+          h.classList.add("highlight-target");
+          setTimeout(() => {
+            h.classList.remove("highlight-target");
+          }, 1800);
+
+          found = true;
+          return; // Stoppt beim ersten Treffer
+        }
+      });
+
+      if (!found) {
+        alert("Kein passender Abschnitt gefunden für: " + term);
+      }
+    }
+
+    btn.addEventListener("click", performSearch);
+
+    input.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        performSearch();
+      }
+    });
+  }, 100);
+
   mainContent.classList.add("python-page");
   closeSidebar();
 }
