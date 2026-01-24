@@ -1877,70 +1877,76 @@ Python wird verwendet, um Programme zu schreiben, Daten zu analysieren, Webseite
     <h3>Code ausprobieren</h3>
 
     <div class="editor-box">
-      <textarea id="pythonCode" class="python-editor">
-name = "Anna"
-alter = 20
-
-print("Name:", name)
-print("Alter:", alter)
-      </textarea>
-
+      <!-- Editor oben -->
+<textarea id="pythonCode" class="python-editor">Vergiss nicht print("") einzusetzen</textarea>
       <pre id="output" class="python-output"></pre>
-    </div>
-
     <button id="runBtn" class="run-btn">▶ Code ausführen</button>
 
-    <hr>
 
-    <h3>1. Variablen</h3>
-    <div class="example-box">
-a = 5
-text = "Hallo"
     </div>
 
-    <h3>2. Datentypen</h3>
-    <div class="example-box">
-zahl = 10
+
+    <hr>
+<!-- Beispiele unten -->
+<!-- ... dein Editor und der Rest der Seite bleiben unverändert ... -->
+
+<h3>1. Variablen</h3>
+<div class="example-box example-code" data-target-id="pythonCode">
+  <pre><code>a = 5
+text = "Hallo"
+print(text, a)
+</code></pre>
+  <button class="load-to-editor-btn">↪</button>
+</div>
+
+<h3>2. Datentypen</h3>
+<div class="example-box example-code" data-target-id="pythonCode">
+  <pre><code>zahl = 10
 text = "Hallo"
 ok = True
-    </div>
+print(zahl, text, ok)
+</code></pre>
+  <button class="load-to-editor-btn">↪</button>
+</div>
 
-    <h3>3. Rechnen</h3>
-    <div class="example-box">
-a = 10
+<h3>3. Rechnen</h3>
+<div class="example-box example-code" data-target-id="pythonCode">
+  <pre><code>a = 10
 b = 3
-print(a + b)
-    </div>
+print(a + b)</code></pre>
+  <button class="load-to-editor-btn">↪</button>
+</div>
 
-    <h3>4. Bedingungen</h3>
-    <div class="example-box">
-alter = 18
-
+<h3>4. Bedingungen</h3>
+<div class="example-box example-code" data-target-id="pythonCode">
+  <pre><code>alter = 18
 if alter >= 18:
     print("Erwachsen")
 else:
-    print("Minderjährig")
-    </div>
+    print("Minderjährig")</code></pre>
+  <button class="load-to-editor-btn">↪</button>
+</div>
 
-    <h3>5. Schleifen</h3>
-    <div class="example-box">
-for i in range(5):
-    print(i)
-    </div>
+<h3>5. Schleifen</h3>
+<div class="example-box example-code" data-target-id="pythonCode">
+  <pre><code>for i in range(5):
+    print(i)</code></pre>
+  <button class="load-to-editor-btn">↪</button>
+</div>
 
-    <h3>6. Funktionen</h3>
-    <div class="example-box">
-def add(a, b):
-    return a + b
-    </div>
+<h3>6. Funktionen</h3>
+<div class="example-box example-code" data-target-id="pythonCode">
+  <pre><code>def add(a, b):
+    return a + b</code></pre>
+  <button class="load-to-editor-btn">↪</button>
+</div>
 
-    <h3>7. Listen (Arrays)</h3>
-    <div class="example-box">
-namen = ["Anna", "Tom", "Lena"]
-print(namen[0])
-    </div>
-
-  </div>
+<h3>7. Listen (Arrays)</h3>
+<div class="example-box example-code" data-target-id="pythonCode">
+  <pre><code>namen = ["Anna", "Tom", "Lena"]
+print(namen[0])</code></pre>
+  <button class="load-to-editor-btn">↪</button>
+</div>
   `;
 
   document.getElementById("runBtn").onclick = runPython;
@@ -2506,71 +2512,124 @@ console.log("Alter:", alter);
 
     <hr>
 
-    <h3>1. Variablen</h3>
-    <div class="info-box">
-      Variablen speichern Werte. In JavaScript nutzt man <b>let</b> oder <b>const</b>.
-    </div>
-    <div class="example-box">
-let zahl = 5;
+ <h3>1. Variablen</h3>
+<div class="info-box">
+  Variablen speichern Werte. In JavaScript nutzt man <b>let</b> oder <b>const</b>.
+</div>
+<div class="example-box example-code" data-target-id="jsCode">
+  <pre><code>let zahl = 5;
 const pi = 3.14;
-console.log(zahl + pi);
-    </div>
+let name = "Sara";
 
-    <h3>2. Datentypen</h3>
-    <div class="info-box">
-      Häufige Datentypen: Number, String, Boolean.
-    </div>
-    <div class="example-box">
-let a = 10;
-let text = "Hallo";
-let ok = true;
-    </div>
+console.log(zahl);       // 5
+console.log(pi);         // 3.14
+console.log(name);</code></pre>
+  <button class="load-to-editor-btn">↪</button>
+</div>
 
-    <h3>3. Rechnen</h3>
-    <div class="example-box">
-let x = 10;
+<h3>2. Datentypen</h3>
+<div class="info-box">
+  Häufige Datentypen: Number, String, Boolean.
+</div>
+<div class="example-box example-code" data-target-id="jsCode">
+  <pre><code>let a = 10;              // Number
+let text = "Hallo";      // String
+let ok = true;           // Boolean
+let nichts = null;       // null
+let undefiniert;         // undefined
+
+console.log(typeof a);     // "number"
+console.log(typeof text);  // "string"
+console.log(typeof ok);    // "boolean"</code></pre>
+  <button class="load-to-editor-btn">↪</button>
+</div>
+
+<h3>3. Rechnen</h3>
+<div class="example-box example-code" data-target-id="jsCode">
+  <pre><code>let x = 10;
 let y = 3;
 
-console.log(x + y);
-console.log(x - y);
-console.log(x * y);
-console.log(x / y);
-    </div>
+console.log(x + y);   // 13
+console.log(x - y);   // 7
+console.log(x * y);   // 30
+console.log(x / y);   // 3.333...
+console.log(x % y);   // 1    (Rest)
+console.log(x ** 2);  // 100  (Potenz)</code></pre>
+  <button class="load-to-editor-btn">↪</button>
+</div>
 
-    <h3>4. Bedingungen (if)</h3>
-    <div class="example-box">
-let alter = 18;
+<h3>4. Bedingungen (if)</h3>
+<div class="example-box example-code" data-target-id="jsCode">
+  <pre><code>let alter = 18;
 
 if (alter >= 18) {
   console.log("Erwachsen");
 } else {
   console.log("Minderjährig");
 }
-    </div>
 
-    <h3>5. Schleifen (for)</h3>
-    <div class="example-box">
-for (let i = 1; i <= 5; i++) {
-  console.log(i);
+// Mit else if
+let note = 2.3;
+
+if (note <= 1) {
+  console.log("Sehr gut");
+} else if (note <= 2) {
+  console.log("Gut");
+} else if (note <= 3) {
+  console.log("Befriedigend");
+} else {
+  console.log("Nicht bestanden");
+}</code></pre>
+  <button class="load-to-editor-btn">↪</button>
+</div>
+
+<h3>5. Schleifen (for)</h3>
+<div class="example-box example-code" data-target-id="jsCode">
+  <pre><code>for (let i = 1; i <= 5; i++) {
+  console.log(i);          // 1 2 3 4 5
 }
-    </div>
 
-    <h3>6. Funktionen</h3>
-    <div class="example-box">
-function add(a, b) {
+console.log("---");
+
+// Mit Schrittweite
+for (let i = 0; i <= 10; i += 2) {
+  console.log(i);          // 0 2 4 6 8 10
+}</code></pre>
+  <button class="load-to-editor-btn">↪</button>
+</div>
+
+<h3>6. Funktionen</h3>
+<div class="example-box example-code" data-target-id="jsCode">
+  <pre><code>function add(a, b) {
   return a + b;
 }
 
-console.log(add(3, 4));
-    </div>
+console.log(add(3, 4));     // 7
+console.log(add(10, 25));   // 35
 
-    <h3>7. Arrays</h3>
-    <div class="example-box">
-let namen = ["Anna", "Tom", "Lena"];
+// Arrow-Funktion (moderne Schreibweise)
+const multiply = (x, y) => x * y;
+console.log(multiply(6, 7));   // 42</code></pre>
+  <button class="load-to-editor-btn">↪</button>
+</div>
 
-console.log(namen[0]);
-console.log(namen.length);
-    </div>
+<h3>7. Arrays</h3>
+<div class="example-box example-code" data-target-id="jsCode">
+  <pre><code>let namen = ["Anna", "Tom", "Lena"];
+
+console.log(namen[0]);       // Anna
+console.log(namen[2]);       // Lena
+console.log(namen.length);   // 3
+
+// Element hinzufügen
+namen.push("Max");
+console.log(namen);          // ["Anna", "Tom", "Lena", "Max"]
+
+// Letztes Element entfernen
+namen.pop();
+console.log(namen.length);   // 3</code></pre>
+  <button class="load-to-editor-btn">↪</button>
+</div>
 
   </div>
   `;
@@ -2605,24 +2664,9 @@ function showCreatePHP() {
     <div class="info-box">
       Unten findest du Material.
     </div>
-    <h3>Code ausprobieren</h3>
 
-    <div class="editor-box">
-      <textarea id="phpCode" class="python-editor">
-<?php
-$name = "Anna";
-$alter = 20;
+  
 
-echo "Name: $name\n";
-echo "Alter: $alter\n";
-?>
-      </textarea>
-      <pre id="output" class="python-output"></pre>
-    </div>
-
-    <button id="runBtn" class="run-btn">▶ Code ausführen</button>
-
-    <hr>
 
     <h3>1. Variablen</h3>
     <div class="example-box">
@@ -2715,20 +2759,7 @@ Java wird genutzt, um plattformunabhängige Anwendungen, Android-Apps und server
     </div>
     <h3>Code ausprobieren</h3>
 
-    <div class="editor-box">
-      <textarea id="javaCode" class="python-editor">
-int alter = 20;
-String name = "Anna";
 
-System.out.println("Name: " + name);
-System.out.println("Alter: " + alter);
-      </textarea>
-      <pre id="output" class="python-output"></pre>
-    </div>
-
-    <button id="runBtn" class="run-btn">▶ Code ausführen</button>
-
-    <hr>
 
     <h3>1. Variablen</h3>
     <div class="example-box">
@@ -2816,7 +2847,7 @@ async function runPython() {
   const code = document.getElementById("pythonCode").value;
   const output = document.getElementById("output");
 
-  output.textContent = "⏳ Läuft...";
+  output.textContent = "Läuft...";
 
   try {
     await loadPyodideIfNeeded();
@@ -3049,3 +3080,63 @@ window.addEventListener("scroll", () => {
 
   lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // Für Mobile Bounce
 });
+// Lädt Code-Beispiele in den jeweiligen Editor (funktioniert für ALLE Sprachen)
+document.addEventListener("click", function (e) {
+  if (!e.target.classList.contains("load-to-editor-btn")) return;
+
+  const box = e.target.closest(".example-box.example-code");
+  if (!box) return;
+
+  const targetId = box.dataset.targetId; // z. B. "jsCode", "pythonCode", "htmlcssCode" ...
+  const textarea = document.getElementById(targetId);
+
+  if (!textarea) {
+    console.warn(`Textarea mit ID "${targetId}" nicht gefunden`);
+    return;
+  }
+
+  // Code-Element finden (meist <pre><code> oder <pre>)
+  const codeElement = box.querySelector("pre code, pre, code");
+  if (!codeElement) {
+    console.warn("Kein Code-Element in diesem Beispiel gefunden");
+    return;
+  }
+
+  let codeText = codeElement.textContent.trim();
+
+  // Entfernt überflüssige gemeinsame Einrückung (sehr nützlich!)
+  codeText = dedent(codeText);
+
+  // In Editor einfügen
+  textarea.value = codeText;
+  textarea.focus();
+  textarea.setSelectionRange(0, 0); // Cursor ganz oben
+
+  // Visuelles Feedback
+  const originalText = e.target.textContent;
+  e.target.textContent = "✓";
+  e.target.style.background = "#28a745";
+  setTimeout(() => {
+    e.target.textContent = originalText;
+    e.target.style.background = "";
+  }, 1400);
+});
+
+// Hilfsfunktion: entfernt gemeinsame führende Leerzeichen
+function dedent(str) {
+  const lines = str.split("\n");
+  if (lines.length <= 1) return str;
+
+  // Minimale Einrückung aller nicht-leeren Zeilen finden
+  const minIndent = lines
+    .filter((line) => line.trim().length > 0)
+    .map((line) => line.match(/^\s*/)[0].length)
+    .reduce((a, b) => Math.min(a, b), Infinity);
+
+  if (minIndent === Infinity || minIndent === 0) return str;
+
+  return lines
+    .map((line) => line.slice(minIndent))
+    .join("\n")
+    .trim();
+}

@@ -2205,3 +2205,36 @@ iframe {
 
   pointer-events: none;
 }
+.example-box {
+  position: relative;
+  padding: 16px;
+  background: var(--start-bg);
+  border-radius: 8px;
+  margin: 16px 0;
+  overflow: auto;
+}
+
+.load-to-editor-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 0.85rem;
+  padding: 6px 12px;
+  background: #0066cc;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  opacity: 0.9;
+  transition: all 0.18s;
+}
+
+.load-to-editor-btn:hover {
+  opacity: 1;
+  background: #0055aa;
+  transform: translateY(-1px);
+}
+
+.load-to-editor-btn:active {
+  transform: translateY(0);
+}
