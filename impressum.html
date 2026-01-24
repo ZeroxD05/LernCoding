@@ -1,96 +1,240 @@
 <!doctype html>
-<html lang="en">
+<html lang="de">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LernCoding - Impressum</title>
-    <link rel="icon" type="image/png" href="lightdark.png" alt="Favicon" />
-    <!-- Favicon für Browser -->
+    <title>Impressum – LernCoding</title>
+
     <meta
-      name="keywords"
-      content="programmieren lernen, kostenlos programmieren lernen, interaktiv programmieren, python lernen anfänger, javascript lernen, coding lernen deutsch, programmieren lernen online, coding challenges"
+      name="description"
+      content="Impressum von LernCoding – interaktive Programmier-Lernplattform mit Tutorials, Challenges und Projekten auf Deutsch."
     />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://www.lern-coding.de/" />
-    <link rel="icon" type="image/png" href="lightdark.png" alt="Favicon" />
+    <link rel="canonical" href="https://www.lern-coding.de/impressum" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="lightdark.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
 
     <style>
-      textarea,
-      input,
-      select,
-      button {
-        font-size: 16px; /* Mindestens 16px verhindert automatisches Zoomen */
-        -webkit-text-size-adjust: 100%; /* Safari / iOS */
-        -moz-text-size-adjust: 100%; /* Firefox */
-        -ms-text-size-adjust: 100%; /* IE */
-        text-size-adjust: 100%; /* Standard */
+      :root {
+        --color-bg: #ffffff;
+        --color-text: #1a1a1a;
+        --color-primary: #0066cc;
+        --color-primary-dark: #004999;
+        --color-muted: #6b7280;
+        --color-border: #e5e7eb;
+        --font-base: "Inter", system-ui, -apple-system, sans-serif;
+        --max-width: 720px;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --color-bg: #0f172a;
+          --color-text: #e2e8f0;
+          --color-primary: #60a5fa;
+          --color-primary-dark: #3b82f6;
+          --color-muted: #94a3b8;
+          --color-border: #334155;
+        }
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        font-size: 100%;
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+      }
+      body {
+        font-family: var(--font-base);
+        line-height: 1.6;
+        color: var(--color-text);
+        background: var(--color-bg);
+        min-height: 100vh;
+        padding: 2rem 1rem;
+      }
+
+      .container {
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 0 1rem;
+      }
+
+      .back-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.25rem;
+        background: var(--color-primary);
+        color: white;
+        font-weight: 500;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+      }
+
+      .back-button:hover,
+      .back-button:focus {
+        background: var(--color-primary-dark);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 102, 204, 0.25);
+      }
+
+      .back-button svg {
+        width: 1.1em;
+        height: 1.1em;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 2.5rem;
+      }
+
+      h1 {
+        font-size: clamp(1.8rem, 5vw, 2.5rem);
+        font-weight: 700;
+        margin-bottom: 1.25rem;
+        color: var(--color-primary);
+      }
+
+      main {
+        background: var(--color-bg);
+        border: 1px solid var(--color-border);
+        border-radius: 12px;
+        padding: clamp(1.8rem, 4vw, 2.5rem);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+      }
+
+      section {
+        margin-bottom: 2.5rem;
+      }
+
+      h2 {
+        font-size: 1.35rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: var(--color-primary);
+        border-bottom: 2px solid var(--color-primary);
+        padding-bottom: 0.5rem;
+        display: inline-block;
+      }
+
+      address {
+        font-style: normal;
+        line-height: 1.8;
+        font-size: 1.05rem;
+      }
+
+      a {
+        color: var(--color-primary);
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      .center-button {
+        text-align: center;
+        margin: 3rem 0 1rem;
+      }
+
+      footer {
+        text-align: center;
+        margin-top: 4rem;
+        color: var(--color-muted);
+        font-size: 0.95rem;
+      }
+
+      @media (max-width: 480px) {
+        body {
+          padding: 1.5rem 0.8rem;
+        }
+        main {
+          padding: 1.8rem 1.2rem;
+        }
+        .back-button {
+          width: 100%;
+          justify-content: center;
+        }
       }
     </style>
-    <meta
-      name="description"
-      content="Lerne Programmieren interaktiv und praxisnah! Entdecke Tutorials, Coding-Challenges und Projekte für Anfänger und Fortgeschrittene auf von überall."
-    />
-
-    <!-- Apple Touch Icons für Home-Bildschirm -->
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="lightdark.png"
-      alt="Favicon"
-    />
-
-    <!-- Optional: Theme-Farbe für Statusleiste -->
-    <meta
-      name="apple-mobile-web-app-status-bar-style"
-      content="black-translucent"
-    />
-    <meta name="theme-color" content="#ffffff" />
-    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <section id="main-content">
-      <h1>Impressum</h1>
+    <div class="container">
+      <header>
+        <h1>Impressum</h1>
+        <a href="https://www.lern-coding.de/" class="back-button">
+          ← Zurück zur Startseite
+        </a>
+      </header>
 
-      <p><strong>Angaben gemäß § 5 TMG:</strong></p>
-      <p>
-        Ata Zeran<br />
-        LernCoding<br />
-        Abc Straße 1<br />
-        12345 Musterstadt<br />
-        Deutschland
-      </p>
+      <main>
+        <section>
+          <h2>Angaben gemäß § 5 TMG</h2>
+          <address>
+            Ata Zeran<br />
+            LernCoding<br />
+            Abc Straße 1<br />
+            12345 Musterstadt<br />
+            Deutschland
+          </address>
+        </section>
 
-      <p><strong>Kontakt:</strong></p>
-      <p>
-        E-Mail:
-        <a href="mailto:lerncoding2026@gmail.com">lerncoding2026@gmail.com</a
-        ><br />
-      </p>
+        <section>
+          <h2>Kontakt</h2>
+          <p>
+            E-Mail:
+            <a href="mailto:lerncoding2026@gmail.com"
+              >lerncoding2026@gmail.com</a
+            >
+          </p>
+        </section>
 
-      <p>
-        <strong>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:</strong>
-      </p>
-      <p>
-        Ata Zeran<br />
-        Anschrift wie oben
-      </p>
+        <section>
+          <h2>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h2>
+          <address>
+            Ata Zeran<br />
+            Anschrift wie oben
+          </address>
+        </section>
 
-      <p><strong>Haftungshinweis:</strong></p>
-      <p>
-        Die Inhalte dieser Website dienen ausschließlich zu Lern- und
-        Informationszwecken. Trotz sorgfältiger inhaltlicher Kontrolle
-        übernehmen wir keine Haftung für die Vollständigkeit, Richtigkeit und
-        Aktualität der Inhalte. Für Schäden, die direkt oder indirekt aus der
-        Nutzung der Website entstehen, wird keine Haftung übernommen.
-      </p>
-    </section>
+        <section>
+          <h2>Haftungshinweis</h2>
+          <p>
+            Die Inhalte dieser Website dienen ausschließlich zu Lern- und
+            Informationszwecken. Trotz sorgfältiger inhaltlicher Kontrolle
+            übernehmen wir keine Haftung für die Vollständigkeit, Richtigkeit
+            und Aktualität der Inhalte. Für Schäden, die direkt oder indirekt
+            aus der Nutzung der Website entstehen, wird keine Haftung
+            übernommen.
+          </p>
+        </section>
+
+        <div class="center-button">
+          <a href="https://www.lern-coding.de/" class="back-button">
+            ← Zurück zur Startseite
+          </a>
+        </div>
+      </main>
+
+      <footer>
+        <p>© 2026 LernCoding – Alle Rechte vorbehalten.</p>
+      </footer>
+    </div>
   </body>
 </html>
