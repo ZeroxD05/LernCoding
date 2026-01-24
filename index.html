@@ -359,10 +359,10 @@
 
             <div class="sidebar-legal">
               <button class="sidebar-link" onclick="showImpressum()">
-                Impressum
+                <a href="impressum.html">Impressum</a>
               </button>
               <button class="sidebar-link" onclick="showAGB()">
-                AGB & Datenschutz
+                <a href="agb.html">AGB & Datenschutz</a>
               </button>
             </div>
           </li>
@@ -582,8 +582,69 @@ perfekt für Anfänger und Fortgeschrittene. </p>
     <div class="contact">
       Business / Kooperationen:  
       <a href="mailto:lerncoding2026@gmail.com" style="color: var(--text); text-decoration: underline;" class="email-link">lerncoding2026@gmail.com</a>
-      <button><a href="impressum.html">Impressum</a></button>
     </div>
+       <div class="legal-links">
+  <a href="impressum.html" class="legal-btn-outline">Impressum</a>
+  <a href="agb-datenschutz.html" class="legal-btn-outline">Datenschutz & AGB</a>
+</div>
+
+<style>
+  .legal-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin: 2rem 0;
+  }
+
+  .legal-btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 180px;
+    padding: 0.8rem 1.4rem;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #0066cc;
+    background: transparent;
+    border: 2px solid #0066cc;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.25s ease;
+  }
+
+  .legal-btn-outline:hover,
+  .legal-btn-outline:focus {
+    background: #0066cc;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 102, 204, 0.2);
+  }
+
+  @media (max-width: 480px) {
+    .legal-links {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .legal-btn-outline {
+      width: 100%;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .legal-btn-outline {
+      color: #60a5fa;
+      border-color: #60a5fa;
+    }
+    .legal-btn-outline:hover,
+    .legal-btn-outline:focus {
+      background: #60a5fa;
+      color: #0f172a;
+    }
+  }
+</style>
+
   </div>
 </section>
 
