@@ -2238,3 +2238,10 @@ iframe {
 .load-to-editor-btn:active {
   transform: translateY(0);
 }
+.contact {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}

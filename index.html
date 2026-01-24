@@ -584,8 +584,9 @@ perfekt für Anfänger und Fortgeschrittene. </p>
       <a href="mailto:lerncoding2026@gmail.com" style="color: var(--text); text-decoration: underline;" class="email-link">lerncoding2026@gmail.com</a>
     </div>
        <div class="legal-links">
-  <a href="impressum.html" class="legal-btn-outline">Impressum</a>
-  <a href="agb-datenschutz.html" class="legal-btn-outline">Datenschutz & AGB</a>
+<div class="legal-links">
+  <a href="impressum.html" class="legal-btn">Impressum</a>
+  <a href="agb-datenschutz.html" class="legal-btn">Datenschutz & AGB</a>
 </div>
 
 <style>
@@ -594,54 +595,49 @@ perfekt für Anfänger und Fortgeschrittene. </p>
     flex-wrap: wrap;
     gap: 1rem;
     justify-content: center;
-    margin: 2rem 0;
+    margin: 2rem 0 1.5rem;
   }
 
-  .legal-btn-outline {
+  .legal-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 180px;
-    padding: 0.8rem 1.4rem;
+    padding: 0.75rem 1.4rem;           /* deutlich weniger padding → schmaler */
+    min-width: 120px;                   /* kleinerer Mindestwert */
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    font-size: 1rem;
+    font-size: 0.98rem;
     font-weight: 500;
-    color: #0066cc;
-    background: transparent;
-    border: 2px solid #0066cc;
+    color: white;
+    background: #0066cc;
+    border: none;
     border-radius: 8px;
     text-decoration: none;
-    transition: all 0.25s ease;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 102, 204, 0.18);
   }
 
-  .legal-btn-outline:hover,
-  .legal-btn-outline:focus {
-    background: #0066cc;
-    color: white;
+  .legal-btn:hover,
+  .legal-btn:focus {
+    background: #004999;
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 102, 204, 0.2);
+    box-shadow: 0 5px 12px rgba(0, 102, 204, 0.3);
   }
 
   @media (max-width: 480px) {
     .legal-links {
       flex-direction: column;
-      align-items: stretch;
+      align-items: center;
     }
-    .legal-btn-outline {
+    .legal-btn {
       width: 100%;
+      max-width: 240px;                 /* verhindert, dass sie auf Handy zu breit werden */
     }
   }
 
   @media (prefers-color-scheme: dark) {
-    .legal-btn-outline {
-      color: #60a5fa;
-      border-color: #60a5fa;
-    }
-    .legal-btn-outline:hover,
-    .legal-btn-outline:focus {
-      background: #60a5fa;
-      color: #0f172a;
-    }
+    .legal-btn { background: #60a5fa; }
+    .legal-btn:hover,
+    .legal-btn:focus { background: #3b82f6; }
   }
 </style>
 
