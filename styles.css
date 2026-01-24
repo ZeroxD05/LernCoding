@@ -2176,3 +2176,32 @@ iframe {
     max-width: 960px;
   }
 }
+.start-item::after {
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.start-item:hover::after {
+  transform: translate(4px, -50%);
+  opacity: 1;
+}
+.start-item {
+  position: relative;
+  padding-right: 48px; /* Platz für den Pfeil */
+}
+
+.start-item::after {
+  content: "›"; /* schöner als > */
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text);
+  opacity: 0.6;
+
+  pointer-events: none;
+}
