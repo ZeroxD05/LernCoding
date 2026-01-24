@@ -1025,6 +1025,7 @@ function showStartPage() {
  <section id="homepage">
  <h1 style="text-align: start" id="intro">Entwickle deine</h1> 
   <h2  style="max-width: 65%; font-size: 20px;" class="start-item"> #<span style="font-size: 20px;" id="typing-text" class="gradiant-text"></span></h2>
+<p style="color: var(--text);">kostenlos · einfach · schnell</p>
 
  <div style="display:flex; justify-content: start; align-items: start;" class="stat-cards">
         <div class="stat-card" id="screentime-box">
