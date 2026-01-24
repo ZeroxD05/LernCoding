@@ -1139,7 +1139,6 @@ perfekt für Anfänger und Fortgeschrittene. </p>
 </section>
 
 
-
 <section class="top-courses" id="intro">
   <div class="content-wrapper">
     <div  class="header" style="display: flex;justify-content: center;
@@ -1185,10 +1184,6 @@ perfekt für Anfänger und Fortgeschrittene. </p>
       <!-- Weitere Karten können hier hinzugefügt werden -->
     </div>
   </div>
-
-</section>
-
-
 
 </section>
 <section class="socials-section">
@@ -1237,8 +1232,71 @@ perfekt für Anfänger und Fortgeschrittene. </p>
       Business / Kooperationen:  
       <a href="mailto:lerncoding2026@gmail.com" style="color: var(--text); text-decoration: underline;" class="email-link">lerncoding2026@gmail.com</a>
     </div>
+       <div class="legal-links">
+<div class="legal-links">
+  <a href="impressum.html" class="legal-btn">Impressum</a>
+  <a href="agb-datenschutz.html" class="legal-btn">Datenschutz & AGB</a>
+</div>
+
+<style>
+  .legal-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem 0 1.5rem;
+  }
+
+  .legal-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.4rem;           /* deutlich weniger padding → schmaler */
+    min-width: 120px;                   /* kleinerer Mindestwert */
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 0.98rem;
+    font-weight: 500;
+        align-items: center;
+
+    color: var(--text);
+    background: var(--start-bg);
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 102, 204, 0.18);
+  }
+
+  .legal-btn:hover,
+  .legal-btn:focus {
+    background: #004999;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 12px rgba(0, 102, 204, 0.3);
+  }
+
+  @media (max-width: 480px) {
+    .legal-links {
+      flex-direction: column;
+      align-items: center;
+    }
+    .legal-btn {
+      width: 100%;
+      max-width: 240px;                 /* verhindert, dass sie auf Handy zu breit werden */
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .legal-btn { background: #60a5fa; }
+    .legal-btn:hover,
+    .legal-btn:focus { background: #3b82f6; }
+  }
+</style>
+
   </div>
 </section>
+
+
 
 <!-- Font Awesome CDN (Icons) -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -1359,7 +1417,6 @@ perfekt für Anfänger und Fortgeschrittene. </p>
     }
   }
 </style>
-
 
 
 
