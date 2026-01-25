@@ -370,21 +370,19 @@ header h1,
 
 /* ===== Main Content ===== */
 main {
-  margin-top: 60px;
   padding: 30px;
   font-size: 18px;
   line-height: 1.6;
-  max-width: 800px;
   margin-left: auto;
   display: flex;
   margin-right: auto;
   justify-content: start;
   align-items: start;
   flex-direction: column;
+  margin-top: -10vh;
 }
 
 #main-content {
-  max-width: 800px;
   margin-left: auto;
   margin-right: auto;
   justify-content: center;
@@ -1893,19 +1891,97 @@ iframe {
   /* falls irgendwelche Kinder-Elemente einen eigenen Hintergrund haben */
   background: transparent;
 }
+/* Hero / Startseite – vereinheitlicht */
+#homepage {
+  padding: clamp(5rem, 12vw, 9rem) 5% 4rem;
+  background: transparent;
+  margin-top: 5vh;
+  margin-bottom: 3vh;
+  font-size: larger;
+}
+
 .hero-container {
+  --gap: clamp(2rem, 5vw, 4rem);
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-  gap: clamp(3rem, 6vw, 5rem);
-  max-width: 1400px;
+  grid-template-columns: 1fr minmax(320px, 480px);
+  gap: var(--gap);
+  max-width: 1400px; /* etwas breiterer Maximalwert */
   margin: 0 auto;
   align-items: center;
 }
 
+@media (max-width: 900px) {
+  .hero-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .hero-left h1,
+  .hero-left h2 {
+    text-align: center;
+  }
+
+  .stat-cards,
+  .start-list {
+    justify-content: center;
+  }
+}
 .hero-left {
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
+  flex: 1 1 50%;
+  min-width: 320px;
+}
+
+.hero-right {
+  flex: 1 1 45%;
+  min-width: 320px;
+  position: relative;
+  height: 300px; /* Höhe anpassen nach Geschmack */
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+}
+
+.hero-slider {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+.slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.03);
+  transition:
+    opacity 1.2s ease-in-out,
+    transform 1.8s ease-in-out;
+}
+
+.slide.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Mobile – Bild verschwindet oder wird kleiner */
+@media (max-width: 850px) {
+  .hero-container {
+    flex-direction: column;
+    padding: 2rem 1.5rem;
+  }
+
+  .hero-right {
+    height: 300px;
+    width: 100%;
+    max-width: 500px;
+    margin: 2rem auto 1rem;
+  }
+
+  .hero-left h2 {
+    max-width: 100% !important;
+  }
 }
 
 .hero-content h1 {
@@ -2382,6 +2458,26 @@ iframe {
     font-size: 1.15rem;
   }
 }
+
+/* Auf Mobilgeräten (≤ 850px) → rechten Bereich komplett ausblenden */
+@media (max-width: 961px) {
+  .hero-container {
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2.5rem 1.5rem 1.5rem;
+  }
+
+  .hero-right {
+    display: none; /* ← das Wichtigste: komplett weg */
+  }
+
+  .hero-left {
+    width: 100%;
+    max-width: 100%;
+    text-align: center; /* Text zentrieren, sieht auf Handy meist besser aus */
+  }
+}
+
 .nav-buttons {
   display: flex;
   justify-content: space-between;

@@ -367,12 +367,18 @@
     </div>
 
     <main id="main-content">
-      <section id="homepage">
- <h1 style="text-align: start">Entwickle mit uns deine</h1> 
-  <h2  style="max-width: 40%; font-size: 20px;" class="start-item"> #<span style="font-size: 20px;" id="typing-text" class="gradiant-text"></span></h2>
-<p style="color: var(--text);">kostenlos · einfach · schnell</p>
-
- <div style="display:flex; justify-content: start; align-items: start;" class="stat-cards">
+    <section id="homepage">
+  <div class="hero-container">
+    
+    <!-- Linke Seite – dein aktueller Inhalt -->
+    <div class="hero-left">
+      <h1 style="text-align: start">Entwickle mit uns deine</h1>
+      <h2 style="max-width: 40%; font-size: 20px;" class="start-item">
+        #<span style="font-size: 20px;" id="typing-text" class="gradiant-text"></span>
+      </h2>
+      <p style="color: var(--text);">kostenlos · einfach · schnell</p>
+      
+      <div style="display:flex; justify-content: start; align-items: start;" class="stat-cards">
         <div class="stat-card" id="screentime-box">
           <div class="stat-title">Screentime</div>
           <div class="stat-value" id="screentime-value">0s</div>
@@ -382,12 +388,16 @@
           <div class="stat-value" id="streak-value">0 Tage</div>
         </div>
       </div>
-<p class="info-box">Interaktive Kurse, echte Projekte und  <br>Challenges
-perfekt für Anfänger und Fortgeschrittene. </p>
+      
+      <p class="info-box">Interaktive Kurse, echte Projekte und <br>Challenges
+      perfekt für Anfänger und Fortgeschrittene. </p>
+
+
+
 
       
-
-      <div class="start-list">
+    </div>
+    <div class="start-list">
        
 
         <button class="start-item" onclick="startQuiz('webdev',1)">
@@ -463,9 +473,13 @@ perfekt für Anfänger und Fortgeschrittene. </p>
           </div>
         </button>
       </div>
+    </div>
       </section>
   
 </div>
+
+
+  
 
 <section class="video-section wavy-top" id="videos">
   <div class="video-container" style="text-align: center;">
@@ -674,7 +688,7 @@ loadQuestion();
 
 </section>
 
-<section class="socials-section">
+<section class="socials-section" id="intro">
   <div class="container">
     <h2 class="section-title">Kontakt</h2>
     <p class="section-subtitle">Hamburg • Content • Community</p>
