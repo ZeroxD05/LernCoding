@@ -98,9 +98,10 @@
         <span class="bar bar2"></span>
         <span class="bar bar3"></span>
       </div>
-      <h2 style="text-decoration: none" onclick="showStartPage()">
-        LernCoding
-      </h2>
+    <a href="https://www.lern-coding.de" style="text-decoration: none; color: inherit;">
+  <h2>LernCoding</h2>
+</a>
+
       <button
         id="theme-toggle"
         aria-label="Theme wechseln"
@@ -138,24 +139,20 @@
 
         <hr />
         <ul class="accordion">
-          <li>
-            <button class="sidebar-link" onclick="showStartPage()">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-                aria-hidden="true"
-                style="
-                  margin-right: 8px;
-                  vertical-align: middle;
-                  fill: currentColor;
-                "
-              >
-                <path d="M12 3l9 8h-3v9h-5v-6H11v6H6v-9H3z" />
-              </svg>
-              Startseite
-            </button>
+          <li><a href="https://www.lern-coding.de" class="sidebar-link" style="text-decoration: none;">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width="24"
+    height="24"
+    aria-hidden="true"
+    style="margin-right: 8px; vertical-align: middle; fill: currentColor;"
+  >
+    <path d="M12 3l9 8h-3v9h-5v-6H11v6H6v-9H3z" />
+  </svg>
+  Startseite
+</a>
+
           </li>
 
           <li>
@@ -491,51 +488,193 @@ perfekt für Anfänger und Fortgeschrittene. </p>
 
 <section class="top-courses" id="intro">
   <div class="content-wrapper">
-    <div  class="header" style="display: flex;justify-content: center;
-    align-items: center; flex-direction: column; text-align: center; margin-bottom: 24px;">
-      <h2 >Berufsfinder</h2>
-      <div class="info-box"><p>Starte deine Programmierreise mit unseren beliebtesten Kursen und Karrierepfaden!</p></div>
+
+    <div style="flex-direction: column;" class="header career-header">
+      <h2>IT-Berufsfinder</h2>
+      <div class="info-box"><p>Beantworte ein paar Fragen und finde heraus, welcher IT-Beruf wirklich zu dir passt.</p></div>
     </div>
 
-    <div class="grid">
-      <div class="card">
-        <div class="badge career">Karrierepfad</div>
-        <h3 class="title">Data Scientist: Spezialist für Maschinelles Lernen</h3>
-        <p class="description">
-          Data Scientists im Bereich Maschinelles Lernen lösen komplexe Probleme, treffen Vorhersagen, erkennen Muster und vieles mehr! Sie nutzen Python, C# und verschiedene Algorithmen.
-        </p>
-        <div class="meta">
-          <div class="level">Für Fortgeschrittene geeignet</div>
-        </div>
+    <div class="career-finder">
+<div class="question-box" id="questionBox">
+  <h3 id="questionText"></h3>
+  <div class="answers" id="answers"></div>
+  
+
+</div>
+      <div style="margin-top: 3vh;" class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
       </div>
 
-      <div class="card">
-        <div class="badge course">Kurs</div>
-        <h3 class="title">Python lernen</h3>
-        <p class="description">
-          Lerne die Grundlagen von Python – eine der leistungsstärksten, vielseitigsten und gefragtesten Programmiersprachen heutzutage.
-        </p>
-        <div class="meta">
-          <div class="level">Für Einsteiger geeignet</div>
-        </div>
+      <div class="question-box" id="questionBox">
+        <h3 id="questionText"></h3>
+        <div class="answers" id="answers"></div>
       </div>
 
-      <div class="card">
-        <div class="badge webdev">WebDev-Pfad</div>
-        <h3 class="title">Front-End Webentwicklung</h3>
-        <p class="description">
-          Lerne HTML, CSS und JavaScript, um moderne und responsive Webseiten zu erstellen. Ideal für angehende Webentwickler:innen.
-        </p>
-        <div class="meta">
-          <div class="level">Für Einsteiger geeignet</div>
-        </div>
+      <div class="result-box" id="resultBox">
+        <h3>Dein Interessenprofil</h3>
+        <canvas id="interestChart"></canvas>
+        <div class="career-ranking" id="careerRanking"></div>
       </div>
-
-      <!-- Weitere Karten können hier hinzugefügt werden -->
-    </div>
+        <div class="nav-buttons">
+    <button id="prevQuestion" class="nav-btn prev">← Zurück</button>
+    <button id="nextQuestion" class="nav-btn next">Weiter →</button>
   </div>
+<button id="restartQuiz" class="restart-btn">
+    Quiz neustarten
+  </button>
+    </div>
+
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+const careers = ["web","data","software","it","security","ai"];
+
+const scores = {
+  web:0, data:0, software:0, it:0, security:0, ai:0
+};
+
+const questions = [
+{q:"Was macht dir am meisten Spaß?", a:[
+["Design & Layout","web"],["Daten analysieren","data"],["Programme bauen","software"],["Systeme einrichten","it"]
+]},
+{q:"Wie arbeitest du am liebsten?", a:[
+["Kreativ","web"],["Analytisch","data"],["Strukturiert","software"],["Praktisch","it"]
+]},
+{q:"Welche Tools klingen spannend?", a:[
+["HTML/CSS (Websiten)","web"],["Python/SQL (Datenbanken)","data"],["Java/C# (Software)","software"],["Linux/Server (Informatik)","it"]
+]},
+{q:"Was reizt dich mehr?", a:[
+["Benutzeroberflächen","web"],["KI & Modelle","ai"],["Algorithmen","software"],["Sicherheit","security"]
+]},
+{q:"Wie wichtig ist Design?", a:[
+["Sehr wichtig","web"],["Eher unwichtig","software"],["Gar nicht","data"],["Mittel","it"]
+]},
+{q:"Welche Probleme löst du lieber?", a:[
+["User Probleme","web"],["Datenprobleme","data"],["Systemprobleme","it"],["Logikprobleme","software"]
+]},
+{q:"Was klingt cool?", a:[
+["Web Apps","web"],["Big Data","data"],["Betriebssysteme","it"],["Cyberangriffe stoppen","security"]
+]},
+{q:"Wie lernst du?", a:[
+["Mit Tutorials","web"],["Mit Mathe","data"],["Mit Code","software"],["Mit Praxis","it"]
+]},
+{q:"Was ist dir wichtig?", a:[
+["Kreativität","web"],["Genauigkeit","data"],["Performance","software"],["Stabilität","it"]
+]},
+{q:"Welche Branche reizt dich?", a:[
+["Startups","web"],["Forschung","ai"],["Große Softwarefirmen","software"],["IT-Abteilungen","it"]
+]}
+];
+
+let current = 0;
+
+const qText = document.getElementById("questionText");
+const answersDiv = document.getElementById("answers");
+const progressFill = document.getElementById("progressFill");
+const questionBox = document.getElementById("questionBox");
+const resultBox = document.getElementById("resultBox");
+const rankingDiv = document.getElementById("careerRanking");
+
+function loadQuestion(){
+  const q = questions[current];
+  qText.textContent = q.q;
+  answersDiv.innerHTML = "";
+
+  q.a.forEach(ans=>{
+    const btn = document.createElement("button");
+    btn.textContent = ans[0];
+    btn.onclick = ()=>selectAnswer(ans[1]);
+    answersDiv.appendChild(btn);
+  });
+
+  progressFill.style.width = ((current)/questions.length*100)+"%";
+}
+
+function selectAnswer(type){
+  scores[type]++;
+  current++;
+
+  if(current<questions.length){
+    loadQuestion();
+  } else {
+    showResults();
+  }
+}
+
+function showResults(){
+  questionBox.style.display="none";
+  resultBox.style.display="block";
+  progressFill.style.width="100%";
+
+
+  // Nav-Buttons ausblenden
+  document.querySelector(".nav-buttons").style.display = "none";
+  const sorted = Object.entries(scores).sort((a,b)=>b[1]-a[1]);
+
+  const names = {
+    web:"Web Entwickler",
+    data:"Data Scientist",
+    software:"Software Entwickler",
+    it:"IT-Administrator",
+    security:"Cybersecurity Spezialist",
+    ai:"AI Engineer"
+  };
+
+  rankingDiv.innerHTML="<h4>Top passende Berufe:</h4>";
+  sorted.slice(0,3).forEach((c,i)=>{
+    rankingDiv.innerHTML += `<div class="career-card">#${i+1} ${names[c[0]]}</div>`;
+  });
+
+  drawChart();
+}
+function drawChart() {
+  new Chart(document.getElementById("interestChart"), {
+    type: "radar",
+    data: {
+      labels: ["Web", "Data", "Software", "IT", "Security", "AI"],
+      datasets: [{
+        label: "Deine Interessen",
+        data: [
+          scores.web, scores.data, scores.software,
+          scores.it, scores.security, scores.ai
+        ],
+        fill: true
+      }]
+    },
+    options: {
+      scales: {
+        r: {
+          beginAtZero: true,
+          ticks: {
+            stepSize: 1
+          },
+          // Hier kommen die Grid-Linien-Farben
+          grid: {
+            color: "var(--card-bg)",           // Haupt-Gitterlinien
+            borderColor: "var(--card-bg)",     // äußerer Ring (optional)
+            lineWidth: 1                       // dünner machen, falls gewünscht
+          },
+          // Optional: auch die Winkel-Linien (Radial-Linien) anpassen
+          angleLines: {
+            color: "var(--card-bg)",
+            lineWidth: 1
+          },
+          // Optional: Tick-Labels / Zahlen etwas dezenter
+          ticks: {
+            color: "var(--text-muted, #888)", // falls du eine Textfarbe-Variable hast
+            backdropColor: "transparent"       // entfernt den weißen Hintergrund hinter Zahlen
+          }
+        }
+      }
+    }
+  });
+}
+loadQuestion();
+</script>
 
 </section>
+
 <section class="socials-section">
   <div class="container">
     <h2 class="section-title">Kontakt</h2>

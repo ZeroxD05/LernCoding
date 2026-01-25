@@ -1141,51 +1141,42 @@ perfekt für Anfänger und Fortgeschrittene. </p>
 
 <section class="top-courses" id="intro">
   <div class="content-wrapper">
-    <div  class="header" style="display: flex;justify-content: center;
-    align-items: center; flex-direction: column; text-align: center; margin-bottom: 24px;">
-      <h2 >Top-Kurse</h2>
-      <div class="info-box"><p>Starte deine Programmierreise mit unseren beliebtesten Kursen und Karrierepfaden!</p></div>
+
+    <div style="flex-direction: column;" class="header career-header">
+      <h2>IT-Berufsfinder</h2>
+      <div class="info-box">
+        <p>Beantworte ein paar Fragen und finde heraus, welcher IT-Beruf wirklich zu dir passt.</p>
+      </div>
     </div>
 
-    <div class="grid">
-      <div class="card">
-        <div class="badge career">Karrierepfad</div>
-        <h3 class="title">Data Scientist: Spezialist für Maschinelles Lernen</h3>
-        <p class="description">
-          Data Scientists im Bereich Maschinelles Lernen lösen komplexe Probleme, treffen Vorhersagen, erkennen Muster und vieles mehr! Sie nutzen Python, C# und verschiedene Algorithmen.
-        </p>
-        <div class="meta">
-          <div class="level">Für Fortgeschrittene geeignet</div>
-        </div>
+    <div class="career-finder">
+
+      <div class="question-box" id="questionBox">
+        <h3 id="questionText"></h3>
+        <div class="answers" id="answers"></div>
       </div>
 
-      <div class="card">
-        <div class="badge course">Kurs</div>
-        <h3 class="title">Python lernen</h3>
-        <p class="description">
-          Lerne die Grundlagen von Python – eine der leistungsstärksten, vielseitigsten und gefragtesten Programmiersprachen heutzutage.
-        </p>
-        <div class="meta">
-          <div class="level">Für Einsteiger geeignet</div>
-        </div>
+      <div style="margin-top: 3vh;" class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
       </div>
 
-      <div class="card">
-        <div class="badge webdev">WebDev-Pfad</div>
-        <h3 class="title">Front-End Webentwicklung</h3>
-        <p class="description">
-          Lerne HTML, CSS und JavaScript, um moderne und responsive Webseiten zu erstellen. Ideal für angehende Webentwickler:innen.
-        </p>
-        <div class="meta">
-          <div class="level">Für Einsteiger geeignet</div>
-        </div>
+      <div class="result-box" id="resultBox" style="display:none;">
+        <h3>Dein Interessenprofil</h3>
+        <canvas id="interestChart"></canvas>
+        <div class="career-ranking" id="careerRanking"></div>
       </div>
 
-      <!-- Weitere Karten können hier hinzugefügt werden -->
+      <div class="nav-buttons">
+        <button id="prevQuestion" class="nav-btn prev">← Zurück</button>
+        <button id="nextQuestion" class="nav-btn next">Weiter →</button>
+      </div>
+
+      <button id="restartQuiz" class="restart-btn">Quiz neustarten</button>
+
     </div>
   </div>
-
 </section>
+
 <section class="socials-section">
   <div class="container">
     <h2 class="section-title">Kontakt</h2>
@@ -4347,3 +4338,100 @@ function dedent(str) {
     .join("\n")
     .trim();
 }
+// Neustart-Button
+const restartBtn = document.getElementById("restartQuiz");
+
+restartBtn.addEventListener("click", () => {
+  // Alle Scores zurücksetzen
+  Object.keys(scores).forEach((key) => (scores[key] = 0));
+
+  // Zurück zum ersten Schritt
+  current = 0;
+
+  // Ergebnis ausblenden, Frage wieder einblenden
+  resultBox.style.display = "none";
+  questionBox.style.display = "block";
+
+  // Progress zurücksetzen
+  progressFill.style.width = "0%";
+
+  // Erste Frage neu laden
+  loadQuestion();
+
+  // Optional: Chart zerstören, falls du mehrere Male spielst (vermeidet Überlagerung)
+  // Wenn du Chart.js-Instanz speicherst, kannst du sie hier destroy() aufrufen
+});
+// Navigation Buttons
+const prevBtn = document.getElementById("prevQuestion");
+const nextBtn = document.getElementById("nextQuestion");
+
+// Wir speichern die bisherigen Antworten, damit man zurückgehen und ändern kann
+let selectedAnswers = new Array(questions.length).fill(null);
+
+function updateNavButtons() {
+  prevBtn.disabled = current === 0;
+  nextBtn.disabled = selectedAnswers[current] === null; // nur aktiv, wenn schon gewählt
+}
+
+function loadQuestion() {
+  const q = questions[current];
+  qText.textContent = q.q;
+  answersDiv.innerHTML = "";
+
+  q.a.forEach((ans) => {
+    const btn = document.createElement("button");
+    btn.textContent = ans[0];
+
+    // Highlight, wenn schon ausgewählt
+    if (selectedAnswers[current] === ans[1]) {
+      btn.classList.add("selected");
+    }
+
+    btn.onclick = () => {
+      // Alte Auswahl entfernen (visuell)
+      Array.from(answersDiv.children).forEach((b) =>
+        b.classList.remove("selected"),
+      );
+      btn.classList.add("selected");
+
+      // Score nur ändern, wenn es eine neue Auswahl ist oder geändert wird
+      if (selectedAnswers[current] !== null) {
+        scores[selectedAnswers[current]]--; // alte Antwort zurücknehmen
+      }
+      selectedAnswers[current] = ans[1];
+      scores[ans[1]]++;
+
+      updateNavButtons();
+
+      // Auto-weiter bei manchen Designs (optional – auskommentieren wenn nicht gewollt)
+      // setTimeout(() => { if (current < questions.length - 1) nextQuestion(); }, 400);
+    };
+    answersDiv.appendChild(btn);
+  });
+
+  progressFill.style.width = ((current + 1) / questions.length) * 100 + "%";
+  updateNavButtons();
+}
+
+// Navigation Funktionen
+prevBtn.onclick = () => {
+  if (current > 0) {
+    current--;
+    loadQuestion();
+  }
+};
+
+nextBtn.onclick = () => {
+  if (selectedAnswers[current] !== null && current < questions.length - 1) {
+    current++;
+    loadQuestion();
+  } else if (
+    selectedAnswers[current] !== null &&
+    current === questions.length - 1
+  ) {
+    showResults();
+  }
+};
+
+// Initial aufrufen (nach loadQuestion())
+loadQuestion(); // ← das hast du schon
