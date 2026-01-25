@@ -1283,6 +1283,7 @@ body::after {
     background 0.3s ease,
     color 0.3s ease,
     transform 0.3s ease;
+  touch-action: pan-x; /* Erlaube horizontales Swiping in der Navbar */
 }
 
 /* Entfernt das unnötige nowrap + snap für besseres Gefühl */
