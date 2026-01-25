@@ -1186,7 +1186,7 @@ function showStartPage() {
         <button id="nextQuestion" class="nav-btn next">Weiter →</button>
       </div>
 
-      <button id="restartQuiz" class="restart-btn">Quiz neustarten</button>
+<a href="https://lern-coding.de" class="restart-btn" id="restartQuiz" target="_blank">Quiz neustarten</a>
 
     </div>
 
