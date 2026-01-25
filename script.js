@@ -1186,7 +1186,7 @@ function showStartPage() {
         <button id="nextQuestion" class="nav-btn next">Weiter →</button>
       </div>
 
-<button id="restartQuiz" class="restart-btn" onclick="location.reload()">Quiz neustarten</button>
+<button id="restartQuiz" class="restart-btn" onclick="location.reload()">Quiz laden</button>
 
     </div>
 
