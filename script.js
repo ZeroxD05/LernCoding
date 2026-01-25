@@ -1186,7 +1186,7 @@ function showStartPage() {
         <button id="nextQuestion" class="nav-btn next">Weiter →</button>
       </div>
 
-<button id="restartQuiz" class="restart-btn" onclick="location.reload()">Quiz laden</button>
+<button id="restartQuiz" class="restart-btn" onclick="restartCareerFinder()">Quiz neustarten</button>
 
     </div>
 
@@ -1502,6 +1502,154 @@ function showStartPage() {
   if (typeof initStats === "function") initStats();
   // remove python page class when showing start
   mainContent.classList.remove("python-page");
+
+  // ===== Berufsfinder initialisieren =====
+  setTimeout(() => {
+    const qText = document.getElementById("questionText");
+    const answersDiv = document.getElementById("answers");
+    const progressFill = document.getElementById("progressFill");
+    const questionBox = document.getElementById("questionBox");
+    const resultBox = document.getElementById("resultBox");
+    const prevBtn = document.getElementById("prevQuestion");
+    const nextBtn = document.getElementById("nextQuestion");
+
+    // Prüfen ob alle Elemente existieren
+    if (!qText || !answersDiv) {
+      console.warn("Career finder elements not found");
+      return;
+    }
+
+    // Berufsfinder Daten initialisieren
+    window.careers = ["web", "data", "software", "it", "security", "ai"];
+
+    window.scores = {
+      web: 0,
+      data: 0,
+      software: 0,
+      it: 0,
+      security: 0,
+      ai: 0,
+    };
+
+    window.questions = [
+      {
+        q: "Was macht dir am meisten Spaß?",
+        a: [
+          ["Design & Layout", "web"],
+          ["Daten analysieren", "data"],
+          ["Programme bauen", "software"],
+          ["Systeme einrichten", "it"],
+        ],
+      },
+      {
+        q: "Wie arbeitest du am liebsten?",
+        a: [
+          ["Kreativ", "web"],
+          ["Analytisch", "data"],
+          ["Strukturiert", "software"],
+          ["Praktisch", "it"],
+        ],
+      },
+      {
+        q: "Welche Tools klingen spannend?",
+        a: [
+          ["HTML/CSS (Websiten)", "web"],
+          ["Python/SQL (Datenbanken)", "data"],
+          ["Java/C# (Software)", "software"],
+          ["Linux/Server (Informatik)", "it"],
+        ],
+      },
+      {
+        q: "Was reizt dich mehr?",
+        a: [
+          ["Benutzeroberflächen", "web"],
+          ["KI & Modelle", "ai"],
+          ["Algorithmen", "software"],
+          ["Sicherheit", "security"],
+        ],
+      },
+      {
+        q: "Wie wichtig ist Design?",
+        a: [
+          ["Sehr wichtig", "web"],
+          ["Eher unwichtig", "software"],
+          ["Gar nicht", "data"],
+          ["Mittel", "it"],
+        ],
+      },
+      {
+        q: "Welche Probleme löst du lieber?",
+        a: [
+          ["User Probleme", "web"],
+          ["Datenprobleme", "data"],
+          ["Systemprobleme", "it"],
+          ["Logikprobleme", "software"],
+        ],
+      },
+      {
+        q: "Was klingt cool?",
+        a: [
+          ["Web Apps", "web"],
+          ["Big Data", "data"],
+          ["Betriebssysteme", "it"],
+          ["Cyberangriffe stoppen", "security"],
+        ],
+      },
+      {
+        q: "Wie lernst du?",
+        a: [
+          ["Mit Tutorials", "web"],
+          ["Mit Mathe", "data"],
+          ["Mit Code", "software"],
+          ["Mit Praxis", "it"],
+        ],
+      },
+      {
+        q: "Was ist dir wichtig?",
+        a: [
+          ["Kreativität", "web"],
+          ["Genauigkeit", "data"],
+          ["Performance", "software"],
+          ["Stabilität", "it"],
+        ],
+      },
+      {
+        q: "Welche Branche reizt dich?",
+        a: [
+          ["Startups", "web"],
+          ["Forschung", "ai"],
+          ["Große Softwarefirmen", "software"],
+          ["IT-Abteilungen", "it"],
+        ],
+      },
+    ];
+
+    window.current = 0;
+    window.qText = qText;
+    window.answersDiv = answersDiv;
+    window.progressFill = progressFill;
+    window.questionBox = questionBox;
+    window.resultBox = resultBox;
+
+    window.selectedAnswers = new Array(window.questions.length).fill(null);
+
+    // Event-Listener für Buttons setzen
+    if (prevBtn) {
+      prevBtn.onclick = (e) => {
+        e.preventDefault();
+        prevCareerQuestion();
+      };
+    }
+    if (nextBtn) {
+      nextBtn.onclick = (e) => {
+        e.preventDefault();
+        nextCareerQuestion();
+      };
+    }
+
+    // Gespeicherten Zustand laden
+    loadCareerFinderState();
+  }, 50);
 }
 
 const profilePic = document.getElementById("profile-pic");
@@ -1558,6 +1706,159 @@ document.addEventListener("DOMContentLoaded", () => {
   } else {
     window.addEventListener("load", whenLoaded);
   }
+
+  // ===== Berufsfinder bei initialer index.html initialisieren =====
+  setTimeout(() => {
+    const questionBox = document.getElementById("questionBox");
+    const answersDiv = document.getElementById("answers");
+    const progressFill = document.getElementById("progressFill");
+    const resultBox = document.getElementById("resultBox");
+    const qText = document.getElementById("questionText");
+
+    // Nur wenn wir auf der index.html sind (mit Berufsfinder-Elementen)
+    if (questionBox && answersDiv && !window.questions) {
+      // Berufsfinder initialisieren
+      window.careers = ["web", "data", "software", "it", "security", "ai"];
+
+      window.scores = {
+        web: 0,
+        data: 0,
+        software: 0,
+        it: 0,
+        security: 0,
+        ai: 0,
+      };
+
+      window.questions = [
+        {
+          q: "Was macht dir am meisten Spaß?",
+          a: [
+            ["Design & Layout", "web"],
+            ["Daten analysieren", "data"],
+            ["Programme bauen", "software"],
+            ["Systeme einrichten", "it"],
+          ],
+        },
+        {
+          q: "Wie arbeitest du am liebsten?",
+          a: [
+            ["Kreativ", "web"],
+            ["Analytisch", "data"],
+            ["Strukturiert", "software"],
+            ["Praktisch", "it"],
+          ],
+        },
+        {
+          q: "Welche Tools klingen spannend?",
+          a: [
+            ["HTML/CSS (Websiten)", "web"],
+            ["Python/SQL (Datenbanken)", "data"],
+            ["Java/C# (Software)", "software"],
+            ["Linux/Server (Informatik)", "it"],
+          ],
+        },
+        {
+          q: "Was reizt dich mehr?",
+          a: [
+            ["Benutzeroberflächen", "web"],
+            ["KI & Modelle", "ai"],
+            ["Algorithmen", "software"],
+            ["Sicherheit", "security"],
+          ],
+        },
+        {
+          q: "Wie wichtig ist Design?",
+          a: [
+            ["Sehr wichtig", "web"],
+            ["Eher unwichtig", "software"],
+            ["Gar nicht", "data"],
+            ["Mittel", "it"],
+          ],
+        },
+        {
+          q: "Welche Probleme löst du lieber?",
+          a: [
+            ["User Probleme", "web"],
+            ["Datenprobleme", "data"],
+            ["Systemprobleme", "it"],
+            ["Logikprobleme", "software"],
+          ],
+        },
+        {
+          q: "Was klingt cool?",
+          a: [
+            ["Web Apps", "web"],
+            ["Big Data", "data"],
+            ["Betriebssysteme", "it"],
+            ["Cyberangriffe stoppen", "security"],
+          ],
+        },
+        {
+          q: "Wie lernst du?",
+          a: [
+            ["Mit Tutorials", "web"],
+            ["Mit Mathe", "data"],
+            ["Mit Code", "software"],
+            ["Mit Praxis", "it"],
+          ],
+        },
+        {
+          q: "Was ist dir wichtig?",
+          a: [
+            ["Kreativität", "web"],
+            ["Genauigkeit", "data"],
+            ["Performance", "software"],
+            ["Stabilität", "it"],
+          ],
+        },
+        {
+          q: "Welche Branche reizt dich?",
+          a: [
+            ["Startups", "web"],
+            ["Forschung", "ai"],
+            ["Große Softwarefirmen", "software"],
+            ["IT-Abteilungen", "it"],
+          ],
+        },
+      ];
+
+      window.current = 0;
+      window.qText = qText;
+      window.answersDiv = answersDiv;
+      window.progressFill = progressFill;
+      window.questionBox = questionBox;
+      window.resultBox = resultBox;
+
+      window.selectedAnswers = new Array(window.questions.length).fill(null);
+
+      // Event-Listener für Buttons setzen
+      const prevBtn = document.getElementById("prevQuestion");
+      const nextBtn = document.getElementById("nextQuestion");
+      const restartBtn = document.getElementById("restartQuiz");
+
+      if (prevBtn) {
+        prevBtn.onclick = (e) => {
+          e.preventDefault();
+          prevCareerQuestion();
+        };
+      }
+      if (nextBtn) {
+        nextBtn.onclick = (e) => {
+          e.preventDefault();
+          nextCareerQuestion();
+        };
+      }
+      if (restartBtn) {
+        restartBtn.onclick = (e) => {
+          e.preventDefault();
+          restartCareerFinder();
+        };
+      }
+
+      // Gespeicherten Zustand laden oder erste Frage anzeigen
+      loadCareerFinderState();
+    }
+  }, 100);
 });
 
 // Lade gespeichertes Profilbild in Header (falls vorhanden)
@@ -1566,6 +1867,279 @@ try {
   if (savedPic) profilePic.src = savedPic;
 } catch (e) {
   // ignore
+}
+
+// ===== Career Finder State Management =====
+function saveCareerFinderState() {
+  if (
+    typeof window.current !== "undefined" &&
+    typeof window.selectedAnswers !== "undefined" &&
+    typeof window.scores !== "undefined"
+  ) {
+    const state = {
+      current: window.current,
+      selectedAnswers: window.selectedAnswers,
+      scores: window.scores,
+    };
+    localStorage.setItem("careerFinderState", JSON.stringify(state));
+  }
+}
+
+function loadCareerFinderState() {
+  // Nur wenn die notwendigen Elemente verfügbar sind
+  if (
+    typeof window.questions === "undefined" ||
+    !document.getElementById("questionBox")
+  ) {
+    return;
+  }
+
+  const state = JSON.parse(localStorage.getItem("careerFinderState"));
+  if (state && typeof window.current !== "undefined") {
+    window.current = state.current;
+    window.selectedAnswers = state.selectedAnswers;
+    window.scores = state.scores;
+
+    // Nur laden wenn wir noch nicht beim Ergebnis sind
+    if (window.current < window.questions.length) {
+      loadCareerQuestion();
+    }
+  } else {
+    // Erste Frage laden wenn kein Zustand gespeichert
+    loadCareerQuestion();
+  }
+}
+
+function loadCareerQuestion() {
+  if (!window.questions || !window.qText) return;
+
+  const q = window.questions[window.current];
+  window.qText.textContent = q.q;
+  window.answersDiv.innerHTML = "";
+
+  q.a.forEach((ans) => {
+    const btn = document.createElement("button");
+    btn.textContent = ans[0];
+    btn.classList.add("answers-btn"); // Für Styling
+
+    // Highlight, wenn schon ausgewählt
+    if (
+      window.selectedAnswers &&
+      window.selectedAnswers[window.current] === ans[1]
+    ) {
+      btn.classList.add("selected");
+    }
+
+    btn.onclick = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      // Alte Auswahl entfernen (visuell)
+      Array.from(window.answersDiv.children).forEach((b) =>
+        b.classList.remove("selected"),
+      );
+      btn.classList.add("selected");
+
+      // Score nur ändern, wenn es eine neue Auswahl ist oder geändert wird
+      if (window.selectedAnswers[window.current] !== null) {
+        window.scores[window.selectedAnswers[window.current]]--;
+      }
+      window.selectedAnswers[window.current] = ans[1];
+      window.scores[ans[1]]++;
+
+      updateCareerNavButtons();
+      saveCareerFinderState();
+    };
+    window.answersDiv.appendChild(btn);
+  });
+
+  window.progressFill.style.width =
+    ((window.current + 1) / window.questions.length) * 100 + "%";
+  updateCareerNavButtons();
+}
+
+function updateCareerNavButtons() {
+  const prevBtn = document.getElementById("prevQuestion");
+  const nextBtn = document.getElementById("nextQuestion");
+
+  if (!prevBtn || !nextBtn) return;
+
+  prevBtn.disabled = window.current === 0;
+  nextBtn.disabled = window.selectedAnswers[window.current] === null;
+}
+
+function nextCareerQuestion() {
+  if (
+    window.selectedAnswers[window.current] !== null &&
+    window.current < window.questions.length - 1
+  ) {
+    window.current++;
+    loadCareerQuestion();
+    saveCareerFinderState();
+  } else if (
+    window.selectedAnswers[window.current] !== null &&
+    window.current === window.questions.length - 1
+  ) {
+    // Letzte Frage beantwortet → Ergebnisse zeigen
+    showCareerResults();
+  }
+}
+
+function prevCareerQuestion() {
+  if (window.current > 0) {
+    window.current--;
+    loadCareerQuestion();
+    saveCareerFinderState();
+  }
+}
+
+function showCareerResults() {
+  // Ergebnis-Box anzeigen, Frage ausblenden
+  if (window.resultBox && window.questionBox) {
+    window.questionBox.style.display = "none";
+    window.resultBox.style.display = "block";
+  }
+
+  // Navigations-Buttons update
+  const prevBtn = document.getElementById("prevQuestion");
+  const nextBtn = document.getElementById("nextQuestion");
+  if (prevBtn) prevBtn.disabled = false;
+  if (nextBtn) nextBtn.disabled = true;
+
+  // Scores sortieren und als Array konvertieren
+  const sortedCareers = Object.entries(window.scores)
+    .sort((a, b) => b[1] - a[1])
+    .map(([career, score]) => ({ career, score }));
+
+  // Grafik mit Chart.js rendern
+  renderCareerChart(sortedCareers);
+
+  // Rankings anzeigen
+  const rankingDiv = document.getElementById("careerRanking");
+  if (rankingDiv) {
+    rankingDiv.innerHTML =
+      "<h3 style='margin-top: 0;'>Deine Top-Karrieren:</h3>";
+
+    sortedCareers.forEach((item, index) => {
+      const card = document.createElement("div");
+      card.classList.add("career-card");
+
+      const careerNames = {
+        web: "🌐 Web Development",
+        data: "📊 Data Science",
+        software: "💻 Software Engineering",
+        it: "⚙️ IT & Infrastruktur",
+        security: "🔒 Cybersecurity",
+        ai: "🤖 KI & Machine Learning",
+      };
+
+      const score = (
+        (item.score / (window.questions.length * 2)) *
+        100
+      ).toFixed(0);
+      card.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span>${index + 1}. ${careerNames[item.career] || item.career}</span>
+          <span style="font-weight: bold; color: #3b82f6;">${score}%</span>
+        </div>
+        <div style="background: #e5e7eb; border-radius: 4px; height: 8px; margin-top: 8px; overflow: hidden;">
+          <div style="background: #3b82f6; height: 100%; width: ${score}%; transition: width 0.3s;"></div>
+        </div>
+      `;
+      rankingDiv.appendChild(card);
+    });
+  }
+}
+
+function renderCareerChart(sortedCareers) {
+  const canvas = document.getElementById("interestChart");
+  if (!canvas) return;
+
+  const ctx = canvas.getContext("2d");
+
+  // Alte Chart zerstören falls vorhanden
+  if (window.careerChart) {
+    window.careerChart.destroy();
+  }
+
+  const careerNames = {
+    web: "Web Dev",
+    data: "Data Science",
+    software: "Software",
+    it: "IT Ops",
+    security: "Security",
+    ai: "AI/ML",
+  };
+
+  const labels = sortedCareers.map((c) => careerNames[c.career] || c.career);
+  const data = sortedCareers.map((c) => c.score);
+
+  window.careerChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: "Interesse-Score",
+          data: data,
+          backgroundColor: [
+            "#3b82f6",
+            "#60a5fa",
+            "#93c5fd",
+            "#bfdbfe",
+            "#dbeafe",
+            "#eff6ff",
+          ],
+          borderColor: "#3b82f6",
+          borderWidth: 1,
+          borderRadius: 6,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      indexAxis: "y",
+      plugins: {
+        legend: {
+          display: false,
+        },
+      },
+      scales: {
+        x: {
+          beginAtZero: true,
+          max: window.questions.length * 2,
+        },
+      },
+    },
+  });
+}
+
+function restartCareerFinder() {
+  // Alle Scores zurücksetzen
+  window.scores = {
+    web: 0,
+    data: 0,
+    software: 0,
+    it: 0,
+    security: 0,
+    ai: 0,
+  };
+  window.current = 0;
+  window.selectedAnswers = new Array(window.questions.length).fill(null);
+
+  // Ergebnis ausblenden, Frage wieder einblenden
+  if (window.resultBox) window.resultBox.style.display = "none";
+  if (window.questionBox) window.questionBox.style.display = "block";
+
+  // Progress zurücksetzen
+  if (window.progressFill) window.progressFill.style.width = "0%";
+
+  // Erste Frage neu laden
+  loadCareerQuestion();
+
+  // State löschen
+  localStorage.removeItem("careerFinderState");
 }
 
 function showAccountPage() {
@@ -2769,6 +3343,12 @@ function closeNotice() {
 document.addEventListener("DOMContentLoaded", () => {
   // Kleine Verzögerung damit es nicht zu aggressiv wirkt
   setTimeout(showProfileNotice, 1200);
+
+  // Lade letzten Quiz-Zustand automatisch
+  loadLastState();
+
+  // Lade letzten Berufsfinder-Zustand automatisch
+  loadCareerFinderState();
 });
 function showCreateHTML() {
   showCreateWPage();

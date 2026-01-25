@@ -2456,6 +2456,12 @@ iframe {
   color: var(--text);
   border-color: var(--primary, #3b82f6); /* oder welche Akzentfarbe du nutzt */
 }
+
+.answers button.selected {
+  background-color: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
 .restart-btn {
   display: block;
   margin: 2rem auto 1rem; /* zentriert + Abstand oben/unten */
