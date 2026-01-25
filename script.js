@@ -2025,12 +2025,12 @@ function showCareerResults() {
       card.classList.add("career-card");
 
       const careerNames = {
-        web: "🌐 Web Development",
-        data: "📊 Data Science",
-        software: "💻 Software Engineering",
-        it: "⚙️ IT & Infrastruktur",
-        security: "🔒 Cybersecurity",
-        ai: "🤖 KI & Machine Learning",
+        web: "Web Development",
+        data: "Data Science",
+        software: "Software Engineering",
+        it: "IT & Infrastruktur",
+        security: "Cybersecurity",
+        ai: "KI & Machine Learning",
       };
 
       const score = (
