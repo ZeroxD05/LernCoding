@@ -47,6 +47,7 @@ body {
   background: var(--bg);
   color: var(--text);
   overflow-x: hidden;
+  box-sizing: border-box;
 }
 a {
   color: inherit;
@@ -387,6 +388,7 @@ main {
   margin-right: auto;
   justify-content: center;
   align-items: center;
+  margin-top: 5vh;
 }
 
 #main-content img {
@@ -1895,9 +1897,8 @@ iframe {
 #homepage {
   padding: clamp(5rem, 12vw, 9rem) 5% 4rem;
   background: transparent;
-  margin-top: 5vh;
-  margin-bottom: 3vh;
   font-size: larger;
+  margin-top: -10vh;
 }
 
 .hero-container {
