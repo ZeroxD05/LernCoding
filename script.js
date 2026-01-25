@@ -1022,12 +1022,18 @@ type(); // Start
 
 function showStartPage() {
   mainContent.innerHTML = `
- <section id="homepage">
- <h1 style="text-align: start" id="intro">Entwickle mit uns deine</h1> 
-  <h2  style="max-width: 40%; font-size: 20px;" class="start-item"> #<span style="font-size: 20px;" id="typing-text" class="gradiant-text"></span></h2>
-<p style="color: var(--text);">kostenlos · einfach · schnell</p>
-
- <div style="display:flex; justify-content: start; align-items: start;" class="stat-cards">
+  <section id="homepage">
+  <div class="hero-container">
+    
+    <!-- Linke Seite – dein aktueller Inhalt -->
+    <div class="hero-left">
+      <h1 style="text-align: start">Entwickle mit uns deine</h1>
+      <h2 style="max-width: 40%; font-size: 20px;" class="start-item">
+        #<span style="font-size: 20px;" id="typing-text" class="gradiant-text"></span>
+      </h2>
+      <p style="color: var(--text);">kostenlos · einfach · schnell</p>
+      
+      <div style="display:flex; justify-content: start; align-items: start;" class="stat-cards">
         <div class="stat-card" id="screentime-box">
           <div class="stat-title">Screentime</div>
           <div class="stat-value" id="screentime-value">0s</div>
@@ -1037,12 +1043,16 @@ function showStartPage() {
           <div class="stat-value" id="streak-value">0 Tage</div>
         </div>
       </div>
-<p class="info-box">Interaktive Kurse, echte Projekte und  <br>Challenges
-perfekt für Anfänger und Fortgeschrittene. </p>
+      
+      <p class="info-box">Interaktive Kurse, echte Projekte und <br>Challenges
+      perfekt für Anfänger und Fortgeschrittene. </p>
+
+
+
 
       
-
-      <div class="start-list">
+    </div>
+    <div class="start-list">
        
 
         <button class="start-item" onclick="startQuiz('webdev',1)">
@@ -1118,9 +1128,14 @@ perfekt für Anfänger und Fortgeschrittene. </p>
           </div>
         </button>
       </div>
+    </div>
       </section>
   
 </div>
+
+
+  
+
 <section class="video-section wavy-top" id="videos">
   <div class="video-container" style="text-align: center;">
     <h2>Was ist LernCoding?</h2>
@@ -1142,7 +1157,7 @@ perfekt für Anfänger und Fortgeschrittene. </p>
 <section class="top-courses" id="intro">
   <div class="content-wrapper">
 
-    <div style="flex-direction: column;" class="header career-header">
+    <div style="flex-direction: column; max-width: 100vw; margin: 0; padding: 0;" class="header career-header">
       <h2>IT-Berufsfinder</h2>
       <div class="info-box">
         <p>Beantworte ein paar Fragen und finde heraus, welcher IT-Beruf wirklich zu dir passt.</p>
@@ -1174,10 +1189,17 @@ perfekt für Anfänger und Fortgeschrittene. </p>
       <button id="restartQuiz" class="restart-btn">Quiz neustarten</button>
 
     </div>
+
   </div>
 </section>
 
-<section class="socials-section">
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+;
+
+
+<section style="margin-top:0vh;" class="socials-section" id="intro">
   <div class="container">
     <h2 class="section-title">Kontakt</h2>
     <p class="section-subtitle">Hamburg • Content • Community</p>
@@ -1218,70 +1240,77 @@ perfekt für Anfänger und Fortgeschrittene. </p>
       </a>
       -->
     </div>
+<div class="contact">
+  Business / Kooperationen:  
+  <a href="mailto:lerncoding2026@gmail.com" class="email-link">lerncoding2026@gmail.com</a>
+</div>
 
-    <div class="contact">
-      Business / Kooperationen:  
-      <a href="mailto:lerncoding2026@gmail.com" style="color: var(--text); text-decoration: underline;" class="email-link">lerncoding2026@gmail.com</a>
-    </div>
-       <div class="legal-links">
 <div class="legal-links">
   <a href="impressum.html" class="legal-btn">Impressum</a>
   <a href="agb-datenschutz.html" class="legal-btn">Datenschutz & AGB</a>
 </div>
-
 <style>
+.legal-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;                    /* etwas mehr Luft zwischen den Buttons */
+  justify-content: center;         /* ← das macht die Buttons horizontal mittig */
+  align-items: center;
+  margin: 2.5rem auto 2rem;        /* mehr Abstand nach oben + auto für horizontale Zentrierung */
+  max-width: 600px;                /* verhindert, dass es bei sehr breiten Screens zu weit auseinandergeht */
+}
+
+.legal-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem 1.5rem;
+  min-width: 130px;                /* etwas breiter → sieht ausgewogener aus */
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 0.97rem;
+  font-weight: 500;
+  color: var(--text);
+  background: var(--start-bg);
+  border: 1px solid var(--text);
+  border-radius: 10px;
+  text-decoration: none;
+  transition: all 0.22s ease;
+  box-shadow: 0 2px 8px rgba(0, 102, 204, 0.15);
+}
+
+.legal-btn:hover,
+.legal-btn:focus {
+  background: #004999;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 102, 204, 0.28);
+  color: white;
+}
+
+/* Mobile Anpassung */
+@media (max-width: 480px) {
   .legal-links {
-    display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 1rem;
-    justify-content: center;
-    align-items: center;
-    margin: 2rem 0 1.5rem;
+    margin: 2rem auto;
   }
-
+  
   .legal-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.75rem 1.4rem;           /* deutlich weniger padding → schmaler */
-    min-width: 120px;                   /* kleinerer Mindestwert */
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    font-size: 0.98rem;
-    font-weight: 500;
-        align-items: center;
-
-    color: var(--text);
-    background: var(--start-bg);
-    border: none;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: all 0.2s ease;
-    box-shadow: 0 2px 6px rgba(0, 102, 204, 0.18);
+    width: 100%;
+    max-width: 260px;              /* verhindert ultra-breite Buttons auf Handy */
   }
+}
 
+/* Dark Mode (falls du es brauchst) */
+@media (prefers-color-scheme: dark) {
+  .legal-btn {
+    background: #60a5fa;
+    border-color: #60a5fa;
+  }
   .legal-btn:hover,
   .legal-btn:focus {
-    background: #004999;
-    transform: translateY(-1px);
-    box-shadow: 0 5px 12px rgba(0, 102, 204, 0.3);
+    background: #3b82f6;
   }
-
-  @media (max-width: 480px) {
-    .legal-links {
-      flex-direction: column;
-      align-items: center;
-    }
-    .legal-btn {
-      width: 100%;
-      max-width: 240px;                 /* verhindert, dass sie auf Handy zu breit werden */
-    }
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .legal-btn { background: #60a5fa; }
-    .legal-btn:hover,
-    .legal-btn:focus { background: #3b82f6; }
-  }
+}
 </style>
 
   </div>
