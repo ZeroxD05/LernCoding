@@ -6,6 +6,24 @@ const mainContent = document.getElementById("main-content");
 const usernameElem = document.getElementById("username");
 const userclassElem = document.getElementById("userclass");
 
+// ===== Donation Bar Functions =====
+function closeDonationBar() {
+  const donationBar = document.getElementById("donationBar");
+  donationBar.classList.add("hidden");
+  localStorage.setItem("donationBarClosed", "true");
+}
+
+function checkDonationBarStatus() {
+  const donationBar = document.getElementById("donationBar");
+  const isClosed = localStorage.getItem("donationBarClosed") === "true";
+  if (isClosed) {
+    donationBar.classList.add("hidden");
+  }
+}
+
+// Check donation bar status when page loads
+document.addEventListener("DOMContentLoaded", checkDonationBarStatus);
+
 // HTML escape-Funktion
 function escapeHTML(str) {
   return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
