@@ -1333,15 +1333,7 @@ body.dark .language-navbar button::after {
 }
 
 .info-box {
-  background:
-    radial-gradient(
-        circle,
-        color-mix(in srgb, var(--text) 25%, transparent) 1px,
-        transparent 1px
-      )
-      0 0 / 10px 10px,
-    var(--start-bg);
-
+  background: var(--bg);
   border-left: 5px solid var(--header-bg);
   padding: 15px;
   border-radius: 8px;
