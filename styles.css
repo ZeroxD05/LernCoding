@@ -45,6 +45,23 @@
   box-sizing: border-box;
 }
 
+.video-section,
+.top-courses,
+.socials-section {
+  width: 100%;
+
+  box-sizing: border-box;
+}
+
+@media (min-width: 1280px) {
+  .video-section,
+  .top-courses,
+  .socials-section {
+    padding-left: 5vw;
+    padding-right: 5vw;
+  }
+}
+
 body {
   margin: 0;
   font-family:
