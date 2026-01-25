@@ -1248,7 +1248,7 @@ body::after {
   display: flex;
   justify-content: center; /* ← das Wichtigste für Desktop-Zentrierung */
   gap: 12px;
-  height: 25px; /* etwas mehr Höhe → angenehmer */
+  height: 40px; /* etwas mehr Höhe → angenehmer */
   align-items: center;
   overflow-x: auto;
   scroll-padding-left: 16px;
