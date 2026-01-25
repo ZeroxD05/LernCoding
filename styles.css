@@ -71,6 +71,7 @@ body {
   color: var(--text);
   overflow-x: hidden;
   box-sizing: border-box;
+  touch-action: pan-y;
 }
 a {
   color: inherit;
