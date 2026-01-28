@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Code-Match • HTML • CSS • JS • Python</title>
+    <style>
+      :root {
+        --bg: #0b0f19;
+        --surface: #111827;
+        --text: #e2e8f0;
+        --text-muted: #94a3b8;
+        --accent: #6366f1;
+        --accent-hover: #818cf8;
+        --success: #22c55e;
+        --error: #ef4444;
+        --border: #334155;
+        --glass: rgba(30, 41, 59, 0.5);
+        --disabled: #4b5563;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", system-ui, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        padding: 1.5rem 1rem;
+        line-height: 1.5;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2.5rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      h1 {
+        font-size: clamp(1.8rem, 5vw, 2.5rem);
+        font-weight: 600;
+        color: white;
+      }
+
+      .back-btn {
+        background: var(--surface);
+        color: var(--text);
+        border: 1px solid var(--border);
+        padding: 0.65rem 1.25rem;
+        border-radius: 0.75rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .back-btn:hover {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: white;
+      }
+
+      .progress-container {
+        width: 100%;
+        max-width: 720px;
+        height: 10px;
+        background: var(--surface);
+        border-radius: 999px;
+        overflow: hidden;
+        margin: 0 auto 1.5rem;
+        border: 1px solid var(--border);
+      }
+      .progress-bar {
+        height: 100%;
+        width: 0;
+        background: linear-gradient(90deg, var(--accent), var(--accent-hover));
+        transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .stats {
+        text-align: center;
+        font-size: 1.15rem;
+        margin-bottom: 2rem;
+        color: var(--text-muted);
+      }
+      .stats strong {
+        color: white;
+        font-weight: 600;
+      }
+
+      .instruction {
+        text-align: center;
+        color: var(--text-muted);
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+      }
+
+      .targets {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1.25rem;
+        max-width: 1200px;
+        margin: 0 auto 3rem;
+      }
+
+      .dropzone {
+        background: var(--glass);
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        padding: 1.25rem 1rem;
+        min-height: 110px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: var(--text);
+        transition: all 0.25s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .dropzone.over {
+        border-color: var(--accent);
+        background: rgba(99, 102, 241, 0.12);
+        transform: translateY(-3px);
+      }
+      .correct {
+        background: rgba(34, 197, 94, 0.2) !important;
+        border-color: var(--success) !important;
+        color: white !important;
+      }
+      .wrong {
+        border-color: var(--error) !important;
+        background: rgba(239, 68, 68, 0.15) !important;
+        animation: shake 0.4s ease;
+      }
+
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-6px);
+        }
+        75% {
+          transform: translateX(6px);
+        }
+      }
+
+      .words {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1.5rem;
+        background: var(--surface);
+        border-radius: 1rem;
+        border: 1px dashed var(--border);
+      }
+
+      .word {
+        background: var(--accent);
+        color: white;
+        padding: 0.9rem 1.6rem;
+        border-radius: 0.75rem;
+        font-size: 1.15rem;
+        font-weight: 500;
+        cursor: grab;
+        user-select: none;
+        transition: all 0.2s ease;
+        box-shadow: 0 3px 10px rgba(99, 102, 241, 0.3);
+      }
+
+      .word:active {
+        cursor: grabbing;
+        transform: scale(1.06) translateY(-2px);
+      }
+
+      .word.disabled {
+        background: var(--disabled);
+        opacity: 0.55;
+        cursor: not-allowed;
+        box-shadow: none;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>LernCoding Spiel Bereich</h1>
+      <button
+        class="back-btn"
+        onclick="window.location.href = 'https://lern-coding.de'"
+      >
+        ← Zurück zu lern-coding.de
+      </button>
+    </header>
+    <hr style="margin-bottom: 5vh" />
+    <div class="progress-container">
+      <div id="progress-bar" class="progress-bar"></div>
+    </div>
+
+    <div class="stats">
+      Level <strong id="level">1</strong> • Punkte:
+      <strong id="points">0</strong>
+    </div>
+
+    <p class="instruction">
+      Ziehe die Programmiersprache zum passenden Begriff
+    </p>
+
+    <div class="targets" id="targets"></div>
+    <div class="words" id="words"></div>
+
+    <script>
+      const vocabulary = [
+        { de: "DOCTYPE", lang: "html" },
+        { de: "<div>", lang: "html" },
+        { de: "alt-Attribut", lang: "html" },
+        { de: '<meta charset="UTF-8">', lang: "html" },
+        { de: "<head>", lang: "html" },
+        { de: "display: flex", lang: "css" },
+        { de: "border-radius", lang: "css" },
+        { de: ":hover", lang: "css" },
+        { de: "background: linear-gradient", lang: "css" },
+        { de: "box-shadow", lang: "css" },
+        { de: "addEventListener", lang: "js" },
+        { de: "querySelector", lang: "js" },
+        { de: "innerHTML", lang: "js" },
+        { de: "Math.random()", lang: "js" },
+        { de: "const / let", lang: "js" },
+        { de: "fetch()", lang: "js" },
+        { de: "def funktion():", lang: "python" },
+        { de: "print(f'{var}')", lang: "python" },
+        { de: "for i in range(10):", lang: "python" },
+        { de: "import pandas as pd", lang: "python" },
+        { de: "with open() as f:", lang: "python" },
+        { de: "list comprehension", lang: "python" },
+      ];
+
+      let currentRound = [];
+      let points = 0;
+      let level = 1;
+      let xp = 0;
+      const xpPerLevel = 100;
+
+      const levelEl = document.getElementById("level");
+      const pointsEl = document.getElementById("points");
+      const progressBar = document.getElementById("progress-bar");
+
+      function saveProgress() {
+        localStorage.setItem(
+          "codeMatchProgress",
+          JSON.stringify({ points, level, xp }),
+        );
+      }
+
+      function loadProgress() {
+        const data = localStorage.getItem("codeMatchProgress");
+        if (data) {
+          const saved = JSON.parse(data);
+          points = saved.points ?? 0;
+          level = saved.level ?? 1;
+          xp = saved.xp ?? 0;
+        }
+      }
+
+      function updateUI() {
+        pointsEl.textContent = points;
+        levelEl.textContent = level;
+
+        while (xp >= xpPerLevel) {
+          xp -= xpPerLevel;
+          level++;
+        }
+
+        progressBar.style.width = Math.min((xp / xpPerLevel) * 100, 100) + "%";
+        saveProgress();
+      }
+
+      function startNewRound() {
+        let shuffled = [...vocabulary].sort(() => Math.random() - 0.5);
+        currentRound = shuffled.slice(0, 4);
+
+        const targetsDiv = document.getElementById("targets");
+        const wordsDiv = document.getElementById("words");
+        targetsDiv.innerHTML = "";
+        wordsDiv.innerHTML = "";
+
+        currentRound.forEach((item) => {
+          const zone = document.createElement("div");
+          zone.className = "dropzone";
+          zone.textContent = item.de;
+          zone.dataset.correct = item.lang;
+
+          zone.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            zone.classList.add("over");
+          });
+
+          zone.addEventListener("dragleave", () =>
+            zone.classList.remove("over"),
+          );
+
+          zone.addEventListener("drop", (e) => {
+            e.preventDefault();
+            zone.classList.remove("over");
+
+            const droppedLang = e.dataTransfer.getData("lang");
+            const draggedId = e.dataTransfer.getData("id");
+
+            if (droppedLang === zone.dataset.correct) {
+              zone.classList.add("correct");
+              zone.textContent += ` ✓ ${droppedLang.toUpperCase()}`;
+
+              points += 25;
+              xp += 25;
+              updateUI();
+
+              const draggedWord = document.getElementById(draggedId);
+              if (draggedWord) {
+                draggedWord.classList.add("disabled");
+                draggedWord.draggable = false;
+              }
+
+              if (
+                document.querySelectorAll(".correct").length ===
+                currentRound.length
+              ) {
+                setTimeout(startNewRound, 1500);
+              }
+            } else {
+              zone.classList.add("wrong");
+              setTimeout(() => zone.classList.remove("wrong"), 1000);
+            }
+          });
+
+          targetsDiv.appendChild(zone);
+        });
+
+        const langs = currentRound
+          .map((item) => item.lang)
+          .sort(() => Math.random() - 0.5);
+
+        langs.forEach((lang) => {
+          const wordElem = document.createElement("div");
+          const wordId = "word-" + Math.random().toString(36).slice(2);
+
+          wordElem.className = "word";
+          wordElem.id = wordId;
+          wordElem.draggable = true;
+          wordElem.textContent = lang.toUpperCase();
+          wordElem.dataset.value = lang;
+
+          wordElem.addEventListener("dragstart", (e) => {
+            if (wordElem.classList.contains("disabled")) {
+              e.preventDefault();
+            } else {
+              e.dataTransfer.setData("lang", lang);
+              e.dataTransfer.setData("id", wordId);
+            }
+          });
+
+          wordsDiv.appendChild(wordElem);
+        });
+      }
+
+      loadProgress();
+      updateUI();
+      startNewRound();
+    </script>
+  </body>
+</html>
