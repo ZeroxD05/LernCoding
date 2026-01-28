@@ -2703,3 +2703,256 @@ iframe {
   margin: 1.5rem 0;
   color: #c7d2fe;
 }
+/* ===== Tutorial Modal ===== */
+.tutorial-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: fadeIn 0.3s ease;
+}
+
+.tutorial-modal.active {
+  display: flex;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.tutorial-content {
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 40px;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.tutorial-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--text);
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+  padding: 5px;
+}
+
+.tutorial-close:hover {
+  opacity: 1;
+}
+
+.tutorial-steps {
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 30px 0;
+  position: relative;
+}
+
+.tutorial-step {
+  position: absolute;
+  opacity: 0;
+  transform: translateX(100px);
+  transition: all 0.5s ease;
+  text-align: center;
+  pointer-events: none;
+}
+
+.tutorial-step.active {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.tutorial-step.prev {
+  transform: translateX(-100px);
+}
+
+.tutorial-icon {
+  font-size: 60px;
+  margin-bottom: 20px;
+  color: #5da9e9;
+  animation: bounce 2s infinite;
+}
+
+.dark-theme .tutorial-icon {
+  color: #60a5fa;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.tutorial-step h3 {
+  font-size: 24px;
+  margin: 20px 0 10px 0;
+  color: var(--text);
+}
+
+.tutorial-step p {
+  font-size: 16px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.tutorial-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.tutorial-dots {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.tutorial-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #d1d5db;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dark-theme .tutorial-dot {
+  background: #4b5563;
+}
+
+.tutorial-dot.active {
+  background: #5da9e9;
+  width: 24px;
+  border-radius: 4px;
+}
+
+.dark-theme .tutorial-dot.active {
+  background: #60a5fa;
+}
+
+.tutorial-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  flex: 1;
+}
+
+.tutorial-skip-btn,
+.tutorial-next-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.tutorial-skip-btn {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid #d1d5db;
+}
+
+.dark-theme .tutorial-skip-btn {
+  border-color: #4b5563;
+}
+
+.tutorial-skip-btn:hover {
+  background: #f3f4f6;
+}
+
+.dark-theme .tutorial-skip-btn:hover {
+  background: #1a2430;
+}
+
+.tutorial-next-btn {
+  background: #5da9e9;
+  color: white;
+  min-width: 120px;
+}
+
+.dark-theme .tutorial-next-btn {
+  background: #0b3a5b;
+}
+
+.tutorial-next-btn:hover {
+  background: #3b82f6;
+  transform: translateX(2px);
+}
+
+.dark-theme .tutorial-next-btn:hover {
+  background: #1e5a8e;
+}
+
+@media (max-width: 768px) {
+  .tutorial-content {
+    padding: 30px 20px;
+    max-width: 100%;
+    width: 95%;
+    margin: 20px;
+  }
+
+  .tutorial-steps {
+    min-height: 250px;
+    margin: 20px 0;
+  }
+
+  .tutorial-nav {
+    flex-direction: column;
+  }
+
+  .tutorial-buttons {
+    width: 100%;
+  }
+
+  .tutorial-skip-btn,
+  .tutorial-next-btn {
+    flex: 1;
+  }
+
+  .tutorial-dots {
+    order: -1;
+    width: 100%;
+  }
+}

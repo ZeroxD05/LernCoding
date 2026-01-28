@@ -6,6 +6,94 @@ const mainContent = document.getElementById("main-content");
 const usernameElem = document.getElementById("username");
 const userclassElem = document.getElementById("userclass");
 
+// ===== Tutorial Modal Functions =====
+let currentTutorialStep = 0;
+const maxTutorialSteps = 5;
+
+function initTutorial() {
+  const tutorialSeen = localStorage.getItem("tutorialSeen") === "true";
+  if (!tutorialSeen) {
+    setTimeout(() => {
+      showTutorial();
+    }, 500);
+  }
+}
+
+function showTutorial() {
+  const tutorialModal = document.getElementById("tutorialModal");
+  tutorialModal.classList.add("active");
+  currentTutorialStep = 0;
+  updateTutorialStep();
+}
+
+function skipTutorial() {
+  const tutorialModal = document.getElementById("tutorialModal");
+  tutorialModal.classList.remove("active");
+  localStorage.setItem("tutorialSeen", "true");
+}
+
+function nextTutorialStep() {
+  if (currentTutorialStep < maxTutorialSteps - 1) {
+    const steps = document.querySelectorAll(".tutorial-step");
+    steps[currentTutorialStep].classList.add("prev");
+    steps[currentTutorialStep].classList.remove("active");
+
+    currentTutorialStep++;
+    updateTutorialStep();
+  } else {
+    skipTutorial();
+  }
+}
+
+function updateTutorialStep() {
+  const steps = document.querySelectorAll(".tutorial-step");
+  steps.forEach((step, index) => {
+    if (index === currentTutorialStep) {
+      step.classList.add("active");
+      step.classList.remove("prev");
+    } else {
+      step.classList.remove("active");
+    }
+  });
+
+  // Update dots
+  const dotsContainer = document.getElementById("tutorialDots");
+  dotsContainer.innerHTML = "";
+  for (let i = 0; i < maxTutorialSteps; i++) {
+    const dot = document.createElement("div");
+    dot.className =
+      "tutorial-dot" + (i === currentTutorialStep ? " active" : "");
+    dot.onclick = () => {
+      goToTutorialStep(i);
+    };
+    dotsContainer.appendChild(dot);
+  }
+
+  // Update button text
+  const nextBtn = document.getElementById("tutorialNextBtn");
+  if (currentTutorialStep === maxTutorialSteps - 1) {
+    nextBtn.textContent = "Fertig!";
+  } else {
+    nextBtn.textContent = "Weiter →";
+  }
+}
+
+function goToTutorialStep(step) {
+  const steps = document.querySelectorAll(".tutorial-step");
+  steps[currentTutorialStep].classList.remove("active");
+  currentTutorialStep = step;
+  updateTutorialStep();
+}
+
+// Initialize tutorial on page load
+document.addEventListener("DOMContentLoaded", () => {
+  initTutorial();
+  const tutorialNextBtn = document.getElementById("tutorialNextBtn");
+  if (tutorialNextBtn) {
+    tutorialNextBtn.addEventListener("click", nextTutorialStep);
+  }
+});
+
 // ===== Donation Bar Functions =====
 function closeDonationBar() {
   const donationBar = document.getElementById("donationBar");

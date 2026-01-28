@@ -41,28 +41,49 @@
         margin-bottom: 2.5rem;
         flex-wrap: wrap;
         gap: 1rem;
+        padding: 2rem;
+        background: linear-gradient(
+          135deg,
+          rgba(99, 102, 241, 0.15),
+          rgba(129, 140, 248, 0.1)
+        );
+        border: 1px solid var(--border);
+        border-radius: 1.25rem;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        position: relative;
+        overflow: hidden;
       }
 
       h1 {
         font-size: clamp(1.8rem, 5vw, 2.5rem);
         font-weight: 600;
         color: white;
+        background: linear-gradient(135deg, #818cf8, #a78bfa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        position: relative;
+        z-index: 1;
       }
 
       .back-btn {
-        background: var(--surface);
-        color: var(--text);
-        border: 1px solid var(--border);
-        padding: 0.65rem 1.25rem;
+        background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 0.75rem 1.5rem;
         border-radius: 0.75rem;
-        font-weight: 500;
+        font-weight: 600;
         cursor: pointer;
-        transition: all 0.2s ease;
+        transition: all 0.3s ease;
+        position: relative;
+        z-index: 1;
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
       }
       .back-btn:hover {
-        background: var(--accent);
-        border-color: var(--accent);
-        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
+        border-color: rgba(255, 255, 255, 0.4);
       }
 
       .progress-container {
@@ -193,11 +214,84 @@
         box-shadow: none;
         pointer-events: none;
       }
+
+      .hint-button {
+        display: block;
+        margin: 1.5rem auto;
+        background: linear-gradient(135deg, #a78bfa, #c084fc);
+        color: white;
+        border: none;
+        padding: 0.75rem 1.75rem;
+        border-radius: 0.75rem;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(167, 139, 250, 0.4);
+      }
+
+      .hint-button:hover:not(:disabled) {
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(167, 139, 250, 0.6);
+      }
+
+      .hint-button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .fairy {
+        position: fixed;
+        font-size: 3rem;
+        pointer-events: none;
+        z-index: 999;
+        filter: drop-shadow(0 0 8px rgba(192, 132, 252, 0.8));
+      }
+
+      @keyframes fairyFly {
+        0% {
+          opacity: 1;
+          transform: translate(0, 0) scale(1);
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+          transform: translate(var(--tx), var(--ty)) scale(0.3);
+        }
+      }
+
+      .fairy.flying {
+        animation: fairyFly 2s ease-in-out forwards;
+      }
+
+      .sparkle {
+        position: fixed;
+        font-size: 1.5rem;
+        pointer-events: none;
+        z-index: 998;
+      }
+
+      @keyframes sparkleFloat {
+        0% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-40px) scale(0);
+        }
+      }
+
+      .sparkle.animate {
+        animation: sparkleFloat 1.5s ease-out forwards;
+      }
     </style>
   </head>
   <body>
     <header>
-      <h1>LernCoding Spiel Bereich</h1>
+      <h1>LernCoding Game</h1>
       <button
         class="back-btn"
         onclick="window.location.href = 'https://lern-coding.de'"
@@ -205,7 +299,6 @@
         ← Zurück zu lern-coding.de
       </button>
     </header>
-    <hr style="margin-bottom: 5vh" />
     <div class="progress-container">
       <div id="progress-bar" class="progress-bar"></div>
     </div>
@@ -219,33 +312,154 @@
       Ziehe die Programmiersprache zum passenden Begriff
     </p>
 
+    <button class="hint-button" id="hintBtn" onclick="showHint()">
+      Hinweis
+    </button>
+
     <div class="targets" id="targets"></div>
     <div class="words" id="words"></div>
 
+    <p
+      class="hint"
+      style="
+        text-align: center;
+        color: var(--text-muted);
+        margin-top: 2rem;
+        font-size: 0.95rem;
+      "
+    >
+      Halte die Begriffe gedrückt und ziehe sie zu den passenden Sprachen
+    </p>
+
     <script>
       const vocabulary = [
+        // HTML
         { de: "DOCTYPE", lang: "html" },
         { de: "<div>", lang: "html" },
         { de: "alt-Attribut", lang: "html" },
         { de: '<meta charset="UTF-8">', lang: "html" },
         { de: "<head>", lang: "html" },
+        { de: "<body>", lang: "html" },
+        { de: "<title>", lang: "html" },
+        { de: "<h1> bis <h6>", lang: "html" },
+        { de: "<p>", lang: "html" },
+        { de: "<a href>", lang: "html" },
+        { de: "<img src>", lang: "html" },
+        { de: "<br>", lang: "html" },
+        { de: "<form>", lang: "html" },
+        { de: "<input>", lang: "html" },
+        { de: "<button>", lang: "html" },
+        { de: "<ul> / <li>", lang: "html" },
+        { de: "<ol>", lang: "html" },
+        { de: "<table>", lang: "html" },
+        { de: "<header>", lang: "html" },
+        { de: "<footer>", lang: "html" },
+        { de: "<section>", lang: "html" },
+        { de: "<article>", lang: "html" },
+        { de: "<nav>", lang: "html" },
+        { de: "<aside>", lang: "html" },
+        { de: "<strong>", lang: "html" },
+        { de: "<em>", lang: "html" },
+        { de: "<span>", lang: "html" },
+        { de: "<iframe>", lang: "html" },
+        { de: "class-Attribut", lang: "html" },
+        { de: "id-Attribut", lang: "html" },
+
+        // CSS
         { de: "display: flex", lang: "css" },
         { de: "border-radius", lang: "css" },
         { de: ":hover", lang: "css" },
         { de: "background: linear-gradient", lang: "css" },
         { de: "box-shadow", lang: "css" },
+        { de: "padding", lang: "css" },
+        { de: "margin", lang: "css" },
+        { de: "width / height", lang: "css" },
+        { de: "color", lang: "css" },
+        { de: "background-color", lang: "css" },
+        { de: "font-size", lang: "css" },
+        { de: "text-align", lang: "css" },
+        { de: "position: absolute", lang: "css" },
+        { de: "position: relative", lang: "css" },
+        { de: "z-index", lang: "css" },
+        { de: "opacity", lang: "css" },
+        { de: "transform: rotate()", lang: "css" },
+        { de: "transition", lang: "css" },
+        { de: "animation", lang: "css" },
+        { de: "@media queries", lang: "css" },
+        { de: "display: grid", lang: "css" },
+        { de: "gap", lang: "css" },
+        { de: "flex-direction", lang: "css" },
+        { de: "justify-content", lang: "css" },
+        { de: "align-items", lang: "css" },
+        { de: "border", lang: "css" },
+        { de: "border-radius", lang: "css" },
+        { de: "box-sizing: border-box", lang: "css" },
+        { de: "overflow: hidden", lang: "css" },
+        { de: "cursor: pointer", lang: "css" },
+
+        // JavaScript
         { de: "addEventListener", lang: "js" },
         { de: "querySelector", lang: "js" },
         { de: "innerHTML", lang: "js" },
         { de: "Math.random()", lang: "js" },
         { de: "const / let", lang: "js" },
         { de: "fetch()", lang: "js" },
+        { de: "console.log()", lang: "js" },
+        { de: "if / else", lang: "js" },
+        { de: "for-Schleife", lang: "js" },
+        { de: "while-Schleife", lang: "js" },
+        { de: "Funktion function()", lang: "js" },
+        { de: "Arrow-Funktion =>", lang: "js" },
+        { de: "Array.push()", lang: "js" },
+        { de: "Array.map()", lang: "js" },
+        { de: "Array.filter()", lang: "js" },
+        { de: "Object", lang: "js" },
+        { de: "JSON.parse()", lang: "js" },
+        { de: "JSON.stringify()", lang: "js" },
+        { de: "localStorage", lang: "js" },
+        { de: "setTimeout()", lang: "js" },
+        { de: "Promise / async-await", lang: "js" },
+        { de: "try-catch", lang: "js" },
+        { de: "Klasse class", lang: "js" },
+        { de: "this", lang: "js" },
+        { de: "this.property", lang: "js" },
+        { de: "Template Literals `${}`", lang: "js" },
+        { de: "Spread-Operator ...", lang: "js" },
+        { de: "Destructuring", lang: "js" },
+        { de: "Module import/export", lang: "js" },
+        { de: "Callback-Funktionen", lang: "js" },
+
+        // Python
         { de: "def funktion():", lang: "python" },
         { de: "print(f'{var}')", lang: "python" },
         { de: "for i in range(10):", lang: "python" },
         { de: "import pandas as pd", lang: "python" },
         { de: "with open() as f:", lang: "python" },
         { de: "list comprehension", lang: "python" },
+        { de: "if / elif / else", lang: "python" },
+        { de: "while-Schleife", lang: "python" },
+        { de: "Klasse class", lang: "python" },
+        { de: "__init__", lang: "python" },
+        { de: "Dictionary {key: value}", lang: "python" },
+        { de: "List [1, 2, 3]", lang: "python" },
+        { de: "Tuple (1, 2, 3)", lang: "python" },
+        { de: "String slice", lang: "python" },
+        { de: "len()", lang: "python" },
+        { de: "type()", lang: "python" },
+        { de: "str() / int() / float()", lang: "python" },
+        { de: "lambda", lang: "python" },
+        { de: "map()", lang: "python" },
+        { de: "filter()", lang: "python" },
+        { de: "sorted()", lang: "python" },
+        { de: "enumerate()", lang: "python" },
+        { de: "zip()", lang: "python" },
+        { de: "try-except", lang: "python" },
+        { de: "import json", lang: "python" },
+        { de: "requests library", lang: "python" },
+        { de: "NumPy array", lang: "python" },
+        { de: "Matplotlib plot", lang: "python" },
+        { de: "f-String", lang: "python" },
+        { de: "@decorator", lang: "python" },
       ];
 
       let currentRound = [];
@@ -257,6 +471,111 @@
       const levelEl = document.getElementById("level");
       const pointsEl = document.getElementById("points");
       const progressBar = document.getElementById("progress-bar");
+      const hintBtn = document.getElementById("hintBtn");
+
+      let hintsUsed = 0;
+      const maxHintsPerRound = 1;
+
+      function showHint() {
+        if (hintsUsed >= maxHintsPerRound) {
+          hintBtn.disabled = true;
+          hintBtn.textContent = "💨 Hinweis schon verwendet!";
+          return;
+        }
+
+        hintsUsed++;
+        hintBtn.disabled = true;
+
+        // Find first uncompleted pair
+        const targets = document.querySelectorAll(".dropzone");
+        let targetToHint = null;
+        let wordToHint = null;
+
+        for (let target of targets) {
+          if (!target.classList.contains("correct")) {
+            const requiredLang = target.dataset.correct;
+            // Find the matching word
+            const words = document.querySelectorAll(".word");
+            for (let word of words) {
+              if (
+                word.dataset.value === requiredLang &&
+                !word.classList.contains("disabled")
+              ) {
+                targetToHint = target;
+                wordToHint = word;
+                break;
+              }
+            }
+            if (wordToHint) break;
+          }
+        }
+
+        if (targetToHint && wordToHint) {
+          animateFairyHint(wordToHint, targetToHint);
+        }
+      }
+
+      function animateFairyHint(fromElem, toElem) {
+        const fromRect = fromElem.getBoundingClientRect();
+        const toRect = toElem.getBoundingClientRect();
+
+        // Create fairy element
+        const fairy = document.createElement("div");
+        fairy.className = "fairy";
+        fairy.textContent = "✨";
+        fairy.style.left = fromRect.left + fromRect.width / 2 + "px";
+        fairy.style.top = fromRect.top + fromRect.height / 2 + "px";
+
+        document.body.appendChild(fairy);
+
+        // Calculate distance
+        const deltaX =
+          toRect.left + toRect.width / 2 - (fromRect.left + fromRect.width / 2);
+        const deltaY =
+          toRect.top + toRect.height / 2 - (fromRect.top + fromRect.height / 2);
+
+        fairy.style.setProperty("--tx", deltaX + "px");
+        fairy.style.setProperty("--ty", deltaY + "px");
+
+        // Trigger animation
+        setTimeout(() => {
+          fairy.classList.add("flying");
+        }, 10);
+
+        // Create sparkles along the path
+        for (let i = 0; i < 5; i++) {
+          setTimeout(() => {
+            const sparkle = document.createElement("div");
+            sparkle.className = "sparkle";
+            sparkle.textContent = "💫";
+
+            const progress = i / 5;
+            const sparkleX =
+              fromRect.left + fromRect.width / 2 + deltaX * progress;
+            const sparkleY =
+              fromRect.top + fromRect.height / 2 + deltaY * progress;
+
+            sparkle.style.left = sparkleX + "px";
+            sparkle.style.top = sparkleY + "px";
+
+            document.body.appendChild(sparkle);
+            setTimeout(() => {
+              sparkle.classList.add("animate");
+            }, 10);
+
+            setTimeout(() => sparkle.remove(), 1500);
+          }, i * 200);
+        }
+
+        // Highlight target
+        toElem.style.outline = "3px solid #fbbf24";
+        toElem.style.outlineOffset = "4px";
+
+        setTimeout(() => {
+          fairy.remove();
+          toElem.style.outline = "none";
+        }, 2000);
+      }
 
       function saveProgress() {
         localStorage.setItem(
@@ -289,6 +608,11 @@
       }
 
       function startNewRound() {
+        // Reset hints for new round
+        hintsUsed = 0;
+        hintBtn.disabled = false;
+        hintBtn.textContent = "Hinweis";
+
         let shuffled = [...vocabulary].sort(() => Math.random() - 0.5);
         currentRound = shuffled.slice(0, 4);
 
