@@ -1130,7 +1130,8 @@ function showStartPage() {
   mainContent.innerHTML = `
   <section id="homepage">
   <div class="hero-container">
-    
+        <div class="grid-background"></div>
+
     <!-- Linke Seite – dein aktueller Inhalt -->
     <div class="hero-left">
       <h1 style="text-align: start">Entwickle mit uns deine</h1>
