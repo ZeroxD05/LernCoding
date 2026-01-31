@@ -12,7 +12,6 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
-
     <style>
       :root {
         --primary: #00ff88;
@@ -24,13 +23,11 @@
         --text-dim: #8b949e;
         --accent: #ff006e;
       }
-
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
       }
-
       html,
       body {
         overflow-x: hidden;
@@ -39,14 +36,12 @@
         height: 100%;
         padding: 15px;
       }
-
       body {
         font-family: "JetBrains Mono", monospace;
         background: var(--darker);
         color: var(--text);
         line-height: 1.6;
       }
-
       .grid-background {
         position: fixed;
         inset: 0;
@@ -58,13 +53,11 @@
         pointer-events: none;
         z-index: -1;
       }
-
       @keyframes gridScroll {
         to {
           transform: translate(50px, 50px);
         }
       }
-
       .container {
         position: relative;
         z-index: 1;
@@ -73,12 +66,10 @@
         padding: 0 16px;
         overflow-x: hidden;
       }
-
       header {
         padding: 90px 0 30px;
         position: relative;
       }
-
       .logo {
         font-family: "Syne", sans-serif;
         font-size: 2.2rem;
@@ -87,13 +78,11 @@
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }
-
       .tagline {
         font-size: 1.05rem;
         color: var(--text-dim);
         margin-top: 6px;
       }
-
       .admin-controls {
         position: absolute;
         top: 40px;
@@ -101,7 +90,6 @@
         display: flex;
         gap: 12px;
       }
-
       .admin-btn,
       .logout-btn {
         padding: 8px 16px;
@@ -111,32 +99,26 @@
         transition: all 0.2s;
         margin-top: 3vh;
       }
-
       .admin-btn {
         background: rgba(0, 255, 136, 0.08);
         border: 1px solid rgba(0, 255, 136, 0.4);
         color: var(--primary);
       }
-
       .admin-btn:hover {
         background: rgba(0, 255, 136, 0.18);
       }
-
       .logout-btn {
         background: rgba(255, 80, 80, 0.12);
         border: 1px solid rgba(255, 80, 80, 0.5);
         color: #ff8080;
         display: none;
       }
-
       .logout-btn.visible {
         display: inline-block;
       }
-
       .logout-btn:hover {
         background: rgba(255, 80, 80, 0.25);
       }
-
       .login-modal {
         display: none;
         position: fixed;
@@ -146,7 +128,6 @@
         align-items: center;
         justify-content: center;
       }
-
       .login-box {
         background: var(--code-bg);
         border: 1px solid var(--primary);
@@ -157,7 +138,6 @@
         box-shadow: 0 20px 70px rgba(0, 0, 0, 0.7);
         position: relative;
       }
-
       .close-btn {
         position: absolute;
         top: 16px;
@@ -166,22 +146,18 @@
         cursor: pointer;
         color: var(--text-dim);
       }
-
       .close-btn:hover {
         color: var(--primary);
       }
-
       .section-title {
         font-size: 1.9rem;
         font-weight: 600;
         color: var(--primary);
         margin-bottom: 28px;
       }
-
       .form-group {
         margin-bottom: 22px;
       }
-
       label {
         display: block;
         margin-bottom: 6px;
@@ -191,7 +167,6 @@
         text-transform: uppercase;
         letter-spacing: 0.8px;
       }
-
       input[type="text"],
       input[type="password"],
       textarea,
@@ -204,7 +179,6 @@
         font-family: inherit;
         border-radius: 4px;
       }
-
       input:focus,
       textarea:focus,
       select:focus {
@@ -212,11 +186,9 @@
         border-color: var(--primary);
         box-shadow: 0 0 14px rgba(0, 255, 136, 0.2);
       }
-
       textarea {
         resize: vertical;
       }
-
       .btn {
         padding: 13px 34px;
         background: var(--primary);
@@ -228,18 +200,15 @@
         letter-spacing: 1.2px;
         transition: all 0.2s;
       }
-
       .btn:hover {
         background: #00e077;
         transform: translateY(-1px);
       }
-
       .error {
         color: #ff6666;
         margin-top: 12px;
         font-size: 0.9rem;
       }
-
       .new-post-section {
         margin: 60px 0;
         padding: 40px;
@@ -247,10 +216,9 @@
         border-left: 4px solid var(--accent);
         display: none;
       }
-
       /* ────────────────────────────────────────
-       Fixed Filter-Navbar (Icons auf mobil, Text auf Desktop)
-    ──────────────────────────────────────── */
+         Fixed Filter-Navbar (Icons auf mobil, Text auf Desktop)
+      ──────────────────────────────────────── */
       .filters-navbar {
         position: fixed;
         top: 0;
@@ -269,11 +237,9 @@
         white-space: nowrap;
         scrollbar-width: none;
       }
-
       .filters-navbar::-webkit-scrollbar {
         display: none;
       }
-
       .filter-btn {
         padding: 8px 14px;
         background: rgba(0, 255, 136, 0.08);
@@ -288,23 +254,19 @@
         gap: 6px;
         flex-shrink: 0;
       }
-
       .filter-btn.active,
       .filter-btn:hover {
         background: rgba(0, 255, 136, 0.28);
         border-color: var(--primary);
       }
-
       .filter-btn i {
         font-size: 1.1rem;
       }
-
       .search-container {
         margin-left: auto;
         min-width: 180px;
         max-width: 320px;
       }
-
       #searchInput {
         width: 100%;
         padding: 9px 12px;
@@ -314,13 +276,11 @@
         border-radius: 6px;
         font-family: inherit;
       }
-
       #searchInput:focus {
         outline: none;
         border-color: var(--primary);
         box-shadow: 0 0 12px rgba(0, 255, 136, 0.2);
       }
-
       /* Back-to-Top Button */
       #backToTop {
         position: fixed;
@@ -342,18 +302,15 @@
         transition: all 0.3s;
         z-index: 800;
       }
-
       #backToTop.visible {
         opacity: 0.9;
         visibility: visible;
       }
-
       #backToTop:hover {
         background: var(--primary);
         color: #000;
         transform: translateY(-3px);
       }
-
       /* Responsive Filter-Logik */
       @media (min-width: 769px) {
         .filters-navbar {
@@ -365,20 +322,16 @@
           overflow-x: visible;
           flex-wrap: wrap;
         }
-
         .filter-btn {
           padding: 8px 16px;
         }
-
         .filter-btn i {
           display: none;
         }
-
         .search-container {
           margin-left: auto;
         }
       }
-
       @media (max-width: 768px) {
         header {
           padding-top: 90px;
@@ -390,11 +343,9 @@
           min-width: 140px;
         }
       }
-
       .blog-posts {
         margin: 60px 0;
       }
-
       .blog-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
@@ -402,20 +353,17 @@
         max-width: 100%;
         margin: 0 auto;
       }
-
       @media (max-width: 480px) {
         .blog-grid {
           grid-template-columns: 1fr;
           gap: 24px;
         }
       }
-
       @media (max-width: 400px) {
         .post-card {
           padding: 16px;
         }
       }
-
       .post-card {
         background: var(--code-bg);
         border: 1px solid rgba(0, 255, 136, 0.25);
@@ -425,12 +373,10 @@
         width: 100%;
         border-radius: 8px;
       }
-
       .post-card:hover {
         border-color: var(--primary);
         transform: translateY(-3px);
       }
-
       .post-category {
         display: inline-block;
         padding: 4px 14px;
@@ -442,26 +388,22 @@
         background: rgba(0, 255, 136, 0.12);
         border-radius: 4px;
       }
-
       .post-title {
         font-size: 1.55rem;
         font-weight: 600;
         margin-bottom: 12px;
       }
-
       .post-date {
         color: var(--text-dim);
         font-size: 0.9rem;
         margin-bottom: 16px;
       }
-
       .post-excerpt,
       .post-full-content {
         color: var(--text-dim);
         line-height: 1.65;
         font-size: 1.05rem;
       }
-
       .post-full-content {
         display: none;
         margin-top: 20px;
@@ -472,7 +414,6 @@
         overflow-wrap: break-word;
         hyphens: auto;
       }
-
       .read-more-btn {
         margin-top: 16px;
         padding: 9px 20px;
@@ -484,11 +425,9 @@
         font-size: 0.95rem;
         font-weight: 600;
       }
-
       .read-more-btn:hover {
         background: rgba(0, 255, 136, 0.3);
       }
-
       .delete-btn {
         margin-top: 20px;
         padding: 7px 16px;
@@ -500,11 +439,9 @@
         font-size: 0.85rem;
         display: none;
       }
-
       .delete-btn:hover {
         background: rgba(255, 80, 80, 0.3);
       }
-
       footer {
         margin-top: 120px;
         padding: 40px 0;
@@ -513,18 +450,15 @@
         color: var(--text-dim);
         font-size: 0.9rem;
       }
-
       footer a {
         color: var(--text-dim);
         text-decoration: none;
         transition: color 0.2s;
         margin: 0 12px;
       }
-
       footer a:hover {
         color: var(--primary);
       }
-
       @media (min-width: 1100px) {
         .container {
           padding: 0 32px;
@@ -533,7 +467,6 @@
           padding: 32px;
         }
       }
-
       @media (max-width: 768px) {
         .logo {
           font-size: 2.4rem;
@@ -553,7 +486,6 @@
   </head>
   <body>
     <div class="grid-background"></div>
-
     <!-- Fixed Filter-Navbar mit Icons auf kleinen Geräten -->
     <nav class="filters-navbar">
       <button class="filter-btn active" data-category="all" title="Alle">
@@ -567,9 +499,8 @@
         data-category="programming"
         title="Programmieren"
       >
-        <i class="fas fa-paragraph"></i><span>Programmieren</span>
+        <i class="fas fa-code"></i><span>Programmieren</span>
       </button>
-
       <div class="search-container">
         <input
           type="text"
@@ -579,7 +510,6 @@
         />
       </div>
     </nav>
-
     <div class="container">
       <header>
         <h1 class="logo">LernCoding</h1>
@@ -587,14 +517,11 @@
           Dein Programmier-Blog für Code, Tutorials & Best Practices
         </p>
         <div class="admin-controls">
-          <button class="admin-btn" id="adminBtn">Admin</button>
           <a href="index.html"
             ><button class="admin-btn">Zurück zur Startseite</button></a
           >
-          <button class="logout-btn" id="logoutBtn">Abmelden</button>
         </div>
       </header>
-
       <!-- Login Modal -->
       <div class="login-modal" id="loginModal">
         <div class="login-box">
@@ -618,7 +545,6 @@
           </form>
         </div>
       </div>
-
       <!-- Schreib-Bereich -->
       <section class="new-post-section" id="newPostSection">
         <h2 class="section-title">Neuen Beitrag schreiben</h2>
@@ -631,7 +557,6 @@
             <label for="postCategory">Kategorie</label>
             <select id="postCategory">
               <option value="programming">Programmieren</option>
-
               <option value="text">Text</option>
             </select>
           </div>
@@ -642,12 +567,10 @@
           <button type="submit" class="btn">Veröffentlichen</button>
         </form>
       </section>
-
       <section class="blog-posts">
         <h2 class="section-title">Beiträge</h2>
         <div class="blog-grid" id="blogGrid"></div>
       </section>
-
       <footer>
         <p>© 2026 LernCoding Blog</p>
         <div style="margin-top: 12px">
@@ -656,13 +579,49 @@
         </div>
       </footer>
     </div>
-
     <!-- Back to Top Button -->
     <button id="backToTop" title="Nach oben">
       <i class="fas fa-arrow-up"></i>
     </button>
 
     <script>
+      // ← HIER kommen deine Blog-Beiträge rein
+      // Diese werden beim allerersten Aufruf (wenn localStorage leer ist) übernommen
+      const initialPosts = [
+        {
+          title: "Der Gedanke hinter LernCoding",
+          category: "programming",
+          excerpt:
+            'Als Jugendlicher verbrang ich Tage und Nächte lang vor dem PC und spielte Spiele. Ich wusste, dass sich eines Tages irgendwas ändern muss und habe so meine Leidenschaft zum Gaming mit Produktivität verbunden und angefangen Spiele zu programmieren. Das lief nur semi gut, da ich kurze Zeit später aufhörte. Eines Tages ist mir dann in den Sinn gekommen, dass ich die Möglichkeit habe und Programmieren kann. "ICH MUSS ETWAS MACHEN", dachte ich mir. Dadurch habe ich die Website Enwticklung für mich gefunden. Statt Tage und Nächte zu zocken habe ich nun an eigenen Websiten geschraubt, mich mit rechtlichen, design-technischen und Fundamenten auseinandergesetzt und somit mein Hobby zum Beruf gemacht. Eine große Erleichterung für mich war es, dass ich bereits die Möglichkeit hatte, das Programmieren zu lernen. Deshalb habe ich lern-coding.de entwickelt, damit auch Interessierte, die nicht die Möglichkeit durch das Fehlen von technischen Mitteln ihre Träume verwirklichen können.',
+          date: "31. Januar 2026",
+        },
+        {
+          title: "Meine Social Media Reise",
+          category: "text",
+          excerpt:
+            "Letzte Nacht dachte ich echt: „Keine Lust mehr.“ Motivation null. Heute Morgen trotzdem TikTok auf und jetzt habe ich wieder ein neues TikTok Video gepostet. Manchmal gewinnt man einfach, indem man den ersten Schritt macht.",
+          date: "30. Januar 2026",
+        },
+
+        // ── HIER kannst du einfach neue Einträge hinzufügen ────────────────
+        // Beispiel:
+        /*
+        {
+          title: "Wie man eine REST API mit Node.js baut",
+          category: "programming",
+          excerpt: "In diesem Beitrag zeige ich dir Schritt für Schritt ...",
+          date: "15. Februar 2026",
+        },
+        */
+      ];
+
+      window.addEventListener("DOMContentLoaded", () => {
+        if (!localStorage.getItem("blogPosts")) {
+          localStorage.setItem("blogPosts", JSON.stringify(initialPosts));
+        }
+        renderPosts();
+      });
+
       const env = {
         u: atob("QXRhIFplcmFu"),
         p1: atob("QXRhaWxheWRhMDU="),
@@ -670,15 +629,20 @@
       };
 
       const loginModal = document.getElementById("loginModal");
-      const adminBtn = document.getElementById("adminBtn");
       const closeModal = document.getElementById("closeModal");
       const loginForm = document.getElementById("loginForm");
       const loginError = document.getElementById("loginError");
       const newPostSection = document.getElementById("newPostSection");
-      const logoutBtn = document.getElementById("logoutBtn");
+      const logoutBtn = document.createElement("button"); // ← wurde im HTML gefehlt
+      logoutBtn.id = "logoutBtn";
+      logoutBtn.className = "logout-btn";
+      logoutBtn.textContent = "Abmelden";
+      document.querySelector(".admin-controls").appendChild(logoutBtn);
+
       const blogGrid = document.getElementById("blogGrid");
       const searchInput = document.getElementById("searchInput");
       const filterButtons = document.querySelectorAll(".filter-btn");
+
       let currentFilter = "all";
       let currentSearch = "";
 
@@ -707,15 +671,7 @@
           );
       }
 
-      // Login Logik
-      adminBtn.onclick = () => {
-        loginModal.style.display = "flex";
-        loginError.textContent = "";
-        loginForm.reset();
-      };
-
       closeModal.onclick = () => (loginModal.style.display = "none");
-
       loginModal.onclick = (e) => {
         if (e.target === loginModal) loginModal.style.display = "none";
       };
@@ -760,6 +716,7 @@
       function applyFiltersAndSearch() {
         const cards = blogGrid.querySelectorAll(".post-card");
         let visibleCount = 0;
+
         cards.forEach((card) => {
           const titleMatch = card.dataset.title.includes(currentSearch);
           const categoryMatch =
@@ -797,14 +754,14 @@
             : post.excerpt;
 
         el.innerHTML = `
-        <div class="post-category">${post.category.toUpperCase()}</div>
-        <h3 class="post-title">${post.title}</h3>
-        <div class="post-date">${post.date}</div>
-        <div class="post-excerpt">${teaser}</div>
-        <div class="post-full-content">${post.excerpt}</div>
-        <button class="read-more-btn">Mehr lesen ↓</button>
-        <button class="delete-btn">Löschen</button>
-      `;
+          <div class="post-category">${post.category.toUpperCase()}</div>
+          <h3 class="post-title">${post.title}</h3>
+          <div class="post-date">${post.date}</div>
+          <div class="post-excerpt">${teaser}</div>
+          <div class="post-full-content">${post.excerpt}</div>
+          <button class="read-more-btn">Mehr lesen ↓</button>
+          <button class="delete-btn">Löschen</button>
+        `;
 
         const readMoreBtn = el.querySelector(".read-more-btn");
         const excerptEl = el.querySelector(".post-excerpt");
@@ -830,7 +787,6 @@
         el.onclick = (e) => {
           if (e.target.tagName === "BUTTON" || e.target.closest("button"))
             return;
-
           isExpanded = !isExpanded;
           if (isExpanded) {
             fullEl.style.display = "block";
@@ -907,7 +863,6 @@
 
       // Back to Top
       const backToTop = document.getElementById("backToTop");
-
       window.addEventListener("scroll", () => {
         if (window.scrollY > 400) {
           backToTop.classList.add("visible");
@@ -920,7 +875,8 @@
         window.scrollTo({ top: 0, behavior: "smooth" });
       };
 
-      window.addEventListener("DOMContentLoaded", renderPosts);
+      // Initiales Rendern
+      renderPosts();
     </script>
   </body>
 </html>
