@@ -23,6 +23,7 @@
         --text-dim: #8b949e;
         --accent: #ff006e;
       }
+
       * {
         margin: 0;
         padding: 0;
@@ -32,9 +33,9 @@
       body {
         overflow-x: hidden;
         touch-action: pan-y pinch-zoom;
-        -webkit-overflow-scrolling: touch;
         height: 100%;
         padding: 15px;
+        margin-top: 5vh;
       }
       body {
         font-family: "JetBrains Mono", monospace;
@@ -49,15 +50,10 @@
           linear-gradient(rgba(0, 255, 136, 0.05) 1px, transparent 1px),
           linear-gradient(90deg, rgba(0, 255, 136, 0.05) 1px, transparent 1px);
         background-size: 50px 50px;
-        animation: gridScroll 24s linear infinite;
         pointer-events: none;
         z-index: -1;
       }
-      @keyframes gridScroll {
-        to {
-          transform: translate(50px, 50px);
-        }
-      }
+
       .container {
         position: relative;
         z-index: 1;
@@ -221,7 +217,7 @@
       ──────────────────────────────────────── */
       .filters-navbar {
         position: fixed;
-        top: 0;
+        top: 5vh;
         left: 0;
         right: 0;
         z-index: 900;
