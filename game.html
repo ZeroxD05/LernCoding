@@ -399,69 +399,67 @@
 
     <script>
       const vocabulary = [
-        // HTML (wie zuvor – unverändert)
+        // HTML
         { de: "DOCTYPE", lang: "html" },
-        { de: "<div>", lang: "html" },
-        { de: "alt-Attribut", lang: "html" },
-        { de: '<meta charset="UTF-8">', lang: "html" },
         { de: "<head>", lang: "html" },
         { de: "<body>", lang: "html" },
         { de: "<title>", lang: "html" },
-        { de: "<h1> bis <h6>", lang: "html" },
+        { de: '<meta charset="UTF-8">', lang: "html" },
+        { de: "<div>", lang: "html" },
         { de: "<p>", lang: "html" },
-        { de: "<a href>", lang: "html" },
-        { de: "<img src>", lang: "html" },
-        { de: "<br>", lang: "html" },
+        { de: "<h1> bis <h6>", lang: "html" },
+        { de: '<a href="...">', lang: "html" },
+        { de: '<img src="..." alt="...">', lang: "html" },
         { de: "<form>", lang: "html" },
-        { de: "<input>", lang: "html" },
+        { de: '<input type="text">', lang: "html" },
         { de: "<button>", lang: "html" },
         { de: "<ul> / <li>", lang: "html" },
-        { de: "<ol>", lang: "html" },
-        { de: "<table>", lang: "html" },
-        { de: "<header>", lang: "html" },
-        { de: "<footer>", lang: "html" },
-        { de: "<section>", lang: "html" },
-        { de: "<article>", lang: "html" },
-        { de: "<nav>", lang: "html" },
-        { de: "<aside>", lang: "html" },
-        { de: "<strong>", lang: "html" },
-        { de: "<em>", lang: "html" },
-        { de: "<span>", lang: "html" },
-        { de: "<iframe>", lang: "html" },
         { de: "class-Attribut", lang: "html" },
         { de: "id-Attribut", lang: "html" },
-        // CSS (wie zuvor)
+
+        // CSS
         { de: "display: flex", lang: "css" },
-        { de: "border-radius", lang: "css" },
-        { de: ":hover", lang: "css" },
-        { de: "background: linear-gradient", lang: "css" },
-        { de: "box-shadow", lang: "css" },
-        { de: "padding", lang: "css" },
-        { de: "margin", lang: "css" },
-        { de: "width / height", lang: "css" },
-        { de: "color", lang: "css" },
-        { de: "background-color", lang: "css" },
-        { de: "font-size", lang: "css" },
-        { de: "text-align", lang: "css" },
-        { de: "position: absolute", lang: "css" },
-        { de: "position: relative", lang: "css" },
-        { de: "z-index", lang: "css" },
-        { de: "opacity", lang: "css" },
-        { de: "transform: rotate()", lang: "css" },
-        { de: "transition", lang: "css" },
-        { de: "animation", lang: "css" },
-        { de: "@media queries", lang: "css" },
         { de: "display: grid", lang: "css" },
-        { de: "gap", lang: "css" },
-        { de: "flex-direction", lang: "css" },
         { de: "justify-content", lang: "css" },
         { de: "align-items", lang: "css" },
-        { de: "border", lang: "css" },
-        { de: "box-sizing: border-box", lang: "css" },
-        { de: "overflow: hidden", lang: "css" },
-        { de: "cursor: pointer", lang: "css" },
-        // JS + Python (wie zuvor – gekürzt dargestellt, aber komplett drin lassen)
-        // ... (restliche Einträge unverändert)
+        { de: "flex-direction", lang: "css" },
+        { de: "gap", lang: "css" },
+        { de: "margin / padding", lang: "css" },
+        { de: "border-radius", lang: "css" },
+        { de: "box-shadow", lang: "css" },
+        { de: "background: linear-gradient", lang: "css" },
+        { de: ":hover", lang: "css" },
+        { de: "@media (max-width: ...)", lang: "css" },
+        { de: "position: absolute", lang: "css" },
+        { de: "z-index", lang: "css" },
+
+        // JavaScript
+        { de: "console.log()", lang: "javascript" },
+        { de: "let / const", lang: "javascript" },
+        { de: "function name() { }", lang: "javascript" },
+        { de: "addEventListener", lang: "javascript" },
+        { de: "querySelector", lang: "javascript" },
+        { de: "innerHTML", lang: "javascript" },
+        { de: "classList.add()", lang: "javascript" },
+        { de: "setTimeout", lang: "javascript" },
+        { de: "fetch()", lang: "javascript" },
+        { de: "async / await", lang: "javascript" },
+        { de: "if / else", lang: "javascript" },
+        { de: "for / while", lang: "javascript" },
+
+        // Python
+        { de: "print()", lang: "python" },
+        { de: "def funktion():", lang: "python" },
+        { de: "for i in range(10):", lang: "python" },
+        { de: "[x for x in liste]", lang: "python" },
+        { de: "import pandas as pd", lang: "python" },
+        { de: "try: ... except:", lang: "python" },
+        { de: "class Name:", lang: "python" },
+        { de: "self.", lang: "python" },
+        { de: "with open(...) as f:", lang: "python" },
+        { de: "True / False", lang: "python" },
+        { de: "None", lang: "python" },
+        { de: "len()", lang: "python" },
       ];
 
       let currentRound = [];
@@ -469,6 +467,10 @@
       let level = 1;
       let xp = 0;
       const xpPerLevel = 100;
+      const pointsPerCorrect = 25;
+
+      let hintsUsed = 0;
+      const maxHintsPerRound = 1;
 
       const levelEl = document.getElementById("level");
       const pointsEl = document.getElementById("points");
@@ -476,155 +478,126 @@
       const hintBtn = document.getElementById("hintBtn");
       const shareBtn = document.getElementById("shareBtn");
 
-      let hintsUsed = 0;
-      const maxHintsPerRound = 1;
-
-      function showHint() {
-        if (hintsUsed >= maxHintsPerRound) {
-          hintBtn.disabled = true;
-          hintBtn.textContent = "Hinweis bereits verwendet";
-          return;
-        }
-        hintsUsed++;
-        hintBtn.disabled = true;
-
-        const targets = document.querySelectorAll(".dropzone");
-        let targetToHint = null;
-        let wordToHint = null;
-
-        for (let target of targets) {
-          if (!target.classList.contains("correct")) {
-            const requiredLang = target.dataset.correct;
-            const words = document.querySelectorAll(".word");
-            for (let word of words) {
-              if (
-                word.dataset.value === requiredLang &&
-                !word.classList.contains("disabled")
-              ) {
-                targetToHint = target;
-                wordToHint = word;
-                break;
-              }
-            }
-            if (wordToHint) break;
-          }
-        }
-
-        if (targetToHint && wordToHint) {
-          animateFairyHint(wordToHint, targetToHint);
-        }
-      }
-
-      function animateFairyHint(fromElem, toElem) {
-        const fromRect = fromElem.getBoundingClientRect();
-        const toRect = toElem.getBoundingClientRect();
-
-        const fairy = document.createElement("div");
-        fairy.className = "fairy";
-        fairy.textContent = "→";
-        fairy.style.left = fromRect.left + fromRect.width / 2 + "px";
-        fairy.style.top = fromRect.top + fromRect.height / 2 + "px";
-        document.body.appendChild(fairy);
-
-        const deltaX =
-          toRect.left + toRect.width / 2 - (fromRect.left + fromRect.width / 2);
-        const deltaY =
-          toRect.top + toRect.height / 2 - (fromRect.top + fromRect.height / 2);
-
-        fairy.style.setProperty("--tx", deltaX + "px");
-        fairy.style.setProperty("--ty", deltaY + "px");
-
-        setTimeout(() => fairy.classList.add("flying"), 10);
-
-        setTimeout(() => {
-          fairy.remove();
-          toElem.style.outline = "none";
-        }, 2000);
-      }
-
-      shareBtn.addEventListener("click", async () => {
-        const shareText = `Code-Match – mein aktueller Stand
-
-      Level: ${level}
-      Punkte: ${points}
-      XP: ${xp} / ${xpPerLevel}
-
-      Spiel mit:
-      https://lern-coding.de`;
-
-        // 1. Web Share API (Mobile, moderne Browser)
-        if (navigator.share) {
-          try {
-            await navigator.share({
-              title: "LernCoding – mein Spielstand",
-              text: shareText,
-            });
-            return;
-          } catch (err) {
-            // User hat abgebrochen → nichts tun
-          }
-        }
-
-        // 2. Clipboard Fallback (Desktop, alle Browser)
-        try {
-          await navigator.clipboard.writeText(shareText);
-          showShareToast("Spielstand kopiert! Jetzt überall einfügen");
-        } catch {
-          // 3. Letzter Fallback (Prompt)
-          window.prompt("Kopiere deinen Spielstand:", shareText);
-        }
-
-        function fallbackCopy() {
-          navigator.clipboard
-            .writeText(shareText)
-            .then(() => {
-              alert("Ergebnis in die Zwischenablage kopiert:\n\n" + shareText);
-            })
-            .catch(() => {
-              alert(
-                "Kopieren nicht möglich. Hier der Text zum manuellen Kopieren:\n\n" +
-                  shareText,
-              );
-            });
-        }
-      });
-
+      // ── Fortschritt speichern / laden ────────────────────────
       function saveProgress() {
         localStorage.setItem(
-          "codeMatchProgress",
+          "codeMatch",
           JSON.stringify({ points, level, xp }),
         );
       }
 
       function loadProgress() {
-        const data = localStorage.getItem("codeMatchProgress");
-        if (data) {
-          const saved = JSON.parse(data);
-          points = saved.points ?? 0;
-          level = saved.level ?? 1;
-          xp = saved.xp ?? 0;
-        }
+        const data = localStorage.getItem("codeMatch");
+        if (!data) return;
+        const s = JSON.parse(data);
+        points = s.points || 0;
+        level = s.level || 1;
+        xp = s.xp || 0;
       }
 
+      // ── UI aktualisieren ─────────────────────────────────────
       function updateUI() {
         pointsEl.textContent = points;
-        levelEl.textContent = level;
 
-        while (xp >= xpPerLevel) {
-          xp -= xpPerLevel;
-          level++;
+        // Level-Up prüfen
+        const newLevel = Math.floor(xp / xpPerLevel) + 1;
+        if (newLevel > level) {
+          level = newLevel;
+          showLevelUpAnimation();
         }
 
-        progressBar.style.width = Math.min((xp / xpPerLevel) * 100, 100) + "%";
+        levelEl.textContent = level;
+        progressBar.style.width = ((xp % xpPerLevel) / xpPerLevel) * 100 + "%";
+
         saveProgress();
       }
 
+      // Optionale Level-Up Animation
+      function showLevelUpAnimation() {
+        const lvlEl = document.createElement("div");
+        lvlEl.className = "level-up-toast";
+        lvlEl.textContent = `Level ${level} erreicht! 🎉`;
+        document.body.appendChild(lvlEl);
+        setTimeout(() => lvlEl.remove(), 2500);
+      }
+
+      // ── Hinweis-Funktion ────────────────────────────────────
+      function showHint() {
+        if (hintsUsed >= maxHintsPerRound) return;
+        hintsUsed++;
+        hintBtn.disabled = true;
+        hintBtn.textContent = "Hinweis verbraucht";
+
+        const targets = [
+          ...document.querySelectorAll(".dropzone:not(.correct)"),
+        ];
+        if (targets.length === 0) return;
+
+        const target = targets[Math.floor(Math.random() * targets.length)];
+        const correctLang = target.dataset.correct;
+
+        const candidates = [
+          ...document.querySelectorAll(
+            `.word[data-value="${correctLang}"]:not(.disabled)`,
+          ),
+        ];
+        if (candidates.length === 0) return;
+
+        const word = candidates[Math.floor(Math.random() * candidates.length)];
+        animateFairyHint(word, target);
+      }
+
+      function animateFairyHint(fromElem, toElem) {
+        const from = fromElem.getBoundingClientRect();
+        const to = toElem.getBoundingClientRect();
+
+        const fairy = document.createElement("div");
+        fairy.className = "fairy";
+        fairy.textContent = "✦ →";
+        fairy.style.left = from.left + from.width / 2 + "px";
+        fairy.style.top = from.top + from.height / 2 + "px";
+        document.body.appendChild(fairy);
+
+        const dx = to.left + to.width / 2 - (from.left + from.width / 2);
+        const dy = to.top + to.height / 2 - (from.top + from.height / 2);
+
+        fairy.style.setProperty("--tx", dx + "px");
+        fairy.style.setProperty("--ty", dy + "px");
+        setTimeout(() => fairy.classList.add("flying"), 20);
+        setTimeout(() => fairy.remove(), 2200);
+      }
+
+      // ── Share-Funktion ──────────────────────────────────────
+      shareBtn.addEventListener("click", async () => {
+        const text = `Code-Match @ LernCoding\nLevel ${level} • ${points} Punkte\nhttps://lern-coding.de`;
+
+        try {
+          if (navigator.share) {
+            await navigator.share({ title: "Mein Code-Match Stand", text });
+            return;
+          }
+          await navigator.clipboard.writeText(text);
+          showShareToast("Stand kopiert ✓");
+        } catch {
+          window.prompt("Kopiere den Text:\n\n", text);
+        }
+      });
+
+      function showShareToast(msg) {
+        const t = document.createElement("div");
+        t.className = "share-toast";
+        t.textContent = msg;
+        document.body.appendChild(t);
+        setTimeout(() => t.remove(), 2800);
+      }
+
+      // ── Neue Runde starten ──────────────────────────────────
       function startNewRound() {
         hintsUsed = 0;
         hintBtn.disabled = false;
         hintBtn.textContent = "Hinweis";
 
-        let shuffled = [...vocabulary].sort(() => Math.random() - 0.5);
+        const shuffled = [...vocabulary].sort(() => Math.random() - 0.5);
         currentRound = shuffled.slice(0, 4);
 
         const targetsDiv = document.getElementById("targets");
@@ -632,6 +605,7 @@
         targetsDiv.innerHTML = "";
         wordsDiv.innerHTML = "";
 
+        // Dropzonen erstellen
         currentRound.forEach((item) => {
           const zone = document.createElement("div");
           zone.className = "dropzone";
@@ -645,67 +619,132 @@
           zone.addEventListener("dragleave", () =>
             zone.classList.remove("over"),
           );
-
-          zone.addEventListener("drop", (e) => {
-            e.preventDefault();
-            zone.classList.remove("over");
-
-            const droppedLang = e.dataTransfer.getData("lang");
-            const draggedId = e.dataTransfer.getData("id");
-
-            if (droppedLang === zone.dataset.correct) {
-              zone.classList.add("correct");
-              zone.textContent += ` ✓ ${droppedLang.toUpperCase()}`;
-              points += 25;
-              xp += 25;
-              updateUI();
-
-              const draggedWord = document.getElementById(draggedId);
-              if (draggedWord) {
-                draggedWord.classList.add("disabled");
-                draggedWord.draggable = false;
-              }
-
-              if (
-                document.querySelectorAll(".correct").length ===
-                currentRound.length
-              ) {
-                setTimeout(startNewRound, 1500);
-              }
-            } else {
-              zone.classList.add("wrong");
-              setTimeout(() => zone.classList.remove("wrong"), 1000);
-            }
-          });
+          zone.addEventListener("drop", handleDrop);
 
           targetsDiv.appendChild(zone);
         });
 
-        const langs = currentRound
+        // Antwortkarten erstellen (nur Sprachen)
+        const answerLangs = currentRound
           .map((item) => item.lang)
           .sort(() => Math.random() - 0.5);
-        langs.forEach((lang) => {
-          const wordElem = document.createElement("div");
-          const wordId = "word-" + Math.random().toString(36).slice(2);
-          wordElem.className = "word";
-          wordElem.id = wordId;
-          wordElem.draggable = true;
-          wordElem.textContent = lang.toUpperCase();
-          wordElem.dataset.value = lang;
+        answerLangs.forEach((lang) => {
+          const el = document.createElement("div");
+          el.className = "word";
+          el.draggable = true;
+          el.textContent = lang.toUpperCase();
+          el.dataset.value = lang;
+          el.id = "w-" + Math.random().toString(36).slice(2, 9);
 
-          wordElem.addEventListener("dragstart", (e) => {
-            if (wordElem.classList.contains("disabled")) {
+          // Desktop Drag
+          el.addEventListener("dragstart", (e) => {
+            if (el.classList.contains("disabled")) {
               e.preventDefault();
-            } else {
-              e.dataTransfer.setData("lang", lang);
-              e.dataTransfer.setData("id", wordId);
+              return;
+            }
+            e.dataTransfer.setData("lang", lang);
+            e.dataTransfer.setData("id", el.id);
+          });
+
+          // Mobile Touch Drag
+          let touchStartX, touchStartY;
+          el.addEventListener("touchstart", (e) => {
+            if (el.classList.contains("disabled")) return;
+            const touch = e.touches[0];
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
+            el.style.position = "absolute";
+            el.style.zIndex = 1000;
+            el.classList.add("dragging");
+            document.body.appendChild(el);
+          });
+
+          el.addEventListener("touchmove", (e) => {
+            e.preventDefault(); // scroll verhindern
+            const touch = e.touches[0];
+            el.style.left = touch.clientX - el.offsetWidth / 2 + "px";
+            el.style.top = touch.clientY - el.offsetHeight / 2 + "px";
+          });
+
+          el.addEventListener("touchend", (e) => {
+            el.classList.remove("dragging");
+            el.style.position = "";
+            el.style.left = "";
+            el.style.top = "";
+            el.style.zIndex = "";
+
+            // Prüfen, ob es auf einer Dropzone "gelandet" ist
+            const touch = e.changedTouches[0];
+            const dropzones = document.querySelectorAll(".dropzone");
+            dropzones.forEach((zone) => {
+              const rect = zone.getBoundingClientRect();
+              if (
+                touch.clientX >= rect.left &&
+                touch.clientX <= rect.right &&
+                touch.clientY >= rect.top &&
+                touch.clientY <= rect.bottom
+              ) {
+                // Fake Drop Event
+                const fakeEvent = {
+                  preventDefault: () => {},
+                  dataTransfer: { getData: () => lang, id: el.id },
+                  currentTarget: zone,
+                };
+                handleDrop.call(zone, fakeEvent);
+              }
+            });
+
+            // Karte wieder in den Container zurücksetzen, falls nicht korrekt platziert
+            if (!el.classList.contains("disabled")) {
+              document.getElementById("words").appendChild(el);
             }
           });
 
-          wordsDiv.appendChild(wordElem);
+          wordsDiv.appendChild(el);
         });
       }
 
+      // ── Drop-Handler ───────────────────────────────────────
+      function handleDrop(e) {
+        e.preventDefault();
+        this.classList.remove("over");
+
+        const droppedLang = e.dataTransfer.getData("lang");
+        const draggedId = e.dataTransfer.getData("id");
+
+        if (droppedLang === this.dataset.correct) {
+          this.classList.add("correct");
+          this.innerHTML += ` ✓ <strong>${droppedLang.toUpperCase()}</strong>`;
+
+          const gainedXP = getXPPerCorrect();
+          points += gainedXP;
+          xp += gainedXP;
+
+          updateUI();
+
+          const dragged = document.getElementById(draggedId);
+          if (dragged) {
+            dragged.classList.add("disabled");
+            dragged.draggable = false;
+          }
+
+          if (
+            document.querySelectorAll(".dropzone.correct").length ===
+            currentRound.length
+          ) {
+            setTimeout(startNewRound, 1200);
+          }
+        } else {
+          this.classList.add("wrong");
+          setTimeout(() => this.classList.remove("wrong"), 700);
+        }
+      }
+
+      function getXPPerCorrect() {
+        return level >= 10 ? 10 : pointsPerCorrect;
+      }
+
+      // ── Spiel starten ───────────────────────────────────────
       loadProgress();
       updateUI();
       startNewRound();
