@@ -636,7 +636,6 @@
           el.dataset.value = lang;
           el.id = "w-" + Math.random().toString(36).slice(2, 9);
 
-          // Desktop Drag
           el.addEventListener("dragstart", (e) => {
             if (el.classList.contains("disabled")) {
               e.preventDefault();
@@ -644,60 +643,6 @@
             }
             e.dataTransfer.setData("lang", lang);
             e.dataTransfer.setData("id", el.id);
-          });
-
-          // Mobile Touch Drag
-          let touchStartX, touchStartY;
-          el.addEventListener("touchstart", (e) => {
-            if (el.classList.contains("disabled")) return;
-            const touch = e.touches[0];
-            touchStartX = touch.clientX;
-            touchStartY = touch.clientY;
-            el.style.position = "absolute";
-            el.style.zIndex = 1000;
-            el.classList.add("dragging");
-            document.body.appendChild(el);
-          });
-
-          el.addEventListener("touchmove", (e) => {
-            e.preventDefault(); // scroll verhindern
-            const touch = e.touches[0];
-            el.style.left = touch.clientX - el.offsetWidth / 2 + "px";
-            el.style.top = touch.clientY - el.offsetHeight / 2 + "px";
-          });
-
-          el.addEventListener("touchend", (e) => {
-            el.classList.remove("dragging");
-            el.style.position = "";
-            el.style.left = "";
-            el.style.top = "";
-            el.style.zIndex = "";
-
-            // Prüfen, ob es auf einer Dropzone "gelandet" ist
-            const touch = e.changedTouches[0];
-            const dropzones = document.querySelectorAll(".dropzone");
-            dropzones.forEach((zone) => {
-              const rect = zone.getBoundingClientRect();
-              if (
-                touch.clientX >= rect.left &&
-                touch.clientX <= rect.right &&
-                touch.clientY >= rect.top &&
-                touch.clientY <= rect.bottom
-              ) {
-                // Fake Drop Event
-                const fakeEvent = {
-                  preventDefault: () => {},
-                  dataTransfer: { getData: () => lang, id: el.id },
-                  currentTarget: zone,
-                };
-                handleDrop.call(zone, fakeEvent);
-              }
-            });
-
-            // Karte wieder in den Container zurücksetzen, falls nicht korrekt platziert
-            if (!el.classList.contains("disabled")) {
-              document.getElementById("words").appendChild(el);
-            }
           });
 
           wordsDiv.appendChild(el);
