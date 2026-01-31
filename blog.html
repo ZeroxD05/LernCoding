@@ -487,39 +487,40 @@
   <body>
     <div class="grid-background"></div>
     <!-- Fixed Filter-Navbar mit Icons auf kleinen Geräten -->
-    <nav class="filters-navbar">
-      <button class="filter-btn active" data-category="all" title="Alle">
-        <i class="fas fa-home"></i><span>Alle</span>
-      </button>
-      <button class="filter-btn" data-category="text" title="Text">
-        <i class="fas fa-paragraph"></i><span>Text</span>
-      </button>
-      <button
-        class="filter-btn"
-        data-category="programming"
-        title="Programmieren"
-      >
-        <i class="fas fa-code"></i><span>Programmieren</span>
-      </button>
-      <div class="search-container">
-        <input
-          type="text"
-          id="searchInput"
-          placeholder="Beitragstitel suchen..."
-          autocomplete="off"
-        />
-      </div>
-    </nav>
+
     <div class="container">
       <header>
         <h1 class="logo">LernCoding</h1>
         <p class="tagline">
           Dein Programmier-Blog für Code, Tutorials & Best Practices
         </p>
+        <a href="index.html"
+          ><button class="admin-btn">Zurück zur Startseite</button></a
+        >
         <div class="admin-controls">
-          <a href="index.html"
-            ><button class="admin-btn">Zurück zur Startseite</button></a
-          >
+          <nav class="filters-navbar">
+            <button class="filter-btn active" data-category="all" title="Alle">
+              <i class="fas fa-home"></i><span>Alle</span>
+            </button>
+            <button class="filter-btn" data-category="text" title="Text">
+              <i class="fas fa-paragraph"></i><span>Text</span>
+            </button>
+            <button
+              class="filter-btn"
+              data-category="programming"
+              title="Programmieren"
+            >
+              <i class="fas fa-code"></i><span>Programmieren</span>
+            </button>
+            <div class="search-container">
+              <input
+                type="text"
+                id="searchInput"
+                placeholder="Beitragstitel suchen..."
+                autocomplete="off"
+              />
+            </div>
+          </nav>
         </div>
       </header>
       <!-- Login Modal -->
