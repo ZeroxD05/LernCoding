@@ -1,0 +1,926 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LernCoding Blog</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <style>
+      :root {
+        --primary: #00ff88;
+        --secondary: #0088ff;
+        --dark: #0a0e14;
+        --darker: #050810;
+        --code-bg: #151b26;
+        --text: #e6edf3;
+        --text-dim: #8b949e;
+        --accent: #ff006e;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        overflow-x: hidden;
+        touch-action: pan-y pinch-zoom;
+        -webkit-overflow-scrolling: touch;
+        height: 100%;
+        padding: 15px;
+      }
+
+      body {
+        font-family: "JetBrains Mono", monospace;
+        background: var(--darker);
+        color: var(--text);
+        line-height: 1.6;
+      }
+
+      .grid-background {
+        position: fixed;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(0, 255, 136, 0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0, 255, 136, 0.05) 1px, transparent 1px);
+        background-size: 50px 50px;
+        animation: gridScroll 24s linear infinite;
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      @keyframes gridScroll {
+        to {
+          transform: translate(50px, 50px);
+        }
+      }
+
+      .container {
+        position: relative;
+        z-index: 1;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 0 16px;
+        overflow-x: hidden;
+      }
+
+      header {
+        padding: 90px 0 30px;
+        position: relative;
+      }
+
+      .logo {
+        font-family: "Syne", sans-serif;
+        font-size: 2.2rem;
+        font-weight: 400;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .tagline {
+        font-size: 1.05rem;
+        color: var(--text-dim);
+        margin-top: 6px;
+      }
+
+      .admin-controls {
+        position: absolute;
+        top: 40px;
+        right: 20px;
+        display: flex;
+        gap: 12px;
+      }
+
+      .admin-btn,
+      .logout-btn {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: all 0.2s;
+        margin-top: 3vh;
+      }
+
+      .admin-btn {
+        background: rgba(0, 255, 136, 0.08);
+        border: 1px solid rgba(0, 255, 136, 0.4);
+        color: var(--primary);
+      }
+
+      .admin-btn:hover {
+        background: rgba(0, 255, 136, 0.18);
+      }
+
+      .logout-btn {
+        background: rgba(255, 80, 80, 0.12);
+        border: 1px solid rgba(255, 80, 80, 0.5);
+        color: #ff8080;
+        display: none;
+      }
+
+      .logout-btn.visible {
+        display: inline-block;
+      }
+
+      .logout-btn:hover {
+        background: rgba(255, 80, 80, 0.25);
+      }
+
+      .login-modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(5, 8, 16, 0.94);
+        z-index: 9999;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .login-box {
+        background: var(--code-bg);
+        border: 1px solid var(--primary);
+        border-radius: 8px;
+        padding: 40px 36px;
+        width: 100%;
+        max-width: 420px;
+        box-shadow: 0 20px 70px rgba(0, 0, 0, 0.7);
+        position: relative;
+      }
+
+      .close-btn {
+        position: absolute;
+        top: 16px;
+        right: 20px;
+        font-size: 1.8rem;
+        cursor: pointer;
+        color: var(--text-dim);
+      }
+
+      .close-btn:hover {
+        color: var(--primary);
+      }
+
+      .section-title {
+        font-size: 1.9rem;
+        font-weight: 600;
+        color: var(--primary);
+        margin-bottom: 28px;
+      }
+
+      .form-group {
+        margin-bottom: 22px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--text);
+        font-weight: 700;
+        font-size: 0.88rem;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+      }
+
+      input[type="text"],
+      input[type="password"],
+      textarea,
+      select {
+        width: 100%;
+        padding: 13px;
+        background: var(--dark);
+        border: 1px solid rgba(0, 255, 136, 0.35);
+        color: var(--text);
+        font-family: inherit;
+        border-radius: 4px;
+      }
+
+      input:focus,
+      textarea:focus,
+      select:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 14px rgba(0, 255, 136, 0.2);
+      }
+
+      textarea {
+        resize: vertical;
+      }
+
+      .btn {
+        padding: 13px 34px;
+        background: var(--primary);
+        color: #000;
+        border: none;
+        font-weight: 700;
+        cursor: pointer;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        transition: all 0.2s;
+      }
+
+      .btn:hover {
+        background: #00e077;
+        transform: translateY(-1px);
+      }
+
+      .error {
+        color: #ff6666;
+        margin-top: 12px;
+        font-size: 0.9rem;
+      }
+
+      .new-post-section {
+        margin: 60px 0;
+        padding: 40px;
+        background: var(--code-bg);
+        border-left: 4px solid var(--accent);
+        display: none;
+      }
+
+      /* ────────────────────────────────────────
+       Fixed Filter-Navbar (Icons auf mobil, Text auf Desktop)
+    ──────────────────────────────────────── */
+      .filters-navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 900;
+        background: rgba(5, 8, 16, 0.92);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border-bottom: 1px solid rgba(0, 255, 136, 0.18);
+        padding: 12px 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        overflow-x: auto;
+        white-space: nowrap;
+        scrollbar-width: none;
+      }
+
+      .filters-navbar::-webkit-scrollbar {
+        display: none;
+      }
+
+      .filter-btn {
+        padding: 8px 14px;
+        background: rgba(0, 255, 136, 0.08);
+        border: 1px solid rgba(0, 255, 136, 0.3);
+        color: var(--primary);
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-shrink: 0;
+      }
+
+      .filter-btn.active,
+      .filter-btn:hover {
+        background: rgba(0, 255, 136, 0.28);
+        border-color: var(--primary);
+      }
+
+      .filter-btn i {
+        font-size: 1.1rem;
+      }
+
+      .search-container {
+        margin-left: auto;
+        min-width: 180px;
+        max-width: 320px;
+      }
+
+      #searchInput {
+        width: 100%;
+        padding: 9px 12px;
+        background: var(--dark);
+        border: 1px solid rgba(0, 255, 136, 0.35);
+        color: var(--text);
+        border-radius: 6px;
+        font-family: inherit;
+      }
+
+      #searchInput:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 12px rgba(0, 255, 136, 0.2);
+      }
+
+      /* Back-to-Top Button */
+      #backToTop {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        width: 48px;
+        height: 48px;
+        background: rgba(0, 255, 136, 0.18);
+        border: 1px solid var(--primary);
+        color: var(--primary);
+        border-radius: 50%;
+        font-size: 1.4rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s;
+        z-index: 800;
+      }
+
+      #backToTop.visible {
+        opacity: 0.9;
+        visibility: visible;
+      }
+
+      #backToTop:hover {
+        background: var(--primary);
+        color: #000;
+        transform: translateY(-3px);
+      }
+
+      /* Responsive Filter-Logik */
+      @media (min-width: 769px) {
+        .filters-navbar {
+          position: static;
+          background: transparent;
+          border-bottom: none;
+          padding: 0;
+          margin: 40px 0 20px;
+          overflow-x: visible;
+          flex-wrap: wrap;
+        }
+
+        .filter-btn {
+          padding: 8px 16px;
+        }
+
+        .filter-btn i {
+          display: none;
+        }
+
+        .search-container {
+          margin-left: auto;
+        }
+      }
+
+      @media (max-width: 768px) {
+        header {
+          padding-top: 90px;
+        }
+        .filters-navbar {
+          top: 0;
+        }
+        .search-container {
+          min-width: 140px;
+        }
+      }
+
+      .blog-posts {
+        margin: 60px 0;
+      }
+
+      .blog-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+        gap: 32px;
+        max-width: 100%;
+        margin: 0 auto;
+      }
+
+      @media (max-width: 480px) {
+        .blog-grid {
+          grid-template-columns: 1fr;
+          gap: 24px;
+        }
+      }
+
+      @media (max-width: 400px) {
+        .post-card {
+          padding: 16px;
+        }
+      }
+
+      .post-card {
+        background: var(--code-bg);
+        border: 1px solid rgba(0, 255, 136, 0.25);
+        padding: 24px;
+        transition: all 0.3s;
+        cursor: pointer;
+        width: 100%;
+        border-radius: 8px;
+      }
+
+      .post-card:hover {
+        border-color: var(--primary);
+        transform: translateY(-3px);
+      }
+
+      .post-category {
+        display: inline-block;
+        padding: 4px 14px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 12px;
+        background: rgba(0, 255, 136, 0.12);
+        border-radius: 4px;
+      }
+
+      .post-title {
+        font-size: 1.55rem;
+        font-weight: 600;
+        margin-bottom: 12px;
+      }
+
+      .post-date {
+        color: var(--text-dim);
+        font-size: 0.9rem;
+        margin-bottom: 16px;
+      }
+
+      .post-excerpt,
+      .post-full-content {
+        color: var(--text-dim);
+        line-height: 1.65;
+        font-size: 1.05rem;
+      }
+
+      .post-full-content {
+        display: none;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(0, 255, 136, 0.3);
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
+      }
+
+      .read-more-btn {
+        margin-top: 16px;
+        padding: 9px 20px;
+        background: rgba(0, 255, 136, 0.15);
+        border: 1px solid rgba(0, 255, 136, 0.5);
+        color: var(--primary);
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.95rem;
+        font-weight: 600;
+      }
+
+      .read-more-btn:hover {
+        background: rgba(0, 255, 136, 0.3);
+      }
+
+      .delete-btn {
+        margin-top: 20px;
+        padding: 7px 16px;
+        background: rgba(255, 80, 80, 0.15);
+        border: 1px solid rgba(255, 80, 80, 0.5);
+        color: #ff8080;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.85rem;
+        display: none;
+      }
+
+      .delete-btn:hover {
+        background: rgba(255, 80, 80, 0.3);
+      }
+
+      footer {
+        margin-top: 120px;
+        padding: 40px 0;
+        border-top: 1px solid rgba(0, 255, 136, 0.15);
+        text-align: center;
+        color: var(--text-dim);
+        font-size: 0.9rem;
+      }
+
+      footer a {
+        color: var(--text-dim);
+        text-decoration: none;
+        transition: color 0.2s;
+        margin: 0 12px;
+      }
+
+      footer a:hover {
+        color: var(--primary);
+      }
+
+      @media (min-width: 1100px) {
+        .container {
+          padding: 0 32px;
+        }
+        .post-card {
+          padding: 32px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .logo {
+          font-size: 2.4rem;
+        }
+        .admin-controls {
+          top: 20px;
+          right: 16px;
+          gap: 8px;
+        }
+        .admin-btn,
+        .logout-btn {
+          font-size: 0.8rem;
+          padding: 6px 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="grid-background"></div>
+
+    <!-- Fixed Filter-Navbar mit Icons auf kleinen Geräten -->
+    <nav class="filters-navbar">
+      <button class="filter-btn active" data-category="all" title="Alle">
+        <i class="fas fa-home"></i><span>Alle</span>
+      </button>
+      <button class="filter-btn" data-category="text" title="Text">
+        <i class="fas fa-paragraph"></i><span>Text</span>
+      </button>
+      <button
+        class="filter-btn"
+        data-category="programming"
+        title="Programmieren"
+      >
+        <i class="fas fa-paragraph"></i><span>Programmieren</span>
+      </button>
+
+      <div class="search-container">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Beitragstitel suchen..."
+          autocomplete="off"
+        />
+      </div>
+    </nav>
+
+    <div class="container">
+      <header>
+        <h1 class="logo">LernCoding</h1>
+        <p class="tagline">
+          Dein Programmier-Blog für Code, Tutorials & Best Practices
+        </p>
+        <div class="admin-controls">
+          <button class="admin-btn" id="adminBtn">Admin</button>
+          <a href="index.html"
+            ><button class="admin-btn">Zurück zur Startseite</button></a
+          >
+          <button class="logout-btn" id="logoutBtn">Abmelden</button>
+        </div>
+      </header>
+
+      <!-- Login Modal -->
+      <div class="login-modal" id="loginModal">
+        <div class="login-box">
+          <span class="close-btn" id="closeModal">×</span>
+          <h2 class="section-title">Admin-Zugang</h2>
+          <form id="loginForm">
+            <div class="form-group">
+              <label for="username">Name</label>
+              <input type="text" id="username" autocomplete="off" required />
+            </div>
+            <div class="form-group">
+              <label for="password1">Passwort 1</label>
+              <input type="password" id="password1" required />
+            </div>
+            <div class="form-group">
+              <label for="password2">Passwort 2</label>
+              <input type="password" id="password2" required />
+            </div>
+            <button type="submit" class="btn">Einloggen</button>
+            <p id="loginError" class="error"></p>
+          </form>
+        </div>
+      </div>
+
+      <!-- Schreib-Bereich -->
+      <section class="new-post-section" id="newPostSection">
+        <h2 class="section-title">Neuen Beitrag schreiben</h2>
+        <form id="postForm">
+          <div class="form-group">
+            <label for="postTitle">Titel</label>
+            <input type="text" id="postTitle" required />
+          </div>
+          <div class="form-group">
+            <label for="postCategory">Kategorie</label>
+            <select id="postCategory">
+              <option value="programming">Programmieren</option>
+
+              <option value="text">Text</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="postExcerpt">Beschreibung / Inhalt</label>
+            <textarea id="postExcerpt" rows="20" required></textarea>
+          </div>
+          <button type="submit" class="btn">Veröffentlichen</button>
+        </form>
+      </section>
+
+      <section class="blog-posts">
+        <h2 class="section-title">Beiträge</h2>
+        <div class="blog-grid" id="blogGrid"></div>
+      </section>
+
+      <footer>
+        <p>© 2026 LernCoding Blog</p>
+        <div style="margin-top: 12px">
+          <a href="impressum.html">Impressum</a>
+          <a href="agb-datenschutz.html">Datenschutz & AGB</a>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" title="Nach oben">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+      const env = {
+        u: atob("QXRhIFplcmFu"),
+        p1: atob("QXRhaWxheWRhMDU="),
+        p2: atob("MTIxMDI="),
+      };
+
+      const loginModal = document.getElementById("loginModal");
+      const adminBtn = document.getElementById("adminBtn");
+      const closeModal = document.getElementById("closeModal");
+      const loginForm = document.getElementById("loginForm");
+      const loginError = document.getElementById("loginError");
+      const newPostSection = document.getElementById("newPostSection");
+      const logoutBtn = document.getElementById("logoutBtn");
+      const blogGrid = document.getElementById("blogGrid");
+      const searchInput = document.getElementById("searchInput");
+      const filterButtons = document.querySelectorAll(".filter-btn");
+      let currentFilter = "all";
+      let currentSearch = "";
+
+      function isLoggedIn() {
+        return localStorage.getItem("blogAdmin") === "active";
+      }
+
+      function showEditor() {
+        newPostSection.style.display = "block";
+        logoutBtn.classList.add("visible");
+        updateDeleteButtons();
+      }
+
+      function hideEditor() {
+        newPostSection.style.display = "none";
+        logoutBtn.classList.remove("visible");
+        updateDeleteButtons();
+      }
+
+      function updateDeleteButtons() {
+        document
+          .querySelectorAll(".delete-btn")
+          .forEach(
+            (btn) =>
+              (btn.style.display = isLoggedIn() ? "inline-block" : "none"),
+          );
+      }
+
+      // Login Logik
+      adminBtn.onclick = () => {
+        loginModal.style.display = "flex";
+        loginError.textContent = "";
+        loginForm.reset();
+      };
+
+      closeModal.onclick = () => (loginModal.style.display = "none");
+
+      loginModal.onclick = (e) => {
+        if (e.target === loginModal) loginModal.style.display = "none";
+      };
+
+      loginForm.onsubmit = (e) => {
+        e.preventDefault();
+        const name = document.getElementById("username").value.trim();
+        const pw1 = document.getElementById("password1").value.trim();
+        const pw2 = document.getElementById("password2").value.trim();
+
+        if (name === env.u && pw1 === env.p1 && pw2 === env.p2) {
+          localStorage.setItem("blogAdmin", "active");
+          loginModal.style.display = "none";
+          showEditor();
+        } else {
+          loginError.textContent = "Zugang verweigert – Daten prüfen";
+        }
+      };
+
+      logoutBtn.onclick = () => {
+        localStorage.removeItem("blogAdmin");
+        hideEditor();
+      };
+
+      if (isLoggedIn()) showEditor();
+
+      // Filter & Suche
+      filterButtons.forEach((btn) => {
+        btn.onclick = () => {
+          filterButtons.forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          currentFilter = btn.dataset.category;
+          applyFiltersAndSearch();
+        };
+      });
+
+      searchInput.oninput = () => {
+        currentSearch = searchInput.value.toLowerCase().trim();
+        applyFiltersAndSearch();
+      };
+
+      function applyFiltersAndSearch() {
+        const cards = blogGrid.querySelectorAll(".post-card");
+        let visibleCount = 0;
+        cards.forEach((card) => {
+          const titleMatch = card.dataset.title.includes(currentSearch);
+          const categoryMatch =
+            currentFilter === "all" || card.dataset.category === currentFilter;
+          const show = titleMatch && categoryMatch;
+          card.style.display = show ? "" : "none";
+          if (show) visibleCount++;
+        });
+
+        let noResults = blogGrid.querySelector(".no-results");
+        if (visibleCount === 0 && cards.length > 0) {
+          if (!noResults) {
+            noResults = document.createElement("p");
+            noResults.className = "no-results";
+            noResults.style =
+              "text-align:center; color:var(--text-dim); padding:80px 0;";
+            noResults.textContent = "Keine Beiträge gefunden.";
+            blogGrid.appendChild(noResults);
+          }
+        } else if (noResults) {
+          noResults.remove();
+        }
+      }
+
+      // Karte erstellen mit eigenem Toggle
+      function createCard(post) {
+        const el = document.createElement("article");
+        el.className = "post-card";
+        el.dataset.category = post.category;
+        el.dataset.title = post.title.toLowerCase();
+
+        const teaser =
+          post.excerpt.length > 120
+            ? post.excerpt.substring(0, 120) + " …"
+            : post.excerpt;
+
+        el.innerHTML = `
+        <div class="post-category">${post.category.toUpperCase()}</div>
+        <h3 class="post-title">${post.title}</h3>
+        <div class="post-date">${post.date}</div>
+        <div class="post-excerpt">${teaser}</div>
+        <div class="post-full-content">${post.excerpt}</div>
+        <button class="read-more-btn">Mehr lesen ↓</button>
+        <button class="delete-btn">Löschen</button>
+      `;
+
+        const readMoreBtn = el.querySelector(".read-more-btn");
+        const excerptEl = el.querySelector(".post-excerpt");
+        const fullEl = el.querySelector(".post-full-content");
+        const deleteBtn = el.querySelector(".delete-btn");
+
+        let isExpanded = false;
+
+        readMoreBtn.onclick = (e) => {
+          e.stopPropagation();
+          isExpanded = !isExpanded;
+          if (isExpanded) {
+            fullEl.style.display = "block";
+            excerptEl.style.display = "none";
+            readMoreBtn.textContent = "Weniger ↑";
+          } else {
+            fullEl.style.display = "none";
+            excerptEl.style.display = "block";
+            readMoreBtn.textContent = "Mehr lesen ↓";
+          }
+        };
+
+        el.onclick = (e) => {
+          if (e.target.tagName === "BUTTON" || e.target.closest("button"))
+            return;
+
+          isExpanded = !isExpanded;
+          if (isExpanded) {
+            fullEl.style.display = "block";
+            excerptEl.style.display = "none";
+            readMoreBtn.textContent = "Weniger ↑";
+          } else {
+            fullEl.style.display = "none";
+            excerptEl.style.display = "block";
+            readMoreBtn.textContent = "Mehr lesen ↓";
+          }
+        };
+
+        deleteBtn.onclick = (e) => {
+          e.stopPropagation();
+          if (!isLoggedIn()) return;
+          if (!confirm("Beitrag wirklich löschen?")) return;
+
+          let posts = JSON.parse(localStorage.getItem("blogPosts") || "[]");
+          posts = posts.filter((p) => p.title !== post.title);
+          localStorage.setItem("blogPosts", JSON.stringify(posts));
+          renderPosts();
+        };
+
+        return el;
+      }
+
+      function renderPosts() {
+        const posts = JSON.parse(localStorage.getItem("blogPosts") || "[]");
+        blogGrid.innerHTML = "";
+
+        if (posts.length === 0) {
+          blogGrid.innerHTML =
+            '<p style="text-align:center; color:var(--text-dim); padding:100px 0;">Noch keine Beiträge vorhanden.</p>';
+          return;
+        }
+
+        posts.forEach((post) => {
+          blogGrid.appendChild(createCard(post));
+        });
+
+        updateDeleteButtons();
+        applyFiltersAndSearch();
+      }
+
+      document.getElementById("postForm").onsubmit = (e) => {
+        e.preventDefault();
+        if (!isLoggedIn()) return;
+
+        const title = document.getElementById("postTitle").value.trim();
+        const category = document.getElementById("postCategory").value;
+        const excerpt = document.getElementById("postExcerpt").value.trim();
+
+        if (!title || !excerpt) {
+          alert("Bitte Titel und Inhalt ausfüllen!");
+          return;
+        }
+
+        const date = new Date().toLocaleDateString("de-DE", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        });
+
+        const post = { title, category, excerpt, date };
+
+        let posts = JSON.parse(localStorage.getItem("blogPosts") || "[]");
+        posts.unshift(post);
+        localStorage.setItem("blogPosts", JSON.stringify(posts));
+
+        document.getElementById("postForm").reset();
+        renderPosts();
+        window.scrollTo({ top: blogGrid.offsetTop - 80, behavior: "smooth" });
+      };
+
+      // Back to Top
+      const backToTop = document.getElementById("backToTop");
+
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 400) {
+          backToTop.classList.add("visible");
+        } else {
+          backToTop.classList.remove("visible");
+        }
+      });
+
+      backToTop.onclick = () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      };
+
+      window.addEventListener("DOMContentLoaded", renderPosts);
+    </script>
+  </body>
+</html>
