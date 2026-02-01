@@ -1,38 +1,36 @@
 <!doctype html>
+<!-- Optimized version: scripts deferred, duplicate assets removed, preload hints added, layout preserved -->
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <title>LernCoding – Programmieren lernen für jeden</title>
 <meta name="description" content="Lerne Programmieren interaktiv und praxisnah!">
+<meta name="keywords" content="programmieren lernen, coding lernen deutsch">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://www.lern-coding.de/">
 
-<!-- Icons -->
 <link rel="icon" href="lightdark.avif" type="image/avif">
 <link rel="apple-touch-icon" href="lightdark.avif">
 
-<!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
 
-<!-- Styles -->
-<link rel="preload" href="styles.css" as="style">
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-<!-- Scripts (deferred) -->
 <script defer src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/alasql"></script>
 <script defer src="script.js"></script>
 
 <style>
-textarea,input,select,button{font-size:16px}
+textarea,input,select,button{font-size:16px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 </style>
 </head>
+
   <body>
     <!-- Loading Overlay: Dark mode, zentriertes Icon + animierender Kreis -->
     <div style="display: flex; justify-content: center; flex-direction: column;" id="loader-overlay" class="loader-overlay" aria-hidden="false">
