@@ -43,6 +43,7 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  font-display: swap;
 }
 
 .video-section,
