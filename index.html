@@ -1,58 +1,36 @@
 <!doctype html>
+<!-- Optimized version: scripts deferred, duplicate assets removed, preload hints added, layout preserved -->
 <html lang="de">
-  <head>
-    <meta charset="UTF-8" />
-    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0  maximum-scale=1, user-scalable=no"
-    />
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<title>LernCoding – Programmieren lernen für jeden</title>
+<meta name="description" content="Lerne Programmieren interaktiv und praxisnah!">
+<meta name="keywords" content="programmieren lernen, coding lernen deutsch">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.lern-coding.de/">
+
+<link rel="icon" href="lightdark.avif" type="image/avif">
+<link rel="apple-touch-icon" href="lightdark.avif">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="styles.css">
-    <title>LernCoding – Programmieren lernen für jeden</title>
-    <link rel="icon" type="image/png" href="lightdark.avif" alt="Favicon" />
-    <!-- Favicon für Browser -->
-<meta name="keywords" content="programmieren lernen, kostenlos programmieren lernen, interaktiv programmieren, python lernen anfänger, javascript lernen, coding lernen deutsch, programmieren lernen online, coding challenges" />
-    <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://www.lern-coding.de/" />
-    <link rel="icon" type="image/png" href="lightdark.avif" alt="Favicon" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-      textarea,
-      input,
-      select,
-      button {
-        font-size: 16px; /* Mindestens 16px verhindert automatisches Zoomen */
-        -webkit-text-size-adjust: 100%; /* Safari / iOS */
-        -moz-text-size-adjust: 100%; /* Firefox */
-        -ms-text-size-adjust: 100%; /* IE */
-        text-size-adjust: 100%; /* Standard */
-      }
-    </style>
-    <meta
-      name="description"
-      content="Lerne Programmieren interaktiv und praxisnah! Entdecke Tutorials, Coding-Challenges und Projekte für Anfänger und Fortgeschrittene."
-    />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <!-- Apple Touch Icons für Home-Bildschirm -->
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="lightdark.avif"
-      alt="Favicon"
-    />
+<script defer src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alasql"></script>
+<script defer src="script.js"></script>
 
-    <!-- Optional: Theme-Farbe für Statusleiste -->
-    <meta
-      name="apple-mobile-web-app-status-bar-style"
-      content="black-translucent"
-    />
-    <meta name="theme-color" content="#ffffff" />
-  </head>
+<style>
+textarea,input,select,button{font-size:16px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+</style>
+</head>
+
   <body>
     <!-- Loading Overlay: Dark mode, zentriertes Icon + animierender Kreis -->
     <div style="display: flex; justify-content: center; flex-direction: column;" id="loader-overlay" class="loader-overlay" aria-hidden="false">
