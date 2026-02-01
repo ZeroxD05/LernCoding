@@ -1030,7 +1030,7 @@ textarea,input,select,button{font-size:16px;-webkit-text-size-adjust:100%;text-s
     <h3>Wir nutzen Cookies</h3>
     <p>
       Diese Website verwendet Cookies und ähnliche Technologien, um die Funktionalität zu gewährleisten und das Nutzererlebnis zu verbessern 
-      (z. B. für Statistiken und personalisierte Werbung).
+      (z. B. für personalisierte Werbung).
     </p>
 <p>
   Zahlungen und Spenden auf dieser Website werden über <strong>PayPal</strong> abgewickelt. 
@@ -1042,10 +1042,7 @@ textarea,input,select,button{font-size:16px;-webkit-text-size-adjust:100%;text-s
         <input type="checkbox" id="necessary" checked disabled />
         <span><strong>Notwendig</strong> (immer aktiv)</span>
       </label>
-      <label>
-        <input type="checkbox" id="analytics" checked />
-        <span>Statistiken & Analyse (z. B. Google Analytics)</span>
-      </label>
+     
       <label>
         <input type="checkbox" id="marketing" checked />
         <span>Werbung & Personalisierung (Google Ads/AdSense)</span>
@@ -1214,144 +1211,93 @@ textarea,input,select,button{font-size:16px;-webkit-text-size-adjust:100%;text-s
       }
     </style>
 
-    <script>
-      // Google Consent Mode v2 – Default = alles denied (DSGVO-konform)
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
+   <script>
+  // =============================================
+  //   Cookie-Banner – NUR funktional / Marketing (Google Ads)
+  // =============================================
+  function updateConsent() {
+    const marketing = document.getElementById("marketing")?.checked;
 
-      gtag("consent", "default", {
-        ad_storage: "denied",
-        analytics_storage: "denied",
-        ad_user_data: "denied",
-        ad_personalization: "denied",
-        functionality_storage: "denied",
-        personalization_storage: "denied",
-        security_storage: "granted",
-      });
+    // Optional: hier könntest du später Ads-Consent weiterverarbeiten
+    console.log("Marketing Consent:", marketing);
+  }
 
-      // =============================================
-      //   Consent Logik & Speicherung
-      // =============================================
-      function updateConsent() {
-        const analytics = document.getElementById("analytics").checked;
-        const marketing = document.getElementById("marketing").checked;
+  function acceptAll() {
+    document.getElementById("marketing").checked = true;
+    saveAndHide();
+  }
 
-        gtag("consent", "update", {
-          analytics_storage: analytics ? "granted" : "denied",
-          ad_storage: marketing ? "granted" : "denied",
-          ad_user_data: marketing ? "granted" : "denied",
-          ad_personalization: marketing ? "granted" : "denied",
-        });
+  function rejectAll() {
+    document.getElementById("marketing").checked = false;
+    saveAndHide();
+  }
 
-        console.log(
-          "Consent aktualisiert → Analytics:",
-          analytics,
-          "Marketing:",
-          marketing,
-        );
-      }
+  function saveAndHide() {
+    updateConsent();
 
-      function acceptAll() {
-        document.getElementById("analytics").checked = true;
-        document.getElementById("marketing").checked = true;
-        saveAndHide();
-      }
+    localStorage.setItem("cookieConsent", "set");
+    localStorage.setItem(
+      "consent_marketing",
+      document.getElementById("marketing").checked,
+    );
 
-      function rejectAll() {                    // ← das war vorher nur "reject", jetzt wirklich ALLES ablehnen
-  document.getElementById("analytics").checked = false;
-  document.getElementById("marketing").checked = false;
-  saveAndHide();
-}
+    const banner = document.getElementById("cookie-banner");
+    banner.classList.add("hidden");
 
-      function saveAndHide() {
-        updateConsent();
+    setTimeout(() => {
+      banner.style.display = "none";
+      banner.remove();
+    }, 500);
+  }
 
-        localStorage.setItem("cookieConsent", "set");
-        localStorage.setItem(
-          "consent_analytics",
-          document.getElementById("analytics").checked,
-        );
-        localStorage.setItem(
-          "consent_marketing",
-          document.getElementById("marketing").checked,
-        );
+  document.addEventListener("DOMContentLoaded", () => {
+    const consentSet = localStorage.getItem("cookieConsent");
 
-        const banner = document.getElementById("cookie-banner");
+    if (!consentSet) {
+      document.getElementById("cookie-banner")?.classList.remove("hidden");
+    } else {
+      const marketing =
+        localStorage.getItem("consent_marketing") === "true";
 
-        // Animation starten
-        banner.classList.add("hidden");
+      document.getElementById("marketing").checked = marketing;
+      updateConsent();
+    }
+  });
 
-        // Fallback: Nach 500ms definitiv entfernen (mobile-safe)
-        setTimeout(() => {
-          banner.style.display = "none";
-          banner.remove(); // optional aber sehr effektiv
-        }, 500);
+  document.getElementById("btn-accept")?.addEventListener("click", acceptAll);
+  document.getElementById("btn-reject-all")?.addEventListener("click", rejectAll);
+  document.getElementById("btn-reject")?.addEventListener("click", rejectAll);
+</script>
 
-        // Nach Abschluss der Transition komplett entfernen / unsichtbar machen
-        banner.addEventListener(
-          "transitionend",
-          function handler() {
-            banner.style.display = "none"; // oder opacity: 0; visibility: hidden;
-            banner.removeEventListener("transitionend", handler);
-          },
-          { once: true },
-        );
-      }
-
-      // =============================================
-      //   Beim Seitenladen prüfen & wiederherstellen
-      // =============================================
-      document.addEventListener("DOMContentLoaded", () => {
-        const consentSet = localStorage.getItem("cookieConsent");
-
-        if (!consentSet) {
-          // Banner zeigen, wenn noch keine Entscheidung getroffen
-          document.getElementById("cookie-banner").classList.remove("hidden");
-        } else {
-          // Vorherige Auswahl wiederherstellen
-          const analytics =
-            localStorage.getItem("consent_analytics") === "true";
-          const marketing =
-            localStorage.getItem("consent_marketing") === "true";
-
-          document.getElementById("analytics").checked = analytics;
-          document.getElementById("marketing").checked = marketing;
-
-          updateConsent();
-        }
-      });
-
-      // Event-Listener für die Buttons
-      document.getElementById("btn-accept")?.addEventListener("click", acceptAll);
-document.getElementById("btn-reject-all")?.addEventListener("click", rejectAll);   // ← neu
-document.getElementById("btn-reject")?.addEventListener("click", rejectAll);       // auch "Nur notwendig" macht jetzt alles denied
-    </script>
-    <!-- Offline-Meldung (wird angezeigt, wenn kein Internet vorhanden ist) -->
-    <div
-      id="offline-screen"
-      class="offline-screen"
-      role="alert"
-      aria-live="assertive"
-      aria-hidden="true"
-    >
-      <div class="offline-content">
-        <h2>Kein Internet</h2>
-        <p>Verbinde dich mit dem Internet um die App öffnen zu können.</p>
-        <div class="offline-actions">
-          <button id="reload-btn" class="run-btn">Neu laden</button>
-        </div>
-      </div>
+<!-- Offline-Meldung -->
+<div
+  id="offline-screen"
+  class="offline-screen"
+  role="alert"
+  aria-live="assertive"
+  aria-hidden="true"
+>
+  <div class="offline-content">
+    <h2>Kein Internet</h2>
+    <p>Verbinde dich mit dem Internet um die App öffnen zu können.</p>
+    <div class="offline-actions">
+      <button id="reload-btn" class="run-btn">Neu laden</button>
     </div>
-    <div class="grid-background"></div>
+  </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/alasql"></script>
-    <script
-      async
-      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2488050397015626"
-      crossorigin="anonymous"
-    ></script>
+<div class="grid-background"></div>
+
+<!-- Lokale / funktionale Library -->
+<script src="https://cdn.jsdelivr.net/npm/alasql"></script>
+
+<!-- ✅ Google Ads bleibt -->
+<script
+  async
+  src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2488050397015626"
+  crossorigin="anonymous"
+></script>
+
     <script src="script.js"></script>
   </body>
 </html>

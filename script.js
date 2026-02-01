@@ -2386,8 +2386,8 @@ function showImpressum() {
     <p>
       Ata Zeran<br>
       LernCoding<br>
-      Abc Straße 1<br>
-      12345 Musterstadt<br>
+      Reclamstraße 4<br>
+      22111 Hamburg<br>
       Deutschland
     </p>
 
@@ -2425,8 +2425,8 @@ function showAGB() {
 <h2>1. Verantwortlicher</h2>
 <p>
 Ata Zeran<br>
-Abc Straße 1<br>
-12345 Musterstadt<br>
+Reclamstraße 4<br>
+22111 Hamburg<br>
 E-Mail: lerncoding2026@gmail.com
 </p>
 
@@ -2498,7 +2498,9 @@ Angaben gemäß §5 TMG:
 </p>
 <p>
 Ata Zeran<br>
-Abc Straße 1<br>
+Reclamstraße 4<br>
+22111 Hamburg<br>
+Deutschland <br>
 E-Mail: lerncoding2026@gmail.com
 </p>
   `;
@@ -3412,23 +3414,6 @@ document.addEventListener("click", (e) => {
   }
 });
 
-const GA_MEASUREMENT_ID = "G-491YP8KSQ2";
-
-// Funktion zum Laden des GA4-Skripts
-(function () {
-  const gtagScript = document.createElement("script");
-  gtagScript.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
-  gtagScript.async = true;
-  document.head.appendChild(gtagScript);
-
-  window.dataLayer = window.dataLayer || [];
-  function gtag() {
-    dataLayer.push(arguments);
-  }
-  window.gtag = gtag;
-  gtag("js", new Date());
-  gtag("config", GA_MEASUREMENT_ID);
-})();
 function showProfileNotice() {
   const notice = document.getElementById("profileNotice");
   const hasSeen = localStorage.getItem("hasSeenProfileNotice");
