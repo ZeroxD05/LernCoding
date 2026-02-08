@@ -48,7 +48,7 @@
 
 .video-section,
 .top-courses,
-.socials-section {
+.socials-section .blog-preview-section {
   width: 100%;
 
   box-sizing: border-box;
@@ -3089,7 +3089,6 @@ iframe {
 .blog-preview-section {
   background: var(--card-bg);
   padding: 4rem 1rem 5rem;
-  margin: 0 auto 0 auto; /* oder einfach margin-bottom: 0 */
   width: 100vw;
 
   display: flex;
