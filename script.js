@@ -1130,8 +1130,7 @@ function showStartPage() {
   mainContent.innerHTML = `
   <section id="homepage">
   <div class="hero-container">
-        <div class="grid-background"></div>
-
+    
     <!-- Linke Seite – dein aktueller Inhalt -->
     <div class="hero-left">
       <h1 style="text-align: start">Entwickle mit uns deine</h1>
@@ -1305,159 +1304,85 @@ function showStartPage() {
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 ;
 
-<section style="margin-top: 20vh;
-" class="faq-section">
-  <div class="faq-header">
-    <h2>Häufige Fragen</h2>
-    <p class="faq-subtitle">Die wichtigsten Antworten auf einen Blick</p>
-  </div>
 
-  <div class="faq-container">
-    <div class="faq-item">
-      <button class="faq-question">
-Für wen ist lern-coding.de geeignet?        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-answer">
-<p>lern-coding.de richtet sich an <strong>absolute Einsteiger</strong> genauso wie an Leute mit ersten Vorkenntnissen. Du brauchst keinerlei Programmiererfahrung – wir starten bei Null und bauen dich Schritt für Schritt auf. Auch Schüler, Studenten, Quereinsteiger und Menschen, die neben dem Job programmieren lernen möchten, sind bei uns genau richtig.</p>      </div>
+<!-- ================== BLOG VORSCHAU – mit Mobile-Swipe ================== -->
+<section  class="blog-preview-section" id="blog-preview">
+  <div class="content-wrapper">
+    <div class="section-header">
+      <h2>Neueste Blog-Artikel</h2>
+      <p class="section-subtitle">Persönliche Gedanken, Motivation & Learnings</p>
+      <a href="blog.html" class="all-articles-link">Alle Beiträge ansehen →</a>
     </div>
 
-    <div class="faq-item">
-      <button class="faq-question">
-Was kostet es, bei lern-coding.de zu lernen?        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-answer">
-<p>LernCoding ist und bleibt komplett <strong>kostenlos und werbefrei</strong>! Unterstütze uns gerne mit einer kleinen <strong><a style="color: lightblue; text-decoration: underline;" href="https://www.paypal.com/ncp/payment/33T4RGCDRY6WG">Spende</a></strong> um die Seite kostenlos zu halten.</p>      </div>
-    </div>
+    <div class="blog-carousel-wrapper">
+      <div class="blog-carousel" id="blogCarousel">
+        <!-- Artikel 1 -->
+        <article class="blog-card">
+          <div class="blog-content">
+            <div class="blog-meta">
+              <span class="blog-date">31. Januar 2026</span>
+              <span class="blog-category">PROGRAMMING</span>
+            </div>
+            <h3 class="blog-title">
+              <a href="blog.html">Der Gedanke hinter LernCoding</a>
+            </h3>
+            <p class="blog-excerpt">
+              Als Jugendlicher verbrang ich Tage und Nächte lang vor dem PC und spielte Spiele. Ich wusste, dass sich eines Tages irgendetwas ändern muss...
+            </p>
+            <div class="blog-footer">
+              <span class="read-time">~4 Min</span>
+              <a href="blog.html" class="read-more">Weiterlesen →</a>
+            </div>
+          </div>
+        </article>
 
-    <div class="faq-item">
-      <button class="faq-question">
-Brauche ich Vorkenntnisse oder spezielle Software, um zu starten?        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-answer">
-<p>Nein, du brauchst **keine Vorkenntnisse** – wir erklären wirklich alles von Grund auf. Für die meisten Kurse reicht ein ganz normaler Browser (am besten Chrome oder Firefox). Manche fortgeschrittenen Challenges nutzen einen kostenlosen Online-Editor oder du installierst dir VS Code (kostenlos) – das erklären wir aber Schritt für Schritt, sobald es relevant wird. Handy-Unterstützung ist für die Theorie und kleinere Übungen da, für richtiges Programmieren empfehlen wir aber einen Laptop/PC.</p>      </div>
+        <!-- Artikel 2 -->
+        <article class="blog-card">
+          <div class="blog-content">
+            <div class="blog-meta">
+              <span class="blog-date">30. Januar 2026</span>
+              <span class="blog-category">TEXT</span>
+            </div>
+            <h3 class="blog-title">
+              <a href="blog.html">Meine Social Media Reise</a>
+            </h3>
+            <p class="blog-excerpt">
+              Letzte Nacht dachte ich echt: „Keine Lust mehr.“ Motivation null. Heute Morgen trotzdem TikTok auf und jetzt habe ich wieder Bock...
+            </p>
+            <div class="blog-footer">
+              <span class="read-time">~5 Min</span>
+              <a href="blog.html" class="read-more">Weiterlesen →</a>
+            </div>
+          </div>
+        </article>
+
+ <article class="blog-card">
+          <div class="blog-content">
+            <div class="blog-meta">
+              <span class="blog-date">08. Februar 2026</span>
+              <span class="blog-category">TEXT</span>
+            </div>
+            <h3 class="blog-title">
+              <a href="blog.html">Der erste Launch</a>
+            </h3>
+            <p class="blog-excerpt">
+              Das erste Mal als ich LernCoding gelaunched habe dachte ich, dass sich niemand für die Seite interessieren würde, doch dann...
+            </p>
+            <div class="blog-footer">
+              <span class="read-time">~2 Min</span>
+              <a href="blog.html" class="read-more">Weiterlesen →</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Pfeile (nur Desktop) -->
+      <button class="carousel-prev" aria-label="Vorheriger Artikel">←</button>
+      <button class="carousel-next" aria-label="Nächster Artikel">→</button>
     </div>
   </div>
 </section>
-
-<style>
-
-  .faq-section {
-    max-width: 820px;
-    margin: 4rem auto;
-    padding: 0 1.5rem;
-  }
-
-  .faq-header {
-    text-align: center;
-    margin-bottom: 2.8rem;
-  }
-
-  .faq-header h2 {
-    font-size: 2.4rem;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 0.6rem;
-  }
-
-  .faq-subtitle {
-    color: var(--muted);
-    font-size: 1.15rem;
-    margin: 0;
-  }
-
-  .faq-container {
-    border-radius: 16px;
-    overflow: hidden;
-    background: var(--card-bg);
-    box-shadow: 0 10px 30px var(--stat-shadow);
-    border: 1px solid rgba(0,0,0,0.05);
-  }
-
-  .faq-item {
-    border-bottom: 1px solid rgba(0,0,0,0.08);
-  }
-
-  .faq-item:last-child {
-    border-bottom: none;
-  }
-
-  .faq-question {
-    width: 100%;
-    padding: 1.5rem 2rem;
-    background: transparent;
-    border: none;
-    font-size: 1.15rem;
-    font-weight: 600;
-    color: var(--text);
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: background-color 0.2s ease, color 0.2s ease;
-  }
-
-  .faq-question:hover {
-    background: rgba(0,0,0,0.03);
-  }
-
-  .dark-theme .faq-question:hover {
-    background: rgba(255,255,255,0.06);
-  }
-
-  .faq-icon {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: var(--muted);
-    transition: all 0.3s ease;
-    transform: rotate(0deg);
-  }
-
-  .faq-item.active .faq-icon {
-    color: var(--typing-color);
-    transform: rotate(135deg);
-  }
-
-  .faq-answer {
-    max-height: 0;
-    overflow: hidden;
-    padding: 0 2rem;
-    background: var(--bg);
-    transition: max-height 0.4s ease, padding 0.35s ease;
-    color: var(--text);
-  }
-
-  .faq-answer p {
-    margin: 1.6rem 0;
-    line-height: 1.65;
-  }
-
-  .faq-item.active .faq-answer {
-    max-height: 400px; /* groß genug für die meisten Antworten */
-    padding: 0 2rem 1.8rem;
-  }
-
-  /* Leichte Hervorhebung des aktiven Elements */
-  .faq-item.active .faq-question {
-    background: linear-gradient(90deg, rgba(var(--typing-gradient-start), 0.08), rgba(var(--typing-gradient-end), 0.05));
-    color: var(--text);
-  }
-
-  .dark-theme .faq-item.active .faq-question {
-    background: linear-gradient(90deg, rgba(var(--typing-gradient-start), 0.12), rgba(var(--typing-gradient-end), 0.08));
-  }
-
-  /* Responsive Anpassung */
-  @media (max-width: 640px) {
-    .faq-question {
-      padding: 1.3rem 1.6rem;
-      font-size: 1.05rem;
-    }
-    .faq-answer p {
-      margin: 1.3rem 0;
-    }
-  }
-</style>
-
 
 <section style="margin-top:0vh;" class="socials-section" id="intro">
   <div class="container">
@@ -1777,6 +1702,21 @@ Brauche ich Vorkenntnisse oder spezielle Software, um zu starten?        <span c
     if (!qText || !answersDiv) {
       console.warn("Career finder elements not found");
       return;
+    }
+
+    function showStartPage() {
+      // alle aktiven Zustände entfernen
+      document.querySelectorAll(".active").forEach((el) => {
+        el.classList.remove("active");
+      });
+
+      // optional: alle Bereiche ausblenden
+      document.querySelectorAll(".page").forEach((el) => {
+        el.style.display = "none";
+      });
+
+      // Startseite anzeigen
+      document.getElementById("startPage").style.display = "block";
     }
 
     // Berufsfinder Daten initialisieren
