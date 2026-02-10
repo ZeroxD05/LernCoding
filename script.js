@@ -1384,8 +1384,8 @@ function showStartPage() {
   </div>
 </section>
 
-<section style="margin-top:0vh;" class="socials-section" id="intro">
-  <div class="container">
+<section class="socials-section" id="intro">
+  <div style="margin-top: 1vh; margin-bottom: 2vh;" class="container">
     <h2 class="section-title">Kontakt</h2>
     <p class="section-subtitle">Hamburg • Content • Community</p>
 
