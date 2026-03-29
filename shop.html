@@ -6,7 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
     />
-    <title>DevAcademy — Lernplattform</title>
+    <title>Academy - LernCoding</title>
     <style>
       @import url("https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Syne:wght@400;600;700;800&display=swap");
 
@@ -1402,7 +1402,7 @@
             <rect x="20" y="19" width="7" height="2" fill="#555" />
             <rect x="20" y="23" width="5" height="2" height="2" fill="#555" />
           </svg>
-          <div class="gate-title">DevAcademy</div>
+          <div class="gate-title">LernCoding - Academy</div>
           <div class="gate-sub">Zugangsgeschützter Kursbereich</div>
         </div>
 
@@ -1559,7 +1559,7 @@
             <rect x="13" y="13" width="5" height="1.5" fill="#666" />
             <rect x="13" y="16" width="3" height="1.5" fill="#666" />
           </svg>
-          DevAcademy
+          LernCoding
         </div>
         <nav class="header-nav">
           <button class="nav-btn active" onclick="showHome()" id="nav-home">
@@ -1786,7 +1786,7 @@
                 },
                 {
                   type: "code",
-                  text: 'const name = "DevAcademy";\nlet count = 0;\n\n// Arrow Function\nconst greet = (who) => {\n  return `Hallo, ${who}!`;\n};\n\nconsole.log(greet(name)); // "Hallo, DevAcademy!"',
+                  text: 'const name = "LernCoding";\nlet count = 0;\n\n// Arrow Function\nconst greet = (who) => {\n  return `Hallo, ${who}!`;\n};\n\nconsole.log(greet(name)); // "Hallo, LernCoding!"',
                 },
                 { type: "h2", text: "DOM-Manipulation" },
                 {
@@ -1841,7 +1841,7 @@
                 },
                 {
                   type: "code",
-                  text: '# Grundlegende Datentypen\nname = "DevAcademy"      # String\nversion = 3.11           # Float\naktiv = True              # Boolean\ntags = ["py", "dev"]     # Liste\n\n# F-Strings (modern)\nprint(f"Kurs: {name} | Version: {version}")',
+                  text: '# Grundlegende Datentypen\nname = "LernCoding"      # String\nversion = 3.11           # Float\naktiv = True              # Boolean\ntags = ["py", "dev"]     # Liste\n\n# F-Strings (modern)\nprint(f"Kurs: {name} | Version: {version}")',
                 },
                 { type: "h2", text: "Kontrollstrukturen" },
                 {
@@ -1855,7 +1855,7 @@
               ],
               editorType: "python",
               editorCode:
-                '# Python Grundlagen\n# Dieser Editor simuliert Python-Ausgaben\n\nname = "DevAcademy"\nversion = 3\n\nprint(f"Willkommen bei {name}!")\nprint(f"Python Version: {version}")\n\n# Schleife\nfor i in range(1, 6):\n    print(f"Zeile {i}: Python ist großartig")\n\n# Liste & Comprehension\nquadrate = [x**2 for x in range(1, 6)]\nprint("Quadratzahlen:", quadrate)',
+                '# Python Grundlagen\n# Dieser Editor simuliert Python-Ausgaben\n\nname = "LernCoding"\nversion = 3\n\nprint(f"Willkommen bei {name}!")\nprint(f"Python Version: {version}")\n\n# Schleife\nfor i in range(1, 6):\n    print(f"Zeile {i}: Python ist großartig")\n\n# Liste & Comprehension\nquadrate = [x**2 for x in range(1, 6)]\nprint("Quadratzahlen:", quadrate)',
             },
             {
               title: "Objektorientierung in Python",
@@ -1895,7 +1895,7 @@
                 },
                 {
                   type: "code",
-                  text: 'import json\n\ndaten = {\n    "name": "DevAcademy",\n    "kurse": ["HTML", "Python"],\n    "aktiv": True\n}\n\n# Dict → JSON String\njson_str = json.dumps(daten, indent=2, ensure_ascii=False)\nprint(json_str)\n\n# JSON String → Dict\ngeladen = json.loads(json_str)\nprint(geladen["name"])  # DevAcademy',
+                  text: 'import json\n\ndaten = {\n    "name": "LernCoding",\n    "kurse": ["HTML", "Python"],\n    "aktiv": True\n}\n\n# Dict → JSON String\njson_str = json.dumps(daten, indent=2, ensure_ascii=False)\nprint(json_str)\n\n# JSON String → Dict\ngeladen = json.loads(json_str)\nprint(geladen["name"])  # LernCoding',
                 },
                 { type: "h2", text: "HTTP Requests mit requests" },
                 {
@@ -2178,7 +2178,7 @@
       <div class="referral-title">Kenn jemanden,<br><span>der coden lernen</span><br>will?</div>
 
       <div class="referral-desc">
-        Teile DevAcademy mit Kollegen, Freunden oder deiner Community — und hilf ihnen, den richtigen Einstieg in die Softwareentwicklung zu finden.
+        Teile LernCoding mit Kollegen, Freunden oder deiner Community — und hilf ihnen, den richtigen Einstieg in die Softwareentwicklung zu finden.
       </div>
 
       <div class="referral-stats">
@@ -2224,7 +2224,7 @@
       <div class="referral-share">
         <div class="referral-share-label">Link teilen</div>
         <div class="referral-share-row">
-          <input class="referral-share-input" id="referral-url" value="https://devacademy.de" readonly onclick="this.select()">
+          <input class="referral-share-input" id="referral-url" value="https://lerncoding.de" readonly onclick="this.select()">
           <button class="referral-copy-btn" id="referral-copy-btn" onclick="copyReferral()">Kopieren</button>
         </div>
       </div>
@@ -2252,11 +2252,11 @@
       }
 
       function shareVia(platform) {
-        const url = "https://devacademy.de";
+        const url = "https://lerncoding.de";
         const text =
-          "Schau dir DevAcademy an — strukturierte Kurse für Web-Entwicklung und Python:";
+          "Schau dir LernCoding an — strukturierte Kurse für Web-Entwicklung und Python:";
         const links = {
-          mailto: `mailto:?subject=DevAcademy%20Kursplattform&body=${encodeURIComponent(text + " " + url)}`,
+          mailto: `mailto:?subject=LernCoding%20Kursplattform&body=${encodeURIComponent(text + " " + url)}`,
           whatsapp: `https://wa.me/?text=${encodeURIComponent(text + " " + url)}`,
           linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
         };
