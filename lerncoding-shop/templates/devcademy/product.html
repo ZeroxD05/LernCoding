@@ -19,6 +19,103 @@
         </div>
     </div>
 
+    {% if product_key == 'webentwicklung' %}
+    <div class="course-track-grid">
+        <section class="dashboard-panel course-reveal">
+            <h2 class="text-2xl font-bold text-slate-900">Kompletter Fahrplan: Von Idee bis Live-Website</h2>
+            <p class="text-slate-600 text-sm mt-3">Dieser Kurs fuehrt dich Schritt fuer Schritt durch einen echten Website-Launch: Planung, Entwicklung, Animationen, GitHub, GitHub Pages und Vercel.</p>
+
+            <div class="course-roadmap mt-6">
+                <article class="course-step course-reveal">
+                    <span class="course-step-index">01</span>
+                    <div>
+                        <h3>Projekt planen und Struktur aufsetzen</h3>
+                        <p>Du definierst Ziel, Seitenstruktur und Design-System. Danach legst du ein sauberes Projektgeruest mit <strong>index.html</strong>, <strong>styles.css</strong> und <strong>script.js</strong> an.</p>
+                    </div>
+                </article>
+                <article class="course-step course-reveal">
+                    <span class="course-step-index">02</span>
+                    <div>
+                        <h3>HTML-Grundgeruest professionell bauen</h3>
+                        <p>Semantischer Aufbau mit Header, Main, Sektionen und Footer. Du lernst saubere Struktur, Accessibility-Basics und wiederverwendbare Komponenten.</p>
+                    </div>
+                </article>
+                <article class="course-step course-reveal">
+                    <span class="course-step-index">03</span>
+                    <div>
+                        <h3>Modernes CSS und responsives Layout</h3>
+                        <p>Farbsystem, Typografie, Spacing und mobile-first Breakpoints. Ergebnis: gleiche Seite auf Smartphone, Tablet und Desktop ohne Brueche.</p>
+                    </div>
+                </article>
+                <article class="course-step course-reveal">
+                    <span class="course-step-index">04</span>
+                    <div>
+                        <h3>Animationen mit CSS und JavaScript</h3>
+                        <p>Scroll-Reveals, Hover-States, sanfte Transitions und kleine Interaktionen mit Mehrwert. Du lernst, wie Animationen elegant wirken statt zu stoeren.</p>
+                    </div>
+                </article>
+                <article class="course-step course-reveal">
+                    <span class="course-step-index">05</span>
+                    <div>
+                        <h3>Git und GitHub richtig nutzen</h3>
+                        <p>Repository erstellen, Commit-Strategie, Branching-Grundlagen und saubere Deploy-Commits. Damit hast du Versionierung wie in echten Teams.</p>
+                    </div>
+                </article>
+                <article class="course-step course-reveal">
+                    <span class="course-step-index">06</span>
+                    <div>
+                        <h3>Erster Live-Gang mit GitHub Pages</h3>
+                        <p>Du veroeffentlichst deine statische Seite ueber GitHub Pages und lernst, wie du eine URL teilst, Fehler analysierst und Updates live ausrollst.</p>
+                    </div>
+                </article>
+                <article class="course-step course-reveal">
+                    <span class="course-step-index">07</span>
+                    <div>
+                        <h3>Deployment mit Vercel fuer mehr Power</h3>
+                        <p>Projekt auf Vercel importieren, Domain verbinden, Umgebungsvariablen setzen und automatische Redeploys bei jedem Push aktivieren.</p>
+                    </div>
+                </article>
+                <article class="course-step course-reveal">
+                    <span class="course-step-index">08</span>
+                    <div>
+                        <h3>Launch-Checkliste und Wartung</h3>
+                        <p>Performance, SEO-Basics, Fallback-Seiten und Release-Routine. So bleibt deine Seite nicht nur online, sondern langfristig professionell.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <aside class="dashboard-panel course-reveal">
+            <h2 class="text-2xl font-bold text-slate-900">Praxis-Module</h2>
+            <div class="course-badge-list mt-5">
+                <span>Setup & Projektstruktur</span>
+                <span>Semantisches HTML</span>
+                <span>Responsive CSS</span>
+                <span>Interaktive Animationen</span>
+                <span>Git Workflow</span>
+                <span>GitHub Pages</span>
+                <span>Vercel Deployment</span>
+            </div>
+
+            <div class="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                <p class="text-xs uppercase tracking-[0.2em] text-slate-400">Kursziel</p>
+                <p class="text-lg font-bold text-slate-900 mt-2">Du kannst eigenstaendig Websites bauen und live deployen.</p>
+            </div>
+
+            <div class="course-snippet mt-6">
+                <p class="course-snippet-title">Deployment Cheatsheet</p>
+                <pre><code>git init
+git add .
+git commit -m "first release"
+git branch -M main
+git remote add origin &lt;repo-url&gt;
+git push -u origin main</code></pre>
+            </div>
+
+            <p class="text-slate-600 text-sm mt-6">Bonus: Im Kurs baust du eine komplette Portfolio-Seite mit animierter Hero-Sektion, Projektkarten und Kontaktbereich.</p>
+        </aside>
+    </div>
+    {% else %}
     <div class="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-6">
         <section class="dashboard-panel">
             <h2 class="text-2xl font-bold text-slate-900">Was in deinem Bereich liegt</h2>
@@ -44,5 +141,6 @@
             </div>
         </aside>
     </div>
+    {% endif %}
 </section>
 {% endblock %}
