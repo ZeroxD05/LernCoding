@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" width="800" height="420">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a"/>
+      <stop offset="100%" style="stop-color:#1e293b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#38bdf8"/>
+      <stop offset="100%" style="stop-color:#818cf8"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="420" fill="url(#bg)" rx="16"/>
+
+  <!-- Grid dots -->
+  <pattern id="dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+    <circle cx="1" cy="1" r="1" fill="#334155"/>
+  </pattern>
+  <rect width="800" height="420" fill="url(#dots)" rx="16" opacity="0.6"/>
+
+  <!-- Glowing orb top-right -->
+  <circle cx="650" cy="80" r="120" fill="#38bdf8" opacity="0.07"/>
+  <circle cx="150" cy="340" r="100" fill="#818cf8" opacity="0.07"/>
+
+  <!-- Browser window mockup -->
+  <rect x="60" y="80" width="340" height="240" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+  <!-- Browser top bar -->
+  <rect x="60" y="80" width="340" height="36" rx="10" fill="#0f172a"/>
+  <rect x="60" y="100" width="340" height="16" fill="#0f172a"/>
+  <!-- Browser dots -->
+  <circle cx="83" cy="98" r="5" fill="#f87171"/>
+  <circle cx="101" cy="98" r="5" fill="#fbbf24"/>
+  <circle cx="119" cy="98" r="5" fill="#4ade80"/>
+  <!-- URL bar -->
+  <rect x="140" y="90" width="200" height="16" rx="4" fill="#1e293b" stroke="#334155"/>
+  <text x="152" y="103" font-family="monospace" font-size="9" fill="#64748b">https://mein-projekt.de</text>
+
+  <!-- Code lines in browser -->
+  <rect x="80" y="130" width="80" height="7" rx="3" fill="#38bdf8" opacity="0.7"/>
+  <rect x="80" y="147" width="120" height="6" rx="3" fill="#334155"/>
+  <rect x="80" y="162" width="100" height="6" rx="3" fill="#334155"/>
+  <rect x="80" y="177" width="60" height="6" rx="3" fill="#818cf8" opacity="0.7"/>
+  <rect x="80" y="192" width="140" height="6" rx="3" fill="#334155"/>
+  <rect x="80" y="207" width="90" height="6" rx="3" fill="#4ade80" opacity="0.7"/>
+  <rect x="80" y="222" width="110" height="6" rx="3" fill="#334155"/>
+  <rect x="80" y="237" width="70" height="6" rx="3" fill="#fbbf24" opacity="0.7"/>
+  <rect x="80" y="252" width="120" height="6" rx="3" fill="#334155"/>
+  <rect x="80" y="267" width="80" height="6" rx="3" fill="#38bdf8" opacity="0.5"/>
+  <rect x="80" y="282" width="100" height="6" rx="3" fill="#334155"/>
+
+  <!-- Vertical separator in browser -->
+  <line x1="230" y1="118" x2="230" y2="308" stroke="#334155" stroke-width="1"/>
+  <!-- Preview panel in browser -->
+  <rect x="245" y="130" width="135" height="85" rx="6" fill="#0f172a"/>
+  <rect x="255" y="140" width="115" height="12" rx="3" fill="#38bdf8" opacity="0.4"/>
+  <rect x="255" y="160" width="85" height="8" rx="3" fill="#334155"/>
+  <rect x="255" y="175" width="95" height="8" rx="3" fill="#334155"/>
+  <rect x="255" y="197" width="50" height="10" rx="5" fill="#38bdf8" opacity="0.6"/>
+
+  <!-- HTML tag icon -->
+  <text x="440" y="140" font-family="monospace" font-size="42" font-weight="bold" fill="#f97316" filter="url(#glow)" opacity="0.9">&lt;/&gt;</text>
+
+  <!-- CSS icon -->
+  <rect x="440" y="170" width="54" height="54" rx="8" fill="#3b82f6" opacity="0.15" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="453" y="206" font-family="monospace" font-size="20" font-weight="bold" fill="#60a5fa">CSS</text>
+
+  <!-- JS icon -->
+  <rect x="510" y="170" width="54" height="54" rx="8" fill="#fbbf24" opacity="0.15" stroke="#fbbf24" stroke-width="1.5"/>
+  <text x="527" y="206" font-family="monospace" font-size="20" font-weight="bold" fill="#fcd34d">JS</text>
+
+  <!-- Gradient accent line -->
+  <rect x="440" y="250" width="280" height="3" rx="2" fill="url(#accent)" opacity="0.8"/>
+
+  <!-- Title text -->
+  <text x="440" y="290" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="28" font-weight="800" fill="#f1f5f9">Webentwicklung</text>
+  <text x="440" y="320" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16" fill="#94a3b8">HTML · CSS · JavaScript</text>
+
+  <!-- Badge -->
+  <rect x="440" y="340" width="110" height="28" rx="14" fill="#38bdf8" opacity="0.15" stroke="#38bdf8" stroke-width="1"/>
+  <text x="460" y="359" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" fill="#38bdf8" font-weight="600">Kurs</text>
+
+  <rect x="562" y="340" width="130" height="28" rx="14" fill="#818cf8" opacity="0.15" stroke="#818cf8" stroke-width="1"/>
+  <text x="582" y="359" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" fill="#818cf8" font-weight="600">Projekte inklusive</text>
+</svg>

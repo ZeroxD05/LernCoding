@@ -1,0 +1,48 @@
+{% extends 'layout.html' %}
+
+{% block title %}{{ product['name'] }} | Devcademy{% endblock %}
+
+{% block content %}
+<section class="space-y-8">
+    <div class="dashboard-panel overflow-hidden p-0">
+        {% if product.get('image') %}
+        <img src="{{ url_for('static', filename=product['image']) }}" alt="{{ product['name'] }}" class="w-full rounded-t-2xl object-cover" style="max-height:280px;">
+        {% endif %}
+        <div class="p-6 sm:p-8">
+            <p class="auth-eyebrow">Devcademy Bereich</p>
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-2">{{ product['name'] }}</h1>
+            <p class="text-slate-600 mt-4 max-w-2xl">{{ product['subtitle'] }}</p>
+            <div class="mt-6 flex flex-wrap gap-3">
+                <a href="{{ url_for('devcademy_index') }}" class="auth-submit md:w-auto">Zur Uebersicht</a>
+                <a href="{{ url_for('dashboard') }}" class="nav-icon-button nav-icon-secondary text-sm px-5 w-auto">Konto</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-6">
+        <section class="dashboard-panel">
+            <h2 class="text-2xl font-bold text-slate-900">Was in deinem Bereich liegt</h2>
+            <div class="space-y-4 mt-6">
+                {% for item in product['resource_items'] %}
+                <article class="resource-row">
+                    <div class="resource-bullet"></div>
+                    <div>
+                        <h3 class="font-bold text-slate-900">{{ item }}</h3>
+                        <p class="text-slate-500 text-sm mt-1">Direkt nach dem Freischalten verknuepft und dauerhaft in deinem Devcademy-Zugang verfuegbar.</p>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        </section>
+
+        <aside class="dashboard-panel">
+            <h2 class="text-2xl font-bold text-slate-900">{{ product['resource_label'] }}</h2>
+            <p class="text-slate-600 text-sm mt-3">Du kannst diesen Bereich jederzeit wieder aufrufen, solange dein Konto aktiv bleibt. Eine erneute Code-Eingabe ist nicht noetig.</p>
+            <div class="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                <p class="text-xs uppercase tracking-[0.2em] text-slate-400">Status</p>
+                <p class="text-lg font-bold text-slate-900 mt-2">Dauerhaft freigeschaltet</p>
+            </div>
+        </aside>
+    </div>
+</section>
+{% endblock %}

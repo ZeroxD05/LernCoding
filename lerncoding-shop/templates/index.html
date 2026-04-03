@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LernCoding</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="text-slate-800 antialiased">
+
+    <!-- ═══════════════════════════════════════════
+         NAVIGATION
+    ════════════════════════════════════════════ -->
+    <nav class="fixed w-full bg-white/90 backdrop-blur-md z-50 border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="{{ url_for('home') }}" class="flex-shrink-0 flex items-center" aria-label="Startseite neu laden">
+                    <span class="bg-slate-900 text-white font-bold px-4 py-1.5 rounded-full text-sm tracking-wide">LernCoding</span>
+                </a>
+                <div class="flex items-center gap-3">
+                    {% if current_user %}
+                    <a href="https://lern-coding.de/LernCoding-Academy.html" class="nav-icon-button" title="Devcademy" aria-label="Devcademy">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 10 12 5 2 10l10 5 10-5Z"></path>
+                            <path d="M6 12.5V17c0 .9 2.7 3 6 3s6-2.1 6-3v-4.5"></path>
+                        </svg>
+                    </a>
+                    <a href="{{ url_for('dashboard') }}" class="nav-icon-button" title="Konto" aria-label="Konto">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21a8 8 0 0 0-16 0"></path>
+                            <circle cx="12" cy="8" r="4"></circle>
+                        </svg>
+                    </a>
+                    <form method="post" action="{{ url_for('logout') }}">
+                        <button type="submit" class="nav-icon-button nav-icon-secondary" title="Logout" aria-label="Logout">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                <path d="M16 17l5-5-5-5"></path>
+                                <path d="M21 12H9"></path>
+                            </svg>
+                        </button>
+                    </form>
+                    {% else %}
+                    <a href="{{ url_for('login') }}" class="nav-icon-button" title="Login" aria-label="Login">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                            <path d="M10 17l5-5-5-5"></path>
+                            <path d="M15 12H3"></path>
+                        </svg>
+                    </a>
+                    <a href="{{ url_for('register') }}" class="nav-icon-button nav-icon-secondary" title="Registrieren" aria-label="Registrieren">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="8.5" cy="7" r="4"></circle>
+                            <path d="M20 8v6"></path>
+                            <path d="M23 11h-6"></path>
+                        </svg>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-2 space-y-3">
+            {% for category, message in messages %}
+            <div class="flash-banner flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- ═══════════════════════════════════════════
+         HERO
+    ════════════════════════════════════════════ -->
+    <section class="pt-24 sm:pt-28 pb-12 sm:pb-16 px-4 max-w-7xl mx-auto lg:min-h-[90vh] flex flex-col justify-center">
+        <div class="flex flex-col lg:flex-row items-center gap-8 sm:gap-12">
+
+            <div class="flex-1 text-center lg:text-left hero-text gsap-hide">
+                <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 leading-tight mb-6">
+                    Praxisnah <br> <span class="text-blue-600">Programmieren lernen</span>
+                </h1>
+                <p class="text-slate-600 text-lg mb-8 max-w-md mx-auto lg:mx-0">
+                    Entdecke unsere Kurse, Tutorials und Programmierprojekte, um deine Coding-Skills Schritt für Schritt aufzubauen und direkt anzuwenden.
+                </p>
+                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-8">
+                    <div class="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm border border-slate-100">
+                        <svg class="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span class="text-sm font-semibold">Sofort starten</span>
+                    </div>
+                    <div class="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm border border-slate-100">
+                        <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path></svg>
+                        <span class="text-sm font-semibold">Kostenlose Gespräche</span>
+                    </div>
+                </div>
+                <a href="#produkte" class="inline-flex items-center justify-center bg-slate-900 text-white px-8 py-3.5 rounded-full font-bold text-lg hover:bg-blue-600 transition-all shadow-lg hover:shadow-blue-500/30">
+                    Lege jetzt los!
+                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                </a>
+            </div>
+
+            <div class="flex-1 hero-image gsap-hide w-full max-w-[15rem] sm:max-w-xs lg:max-w-sm relative mt-4 sm:mt-8 lg:mt-0 mx-auto hidden lg:block">
+                <div class="absolute -inset-3 sm:-inset-4 bg-blue-500/20 rounded-[2.5rem] blur-xl float-anim"></div>
+                <div class="bg-white aspect-[4/5] sm:aspect-square rounded-[2rem] shadow-2xl flex items-center justify-center float-anim border border-slate-100 relative overflow-hidden z-10">
+                    <img src="{{ url_for('static', filename='heropic.JPG') }}" alt="LernCoding Logo" class="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500">
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+  
+    <!-- ═══════════════════════════════════════════
+         ÜBER MICH
+    ════════════════════════════════════════════ -->
+    <section class="py-20 px-4 bg-white border-t border-slate-100">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-12 scroll-anim gsap-hide">Über mich</h2>
+            <div class="flex flex-col md:flex-row items-center gap-10">
+                <div class="w-48 h-48 rounded-full overflow-hidden shadow-xl border-4 border-white scroll-anim gsap-hide flex-shrink-0">
+                    <img src="{{ url_for('static', filename='me.jpg') }}" alt="Gründer" class="w-full h-full object-cover">
+                </div>
+                <div class="flex-1 text-center md:text-left">
+                    <h3 class="text-2xl font-bold mb-4 scroll-anim gsap-hide">Hallo! Ich bin der Gründer von LernCoding.</h3>
+                    <p class="text-slate-600 mb-6 scroll-anim gsap-hide">Meine Leidenschaft ist es, Programmierwissen praxisnah und verständlich zu vermitteln – egal ob Anfänger oder Fortgeschrittene.</p>
+                    <a href="#roadmap" class="inline-block bg-slate-900 text-white px-6 py-2 rounded-full font-semibold text-sm hover:bg-slate-800 transition-colors mb-8 scroll-anim gsap-hide">Erfahre mehr über mich</a>
+                    <div class="flex flex-wrap justify-center md:justify-start gap-2">
+                        <span class="skill-pill gsap-hide bg-blue-50 text-blue-700 px-4 py-1.5 rounded-full text-sm font-semibold border border-blue-100">HTML</span>
+                        <span class="skill-pill gsap-hide bg-blue-50 text-blue-700 px-4 py-1.5 rounded-full text-sm font-semibold border border-blue-100">CSS</span>
+                        <span class="skill-pill gsap-hide bg-blue-50 text-blue-700 px-4 py-1.5 rounded-full text-sm font-semibold border border-blue-100">JavaScript</span>
+                        <span class="skill-pill gsap-hide bg-blue-50 text-blue-700 px-4 py-1.5 rounded-full text-sm font-semibold border border-blue-100">Python</span>
+                        <span class="skill-pill gsap-hide bg-blue-50 text-blue-700 px-4 py-1.5 rounded-full text-sm font-semibold border border-blue-100">React</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         PRODUKTE
+    ════════════════════════════════════════════ -->
+    <section id="produkte" class="py-20 px-4 bg-slate-50 border-t border-slate-100">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-16 text-slate-900 scroll-anim gsap-hide">Meine Produkte</h2>
+            <!-- Mobile Slider -->
+            <div class="md:hidden">
+                <div id="product-slider" class="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scrollbar-hide" style="-webkit-overflow-scrolling:touch; scroll-behavior:smooth;">
+
+                    <!-- Karte 1 -->
+                    <div class="product-card bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden relative flex flex-col flex-shrink-0 w-[85vw] snap-center">
+                        <div class="absolute top-4 left-4 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-md z-10 shadow-sm">Bestseller</div>
+                        <img src="{{ url_for('static', filename='images/webentwicklung.svg') }}" alt="Webentwicklung Kurs" class="w-full h-52 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold mb-2 text-slate-900">Webentwicklung Kurs</h3>
+                            <p class="text-slate-500 text-sm mb-6 flex-grow">HTML, CSS & JavaScript von Grund auf</p>
+                            <div class="flex justify-between items-center mb-6">
+                                <span class="text-2xl font-black text-slate-900">29.99€</span>
+                                <div class="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-green-500"></span> Direkter Zugriff
+                                </div>
+                            </div>
+                            <form method="post" action="{{ url_for('buy', product_key='webentwicklung') }}">
+                                <button type="submit" class="w-full bg-[#FFC439] hover:bg-[#F4B82A] text-slate-900 font-bold py-3 rounded-lg transition-transform hover:-translate-y-1 shadow-md">Jetzt kaufen</button>
+                            </form>
+                            <p class="text-[10px] text-center text-slate-400 mt-3 font-medium">Sicherer Checkout ueber Stripe + Code per E-Mail</p>
+                        </div>
+                    </div>
+
+                    <!-- Karte 2 -->
+                    <div class="product-card bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden flex flex-col flex-shrink-0 w-[85vw] snap-center">
+                        <img src="{{ url_for('static', filename='images/python-basics.svg') }}" alt="Python Basics" class="w-full h-52 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold mb-2 text-slate-900">Python Basics</h3>
+                            <p class="text-slate-500 text-sm mb-6 flex-grow">Lerne Python um die Grundstruktur von Web Anwendungen kennenzulernen</p>
+                            <div class="flex justify-between items-center mb-6">
+                                <div>
+                                    <span class="text-2xl font-black text-slate-900">39.99€</span>
+                                    <span class="text-sm text-red-500 line-through ml-1 font-bold">59.99€</span>
+                                </div>
+                                <div class="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-green-500"></span> Verfügbar
+                                </div>
+                            </div>
+                            <form method="post" action="{{ url_for('buy', product_key='python-basics') }}">
+                                <button type="submit" class="w-full bg-[#FFC439] hover:bg-[#F4B82A] text-slate-900 font-bold py-3 rounded-lg transition-transform hover:-translate-y-1 shadow-md">Jetzt kaufen</button>
+                            </form>
+                            <p class="text-[10px] text-center text-slate-400 mt-3 font-medium">Sicherer Checkout ueber Stripe + Code per E-Mail</p>
+                        </div>
+                    </div>
+
+                    <!-- Karte 3 -->
+                    <div class="product-card bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden flex flex-col flex-shrink-0 w-[85vw] snap-center">
+                        <img src="{{ url_for('static', filename='images/projekte-paket.svg') }}" alt="Projekte-Paket" class="w-full h-52 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold mb-2 text-slate-900">Projekte-Paket</h3>
+                            <p class="text-slate-500 text-sm mb-6 flex-grow">Baue deine eigene echte Anwendung</p>
+                            <div class="flex justify-between items-center mb-6">
+                                <div>
+                                    <span class="text-2xl font-black text-slate-900">49.99€</span>
+                                    <span class="text-sm text-red-500 line-through ml-1 font-bold">79.99€</span>
+                                </div>
+                                <div class="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-green-500"></span> Verfügbar
+                                </div>
+                            </div>
+                            <form method="post" action="{{ url_for('buy', product_key='projekte-paket') }}">
+                                <button type="submit" class="w-full bg-[#FFC439] hover:bg-[#F4B82A] text-slate-900 font-bold py-3 rounded-lg transition-transform hover:-translate-y-1 shadow-md">Jetzt kaufen</button>
+                            </form>
+                            <p class="text-[10px] text-center text-slate-400 mt-3 font-medium">Sicherer Checkout ueber Stripe + Code per E-Mail</p>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Dots -->
+                <div id="product-dots" class="flex justify-center gap-2 mt-4">
+                    <button class="product-dot w-2.5 h-2.5 rounded-full bg-slate-800 transition-opacity" data-index="0"></button>
+                    <button class="product-dot w-2.5 h-2.5 rounded-full bg-slate-800 opacity-30 transition-opacity" data-index="1"></button>
+                    <button class="product-dot w-2.5 h-2.5 rounded-full bg-slate-800 opacity-30 transition-opacity" data-index="2"></button>
+                </div>
+                <script>
+                (function(){
+                    var slider = document.getElementById('product-slider');
+                    var dots = document.querySelectorAll('.product-dot');
+                    function updateDots(){
+                        var idx = Math.round(slider.scrollLeft / slider.offsetWidth);
+                        dots.forEach(function(d,i){
+                            d.classList.toggle('opacity-30', i !== idx);
+                            d.classList.toggle('opacity-100', i === idx);
+                        });
+                    }
+                    slider.addEventListener('scroll', updateDots, {passive:true});
+                    dots.forEach(function(dot){
+                        dot.addEventListener('click', function(){
+                            slider.scrollTo({left: parseInt(dot.dataset.index) * slider.offsetWidth, behavior:'smooth'});
+                        });
+                    });
+                })();
+                </script>
+            </div>
+
+            <!-- Desktop Grid -->
+            <div class="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                <!-- Karte 1 -->
+                <div class="product-card bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden relative flex flex-col gsap-hide">
+                    <div class="absolute top-4 left-4 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-md z-10 shadow-sm">Bestseller</div>
+                    <img src="{{ url_for('static', filename='images/webentwicklung.svg') }}" alt="Webentwicklung Kurs" class="w-full h-52 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold mb-2 text-slate-900">Webentwicklung Kurs</h3>
+                        <p class="text-slate-500 text-sm mb-6 flex-grow">HTML, CSS & JavaScript von Grund auf</p>
+                        <div class="flex justify-between items-center mb-6">
+                            <span class="text-2xl font-black text-slate-900">29.99€</span>
+                            <div class="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
+                                <span class="w-2.5 h-2.5 rounded-full bg-green-500"></span> Direkter Zugriff
+                            </div>
+                        </div>
+                        <form method="post" action="{{ url_for('buy', product_key='webentwicklung') }}">
+                            <button type="submit" class="w-full bg-[#FFC439] hover:bg-[#F4B82A] text-slate-900 font-bold py-3 rounded-lg transition-transform hover:-translate-y-1 shadow-md">Jetzt kaufen</button>
+                        </form>
+                        <p class="text-[10px] text-center text-slate-400 mt-3 font-medium">Sicherer Checkout ueber Stripe + Code per E-Mail</p>
+                    </div>
+                </div>
+
+                <!-- Karte 2 -->
+                <div class="product-card bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden flex flex-col gsap-hide">
+                    <img src="{{ url_for('static', filename='images/python-basics.svg') }}" alt="Python Basics" class="w-full h-52 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold mb-2 text-slate-900">Python Basics</h3>
+                        <p class="text-slate-500 text-sm mb-6 flex-grow">Lerne Python um die Grundstruktur von Web Anwendungen kennenzulernen</p>
+                        <div class="flex justify-between items-center mb-6">
+                            <div>
+                                <span class="text-2xl font-black text-slate-900">39.99€</span>
+                                <span class="text-sm text-red-500 line-through ml-1 font-bold">59.99€</span>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
+                                <span class="w-2.5 h-2.5 rounded-full bg-green-500"></span> Verfügbar
+                            </div>
+                        </div>
+                        <form method="post" action="{{ url_for('buy', product_key='python-basics') }}">
+                            <button type="submit" class="w-full bg-[#FFC439] hover:bg-[#F4B82A] text-slate-900 font-bold py-3 rounded-lg transition-transform hover:-translate-y-1 shadow-md">Jetzt kaufen</button>
+                        </form>
+                        <p class="text-[10px] text-center text-slate-400 mt-3 font-medium">Sicherer Checkout ueber Stripe + Code per E-Mail</p>
+                    </div>
+                </div>
+
+                <!-- Karte 3 -->
+                <div class="product-card bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden flex flex-col gsap-hide">
+                    <img src="{{ url_for('static', filename='images/projekte-paket.svg') }}" alt="Projekte-Paket" class="w-full h-52 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold mb-2 text-slate-900">Projekte-Paket</h3>
+                        <p class="text-slate-500 text-sm mb-6 flex-grow">Baue deine eigene echte Anwendung</p>
+                        <div class="flex justify-between items-center mb-6">
+                            <div>
+                                <span class="text-2xl font-black text-slate-900">49.99€</span>
+                                <span class="text-sm text-red-500 line-through ml-1 font-bold">79.99€</span>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
+                                <span class="w-2.5 h-2.5 rounded-full bg-green-500"></span> Verfügbar
+                            </div>
+                        </div>
+                        <form method="post" action="{{ url_for('buy', product_key='projekte-paket') }}">
+                            <button type="submit" class="w-full bg-[#FFC439] hover:bg-[#F4B82A] text-slate-900 font-bold py-3 rounded-lg transition-transform hover:-translate-y-1 shadow-md">Jetzt kaufen</button>
+                        </form>
+                        <p class="text-[10px] text-center text-slate-400 mt-3 font-medium">Sicherer Checkout ueber Stripe + Code per E-Mail</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         ROADMAP
+    ════════════════════════════════════════════ -->
+    <section id="roadmap" class="py-20 px-4 bg-white">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-16 text-slate-900 scroll-anim gsap-hide">Meine Roadmap</h2>
+
+            <div class="border-l-2 border-blue-200 ml-4 md:ml-8 space-y-12">
+                <div class="relative pl-8 md:pl-10 timeline-item gsap-hide">
+                    <span class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-blue-500 ring-4 ring-white"></span>
+                    <p class="text-blue-600 font-bold text-sm mb-1">Januar 2024</p>
+                    <h4 class="text-xl font-bold text-slate-900 mb-2">Beginn der Webentwicklung</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed">Der Start meiner Reise in die Welt der Webentwicklung mit ersten HTML und CSS-Projekten.</p>
+                </div>
+                <div class="relative pl-8 md:pl-10 timeline-item gsap-hide">
+                    <span class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-blue-500 ring-4 ring-white"></span>
+                    <p class="text-blue-600 font-bold text-sm mb-1">März 2024</p>
+                    <h4 class="text-xl font-bold text-slate-900 mb-2">JavaScript-Grundlagen</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed">Vertiefung der JavaScript-Kenntnisse und Entwicklung erster interaktiver Webseiten.</p>
+                </div>
+                <div class="relative pl-8 md:pl-10 timeline-item gsap-hide">
+                    <span class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-blue-500 ring-4 ring-white"></span>
+                    <p class="text-blue-600 font-bold text-sm mb-1">Juli 2024</p>
+                    <h4 class="text-xl font-bold text-slate-900 mb-2">React-Entwicklung</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed">Einstieg in die React-Welt und Erstellung erster komponentenbasierter Anwendungen.</p>
+                </div>
+                <div class="relative pl-8 md:pl-10 timeline-item gsap-hide">
+                    <span class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-blue-500 ring-4 ring-white"></span>
+                    <p class="text-blue-600 font-bold text-sm mb-1">Oktober 2024</p>
+                    <h4 class="text-xl font-bold text-slate-900 mb-2">Backend mit Node.js</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed">Erweiterung meiner Fähigkeiten auf Backend-Entwicklung mit Node.js.</p>
+                </div>
+                <div class="relative pl-8 md:pl-10 timeline-item gsap-hide">
+                    <span class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-blue-500 ring-4 ring-white"></span>
+                    <p class="text-blue-600 font-bold text-sm mb-1">Februar 2025</p>
+                    <h4 class="text-xl font-bold text-slate-900 mb-2">Erstes Vollzeit-Projekt</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed">Umsetzung eines vollständigen E-Commerce-Projekts.</p>
+                </div>
+                <div class="relative pl-8 md:pl-10 timeline-item gsap-hide">
+                    <span class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-blue-500 ring-4 ring-white"></span>
+                    <p class="text-blue-600 font-bold text-sm mb-1">Aktuell</p>
+                    <h4 class="text-xl font-bold text-slate-900 mb-2">Portfolio-Erweiterung</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed">Weiterentwicklung meiner Fähigkeiten und Erweiterung meines Portfolios mit neuen Projekten. Fokus auf Benutzerfreundlichkeit und ästhetisches Design mit Figma und Adobe XD.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         TESTIMONIALS
+    ════════════════════════════════════════════ -->
+    <section class="py-20 px-4 bg-[#0b1121] text-white border-t border-slate-800">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-16 scroll-anim gsap-hide">Was meine Kunden sagen</h2>
+
+            <!-- Mobile Slider -->
+            <div class="md:hidden">
+                <div id="testimonial-slider" class="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scrollbar-hide" style="-webkit-overflow-scrolling:touch; scroll-behavior:smooth;">
+                    <div class="testimonial-card bg-slate-800/50 rounded-2xl p-8 shadow-xl border border-slate-700 backdrop-blur-sm flex flex-col flex-shrink-0 w-[85vw] snap-center">
+                        <div class="text-yellow-400 flex gap-1 mb-6">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        </div>
+                        <p class="text-slate-300 italic mb-8 flex-grow">"Dank dem Webentwicklungs-Kurs habe ich endlich verstanden, wie JavaScript wirklich funktioniert. Der persönliche Support war Gold wert!"</p>
+                        <div class="flex items-center gap-4 mt-auto">
+                            <div class="w-12 h-12 bg-slate-600 rounded-full overflow-hidden border-2 border-slate-500">
+                                <img src="https://via.placeholder.com/100" alt="Lukas" class="w-full h-full object-cover">
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white">Lukas M.</h4>
+                                <p class="text-xs text-blue-400">Junior Frontend Developer</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card bg-slate-800/50 rounded-2xl p-8 shadow-xl border border-slate-700 backdrop-blur-sm flex flex-col flex-shrink-0 w-[85vw] snap-center">
+                        <div class="text-yellow-400 flex gap-1 mb-6">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        </div>
+                        <p class="text-slate-300 italic mb-8 flex-grow">"Die Projekte sind extrem praxisnah. Ich konnte das E-Commerce-Projekt direkt in mein eigenes Portfolio übernehmen. Absolute Empfehlung."</p>
+                        <div class="flex items-center gap-4 mt-auto">
+                            <div class="w-12 h-12 bg-slate-600 rounded-full overflow-hidden border-2 border-slate-500">
+                                <img src="https://via.placeholder.com/100" alt="Sarah" class="w-full h-full object-cover">
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white">Sarah K.</h4>
+                                <p class="text-xs text-blue-400">Informatik-Studentin</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card bg-slate-800/50 rounded-2xl p-8 shadow-xl border border-slate-700 backdrop-blur-sm flex flex-col flex-shrink-0 w-[85vw] snap-center">
+                        <div class="text-yellow-400 flex gap-1 mb-6">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        </div>
+                        <p class="text-slate-300 italic mb-8 flex-grow">"Viel besser als trockene Theorie. Man schreibt von Minute eins an Code. Die Erklärungen von LernCoding sind echt auf den Punkt."</p>
+                        <div class="flex items-center gap-4 mt-auto">
+                            <div class="w-12 h-12 bg-slate-600 rounded-full overflow-hidden border-2 border-slate-500">
+                                <img src="https://via.placeholder.com/100" alt="Tom" class="w-full h-full object-cover">
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white">Tom W.</h4>
+                                <p class="text-xs text-blue-400">Quereinsteiger</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Dots -->
+                <div id="testimonial-dots" class="flex justify-center gap-2 mt-4">
+                    <button class="testimonial-dot w-2.5 h-2.5 rounded-full bg-white transition-opacity" data-index="0"></button>
+                    <button class="testimonial-dot w-2.5 h-2.5 rounded-full bg-white opacity-30 transition-opacity" data-index="1"></button>
+                    <button class="testimonial-dot w-2.5 h-2.5 rounded-full bg-white opacity-30 transition-opacity" data-index="2"></button>
+                </div>
+                <script>
+                (function(){
+                    var slider = document.getElementById('testimonial-slider');
+                    var dots = document.querySelectorAll('.testimonial-dot');
+                    function updateDots(){
+                        var idx = Math.round(slider.scrollLeft / slider.offsetWidth);
+                        dots.forEach(function(d,i){
+                            d.classList.toggle('opacity-30', i !== idx);
+                            d.classList.toggle('opacity-100', i === idx);
+                        });
+                    }
+                    slider.addEventListener('scroll', updateDots, {passive:true});
+                    dots.forEach(function(dot){
+                        dot.addEventListener('click', function(){
+                            slider.scrollTo({left: parseInt(dot.dataset.index) * slider.offsetWidth, behavior:'smooth'});
+                        });
+                    });
+                })();
+                </script>
+            </div>
+
+            <!-- Desktop Grid -->
+            <div class="hidden md:grid grid-cols-3 gap-8">
+                <div class="testimonial-card bg-slate-800/50 rounded-2xl p-8 shadow-xl border border-slate-700 relative gsap-hide backdrop-blur-sm flex flex-col">
+                    <div class="text-yellow-400 flex gap-1 mb-6">
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    </div>
+                    <p class="text-slate-300 italic mb-8 flex-grow">"Dank dem Webentwicklungs-Kurs habe ich endlich verstanden, wie JavaScript wirklich funktioniert. Der persönliche Support war Gold wert!"</p>
+                    <div class="flex items-center gap-4 mt-auto">
+                        <div class="w-12 h-12 bg-slate-600 rounded-full overflow-hidden border-2 border-slate-500">
+                            <img src="https://via.placeholder.com/100" alt="Lukas" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">Lukas M.</h4>
+                            <p class="text-xs text-blue-400">Junior Frontend Developer</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card bg-slate-800/50 rounded-2xl p-8 shadow-xl border border-slate-700 relative gsap-hide backdrop-blur-sm flex flex-col">
+                    <div class="text-yellow-400 flex gap-1 mb-6">
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    </div>
+                    <p class="text-slate-300 italic mb-8 flex-grow">"Die Projekte sind extrem praxisnah. Ich konnte das E-Commerce-Projekt direkt in mein eigenes Portfolio übernehmen. Absolute Empfehlung."</p>
+                    <div class="flex items-center gap-4 mt-auto">
+                        <div class="w-12 h-12 bg-slate-600 rounded-full overflow-hidden border-2 border-slate-500">
+                            <img src="https://via.placeholder.com/100" alt="Sarah" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">Sarah K.</h4>
+                            <p class="text-xs text-blue-400">Informatik-Studentin</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card bg-slate-800/50 rounded-2xl p-8 shadow-xl border border-slate-700 relative gsap-hide backdrop-blur-sm flex flex-col">
+                    <div class="text-yellow-400 flex gap-1 mb-6">
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    </div>
+                    <p class="text-slate-300 italic mb-8 flex-grow">"Viel besser als trockene Theorie. Man schreibt von Minute eins an Code. Die Erklärungen von LernCoding sind echt auf den Punkt."</p>
+                    <div class="flex items-center gap-4 mt-auto">
+                        <div class="w-12 h-12 bg-slate-600 rounded-full overflow-hidden border-2 border-slate-500">
+                            <img src="https://via.placeholder.com/100" alt="Tom" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">Tom W.</h4>
+                            <p class="text-xs text-blue-400">Quereinsteiger</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         FAQ
+    ════════════════════════════════════════════ -->
+    <section class="py-20 px-4 bg-slate-50 border-t border-slate-100">
+        <div class="max-w-2xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-12 text-slate-900 scroll-anim gsap-hide">Häufige Fragen</h2>
+            <div class="space-y-4">
+
+                <div class="faq-item bg-white border border-slate-200 rounded-lg overflow-hidden transition-all gsap-hide">
+                    <button class="faq-button w-full px-6 py-4 text-left font-bold text-slate-900 flex justify-between items-center focus:outline-none">
+                        Kann ich die Kurse auch ohne Vorkenntnisse starten?
+                        <svg class="w-5 h-5 transform transition-transform text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-4 text-slate-600 text-sm">
+                        Ja, absolut! Die Kurse sind so aufgebaut, dass sie dich bei null abholen und Schritt für Schritt zum Profi machen.
+                    </div>
+                </div>
+
+
+
+                <div class="faq-item bg-white border border-slate-200 rounded-lg overflow-hidden transition-all gsap-hide">
+                    <button class="faq-button w-full px-6 py-4 text-left font-bold text-slate-900 flex justify-between items-center focus:outline-none">
+                        Gibt es persönlichen Support?
+                        <svg class="w-5 h-5 transform transition-transform text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-4 text-slate-600 text-sm">
+                        Ja! In jedem Paket sind persönliche Gespräche inklusive, falls du mal nicht weiterkommst.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         FOOTER
+    ════════════════════════════════════════════ -->
+    <footer class="bg-[#0b1121] py-8 text-center border-t border-slate-800">
+        <p class="text-slate-400 text-sm mb-3">© 2026 LernCoding – Alle Rechte vorbehalten.</p>
+        <div class="flex justify-center flex-wrap gap-4 text-sm text-slate-500 px-4">
+            <a href="https://www.lern-coding.de/impressum.html" target="_blank" class="hover:text-white transition-colors">Impressum</a>
+            <span class="text-slate-600">•</span>
+            <a href="https://www.lern-coding.de/agb-datenschutz.html" target="_blank" class="hover:text-white transition-colors">Datenschutz & AGB</a>
+            <span class="text-slate-600">•</span>
+            <a href="{{ url_for('widerruf') }}" class="hover:text-white transition-colors">Widerrufsrecht</a>
+        </div>
+    </footer>
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <!-- Dein bestehendes Script -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+    <!-- ═══════════════════════════════════════════
+         QUOTE-CARD ANIMATION
+         (kann alternativ in script.js ausgelagert werden)
+    ════════════════════════════════════════════ -->
+    <script>
+    (function () {
+        const card     = document.getElementById('quoteCard');
+        const progress = document.getElementById('quoteProgress');
+        const textEl   = document.getElementById('quoteText');
+        const author   = document.getElementById('quoteAuthor');
+        const hint     = document.getElementById('quoteHint');
+
+        if (!card) return;
+
+        /* Wörter einzeln in <span> wickeln */
+        const rawText = textEl.textContent.trim();
+        textEl.innerHTML = rawText
+            .split(' ')
+            .map((w, i) => `<span class="word" style="transition-delay:${i * 0.045}s">${w}</span>`)
+            .join(' ');
+
+        const words = textEl.querySelectorAll('.word');
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        /* Phase 1 – Karte von unten ins Bild schieben */
+        gsap.to(card, {
+            translateY: '0%',
+            ease: 'power2.out',
+            scrollTrigger: {
+                trigger: '.quote-scene',
+                start: 'top bottom',
+                end:   'top 10%',
+                scrub: 1.2,
+                onUpdate (self) {
+                    /* Fortschrittsbalken */
+                    progress.style.width = (self.progress * 100) + '%';
+
+                    /* Scroll-Hint ausblenden */
+                    hint.classList.toggle('hidden', self.progress > 0.35);
+
+                    /* Wörter gestaffelt einblenden ab 50 % */
+                    const wp = Math.max(0, (self.progress - 0.5) / 0.5);
+                    words.forEach((w, i) => {
+                        w.classList.toggle('visible', wp >= i / words.length);
+                    });
+
+                    /* Autor ab 90 % */
+                    author.classList.toggle('visible', self.progress >= 0.9);
+                }
+            }
+        });
+
+        /* Phase 2 – Karte beim Weiterscrollen sanft ausblenden */
+        gsap.to(card, {
+            opacity: 0,
+            scale: 0.96,
+            ease: 'power1.in',
+            scrollTrigger: {
+                trigger: '.quote-scene',
+                start: 'bottom 60%',
+                end:   'bottom top',
+                scrub: 0.8,
+            }
+        });
+    })();
+    </script>
+
+</body>
+</html>

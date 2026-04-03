@@ -1,0 +1,37 @@
+{% extends 'layout.html' %}
+
+{% block title %}Login | LernCoding{% endblock %}
+
+{% block content %}
+<section class="auth-shell">
+    <div class="auth-card max-w-md mx-auto">
+        <div class="mb-8 text-center">
+            <p class="auth-eyebrow">Mitgliedsbereich</p>
+            <h1 class="text-3xl font-extrabold text-slate-900 mt-2">Login</h1>
+            <p class="text-slate-600 mt-3">Melde dich an, um Kaeufe, Devcademy-Zugaenge und Kontodaten zu verwalten.</p>
+        </div>
+
+        <form method="post" class="space-y-5">
+            <div>
+                <label for="email" class="auth-label">E-Mail</label>
+                <input id="email" name="email" type="email" required class="auth-input" placeholder="name@beispiel.de">
+            </div>
+            <div>
+                <label for="password" class="auth-label">Passwort</label>
+                <div class="password-field">
+                    <input id="password" name="password" type="password" required class="auth-input pr-14" placeholder="Mindestens 6 Zeichen">
+                    <button type="button" class="password-toggle" data-password-toggle data-target="password" aria-label="Passwort anzeigen">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <button type="submit" class="auth-submit">Einloggen</button>
+        </form>
+
+        <p class="text-sm text-slate-500 mt-6 text-center">Noch kein Konto? <a href="{{ url_for('register') }}" class="text-blue-600 font-semibold hover:text-blue-700">Registrieren</a></p>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,1863 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>DevAcademy — Lernplattform</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Syne:wght@400;600;700;800&display=swap');
+
+  :root {
+    --bg: #0a0a0a;
+    --bg2: #111111;
+    --bg3: #181818;
+    --bg4: #202020;
+    --border: #2a2a2a;
+    --border2: #333333;
+    --text: #f0f0f0;
+    --text2: #888888;
+    --text3: #555555;
+    --accent: #e8e8e8;
+    --white: #ffffff;
+    --locked: #2a2a2a;
+    --locked-text: #444444;
+    --mono: 'DM Mono', monospace;
+    --sans: 'Syne', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  input, textarea, select { font-size: 16px; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  input, textarea, select {
+  font-size: 16px;
+}
+
+  /* ─── GATE SCREEN ─── */
+  #gate {
+    position: fixed; inset: 0; z-index: 9999;
+    background: var(--bg);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+    gap: 0;
+    transition: opacity 0.5s, visibility 0.5s;
+  }
+  #gate.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+  .gate-inner {
+    width: 100%; max-width: 420px;
+    padding: 0 24px;
+    display: flex; flex-direction: column; gap: 40px;
+  }
+
+  .gate-logo {
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .gate-logo-mark {
+    width: 36px; height: 36px;
+    display: block;
+    margin-bottom: 8px;
+  }
+  .gate-title {
+    font-size: clamp(28px, 6vw, 38px);
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    line-height: 1;
+    color: var(--white);
+  }
+  .gate-sub {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text3);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  .gate-form {
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .gate-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text3);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .gate-input-wrap {
+    position: relative;
+    display: flex; align-items: center;
+  }
+  .gate-input {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--white);
+    font-family: var(--mono);
+    font-size: 16px;
+    letter-spacing: 0.1em;
+    padding: 14px 50px 14px 16px;
+    outline: none;
+    transition: border-color 0.2s;
+    border-radius: 0;
+  }
+  .gate-input:focus { border-color: var(--border2); }
+  .gate-input.error { border-color: #555; animation: shake 0.3s; }
+
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
+
+  .gate-eye {
+    position: absolute; right: 14px;
+    background: none; border: none;
+    cursor: pointer; color: var(--text3);
+    display: flex; align-items: center;
+    transition: color 0.2s;
+  }
+  .gate-eye:hover { color: var(--text); }
+
+  .gate-btn {
+    background: var(--white);
+    color: var(--bg);
+    border: none;
+    padding: 14px 24px;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .gate-btn:hover { background: #d8d8d8; }
+  .gate-btn:active { transform: scale(0.98); }
+
+  .gate-error {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: #888;
+    letter-spacing: 0.06em;
+    height: 16px;
+    transition: opacity 0.2s;
+    opacity: 0;
+  }
+  .gate-error.visible { opacity: 1; }
+
+  .gate-footer {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text3);
+    letter-spacing: 0.08em;
+  }
+  .gate-footer-links {
+    margin-top: 10px;
+    display: flex;
+    gap: 14px;
+  }
+  .gate-footer-links a {
+    color: var(--text3);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    padding: 6px 10px;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+  }
+  .gate-footer-links a:hover {
+    color: var(--white);
+    border-color: var(--border2);
+    background: var(--bg3);
+  }
+
+  /* ─── ADMIN PANEL ─── */
+  #admin-panel {
+    position: fixed; inset: 0; z-index: 8888;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 24px;
+  }
+  #admin-panel.open { display: flex; }
+
+  .admin-box {
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    width: 100%; max-width: 580px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 32px;
+    display: flex; flex-direction: column; gap: 28px;
+  }
+  .admin-header {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .admin-title {
+    font-size: 16px; font-weight: 700; letter-spacing: -0.3px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .admin-close {
+    background: none; border: none; color: var(--text2);
+    cursor: pointer; font-size: 20px; line-height: 1;
+    transition: color 0.2s;
+  }
+  .admin-close:hover { color: var(--white); }
+
+  .admin-section-title {
+    font-family: var(--mono);
+    font-size: 10px; color: var(--text3);
+    letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+  }
+
+  .code-list { display: flex; flex-direction: column; gap: 8px; }
+  .code-item {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    padding: 10px 14px;
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+  .code-item-key { flex: 1; color: var(--white); letter-spacing: 0.06em; }
+  .code-item-access {
+    font-size: 10px; color: var(--text3); letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .code-item-del {
+    background: none; border: none; cursor: pointer; color: var(--text3);
+    transition: color 0.2s; display: flex; align-items: center;
+    padding: 2px;
+  }
+  .code-item-del:hover { color: #ccc; }
+
+  .admin-add-row {
+    display: grid; grid-template-columns: 1fr 1fr auto; gap: 8px; align-items: end;
+  }
+  .admin-field { display: flex; flex-direction: column; gap: 6px; }
+  .admin-field label {
+    font-family: var(--mono); font-size: 10px;
+    color: var(--text3); letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .admin-input, .admin-select {
+    background: var(--bg3); border: 1px solid var(--border);
+    color: var(--white); font-family: var(--mono); font-size: 16px;
+    padding: 10px 12px; outline: none; width: 100%;
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .admin-input:focus, .admin-select:focus { border-color: var(--border2); }
+  .admin-add-btn {
+    background: var(--white); color: var(--bg);
+    border: none; padding: 10px 18px;
+    font-family: var(--sans); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    cursor: pointer; transition: background 0.2s; white-space: nowrap;
+  }
+  .admin-add-btn:hover { background: #ccc; }
+
+  .admin-trigger {
+    position: fixed; bottom: 24px; right: 24px; z-index: 100;
+    background: var(--bg3); border: 1px solid var(--border2);
+    color: var(--text2); font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 8px 14px; cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+    display: none;
+    align-items: center; gap: 8px;
+  }
+  .admin-trigger.visible { display: flex; }
+  .admin-trigger:hover { color: var(--white); border-color: #555; }
+
+  /* ─── MAIN LAYOUT ─── */
+  #app { display: none; flex-direction: column; min-height: 100vh; }
+  #app.visible { display: flex; }
+
+  /* ─── HEADER ─── */
+  .header {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px;
+    height: 56px;
+  }
+  .header-logo {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 15px; font-weight: 800; letter-spacing: -0.5px;
+    color: var(--white);
+    cursor: pointer;
+  }
+  .header-logo svg { flex-shrink: 0; }
+  .header-nav { display: flex; align-items: center; gap: 6px; }
+  .nav-btn {
+    background: none; border: 1px solid transparent;
+    color: var(--text2); font-family: var(--sans); font-size: 12px;
+    font-weight: 600; letter-spacing: 0.04em;
+    padding: 6px 14px; cursor: pointer; transition: all 0.2s;
+  }
+  .nav-btn:hover { color: var(--text); border-color: var(--border); }
+  .nav-btn.active { color: var(--white); border-color: var(--border2); background: var(--bg3); }
+
+  .logout-btn {
+    background: none; border: none; color: var(--text3);
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em;
+    cursor: pointer; padding: 6px 10px; transition: color 0.2s;
+    text-transform: uppercase;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .logout-btn:hover { color: var(--text); }
+
+  /* ─── HERO / DASHBOARD ─── */
+  #view-home { padding: 0; }
+
+  .hero {
+    padding: 80px 32px 60px;
+    border-bottom: 1px solid var(--border);
+    max-width: 900px;
+  }
+  .hero-eyebrow {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--text3); letter-spacing: 0.15em; text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .hero-title {
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 800; letter-spacing: -2.5px;
+    line-height: 1; color: var(--white);
+    margin-bottom: 20px;
+  }
+  .hero-desc {
+    font-size: 15px; color: var(--text2); line-height: 1.7; max-width: 520px;
+    font-family: var(--mono); font-weight: 300;
+  }
+
+  /* ─── COURSES GRID ─── */
+  .courses-section { padding: 56px 32px; }
+  .section-title {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--text3); letter-spacing: 0.15em; text-transform: uppercase;
+    margin-bottom: 32px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-title::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+
+  .courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1px;
+    border: 1px solid var(--border);
+    background: var(--border);
+  }
+
+  /* On wide screens: 2 course cards + 1 referral panel = 3 cols */
+  @media (min-width: 1100px) {
+    .courses-grid {
+      grid-template-columns: 1fr 1fr 380px;
+    }
+  }
+
+  /* ─── REFERRAL CARD ─── */
+  .referral-card {
+    background: var(--bg2);
+    padding: 36px 32px;
+    display: flex; flex-direction: column; gap: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .referral-card::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .referral-card::after {
+    content: '';
+    position: absolute;
+    top: -20px; right: -20px;
+    width: 120px; height: 120px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .referral-tag {
+    font-family: var(--mono); font-size: 10px;
+    color: var(--text3); letter-spacing: 0.15em; text-transform: uppercase;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .referral-tag::before {
+    content: ''; width: 18px; height: 1px; background: var(--border2);
+  }
+
+  .referral-title {
+    font-size: 22px; font-weight: 800; letter-spacing: -0.8px;
+    color: var(--white); line-height: 1.15;
+  }
+  .referral-title span {
+    color: var(--text3);
+  }
+
+  .referral-desc {
+    font-family: var(--mono); font-size: 12px;
+    color: var(--text2); line-height: 1.8; font-weight: 300;
+    border-left: 1px solid var(--border2); padding-left: 14px;
+  }
+
+  .referral-stats {
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .referral-stat {
+    display: flex; align-items: center; gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .referral-stat:last-child { border-bottom: none; }
+  .referral-stat-icon {
+    width: 32px; height: 32px; flex-shrink: 0;
+    border: 1px solid var(--border2);
+    display: flex; align-items: center; justify-content: center;
+    background: var(--bg3);
+  }
+  .referral-stat-text {
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .referral-stat-label {
+    font-size: 13px; font-weight: 700; color: var(--white); letter-spacing: -0.2px;
+  }
+  .referral-stat-sub {
+    font-family: var(--mono); font-size: 10px; color: var(--text3);
+    letter-spacing: 0.06em;
+  }
+
+  .referral-share {
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .referral-share-label {
+    font-family: var(--mono); font-size: 10px;
+    color: var(--text3); letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .referral-share-row {
+    display: flex; gap: 0;
+  }
+  .referral-share-input {
+    flex: 1;
+    background: var(--bg4); border: 1px solid var(--border);
+    border-right: none;
+    color: var(--text2); font-family: var(--mono); font-size: 16px;
+    padding: 10px 12px; outline: none;
+    letter-spacing: 0.04em;
+    min-width: 0;
+  }
+  .referral-copy-btn {
+    background: var(--white); color: var(--bg);
+    border: none; font-family: var(--sans); font-size: 10px;
+    font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 10px 14px; cursor: pointer;
+    transition: background 0.2s; white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .referral-copy-btn:hover { background: #ccc; }
+  .referral-copy-btn.copied { background: #888; color: #fff; }
+
+  .referral-platforms {
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .referral-platform-btn {
+    background: var(--bg3); border: 1px solid var(--border);
+    color: var(--text2); font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 7px 12px; cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .referral-platform-btn:hover { color: var(--white); border-color: var(--border2); background: var(--bg4); }
+
+  /* Hide referral on mobile/tablet — courses-grid collapses to 1-2 cols */
+  @media (max-width: 1099px) {
+    .referral-card { display: none; }
+  }
+
+  .course-card {
+    background: var(--bg2);
+    padding: 32px;
+    cursor: pointer;
+    transition: background 0.2s;
+    position: relative;
+    display: flex; flex-direction: column; gap: 20px;
+  }
+  .course-card:hover:not(.course-card--locked) { background: var(--bg3); }
+  .course-card--locked { cursor: default; opacity: 0.5; }
+  .course-card--locked::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 8px,
+      rgba(255,255,255,0.015) 8px,
+      rgba(255,255,255,0.015) 9px
+    );
+    pointer-events: none;
+  }
+
+  .course-card-top {
+    display: flex; align-items: flex-start; justify-content: space-between;
+  }
+  .course-icon {
+    width: 44px; height: 44px;
+    border: 1px solid var(--border2);
+    display: flex; align-items: center; justify-content: center;
+    background: var(--bg3);
+    flex-shrink: 0;
+  }
+  .course-badge {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 4px 10px; border: 1px solid;
+  }
+  .badge-open { border-color: #444; color: var(--text2); }
+  .badge-locked { border-color: var(--border); color: var(--text3); }
+
+  .course-title {
+    font-size: 20px; font-weight: 700; letter-spacing: -0.5px;
+    color: var(--white); line-height: 1.2;
+  }
+  .course-desc {
+    font-family: var(--mono); font-size: 12px;
+    color: var(--text2); line-height: 1.7; font-weight: 300;
+  }
+  .course-meta {
+    display: flex; gap: 16px;
+    font-family: var(--mono); font-size: 11px; color: var(--text3);
+  }
+  .course-meta span { display: flex; align-items: center; gap: 5px; }
+
+  .course-cta {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--text2); letter-spacing: 0.06em;
+    text-transform: uppercase;
+    display: flex; align-items: center; gap: 6px;
+    transition: color 0.2s;
+  }
+  .course-card:hover:not(.course-card--locked) .course-cta { color: var(--white); }
+
+  /* ─── COURSE VIEW ─── */
+  #view-course { display: none; }
+  #view-course.active { display: block; }
+
+  .course-view-header {
+    padding: 40px 32px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex; flex-direction: column; gap: 16px;
+    padding-bottom: 32px;
+  }
+  .breadcrumb {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--text3); letter-spacing: 0.08em;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .breadcrumb-btn {
+    background: none; border: none; color: var(--text3);
+    font-family: var(--mono); font-size: 11px; cursor: pointer;
+    transition: color 0.2s; padding: 0; text-transform: uppercase; letter-spacing: 0.08em;
+  }
+  .breadcrumb-btn:hover { color: var(--text); }
+
+  .course-view-title {
+    font-size: clamp(24px, 4vw, 40px); font-weight: 800;
+    letter-spacing: -1.5px; color: var(--white);
+  }
+  .course-view-meta {
+    font-family: var(--mono); font-size: 11px; color: var(--text3);
+    display: flex; gap: 20px;
+  }
+
+  /* ─── SIDEBAR + CONTENT ─── */
+  .course-layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    min-height: calc(100vh - 56px);
+  }
+
+  .course-sidebar {
+    border-right: 1px solid var(--border);
+    padding: 32px 0;
+    position: sticky; top: 56px;
+    height: calc(100vh - 56px);
+    overflow-y: auto;
+  }
+  .sidebar-section-label {
+    font-family: var(--mono); font-size: 10px;
+    color: var(--text3); letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 0 24px 12px;
+  }
+  .sidebar-item {
+    padding: 12px 24px;
+    border-left: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .sidebar-item:hover { background: var(--bg3); border-left-color: var(--border2); }
+  .sidebar-item.active { background: var(--bg3); border-left-color: var(--white); }
+  .sidebar-item-num {
+    font-family: var(--mono); font-size: 10px;
+    color: var(--text3); width: 18px; flex-shrink: 0;
+  }
+  .sidebar-item-title {
+    font-size: 13px; font-weight: 600; color: var(--text2);
+    transition: color 0.15s; line-height: 1.3;
+  }
+  .sidebar-item:hover .sidebar-item-title,
+  .sidebar-item.active .sidebar-item-title { color: var(--white); }
+
+  /* ─── LESSON CONTENT ─── */
+  .lesson-content { padding: 48px 48px 80px; max-width: 860px; }
+
+  .lesson-header { margin-bottom: 40px; }
+  .lesson-num {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--text3); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px;
+  }
+  .lesson-title {
+    font-size: clamp(22px, 3vw, 34px); font-weight: 800;
+    letter-spacing: -1px; color: var(--white); line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .lesson-intro {
+    font-family: var(--mono); font-size: 13px; color: var(--text2);
+    line-height: 1.8; font-weight: 300;
+  }
+
+  .video-block.has-video {
+    display: block;
+    align-items: stretch;
+    justify-content: stretch;
+  }
+  .video-block.has-video video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0;
+  }
+  .video-block::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, rgba(255,255,255,0.03) 0%, transparent 70%);
+  }
+  .video-play-btn {
+    width: 60px; height: 60px;
+    border: 1px solid var(--border2);
+    background: var(--bg4);
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .video-block:hover .video-play-btn { background: var(--bg); }
+  .video-label {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--text3); letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .video-url-input {
+    position: absolute; bottom: 16px; left: 16px; right: 16px;
+    background: var(--bg);
+    border: 1px solid var(--border2);
+    color: var(--text2);
+    font-family: var(--mono); font-size: 11px;
+    padding: 8px 12px; outline: none;
+    display: none;
+  }
+  .video-block.has-url .video-url-input { display: block; }
+
+  /* Blog-style text */
+  .blog-block { margin-bottom: 40px; display: flex; flex-direction: column; gap: 20px; }
+  .blog-h2 {
+    font-size: 18px; font-weight: 700; letter-spacing: -0.4px;
+    color: var(--white); border-left: 2px solid var(--border2); padding-left: 16px;
+    margin-top: 8px;
+  }
+  .blog-p {
+    font-family: var(--mono); font-size: 13px; color: var(--text2);
+    line-height: 1.9; font-weight: 300;
+  }
+  .blog-code {
+    background: var(--bg3); border: 1px solid var(--border);
+    font-family: var(--mono); font-size: 12px; color: #aaa;
+    padding: 16px 20px; overflow-x: auto;
+    border-left: 2px solid var(--border2);
+  }
+
+  /* Code Editor */
+  .editor-block { margin-bottom: 40px; }
+  .editor-header {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-bottom: none; padding: 10px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .editor-tabs { display: flex; gap: 0; }
+  .editor-tab {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--text3); padding: 4px 14px;
+    cursor: pointer; border: 1px solid transparent;
+    transition: all 0.15s; letter-spacing: 0.06em;
+  }
+  .editor-tab.active {
+    color: var(--white); background: var(--bg4);
+    border-color: var(--border);
+  }
+  .editor-run {
+    background: var(--white); color: var(--bg);
+    border: none; font-family: var(--sans); font-size: 10px;
+    font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 5px 14px; cursor: pointer; transition: background 0.2s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .editor-run:hover { background: #ccc; }
+
+  .editor-pane { display: none; }
+  .editor-pane.active { display: block; }
+
+  textarea.code-area {
+    width: 100%;
+    background: var(--bg4);
+    border: 1px solid var(--border);
+    border-top: none;
+    color: #c8c8c8;
+    font-family: var(--mono); font-size: 16px;
+    line-height: 1.6;
+    padding: 20px;
+    resize: vertical;
+    outline: none;
+    min-height: 220px;
+    tab-size: 2;
+    transition: border-color 0.2s;
+    spellcheck: false;
+  }
+  textarea.code-area:focus { border-color: var(--border2); }
+
+  .editor-output {
+    border: 1px solid var(--border); border-top: none;
+    background: var(--bg);
+  }
+  .output-label {
+    font-family: var(--mono); font-size: 10px;
+    color: var(--text3); letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .output-content {
+    padding: 16px 20px;
+    font-family: var(--mono); font-size: 12px; color: var(--text2);
+    min-height: 80px; line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+  .output-iframe {
+    width: 100%; border: none;
+    min-height: 200px;
+    background: #fff;
+  }
+  .output-placeholder {
+    color: var(--text3); font-style: italic;
+  }
+
+  /* ─── LESSON NAV ─── */
+  .lesson-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 48px; padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+  .lesson-nav-btn {
+    background: none; border: 1px solid var(--border);
+    color: var(--text2); font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 10px 18px; cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .lesson-nav-btn:hover:not(:disabled) {
+    color: var(--white); border-color: var(--border2); background: var(--bg3);
+  }
+  .lesson-nav-btn:disabled { opacity: 0.3; cursor: default; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .header { padding: 0 16px; }
+    .hero { padding: 48px 16px 40px; }
+    .courses-section { padding: 40px 16px; }
+    .course-layout { grid-template-columns: 1fr; }
+    .course-sidebar {
+      position: static; height: auto;
+      border-right: none; border-bottom: 1px solid var(--border);
+    }
+    .lesson-content { padding: 28px 16px 60px; }
+    .admin-add-row { grid-template-columns: 1fr; }
+    .header-nav { display: none; }
+    .admin-trigger { bottom: 16px; right: 16px; }
+  }
+
+  @media (max-width: 480px) {
+    .courses-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Scroll */
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border2); }
+
+  /* Fade-in */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-in { animation: fadeUp 0.4s ease both; }
+
+  /* Divider */
+  .divider { height: 1px; background: var(--border); margin: 0 32px; }
+
+  /* Footer */
+  .site-footer {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    color: var(--text2);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 14px 32px;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .site-footer a {
+    color: var(--text3);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .site-footer a:hover { color: var(--text); }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════ GATE ═══════════════════════ -->
+<div id="gate">
+  <div class="gate-inner">
+    <div class="gate-logo">
+      <svg class="gate-logo-mark" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0.5" y="0.5" width="35" height="35" stroke="#333"/>
+        <path d="M10 18 L16 12 L16 24Z" fill="#fff"/>
+        <rect x="20" y="11" width="6" height="2" fill="#555"/>
+        <rect x="20" y="15" width="9" height="2" fill="#555"/>
+        <rect x="20" y="19" width="7" height="2" fill="#555"/>
+        <rect x="20" y="23" width="5" height="2" height="2" fill="#555"/>
+      </svg>
+      <div class="gate-title">DevAcademy</div>
+      <div class="gate-sub">Zugangsgeschützter Kursbereich</div>
+    </div>
+
+    <div class="gate-form">
+      <div>
+        <div class="gate-label">Zugangscode</div>
+        <div class="gate-input-wrap">
+          <input class="gate-input" id="gate-input" type="password"
+            placeholder="XXXX-XXXX" autocomplete="off"
+            spellcheck="false" autocapitalize="characters">
+          <button class="gate-eye" id="gate-eye-btn" title="Anzeigen/Verbergen" onclick="toggleGateEye()">
+            <svg id="gate-eye-icon" viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M1 10s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6z"/>
+              <circle cx="10" cy="10" r="2.5"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="gate-error" id="gate-error">Ungültiger Code. Bitte erneut versuchen.</div>
+      <button class="gate-btn" onclick="submitCode()">Zugang anfordern</button>
+    </div>
+
+    <div class="gate-footer">
+      Kein Zugang? Kontaktiere den <a href="mailto:ata2005hh@gmail.com">Administrator</a>.
+    </div>
+    <div class="gate-footer-links">
+      <a href="https://www.lern-coding.de/impressum.html" target="_blank" rel="noopener">Impressum</a>
+      <a href="https://www.lern-coding.de/agb-datenschutz.html" target="_blank" rel="noopener">AGB & Datenschutz</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ ADMIN PANEL ═══════════════════════ -->
+<div id="admin-panel">
+  <div class="admin-box">
+    <div class="admin-header">
+      <div class="admin-title">
+        <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="#888" stroke-width="1.5">
+          <circle cx="10" cy="7" r="3"/>
+          <path d="M4 17c0-3.314 2.686-6 6-6s6 2.686 6 6"/>
+          <rect x="13" y="1" width="6" height="5" rx="0.5" stroke-width="1.2"/>
+          <line x1="16" y1="2.5" x2="16" y2="4.5"/>
+        </svg>
+        Zugangscode-Verwaltung
+      </div>
+      <button class="admin-close" onclick="closeAdmin()">&#x2715;</button>
+    </div>
+
+    <div>
+      <div class="admin-section-title">Aktive Codes</div>
+      <div class="code-list" id="code-list"></div>
+    </div>
+
+    <div>
+      <div class="admin-section-title">Neuen Code hinzufügen</div>
+      <div class="admin-add-row">
+        <div class="admin-field">
+          <label>Code</label>
+          <input class="admin-input" id="new-code" placeholder="z.B. DEV-2024" autocapitalize="characters">
+        </div>
+        <div class="admin-field">
+          <label>Kurszugang</label>
+          <select class="admin-select" id="new-access">
+            <option value="both">Beide Kurse</option>
+            <option value="html">Nur HTML/CSS/JS</option>
+            <option value="python">Nur Python</option>
+          </select>
+        </div>
+        <button class="admin-add-btn" onclick="addCode()">&#xFF0B; Hinzufügen</button>
+      </div>
+    </div>
+
+    <div style="font-family:var(--mono);font-size:10px;color:var(--text3);line-height:1.6;border-top:1px solid var(--border);padding-top:20px;">
+      Codes werden lokal im Browser gespeichert. Exportiere sie manuell für persistente Speicherung.
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ APP ═══════════════════════ -->
+<div id="app">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-logo" onclick="showHome()">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+        <rect x="0.5" y="0.5" width="23" height="23" stroke="#444"/>
+        <path d="M6 12 L10 8 L10 16Z" fill="#fff"/>
+        <rect x="13" y="7" width="4" height="1.5" fill="#666"/>
+        <rect x="13" y="10" width="6" height="1.5" fill="#666"/>
+        <rect x="13" y="13" width="5" height="1.5" fill="#666"/>
+        <rect x="13" y="16" width="3" height="1.5" fill="#666"/>
+      </svg>
+      DevAcademy
+    </div>
+    <nav class="header-nav">
+      <button class="nav-btn active" onclick="showHome()" id="nav-home">Kurse</button>
+    </nav>
+    <button class="logout-btn" onclick="logout()">
+      <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M6 2H2v12h4M10 11l3-3-3-3M13 8H6"/>
+      </svg>
+      Abmelden
+    </button>
+  </header>
+
+  <!-- HOME VIEW -->
+  <div id="view-home">
+    <div class="hero fade-in">
+      <div class="hero-eyebrow">Willkommen zurück</div>
+      <div class="hero-title">Deine<br>Kurse.</div>
+      <div class="hero-desc">Freigeschaltete Inhalte stehen dir vollständig zur Verfügung. Gesperrte Kurse kannst du nach dem Erwerb aktivieren.</div>
+    </div>
+    <div class="courses-section fade-in">
+      <div class="section-title">Verfügbare Kurse</div>
+      <div class="courses-grid" id="courses-grid"></div>
+    </div>
+  </div>
+
+  <!-- COURSE VIEW -->
+  <div id="view-course">
+    <div id="course-view-container"></div>
+  </div>
+
+</div>
+
+<footer class="site-footer">
+  <a href="https://www.lern-coding.de/impressum.html" target="_blank" rel="noopener">Impressum</a>
+      <a href="https://www.lern-coding.de/agb-datenschutz.html" target="_blank" rel="noopener">AGB & Datenschutz</a>
+</footer>
+
+<!-- Admin Trigger -->
+<button class="admin-trigger" id="admin-trigger" onclick="openAdmin()">
+  <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5">
+    <circle cx="8" cy="6" r="2.5"/>
+    <path d="M2.5 14c0-3.038 2.462-5.5 5.5-5.5s5.5 2.462 5.5 5.5"/>
+  </svg>
+  Admin
+</button>
+
+<script>
+// ═══════════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════════
+
+const DEFAULT_CODES = [
+  { code: 'admin-1011200566', access: 'both', isAdmin: true },
+  { code: 'Webs-1203',        access: 'html' },
+  { code: 'Pyth-0310',        access: 'python' },
+  { code: 'bundl-3066',       access: 'both' },
+];
+
+const COURSES = {
+  html: {
+    id: 'html',
+    title: 'HTML, CSS & JavaScript',
+    desc: 'Lerne Webentwicklung von Grund auf – von der Struktur über das Styling bis hin zu interaktiven Interfaces.',
+    tag: 'Web-Entwicklung',
+    lessons: [
+      {
+        title: 'HTML Grundlagen & Struktur',
+        intro: 'HTML ist das Fundament jeder Webseite. In dieser Lektion lernst du die semantische Strukturierung von Inhalten und verstehst, wie Browser Markup interpretieren.',
+        videoLabel: 'Lektion 1 — HTML Grundlagen',
+        videoUrl: 'Webdev-video.mp4',
+        blogContent: [
+          { type: 'h2', text: 'Was ist HTML?' },
+          { type: 'p', text: 'HTML (HyperText Markup Language) ist die Standardsprache zur Erstellung von Webseiten. Es beschreibt die Struktur einer Seite semantisch und war ursprünglich eine Sprache zur Beschreibung von Dokumenten im World Wide Web.' },
+          { type: 'p', text: 'Ein HTML-Dokument besteht aus einer Reihe von Elementen, die dem Browser mitteilen, wie der Inhalt dargestellt werden soll. Jedes Element wird durch Tags definiert.' },
+          { type: 'h2', text: 'Grundstruktur' },
+          { type: 'code', text: '<!DOCTYPE html>\n<html lang="de">\n  <head>\n    <meta charset="UTF-8">\n    <title>Meine Seite</title>\n  </head>\n  <body>\n    <h1>Hallo Welt</h1>\n    <p>Mein erstes HTML-Dokument.</p>\n  </body>\n</html>' },
+          { type: 'p', text: 'Der DOCTYPE deklariert den Dokumenttyp. Das <html>-Element ist die Wurzel. Im <head> befinden sich Metadaten, im <body> der sichtbare Inhalt.' },
+          { type: 'h2', text: 'Wichtige HTML-Tags' },
+          { type: 'p', text: 'Ul (unordered list) zusammen mit li (list item) bildet eine Liste. Section und main strukturieren Bereiche semantisch. Head enthält Metadaten, Titel und Styles, main den Hauptinhalt.' },
+          { type: 'code', text: '<main>\n  <section>\n    <h2>Meine Liste</h2>\n    <ul>\n      <li>Erstes Element</li>\n      <li>Zweites Element</li>\n    </ul>\n  </section>\n</main>' },
+          { type: 'p', text: 'Weitere wichtige Tags: div für Container, p für Absätze, h1-h6 für Überschriften, a für Links, img für Bilder, form für Formulare.' },
+          { type: 'code', text: '<div class="container">\n  <h1>Willkommen</h1>\n  <p>Das ist ein <a href="#">Link</a>.</p>\n  <img src="bild.jpg" alt="Beschreibung">\n  <form>\n    <input type="text" placeholder="Name">\n    <button>Senden</button>\n  </form>\n</div>' },
+          { type: 'h2', text: 'Deployment: GitHub + Vercel' },
+          { type: 'p', text: 'GitHub ist ein Code-Repository mit Versionskontrolle (Git). Vercel kann direkt aus einem GitHub-Repo eine statische Seite deployen und automatisch neu bauen.' },
+          { type: 'p', text: 'Workflow: Code zu GitHub pushen, Vercel Repo verbinden -> automatische Veröffentlichung.' },
+        ],
+        editorType: 'html',
+        editorCode: '<!-- Dein HTML hier -->\n<!DOCTYPE html>\n<html>\n  <head>\n    <style>\n      body { font-family: sans-serif; padding: 20px; }\n      h1 { color: #222; }\n    </style>\n  </head>\n  <body>\n    <h1>Hallo Welt!</h1>\n    <p>Ändere diesen Code und klicke auf Run.</p>\n  </body>\n</html>',
+      },
+      {
+        title: 'CSS — Layouts & Styling',
+        intro: 'CSS gibt deinen Webseiten Farbe, Form und Struktur. Du lernst Flexbox, Grid und moderne Designprinzipien.',
+        videoLabel: 'Lektion 2 — CSS Layouts',
+        blogContent: [
+          { type: 'h2', text: 'CSS-Grundkonzepte' },
+          { type: 'p', text: 'CSS regelt Layout, Farben, Schriften und Abstände. Selektoren wie .klasse, #id und tagname bestimmen, welche Elemente gestylt werden.' },
+          { type: 'code', text: 'body { background: #111; color: #eee; }\nh1 { font-size: 32px; margin-bottom: 12px; }\nul { list-style: disc; margin-left: 20px; }' },
+          { type: 'h2', text: 'Das Box-Modell' },
+          { type: 'p', text: 'Jedes HTML-Element ist eine Box. Das CSS Box-Modell beschreibt, wie diese Box aus Inhalt, Padding, Border und Margin zusammengesetzt ist.' },
+          { type: 'code', text: '.box {\n  width: 200px;\n  padding: 20px;\n  border: 2px solid #333;\n  margin: 10px;\n}' },
+          { type: 'p', text: 'Padding ist der Innenabstand, Border die Rahmenlinie, Margin der Außenabstand.' },
+          { type: 'h2', text: 'Flexbox in der Praxis' },
+          { type: 'code', text: '.container {\n  display: flex;\n  gap: 16px;\n  align-items: center;\n  justify-content: space-between;\n}\n\n.item {\n  flex: 1;\n  padding: 16px;\n  background: #f0f0f0;\n}' },
+          { type: 'p', text: 'Flexbox ist ein eindimensionales Layoutsystem — perfekt für Navigationen, Karten und Zeilen-Layouts. CSS Grid erweitert dies auf zwei Dimensionen.' },
+          { type: 'code', text: '.grid {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 20px;\n}' },
+          { type: 'h2', text: 'Responsive Design' },
+          { type: 'p', text: 'Media Queries machen Layouts anpassungsfähig. Beispiel: Auf kleinen Bildschirmen wird das Layout gestapelt.' },
+          { type: 'code', text: '@media (max-width: 768px) {\n  .container { flex-direction: column; }\n}' },
+        ],
+        editorType: 'html',
+        editorCode: '<!DOCTYPE html>\n<html>\n  <head>\n    <style>\n      * { box-sizing: border-box; margin: 0; padding: 0; }\n      body { font-family: sans-serif; padding: 24px; background: #f8f8f8; }\n      .grid {\n        display: grid;\n        grid-template-columns: repeat(3, 1fr);\n        gap: 16px;\n        margin-top: 24px;\n      }\n      .card {\n        background: white;\n        padding: 20px;\n        border: 1px solid #ddd;\n      }\n      h1 { margin-bottom: 8px; }\n    </style>\n  </head>\n  <body>\n    <h1>CSS Grid Demo</h1>\n    <p>Bearbeite das Grid-Layout:</p>\n    <div class="grid">\n      <div class="card">Karte 1</div>\n      <div class="card">Karte 2</div>\n      <div class="card">Karte 3</div>\n    </div>\n  </body>\n</html>',
+      },
+      {
+        title: 'JavaScript — Interaktivität',
+        intro: 'JavaScript macht deine Seiten lebendig. Lerne DOM-Manipulation, Events und moderne ES6+ Syntax.',
+        videoLabel: 'Lektion 3 — JavaScript Grundlagen',
+        blogContent: [
+          { type: 'h2', text: 'JavaScript-Grundidee' },
+          { type: 'p', text: 'JS macht Webseiten interaktiv: Elemente suchen, Events behandeln und DOM verändern. Ein Klick-Event kann z. B. Text ändern oder Inhalte einblenden.' },
+          { type: 'code', text: 'document.querySelector("button").addEventListener("click", () => {\n  document.querySelector("#message").textContent = "Hallo von JavaScript";\n});' },
+          { type: 'h2', text: 'Variablen & Datentypen' },
+          { type: 'p', text: 'JavaScript kennt verschiedene Datentypen: Strings, Numbers, Booleans, Objects, Arrays und mehr. Mit let und const deklarierst du Variablen im modernen Standard.' },
+          { type: 'code', text: 'const name = "DevAcademy";\nlet count = 0;\n\n// Arrow Function\nconst greet = (who) => {\n  return `Hallo, ${who}!`;\n};\n\nconsole.log(greet(name)); // "Hallo, DevAcademy!"' },
+          { type: 'h2', text: 'DOM-Manipulation' },
+          { type: 'p', text: 'Mit JavaScript kannst du HTML-Elemente auswählen, verändern und auf Benutzeraktionen reagieren. Das Document Object Model (DOM) ist die programmatische Schnittstelle zu deiner HTML-Seite.' },
+          { type: 'code', text: 'const btn = document.getElementById("myBtn");\nbtn.addEventListener("click", () => {\n  document.body.style.background = "#000";\n  console.log("Geklickt!");\n});' },
+          { type: 'h2', text: 'Funktionen & Schleifen' },
+          { type: 'p', text: 'Funktionen kapseln Code, Schleifen wiederholen Aktionen. For-Schleifen durchlaufen Arrays, while-Schleifen laufen bis eine Bedingung erfüllt ist.' },
+          { type: 'code', text: 'function summe(a, b) {\n  return a + b;\n}\n\nfor (let i = 0; i < 5; i++) {\n  console.log(i);\n}' },
+          { type: 'h2', text: 'Asynchrone Programmierung' },
+          { type: 'p', text: 'Promises und async/await handhaben asynchrone Operationen wie API-Aufrufe. Fetch-API lädt Daten vom Server.' },
+          { type: 'code', text: 'async function ladeDaten() {\n  const response = await fetch("/api/data");\n  const data = await response.json();\n  console.log(data);\n}' },
+        ],
+        editorType: 'html',
+        editorCode: '<!DOCTYPE html>\n<html>\n  <head>\n    <style>\n      body { font-family: sans-serif; padding: 24px; }\n      button { padding: 10px 20px; margin: 8px; cursor: pointer; }\n      #output { margin-top: 16px; padding: 16px; background: #f0f0f0; min-height: 60px; }\n    </style>\n  </head>\n  <body>\n    <h2>JS Interaktivität</h2>\n    <button onclick="addItem()">Element hinzufügen</button>\n    <button onclick="clearList()">Leeren</button>\n    <div id="output"></div>\n    <script>\n      let items = [];\n      function addItem() {\n        items.push("Element " + (items.length + 1));\n        document.getElementById("output").innerHTML =\n          items.map(i => `<p>${i}</p>`).join("");\n      }\n      function clearList() {\n        items = [];\n        document.getElementById("output").innerHTML = "";\n      }\n    <\/script>\n  </body>\n</html>',
+      },
+    ],
+  },
+  python: {
+    id: 'python',
+    title: 'Python Softwareentwicklung',
+    desc: 'Professionelle Python-Entwicklung: von Datenstrukturen über objektorientierte Programmierung bis hin zu APIs.',
+    tag: 'Softwareentwicklung',
+    lessons: [
+      {
+        title: 'Python Grundlagen & Syntax',
+        intro: 'Python ist eine der meistgenutzten Programmiersprachen weltweit. Wir beginnen mit der Syntax, Datentypen und grundlegenden Konzepten.',
+        videoLabel: 'Lektion 1 — Python Einführung',
+        blogContent: [
+          { type: 'h2', text: 'Warum Python?' },
+          { type: 'p', text: 'Python zeichnet sich durch eine klare, lesbare Syntax aus, die Anfängern den Einstieg erleichtert und Profis ermöglicht, komplexe Systeme schnell zu entwickeln. Es wird in Data Science, Web-Backends, Automatisierung und KI eingesetzt.' },
+          { type: 'code', text: '# Grundlegende Datentypen\nname = "DevAcademy"      # String\nversion = 3.11           # Float\naktiv = True              # Boolean\ntags = ["py", "dev"]     # Liste\n\n# F-Strings (modern)\nprint(f"Kurs: {name} | Version: {version}")' },
+          { type: 'h2', text: 'Kontrollstrukturen' },
+          { type: 'p', text: 'Python verwendet Einrückung zur Strukturierung von Code-Blöcken — ein fundamentaler Unterschied zu geschweifte Klammern wie in JavaScript oder Java.' },
+          { type: 'code', text: 'for i in range(5):\n    if i % 2 == 0:\n        print(f"{i} ist gerade")\n    else:\n        print(f"{i} ist ungerade")' },
+        ],
+        editorType: 'python',
+        editorCode: '# Python Grundlagen\n# Dieser Editor simuliert Python-Ausgaben\n\nname = "DevAcademy"\nversion = 3\n\nprint(f"Willkommen bei {name}!")\nprint(f"Python Version: {version}")\n\n# Schleife\nfor i in range(1, 6):\n    print(f"Zeile {i}: Python ist großartig")\n\n# Liste & Comprehension\nquadrate = [x**2 for x in range(1, 6)]\nprint("Quadratzahlen:", quadrate)',
+      },
+      {
+        title: 'Objektorientierung in Python',
+        intro: 'OOP ist ein zentrales Konzept moderner Softwareentwicklung. Lerne Klassen, Vererbung und Kapselung in Python.',
+        videoLabel: 'Lektion 2 — OOP',
+        blogContent: [
+          { type: 'h2', text: 'Klassen und Objekte' },
+          { type: 'p', text: 'Eine Klasse ist ein Bauplan für Objekte. Sie definiert Attribute (Eigenschaften) und Methoden (Verhalten). In Python wird jede Klasse mit class definiert.' },
+          { type: 'code', text: 'class Developer:\n    def __init__(self, name: str, sprache: str):\n        self.name = name\n        self.sprache = sprache\n\n    def info(self) -> str:\n        return f"{self.name} entwickelt mit {self.sprache}"\n\n    def __repr__(self) -> str:\n        return f"Developer({self.name!r})"\n\ndev = Developer("Anna", "Python")\nprint(dev.info())  # Anna entwickelt mit Python' },
+          { type: 'h2', text: 'Vererbung' },
+          { type: 'p', text: 'Vererbung ermöglicht es, Klassen zu erweitern und Funktionalität wiederzuverwenden. Eine Kindklasse erbt alle Attribute und Methoden der Elternklasse.' },
+        ],
+        editorType: 'python',
+        editorCode: '# OOP in Python\n\nclass Tier:\n    def __init__(self, name, art):\n        self.name = name\n        self.art = art\n\n    def beschreibung(self):\n        return f"{self.name} ist ein {self.art}"\n\nclass Hund(Tier):\n    def __init__(self, name):\n        super().__init__(name, "Hund")\n        self.tricks = []\n\n    def lerne_trick(self, trick):\n        self.tricks.append(trick)\n        print(f"{self.name} hat gelernt: {trick}")\n\n    def zeige_tricks(self):\n        if self.tricks:\n            print(f"Tricks von {self.name}: {", ".join(self.tricks)}")\n        else:\n            print(f"{self.name} kennt noch keine Tricks")\n\nbello = Hund("Bello")\nprint(bello.beschreibung())\nbello.lerne_trick("Sitz")\nbello.lerne_trick("Platz")\nbello.zeige_tricks()',
+      },
+      {
+        title: 'APIs & Datenverarbeitung',
+        intro: 'Moderne Softwareentwicklung bedeutet: Daten lesen, verarbeiten und weitergeben. Lerne HTTP-APIs und JSON-Handling.',
+        videoLabel: 'Lektion 3 — APIs & JSON',
+        blogContent: [
+          { type: 'h2', text: 'JSON — das Datenformat des Webs' },
+          { type: 'p', text: 'JSON (JavaScript Object Notation) ist das universelle Format für den Datenaustausch zwischen Systemen. Python bietet mit dem json-Modul native Unterstützung.' },
+          { type: 'code', text: 'import json\n\ndaten = {\n    "name": "DevAcademy",\n    "kurse": ["HTML", "Python"],\n    "aktiv": True\n}\n\n# Dict → JSON String\njson_str = json.dumps(daten, indent=2, ensure_ascii=False)\nprint(json_str)\n\n# JSON String → Dict\ngeladen = json.loads(json_str)\nprint(geladen["name"])  # DevAcademy' },
+          { type: 'h2', text: 'HTTP Requests mit requests' },
+          { type: 'p', text: 'Die requests-Bibliothek macht HTTP-Kommunikation in Python intuitiv. Du kannst GET- und POST-Requests senden, Header setzen und JSON-Antworten direkt verarbeiten.' },
+          { type: 'code', text: 'import requests\n\ndef hole_nutzer(user_id: int) -> dict:\n    url = f"https://jsonplaceholder.typicode.com/users/{user_id}"\n    response = requests.get(url, timeout=5)\n    response.raise_for_status()  # Fehler bei 4xx/5xx\n    return response.json()\n\nnutzer = hole_nutzer(1)\nprint(f"Name: {nutzer["name"]}")' },
+        ],
+        editorType: 'python',
+        editorCode: '# Datenverarbeitung in Python\nimport json\n\n# Simulierte API-Antwort\napi_daten = """\n[\n  {"id": 1, "name": "Anna", "punkte": 95},\n  {"id": 2, "name": "Ben",  "punkte": 87},\n  {"id": 3, "name": "Clara","punkte": 92},\n  {"id": 4, "name": "Dave", "punkte": 78}\n]\n"""\n\n# Parse JSON\nnutzer = json.loads(api_daten)\n\n# Sortieren nach Punkten\nranking = sorted(nutzer, key=lambda x: x["punkte"], reverse=True)\n\nprint("=== Rangliste ===")\nfor platz, u in enumerate(ranking, 1):\n    print(f"{platz}. {u["name"]:<8} — {u["punkte"]} Punkte")\n\n# Durchschnitt\ndurchschnitt = sum(u["punkte"] for u in nutzer) / len(nutzer)\nprint(f"\\nDurchschnitt: {durchschnitt:.1f} Punkte")',
+      },
+    ],
+  },
+};
+
+// ═══════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════
+
+// Codes: merge defaults with any admin-added codes stored in localStorage
+function loadCodes() {
+  const stored = JSON.parse(localStorage.getItem('da_extra_codes') || '[]');
+  // Always start from DEFAULT_CODES, then append any extra codes not already present
+  const merged = [...DEFAULT_CODES];
+  for (const s of stored) {
+    if (!merged.find(c => c.code === s.code)) merged.push(s);
+  }
+  return merged;
+}
+
+function saveExtraCodes(allCodes) {
+  // Only persist non-default codes
+  const extras = allCodes.filter(c => !DEFAULT_CODES.find(d => d.code === c.code));
+  localStorage.setItem('da_extra_codes', JSON.stringify(extras));
+}
+
+let codes = loadCodes();
+let currentUser = null;
+let currentCourse = null;
+let currentLesson = 0;
+let gateEyeVisible = false;
+
+function saveCodes() {
+  saveExtraCodes(codes);
+}
+
+// ═══════════════════════════════════════════════════
+// SESSION PERSISTENCE
+// ═══════════════════════════════════════════════════
+
+function saveSession(code) {
+  localStorage.setItem('da_session', code);
+}
+
+function clearSession() {
+  localStorage.removeItem('da_session');
+}
+
+function loginWithCode(code) {
+  // Case-sensitive match (codes are defined with specific casing)
+  const match = codes.find(c => c.code === code);
+  if (!match) return false;
+  currentUser = match;
+  document.getElementById('gate').classList.add('hidden');
+  document.getElementById('app').classList.add('visible');
+  if (match.isAdmin) {
+    document.getElementById('admin-trigger').classList.add('visible');
+  }
+  renderCourses();
+  return true;
+}
+
+// Auto-login on page load
+(function restoreSession() {
+  const saved = localStorage.getItem('da_session');
+  if (saved) {
+    // Reload codes fresh in case extras were added
+    codes = loadCodes();
+    if (!loginWithCode(saved)) {
+      // Code no longer valid (was deleted) — clear session
+      clearSession();
+    }
+  }
+})();
+
+// ═══════════════════════════════════════════════════
+// GATE
+// ═══════════════════════════════════════════════════
+
+function toggleGateEye() {
+  gateEyeVisible = !gateEyeVisible;
+  const inp = document.getElementById('gate-input');
+  inp.type = gateEyeVisible ? 'text' : 'password';
+}
+
+document.getElementById('gate-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') submitCode();
+});
+
+function submitCode() {
+  const val = document.getElementById('gate-input').value.trim();
+  const errEl = document.getElementById('gate-error');
+  const inp = document.getElementById('gate-input');
+
+  if (loginWithCode(val)) {
+    saveSession(val);
+    errEl.classList.remove('visible');
+    inp.classList.remove('error');
+  } else {
+    inp.classList.add('error');
+    errEl.classList.add('visible');
+    inp.value = '';
+    setTimeout(() => inp.classList.remove('error'), 400);
+  }
+}
+
+function logout() {
+  clearSession();
+  currentUser = null;
+  currentCourse = null;
+  currentLesson = 0;
+  document.getElementById('gate').classList.remove('hidden');
+  document.getElementById('app').classList.remove('visible');
+  document.getElementById('admin-trigger').classList.remove('visible');
+  document.getElementById('gate-input').value = '';
+  document.getElementById('gate-error').classList.remove('visible');
+  showHome();
+}
+
+// ═══════════════════════════════════════════════════
+// ADMIN
+// ═══════════════════════════════════════════════════
+
+function openAdmin() {
+  renderCodeList();
+  document.getElementById('admin-panel').classList.add('open');
+}
+function closeAdmin() {
+  document.getElementById('admin-panel').classList.remove('open');
+}
+
+function renderCodeList() {
+  const list = document.getElementById('code-list');
+  if (!codes.length) { list.innerHTML = '<div style="font-family:var(--mono);font-size:12px;color:var(--text3);padding:12px 0;">Keine Codes vorhanden.</div>'; return; }
+  list.innerHTML = codes.map((c, i) => `
+    <div class="code-item">
+      <span class="code-item-key">${c.code}</span>
+      <span class="code-item-access">${accessLabel(c.access)}${c.isAdmin ? ' · Admin' : ''}</span>
+      <button class="code-item-del" onclick="deleteCode(${i})" title="Löschen">
+        <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5">
+          <line x1="3" y1="3" x2="13" y2="13"/><line x1="13" y1="3" x2="3" y2="13"/>
+        </svg>
+      </button>
+    </div>
+  `).join('');
+}
+
+function accessLabel(a) {
+  return { both: 'Beide Kurse', html: 'HTML/CSS/JS', python: 'Python' }[a] || a;
+}
+
+function deleteCode(i) {
+  codes.splice(i, 1);
+  saveCodes();
+  renderCodeList();
+}
+
+function addCode() {
+  const code = document.getElementById('new-code').value.trim().toUpperCase();
+  const access = document.getElementById('new-access').value;
+  if (!code) return;
+  if (codes.find(c => c.code === code)) { alert('Dieser Code existiert bereits.'); return; }
+  codes.push({ code, access });
+  saveCodes();
+  document.getElementById('new-code').value = '';
+  renderCodeList();
+}
+
+// ═══════════════════════════════════════════════════
+// HOME / COURSES
+// ═══════════════════════════════════════════════════
+
+function hasAccess(courseId) {
+  if (!currentUser) return false;
+  if (currentUser.access === 'both') return true;
+  return currentUser.access === courseId;
+}
+
+function renderCourses() {
+  const grid = document.getElementById('courses-grid');
+  const courseCards = Object.values(COURSES).map(course => {
+    const unlocked = hasAccess(course.id);
+    return `
+      <div class="course-card${unlocked ? '' : ' course-card--locked'}" 
+           onclick="${unlocked ? `openCourse('${course.id}')` : ''}">
+        <div class="course-card-top">
+          <div class="course-icon">
+            ${courseIcon(course.id)}
+          </div>
+          <div class="course-badge ${unlocked ? 'badge-open' : 'badge-locked'}">
+            ${unlocked ? 'Freigeschaltet' : 'Gesperrt'}
+          </div>
+        </div>
+        <div>
+          <div class="course-title">${course.title}</div>
+        </div>
+        <div class="course-desc">${course.desc}</div>
+        <div class="course-meta">
+          <span>
+            <svg viewBox="0 0 14 14" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.3">
+              <rect x="1" y="1" width="12" height="12" rx="0.5"/>
+              <line x1="1" y1="5" x2="13" y2="5"/>
+              <line x1="5" y1="5" x2="5" y2="13"/>
+            </svg>
+            3 Lektionen
+          </span>
+          <span>
+            <svg viewBox="0 0 14 14" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.3">
+              <circle cx="7" cy="7" r="5.5"/>
+              <polyline points="7,4 7,7 9.5,8.5"/>
+            </svg>
+            ~3 Stunden
+          </span>
+        </div>
+        ${unlocked ? `
+          <div class="course-cta">
+            Kurs starten
+            <svg viewBox="0 0 14 14" width="10" height="10" fill="none" stroke="currentColor" stroke-width="1.5">
+              <line x1="1" y1="7" x2="12" y2="7"/>
+              <polyline points="8,3 12,7 8,11"/>
+            </svg>
+          </div>
+        ` : `
+          <div class="course-cta" style="color:var(--text3)">
+            <svg viewBox="0 0 14 14" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.3">
+              <rect x="2" y="6" width="10" height="7" rx="0.5"/>
+              <path d="M4 6V4.5a3 3 0 0 1 6 0V6"/>
+            </svg>
+            Kein Zugang
+          </div>
+        `}
+      </div>
+    `;
+  }).join('');
+
+  const referralCard = `
+    <div class="referral-card">
+      <div class="referral-tag">Empfehlung</div>
+
+      <div class="referral-title">Kenn jemanden,<br><span>der coden lernen</span><br>will?</div>
+
+      <div class="referral-desc">
+        Teile DevAcademy mit Kollegen, Freunden oder deiner Community — und hilf ihnen, den richtigen Einstieg in die Softwareentwicklung zu finden.
+      </div>
+
+      <div class="referral-stats">
+        <div class="referral-stat">
+          <div class="referral-stat-icon">
+            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="#888" stroke-width="1.4">
+              <circle cx="8" cy="6" r="3"/>
+              <path d="M2 18c0-3.314 2.686-6 6-6"/>
+              <circle cx="15" cy="9" r="2.5"/>
+              <path d="M10.5 17.5c0-2.485 2.015-4.5 4.5-4.5s4.5 2.015 4.5 4.5"/>
+            </svg>
+          </div>
+          <div class="referral-stat-text">
+            <div class="referral-stat-label">Für Einsteiger & Profis</div>
+            <div class="referral-stat-sub">Strukturierter Lernpfad, praxisnah</div>
+          </div>
+        </div>
+        <div class="referral-stat">
+          <div class="referral-stat-icon">
+            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="#888" stroke-width="1.4">
+              <rect x="2" y="3" width="16" height="13" rx="0.5"/>
+              <polyline points="6,8 9,11 14,6"/>
+            </svg>
+          </div>
+          <div class="referral-stat-text">
+            <div class="referral-stat-label">Direkter Kurszugang</div>
+            <div class="referral-stat-sub">Code erhalten, sofort starten</div>
+          </div>
+        </div>
+        <div class="referral-stat">
+          <div class="referral-stat-icon">
+            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="#888" stroke-width="1.4">
+              <path d="M10 2l2.4 5 5.6.8-4 3.9.9 5.5L10 14.7l-4.9 2.5.9-5.5L2 7.8l5.6-.8z"/>
+            </svg>
+          </div>
+          <div class="referral-stat-text">
+            <div class="referral-stat-label">Code-Editoren inklusive</div>
+            <div class="referral-stat-sub">HTML/CSS/JS und Python direkt im Browser</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="referral-share">
+        <div class="referral-share-label">Link teilen</div>
+        <div class="referral-share-row">
+          <input class="referral-share-input" id="referral-url" value="https://devacademy.de" readonly onclick="this.select()">
+          <button class="referral-copy-btn" id="referral-copy-btn" onclick="copyReferral()">Kopieren</button>
+        </div>
+      </div>
+
+  
+    </div>
+  `;
+
+  grid.innerHTML = courseCards + referralCard;
+}
+
+function copyReferral() {
+  const input = document.getElementById('referral-url');
+  navigator.clipboard.writeText(input.value).catch(() => {
+    input.select(); document.execCommand('copy');
+  });
+  const btn = document.getElementById('referral-copy-btn');
+  btn.textContent = 'Kopiert!';
+  btn.classList.add('copied');
+  setTimeout(() => { btn.textContent = 'Kopieren'; btn.classList.remove('copied'); }, 2000);
+}
+
+function shareVia(platform) {
+  const url = 'https://devacademy.de';
+  const text = 'Schau dir DevAcademy an — strukturierte Kurse für Web-Entwicklung und Python:';
+  const links = {
+    mailto: `mailto:?subject=DevAcademy%20Kursplattform&body=${encodeURIComponent(text + ' ' + url)}`,
+    whatsapp: `https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`,
+    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
+  };
+  window.open(links[platform], '_blank', 'noopener');
+}
+
+function courseIcon(id) {
+  if (id === 'html') return `
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#888" stroke-width="1.4">
+      <polygon points="3,2 21,2 19,20 12,22 5,20"/>
+      <polyline points="8,6 8,18 12,19 16,18 16,6"/>
+      <line x1="8" y1="11" x2="16" y2="11"/>
+    </svg>`;
+  return `
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#888" stroke-width="1.4">
+      <path d="M12 2L2 7v10l10 5 10-5V7z"/>
+      <polyline points="7,9.5 12,12 17,9.5"/>
+      <line x1="12" y1="12" x2="12" y2="19.5"/>
+    </svg>`;
+}
+
+// ═══════════════════════════════════════════════════
+// COURSE VIEW
+// ═══════════════════════════════════════════════════
+
+function showHome() {
+  document.getElementById('view-home').style.display = '';
+  document.getElementById('view-course').style.display = 'none';
+  document.getElementById('view-course').classList.remove('active');
+  document.getElementById('nav-home').classList.add('active');
+  currentCourse = null;
+  currentLesson = 0;
+}
+
+function openCourse(courseId) {
+  if (!hasAccess(courseId)) return;
+  currentCourse = courseId;
+  currentLesson = 0;
+  document.getElementById('view-home').style.display = 'none';
+  document.getElementById('view-course').style.display = 'block';
+  document.getElementById('view-course').classList.add('active');
+  renderCourseView();
+}
+
+function renderCourseView() {
+  const course = COURSES[currentCourse];
+  const container = document.getElementById('course-view-container');
+  container.innerHTML = `
+    <div class="course-layout">
+      <aside class="course-sidebar">
+        <div class="sidebar-section-label" style="margin-bottom:16px;">${course.tag}</div>
+        ${course.lessons.map((l, i) => `
+          <div class="sidebar-item ${i === currentLesson ? 'active' : ''}" onclick="goToLesson(${i})" id="sidebar-${i}">
+            <span class="sidebar-item-num">0${i+1}</span>
+            <span class="sidebar-item-title">${l.title}</span>
+          </div>
+        `).join('')}
+      </aside>
+      <main style="overflow:auto;">
+        <div class="lesson-content fade-in" id="lesson-content">
+          ${renderLesson(course, currentLesson)}
+        </div>
+      </main>
+    </div>
+  `;
+  initEditors();
+}
+
+function goToLesson(idx) {
+  currentLesson = idx;
+  const course = COURSES[currentCourse];
+  document.querySelectorAll('.sidebar-item').forEach((el, i) => {
+    el.classList.toggle('active', i === idx);
+  });
+  const content = document.getElementById('lesson-content');
+  content.classList.remove('fade-in');
+  void content.offsetWidth;
+  content.innerHTML = renderLesson(course, idx);
+  content.classList.add('fade-in');
+  content.scrollTop = 0;
+  initEditors();
+}
+
+function renderLesson(course, idx) {
+  const lesson = course.lessons[idx];
+  const isFirst = idx === 0;
+  const isLast = idx === course.lessons.length - 1;
+
+  const blogHTML = lesson.blogContent.map(block => {
+    if (block.type === 'h2') return `<div class="blog-h2">${block.text}</div>`;
+    if (block.type === 'p') return `<div class="blog-p">${block.text}</div>`;
+    if (block.type === 'code') return `<pre class="blog-code">${escapeHTML(block.text)}</pre>`;
+    return '';
+  }).join('');
+
+  const editorHTML = lesson.editorType === 'html'
+    ? renderHTMLEditor(lesson.editorCode)
+    : renderPythonEditor(lesson.editorCode);
+
+  return `
+    <div class="lesson-header">
+      <div class="lesson-num">Lektion 0${idx+1} / 0${course.lessons.length}</div>
+      <div class="lesson-title">${lesson.title}</div>
+      <div class="lesson-intro">${lesson.intro}</div>
+    </div>
+
+    <!-- VIDEO -->
+    <div class="video-block ${lesson.videoUrl ? 'has-video' : ''}" id="video-block-${idx}">
+      ${lesson.videoUrl ? `
+        <video controls style="width:100%;height:100%;object-fit:cover;border-radius:0;">
+          <source src="./Webdev-video.mp4" type="video/mp4">
+          Dein Browser unterstützt dieses Video nicht.
+        </video>
+      ` : `
+        <div class="video-play-btn">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#ccc" stroke-width="1.5">
+            <polygon points="6,4 20,12 6,20" fill="#ccc" stroke="none"/>
+          </svg>
+        </div>
+        <div class="video-label">${lesson.videoLabel}</div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-top:4px;">Video-URL einfügen zum Einbetten</div>
+      `}
+    </div>
+
+    <!-- BLOG -->
+    <div class="blog-block">${blogHTML}</div>
+
+    <!-- EDITOR -->
+    ${editorHTML}
+
+    <!-- NAV -->
+    <div class="lesson-nav">
+      <button class="lesson-nav-btn" onclick="goToLesson(${idx-1})" ${isFirst ? 'disabled' : ''}>
+        <svg viewBox="0 0 14 14" width="10" height="10" fill="none" stroke="currentColor" stroke-width="1.5">
+          <line x1="12" y1="7" x2="2" y2="7"/>
+          <polyline points="6,3 2,7 6,11"/>
+        </svg>
+        Vorherige
+      </button>
+      <span style="font-family:var(--mono);font-size:11px;color:var(--text3);">0${idx+1} / 0${course.lessons.length}</span>
+      <button class="lesson-nav-btn" onclick="goToLesson(${idx+1})" ${isLast ? 'disabled' : ''}>
+        Nächste
+        <svg viewBox="0 0 14 14" width="10" height="10" fill="none" stroke="currentColor" stroke-width="1.5">
+          <line x1="2" y1="7" x2="12" y2="7"/>
+          <polyline points="8,3 12,7 8,11"/>
+        </svg>
+      </button>
+    </div>
+  `;
+}
+
+function renderHTMLEditor(code) {
+  return `
+    <div class="editor-block">
+      <div class="editor-header">
+        <div class="editor-tabs">
+          <div class="editor-tab active">HTML / CSS / JS</div>
+          <div class="editor-tab" style="color:var(--text3);">Vorschau</div>
+        </div>
+        <button class="editor-run" onclick="runHTML()">
+          <svg viewBox="0 0 14 14" width="10" height="10" fill="var(--bg)" stroke="var(--bg)" stroke-width="0">
+            <polygon points="3,2 11,7 3,12" fill="var(--bg)"/>
+          </svg>
+          Ausführen
+        </button>
+      </div>
+      <textarea class="code-area" id="html-editor" rows="14" spellcheck="false">${escapeHTML(code)}</textarea>
+      <div class="editor-output">
+        <div class="output-label">
+          <svg viewBox="0 0 14 14" width="10" height="10" fill="none" stroke="currentColor" stroke-width="1.3">
+            <rect x="1" y="1" width="12" height="12" rx="1"/>
+            <line x1="4" y1="5" x2="10" y2="5"/>
+            <line x1="4" y1="8" x2="8" y2="8"/>
+          </svg>
+          Browser-Vorschau
+        </div>
+        <iframe id="html-output" class="output-iframe"></iframe>
+      </div>
+    </div>
+  `;
+}
+
+function renderPythonEditor(code) {
+  return `
+    <div class="editor-block">
+      <div class="editor-header">
+        <div class="editor-tabs">
+          <div class="editor-tab active">Python</div>
+          <div class="editor-tab" style="color:var(--text3);font-size:10px;">Simulierte Ausgabe</div>
+        </div>
+        <button class="editor-run" onclick="runPython()">
+          <svg viewBox="0 0 14 14" width="10" height="10" fill="var(--bg)" stroke="var(--bg)" stroke-width="0">
+            <polygon points="3,2 11,7 3,12" fill="var(--bg)"/>
+          </svg>
+          Ausführen
+        </button>
+      </div>
+      <textarea class="code-area" id="python-editor" rows="16" spellcheck="false">${escapeHTML(code)}</textarea>
+      <div class="editor-output">
+        <div class="output-label">
+          <svg viewBox="0 0 14 14" width="10" height="10" fill="none" stroke="currentColor" stroke-width="1.3">
+            <polyline points="1,5 5,9 13,1"/>
+          </svg>
+          Konsolenausgabe
+        </div>
+        <div class="output-content" id="python-output">
+          <span class="output-placeholder">Klicke auf "Ausführen" um den Code zu starten.</span>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ═══════════════════════════════════════════════════
+// EDITOR LOGIC
+// ═══════════════════════════════════════════════════
+
+function initEditors() {
+  // Tab key in textareas
+  document.querySelectorAll('.code-area').forEach(ta => {
+    ta.addEventListener('keydown', function(e) {
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        const start = this.selectionStart;
+        const end = this.selectionEnd;
+        this.value = this.value.substring(0, start) + '  ' + this.value.substring(end);
+        this.selectionStart = this.selectionEnd = start + 2;
+      }
+    });
+  });
+}
+
+function runHTML() {
+  const code = document.getElementById('html-editor').value;
+  const frame = document.getElementById('html-output');
+  frame.srcdoc = code;
+}
+
+function runPython() {
+  const code = document.getElementById('python-editor').value;
+  const output = document.getElementById('python-output');
+  const result = simulatePython(code);
+  output.innerHTML = result.map(line =>
+    `<span style="color:${line.type === 'error' ? '#888' : 'var(--text2)'}">${escapeHTML(line.text)}</span>`
+  ).join('\n');
+}
+
+function simulatePython(code) {
+  // Simple Python output simulator
+  const lines = code.split('\n');
+  const outputs = [];
+  const vars = {};
+  const lists = {};
+
+  const evalExpr = (expr) => {
+    expr = expr.trim();
+    // f-string
+    if ((expr.startsWith('f"') || expr.startsWith("f'")) && expr.length > 3) {
+      let s = expr.slice(2, -1);
+      s = s.replace(/\{([^}]+)\}/g, (_, k) => {
+        const kk = k.trim();
+        // format spec
+        const fmtMatch = kk.match(/^(.+):(.+)$/);
+        if (fmtMatch) {
+          const val = evalExpr(fmtMatch[1]);
+          const fmt = fmtMatch[2];
+          if (fmt.endsWith('f')) { const prec = parseInt(fmt) || 1; return parseFloat(val).toFixed(prec); }
+          if (fmt.includes('<')) { const w = parseInt(fmt); return String(val).padEnd(w); }
+          return val;
+        }
+        return evalExpr(kk) ?? k;
+      });
+      return s;
+    }
+    // string
+    if ((expr.startsWith('"') && expr.endsWith('"')) || (expr.startsWith("'") && expr.endsWith("'"))) return expr.slice(1,-1);
+    // number
+    if (!isNaN(expr)) return Number(expr);
+    // bool
+    if (expr === 'True') return true;
+    if (expr === 'False') return false;
+    // var lookup
+    if (vars[expr] !== undefined) return vars[expr];
+    if (lists[expr] !== undefined) return lists[expr];
+    // basic math
+    try { return Function('"use strict"; return (' + expr.replace(/\*\*/g, '**') + ')')(); } catch { return expr; }
+  };
+
+  for (let i = 0; i < lines.length; i++) {
+    const raw = lines[i];
+    const line = raw.trimEnd();
+    const stripped = line.trim();
+    if (!stripped || stripped.startsWith('#')) continue;
+
+    // print
+    if (stripped.startsWith('print(') && stripped.endsWith(')')) {
+      const inner = stripped.slice(6, -1).trim();
+      // print with multiple args
+      const args = smartSplit(inner);
+      const parts = args.map(a => {
+        const v = evalExpr(a.trim());
+        if (Array.isArray(v)) return '[' + v.join(', ') + ']';
+        return String(v);
+      });
+      outputs.push({ type: 'out', text: parts.join(' ') });
+      continue;
+    }
+
+    // variable assignment (simple)
+    const assignMatch = stripped.match(/^([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*(.+)$/);
+    if (assignMatch && !stripped.includes('==')) {
+      const [, name, val] = assignMatch;
+      // list comprehension
+      if (val.trim().startsWith('[')) {
+        try { vars[name] = Function('"use strict"; return ' + val.replace(/\*\*/g, '**'))(); } catch { vars[name] = val; }
+      } else {
+        vars[name] = evalExpr(val);
+      }
+      continue;
+    }
+
+    // for loop (simple range or list)
+    const forMatch = stripped.match(/^for\s+([a-zA-Z_]\w*)\s+in\s+(.+):$/);
+    if (forMatch) {
+      const [, varName, iterExpr] = forMatch;
+      let items = [];
+      const rangeMatch = iterExpr.match(/^range\((\d+)(?:,\s*(\d+))?\)$/);
+      if (rangeMatch) {
+        const start = rangeMatch[2] ? parseInt(rangeMatch[1]) : 0;
+        const end = rangeMatch[2] ? parseInt(rangeMatch[2]) : parseInt(rangeMatch[1]);
+        for (let n = start; n < end; n++) items.push(n);
+      } else if (vars[iterExpr]) {
+        items = Array.isArray(vars[iterExpr]) ? vars[iterExpr] : [vars[iterExpr]];
+      }
+      // collect body
+      const bodyLines = [];
+      let j = i + 1;
+      while (j < lines.length && (lines[j].match(/^\s+/) || lines[j].trim() === '')) {
+        if (lines[j].trim()) bodyLines.push(lines[j].trim());
+        j++;
+      }
+      for (const item of items) {
+        vars[varName] = item;
+        for (const bodyLine of bodyLines) {
+          if (bodyLine.startsWith('print(') && bodyLine.endsWith(')')) {
+            const inner = bodyLine.slice(6, -1).trim();
+            const args = smartSplit(inner);
+            const parts = args.map(a => String(evalExpr(a.trim())));
+            // if / else inside for
+            outputs.push({ type: 'out', text: parts.join(' ') });
+          }
+        }
+      }
+      i = j - 1;
+      continue;
+    }
+  }
+
+  if (!outputs.length) outputs.push({ type: 'out', text: '(Keine Ausgabe)' });
+  return outputs;
+}
+
+function smartSplit(str) {
+  const parts = []; let depth = 0; let cur = ''; let inStr = false; let strChar = '';
+  for (let i = 0; i < str.length; i++) {
+    const c = str[i];
+    if ((c === '"' || c === "'") && !inStr) { inStr = true; strChar = c; cur += c; continue; }
+    if (inStr && c === strChar) { inStr = false; cur += c; continue; }
+    if (inStr) { cur += c; continue; }
+    if (c === '(' || c === '[' || c === '{') { depth++; cur += c; continue; }
+    if (c === ')' || c === ']' || c === '}') { depth--; cur += c; continue; }
+    if (c === ',' && depth === 0) { parts.push(cur.trim()); cur = ''; continue; }
+    cur += c;
+  }
+  if (cur.trim()) parts.push(cur.trim());
+  return parts;
+}
+
+function escapeHTML(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ═══════════════════════════════════════════════════
+// CLOSE ADMIN on outside click
+// ═══════════════════════════════════════════════════
+document.getElementById('admin-panel').addEventListener('click', function(e) {
+  if (e.target === this) closeAdmin();
+});
+</script>
+</body>
+</html>

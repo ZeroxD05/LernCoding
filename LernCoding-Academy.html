@@ -2377,27 +2377,14 @@
       <div class="lesson-intro">${lesson.intro}</div>
     </div>
 
-    <!-- VIDEO -->
-    <div class="video-block ${lesson.videoUrl ? "has-video" : ""}" id="video-block-${idx}">
-      ${
-        lesson.videoUrl
-          ? `
-        <video controls style="width:100%;height:100%;object-fit:cover;border-radius:0;">
-          <source src="./Webdev-video.mp4" type="video/mp4">
-          Dein Browser unterstützt dieses Video nicht.
-        </video>
-      `
-          : `
-        <div class="video-play-btn">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#ccc" stroke-width="1.5">
-            <polygon points="6,4 20,12 6,20" fill="#ccc" stroke="none"/>
-          </svg>
-        </div>
-        <div class="video-label">${lesson.videoLabel}</div>
-        <div style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-top:4px;">Video-URL einfügen zum Einbetten</div>
-      `
-      }
+    ${course.id === "html" && idx === 0 ? `
+    <div style="margin-bottom:24px;">
+      <video controls style="width:100%;display:block;border-radius:4px;">
+        <source src="./Webdev-video.MP4" type="video/mp4">
+        Dein Browser unterstützt dieses Video nicht.
+      </video>
     </div>
+    ` : ""}
 
     <!-- BLOG -->
     <div class="blog-block">${blogHTML}</div>

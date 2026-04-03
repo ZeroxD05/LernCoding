@@ -1,0 +1,11 @@
+Hallo Flow User,
+
+danke fuer deinen Kauf von Webentwicklung Kurs.
+
+Dein einmaliger Devcademy-Code:
+DEV-5DE7-3B92-8AD3
+
+Code eingeben unter:
+http://127.0.0.1:5000/devcademy/
+
+Der Code ist dauerhaft gueltig, kann aber nur einmal aktiviert werden.

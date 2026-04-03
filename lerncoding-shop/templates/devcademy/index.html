@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+
+{% block title %}Devcademy | LernCoding{% endblock %}
+
+{% block content %}
+<section class="space-y-8">
+    <div class="dashboard-panel devcademy-hero">
+        <p class="auth-eyebrow">Devcademy</p>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-2">Deine gekauften Inhalte</h1>
+        <p class="text-slate-600 mt-4 max-w-2xl">Hier findest du alle Kurse, die du bereits gekauft hast. Kein Mail-Code notwendig.</p>
+    </div>
+
+    <section class="dashboard-panel">
+        <div class="flex items-center justify-between gap-4 mb-6">
+            <div>
+                <h2 class="text-2xl font-bold text-slate-900">Deine freigeschalteten Inhalte</h2>
+                <p class="text-slate-500 text-sm mt-1">Direkt aus deinen Kaeufen freigeschaltet.</p>
+            </div>
+        </div>
+
+        {% if unlocks %}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {% for unlock in unlocks %}
+            <a href="{{ url_for('devcademy_product', product_key=unlock['product_key']) }}" class="devcademy-card overflow-hidden p-0">
+                {% if unlock.get('image') %}
+                <img src="{{ url_for('static', filename=unlock['image']) }}" alt="{{ unlock['name'] }}" class="w-full object-cover rounded-t-2xl" style="max-height:160px;">
+                {% endif %}
+                <div class="p-5">
+                    <p class="text-xs uppercase tracking-[0.2em] text-slate-400">Freigeschaltet am {{ unlock['created_at'] }}</p>
+                    <h3 class="text-xl font-bold text-slate-900 mt-3">{{ unlock['name'] }}</h3>
+                    <p class="text-slate-600 mt-2">{{ unlock['subtitle'] }}</p>
+                    <span class="unlock-link mt-5">Kursbereich oeffnen</span>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <p class="text-lg font-bold text-slate-900">Noch kein Kauf vorhanden</p>
+            <p class="text-slate-500 mt-2">Kaufe zuerst einen Kurs im Shop, dann erscheint er automatisch hier.</p>
+        </div>
+        {% endif %}
+    </section>
+</section>
+{% endblock %}

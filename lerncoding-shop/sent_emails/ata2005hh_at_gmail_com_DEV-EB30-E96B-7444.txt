@@ -1,0 +1,11 @@
+Hallo Ata Zeran,
+
+danke fuer deinen Kauf von Webentwicklung Kurs.
+
+Dein einmaliger Devcademy-Code:
+DEV-EB30-E96B-7444
+
+Code eingeben unter:
+http://127.0.0.1:5000/devcademy/
+
+Der Code ist dauerhaft gueltig, kann aber nur einmal aktiviert werden.

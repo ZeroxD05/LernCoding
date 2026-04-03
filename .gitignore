@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+.venv/
+venv/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Databases and runtime artifacts
+*.db
+*.sqlite
+*.sqlite3
+instance/
+
+# Flask
+.flaskenv
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+
+# Keep root repo authoritative (no nested git repo in shop)
+lerncoding-shop/.git/
+
+# Large local media (not pushed to GitHub)
+Webdev-video.MP4

@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" width="800" height="420">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#12082a"/>
+      <stop offset="100%" style="stop-color:#1a0f2e"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#a855f7"/>
+      <stop offset="50%" style="stop-color:#ec4899"/>
+      <stop offset="100%" style="stop-color:#f97316"/>
+    </linearGradient>
+    <linearGradient id="card1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e1040"/>
+      <stop offset="100%" style="stop-color:#2d1b55"/>
+    </linearGradient>
+    <linearGradient id="card2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a0f2e"/>
+      <stop offset="100%" style="stop-color:#2a1245"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="10" flood-color="#a855f7" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="420" fill="url(#bg)" rx="16"/>
+
+  <!-- Grid dots -->
+  <pattern id="dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+    <circle cx="1" cy="1" r="1" fill="#2d1b55" opacity="0.8"/>
+  </pattern>
+  <rect width="800" height="420" fill="url(#dots)" rx="16"/>
+
+  <!-- Glow orbs -->
+  <circle cx="200" cy="150" r="150" fill="#a855f7" opacity="0.06"/>
+  <circle cx="600" cy="280" r="120" fill="#ec4899" opacity="0.06"/>
+  <circle cx="400" cy="420" r="100" fill="#f97316" opacity="0.04"/>
+
+  <!-- Stacked card 3 (back) -->
+  <rect x="95" y="105" width="330" height="215" rx="12" fill="#12082a" stroke="#3b1f6a" stroke-width="1" transform="rotate(-4, 260, 212)"/>
+
+  <!-- Stacked card 2 (middle) -->
+  <rect x="75" y="95" width="330" height="215" rx="12" fill="url(#card1)" stroke="#4c2889" stroke-width="1.5" transform="rotate(-2, 240, 202)" filter="url(#shadow)"/>
+
+  <!-- Main card (front) -->
+  <rect x="60" y="80" width="330" height="220" rx="12" fill="url(#card2)" stroke="#6d28d9" stroke-width="1.5"/>
+
+  <!-- Card content - card header bar -->
+  <rect x="60" y="80" width="330" height="5" rx="12" fill="url(#accent)" opacity="0.9"/>
+
+  <!-- Card items -->
+  <rect x="80" y="105" width="30" height="30" rx="6" fill="#a855f7" opacity="0.2" stroke="#a855f7" stroke-width="1"/>
+  <text x="87" y="126" font-family="monospace" font-size="16" fill="#c084fc">W</text>
+  <rect x="120" y="110" width="120" height="8" rx="4" fill="#7c3aed" opacity="0.5"/>
+  <rect x="120" y="125" width="80" height="6" rx="3" fill="#4c1d95" opacity="0.6"/>
+
+  <rect x="80" y="155" width="30" height="30" rx="6" fill="#38bdf8" opacity="0.15" stroke="#38bdf8" stroke-width="1"/>
+  <text x="87" y="175" font-family="monospace" font-size="16" fill="#7dd3fc">P</text>
+  <rect x="120" y="160" width="110" height="8" rx="4" fill="#0369a1" opacity="0.5"/>
+  <rect x="120" y="175" width="90" height="6" rx="3" fill="#0c4a6e" opacity="0.6"/>
+
+  <rect x="80" y="205" width="30" height="30" rx="6" fill="#4ade80" opacity="0.15" stroke="#4ade80" stroke-width="1"/>
+  <text x="89" y="225" font-family="monospace" font-size="14" fill="#86efac">★</text>
+  <rect x="120" y="208" width="100" height="8" rx="4" fill="#166534" opacity="0.5"/>
+  <rect x="120" y="223" width="130" height="6" rx="3" fill="#14532d" opacity="0.6"/>
+
+  <!-- Divider -->
+  <line x1="80" y1="254" x2="370" y2="254" stroke="#3b1f6a" stroke-width="1"/>
+
+  <!-- Price area -->
+  <text x="80" y="278" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Bundle-Preis</text>
+  <text x="200" y="278" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="20" font-weight="800" fill="#f1f5f9">49,99 €</text>
+  <rect x="295" y="263" width="75" height="22" rx="11" fill="#f97316" opacity="0.18" stroke="#f97316" stroke-width="1"/>
+  <text x="308" y="279" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="#fb923c" font-weight="600">BUNDLE</text>
+
+  <!-- Right side content -->
+  <!-- Gradient accent line -->
+  <rect x="440" y="250" width="290" height="3" rx="2" fill="url(#accent)" opacity="0.8"/>
+
+  <!-- Stars / sparkles -->
+  <text x="440" y="140" font-family="sans-serif" font-size="36" fill="#a855f7" filter="url(#glow)" opacity="0.9">✦</text>
+  <text x="490" y="160" font-family="sans-serif" font-size="22" fill="#ec4899" filter="url(#glow)" opacity="0.7">✦</text>
+  <text x="470" y="190" font-family="sans-serif" font-size="14" fill="#f97316" filter="url(#glow)" opacity="0.8">✦</text>
+  <text x="540" y="135" font-family="sans-serif" font-size="28" fill="#f97316" filter="url(#glow)" opacity="0.6">✦</text>
+  <text x="580" y="165" font-family="sans-serif" font-size="18" fill="#a855f7" filter="url(#glow)" opacity="0.7">✦</text>
+  <text x="620" y="140" font-family="sans-serif" font-size="12" fill="#ec4899" filter="url(#glow)" opacity="0.6">✦</text>
+
+  <!-- Title -->
+  <text x="440" y="290" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="28" font-weight="800" fill="#f1f5f9">Projekte-Paket</text>
+  <text x="440" y="320" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16" fill="#94a3b8">Web + Python + Portfolio</text>
+
+  <!-- Badges -->
+  <rect x="440" y="340" width="120" height="28" rx="14" fill="#a855f7" opacity="0.12" stroke="#a855f7" stroke-width="1"/>
+  <text x="453" y="359" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" fill="#c084fc" font-weight="600">Komplett-Bundle</text>
+
+  <rect x="572" y="340" width="115" height="28" rx="14" fill="#ec4899" opacity="0.12" stroke="#ec4899" stroke-width="1"/>
+  <text x="588" y="359" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" fill="#f472b6" font-weight="600">Best Value</text>
+</svg>

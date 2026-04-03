@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" width="800" height="420">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0c1a0e"/>
+      <stop offset="100%" style="stop-color:#0f2027"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#4ade80"/>
+      <stop offset="100%" style="stop-color:#38bdf8"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="420" fill="url(#bg)" rx="16"/>
+
+  <!-- Grid dots -->
+  <pattern id="dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+    <circle cx="1" cy="1" r="1" fill="#1a3a1e"/>
+  </pattern>
+  <rect width="800" height="420" fill="url(#dots)" rx="16" opacity="0.8"/>
+
+  <!-- Glow orbs -->
+  <circle cx="120" cy="100" r="130" fill="#4ade80" opacity="0.05"/>
+  <circle cx="680" cy="320" r="100" fill="#38bdf8" opacity="0.06"/>
+
+  <!-- Terminal window -->
+  <rect x="55" y="75" width="360" height="265" rx="10" fill="#0d1f10" stroke="#1e3a22" stroke-width="1.5"/>
+  <!-- Terminal top bar -->
+  <rect x="55" y="75" width="360" height="36" rx="10" fill="#0a1a0c"/>
+  <rect x="55" y="95" width="360" height="16" fill="#0a1a0c"/>
+  <circle cx="78" cy="93" r="5" fill="#f87171"/>
+  <circle cx="96" cy="93" r="5" fill="#fbbf24"/>
+  <circle cx="114" cy="93" r="5" fill="#4ade80"/>
+  <text x="130" y="98" font-family="monospace" font-size="11" fill="#4ade80" opacity="0.6">python3 main.py</text>
+
+  <!-- Terminal code lines -->
+  <text x="75" y="135" font-family="monospace" font-size="12" fill="#64748b">↳ </text>
+  <text x="91" y="135" font-family="monospace" font-size="12" fill="#4ade80">def </text>
+  <text x="123" y="135" font-family="monospace" font-size="12" fill="#93c5fd">hello_world</text>
+  <text x="231" y="135" font-family="monospace" font-size="12" fill="#f1f5f9">():</text>
+
+  <text x="75" y="155" font-family="monospace" font-size="12" fill="#64748b">   </text>
+  <text x="103" y="155" font-family="monospace" font-size="12" fill="#fbbf24">print</text>
+  <text x="143" y="155" font-family="monospace" font-size="12" fill="#f1f5f9">(</text>
+  <text x="151" y="155" font-family="monospace" font-size="12" fill="#fca5a5">"Hello, Web!"</text>
+  <text x="259" y="155" font-family="monospace" font-size="12" fill="#f1f5f9">)</text>
+
+  <text x="75" y="175" font-family="monospace" font-size="12" fill="#64748b">↳ </text>
+  <text x="91" y="175" font-family="monospace" font-size="12" fill="#4ade80">from </text>
+  <text x="131" y="175" font-family="monospace" font-size="12" fill="#93c5fd">flask </text>
+  <text x="179" y="175" font-family="monospace" font-size="12" fill="#4ade80">import </text>
+  <text x="235" y="175" font-family="monospace" font-size="12" fill="#f1f5f9">Flask</text>
+
+  <text x="75" y="195" font-family="monospace" font-size="12" fill="#64748b">↳ </text>
+  <text x="91" y="195" font-family="monospace" font-size="12" fill="#f1f5f9">app </text>
+  <text x="115" y="195" font-family="monospace" font-size="12" fill="#4ade80">= </text>
+  <text x="127" y="195" font-family="monospace" font-size="12" fill="#fbbf24">Flask</text>
+  <text x="167" y="195" font-family="monospace" font-size="12" fill="#f1f5f9">(__name__)</text>
+
+  <text x="75" y="215" font-family="monospace" font-size="12" fill="#718096">↳ </text>
+  <text x="91" y="215" font-family="monospace" font-size="12" fill="#64748b"># Route definieren</text>
+
+  <text x="75" y="235" font-family="monospace" font-size="12" fill="#64748b">↳ </text>
+  <text x="91" y="235" font-family="monospace" font-size="12" fill="#818cf8">@app</text>
+  <text x="127" y="235" font-family="monospace" font-size="12" fill="#f1f5f9">.route(</text>
+  <text x="187" y="235" font-family="monospace" font-size="12" fill="#fca5a5">"/"</text>
+  <text x="211" y="235" font-family="monospace" font-size="12" fill="#f1f5f9">)</text>
+
+  <text x="75" y="255" font-family="monospace" font-size="12" fill="#64748b">↳ </text>
+  <text x="91" y="255" font-family="monospace" font-size="12" fill="#4ade80">def </text>
+  <text x="123" y="255" font-family="monospace" font-size="12" fill="#93c5fd">index</text>
+  <text x="159" y="255" font-family="monospace" font-size="12" fill="#f1f5f9">():</text>
+
+  <text x="75" y="275" font-family="monospace" font-size="12" fill="#64748b">   </text>
+  <text x="103" y="275" font-family="monospace" font-size="12" fill="#4ade80">return </text>
+  <text x="155" y="275" font-family="monospace" font-size="12" fill="#fca5a5">"Hallo Flask!"</text>
+
+  <!-- Cursor blink -->
+  <rect x="289" y="263" width="8" height="14" rx="1" fill="#4ade80" opacity="0.9"/>
+
+  <!-- Output line -->
+  <rect x="55" y="308" width="360" height="32" rx="0" fill="#0a1a0c"/>
+  <rect x="55" y="308" width="360" height="32" rx="0" fill="#0a1a0c"/>
+  <text x="75" y="328" font-family="monospace" font-size="11" fill="#4ade80">✓  Running on http://127.0.0.1:5000</text>
+
+  <!-- Python logo area -->
+  <!-- Snake shape (simplified) -->
+  <g transform="translate(440, 95)" filter="url(#glow)">
+    <path d="M30 0 Q60 0 60 30 L60 55 Q60 75 40 75 L20 75 Q0 75 0 55 L0 20 Q0 0 30 0Z" fill="#4ade80" opacity="0.12" stroke="#4ade80" stroke-width="1.5"/>
+    <path d="M30 25 Q60 25 60 55 L60 80 Q60 100 40 100 L20 100 Q0 100 0 80 L0 55 Q0 25 30 25Z" fill="#38bdf8" opacity="0.12" stroke="#38bdf8" stroke-width="1.5" transform="translate(15,5)"/>
+    <!-- Eye dots -->
+    <circle cx="42" cy="18" r="4" fill="#4ade80" opacity="0.9"/>
+    <circle cx="52" cy="50" r="4" fill="#38bdf8" opacity="0.9"/>
+  </g>
+
+  <!-- Gradient accent line -->
+  <rect x="440" y="250" width="290" height="3" rx="2" fill="url(#accent)" opacity="0.8"/>
+
+  <!-- Title -->
+  <text x="440" y="290" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="28" font-weight="800" fill="#f1f5f9">Python Basics</text>
+  <text x="440" y="320" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16" fill="#94a3b8">Flask · Automation · Scripting</text>
+
+  <!-- Badges -->
+  <rect x="440" y="340" width="105" height="28" rx="14" fill="#4ade80" opacity="0.12" stroke="#4ade80" stroke-width="1"/>
+  <text x="458" y="359" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" fill="#4ade80" font-weight="600">Lernpfade</text>
+
+  <rect x="557" y="340" width="130" height="28" rx="14" fill="#38bdf8" opacity="0.12" stroke="#38bdf8" stroke-width="1"/>
+  <text x="572" y="359" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" fill="#38bdf8" font-weight="600">Praxisprojekte</text>
+</svg>
