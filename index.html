@@ -110,6 +110,14 @@ textarea,input,select,button{font-size:16px;-webkit-text-size-adjust:100%;text-s
   <h2>LernCoding</h2>
 </a>
 
+      <a href="/shop/" class="header-shop-cta" aria-label="Zum Shop" title="Zum Shop">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M6 7h15l-1.4 6.3a2 2 0 0 1-2 1.7H9a2 2 0 0 1-2-1.6L5.6 6H3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+          <circle cx="10" cy="19" r="1.6"></circle>
+          <circle cx="18" cy="19" r="1.6"></circle>
+        </svg>
+      </a>
+
 
       <button
         id="theme-toggle"
@@ -135,6 +143,14 @@ textarea,input,select,button{font-size:16px;-webkit-text-size-adjust:100%;text-s
       <button onclick="showCreateCS()">C#</button>
       <button onclick="showCreateCPP()">C++</button>
       <button onclick="showCreateTypeScript()">TypeScript</button>
+    </div>
+    <div class="shop-promo" id="shopPromo" role="region" aria-label="Shop Hinweis">
+      <a class="shop-promo-link" href="/shop/">
+        <strong>Neu im Shop:</strong> Praxiskurse mit direktem Stripe-Checkout ansehen
+      </a>
+      <button class="shop-promo-close" onclick="closeShopPromo()" aria-label="Shop Hinweis schließen">
+        <i class="fas fa-times"></i>
+      </button>
     </div>
     <div class="donation-bar" id="donationBar">
       <a href="https://www.paypal.com/ncp/payment/33T4RGCDRY6WG" target="_blank" class="donation-link">

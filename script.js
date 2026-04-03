@@ -109,8 +109,25 @@ function checkDonationBarStatus() {
   }
 }
 
+function closeShopPromo() {
+  const shopPromo = document.getElementById("shopPromo");
+  if (!shopPromo) return;
+  shopPromo.classList.add("hidden");
+  localStorage.setItem("shopPromoClosed", "true");
+}
+
+function checkShopPromoStatus() {
+  const shopPromo = document.getElementById("shopPromo");
+  if (!shopPromo) return;
+  const isClosed = localStorage.getItem("shopPromoClosed") === "true";
+  if (isClosed) {
+    shopPromo.classList.add("hidden");
+  }
+}
+
 // Check donation bar status when page loads
 document.addEventListener("DOMContentLoaded", checkDonationBarStatus);
+document.addEventListener("DOMContentLoaded", checkShopPromoStatus);
 
 // HTML escape-Funktion
 function escapeHTML(str) {
