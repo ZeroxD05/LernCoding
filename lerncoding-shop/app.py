@@ -529,7 +529,8 @@ def register():
                 flash("Diese E-Mail ist bereits registriert.", "error")
             else:
                 session.clear()
-                session["user_id"] = cursor.lastrowid
+                created_user = fetch_user_by_email(email)
+                session["user_id"] = created_user["id"] if created_user is not None else cursor.lastrowid
                 flash("Konto erstellt. Willkommen bei LernCoding.", "success")
                 return redirect(url_for("dashboard"))
 
