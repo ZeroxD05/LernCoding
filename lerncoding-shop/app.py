@@ -5,6 +5,12 @@ from functools import wraps
 from pathlib import Path
 
 import stripe
+try:
+    import psycopg
+    from psycopg.rows import dict_row
+except Exception:
+    psycopg = None
+    dict_row = None
 from flask import (
     Flask,
     flash,
@@ -20,6 +26,8 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 
 BASE_DIR = Path(__file__).resolve().parent
+DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
+USE_POSTGRES = bool(DATABASE_URL)
 
 
 def resolve_database_path():
@@ -30,6 +38,26 @@ def resolve_database_path():
 
 
 DATABASE = resolve_database_path()
+
+
+class DatabaseConnection:
+    def __init__(self, connection, use_postgres):
+        self.connection = connection
+        self.use_postgres = use_postgres
+
+    def execute(self, query, params=()):
+        if self.use_postgres:
+            query = query.replace("?", "%s")
+        return self.connection.execute(query, params)
+
+    def commit(self):
+        self.connection.commit()
+
+    def rollback(self):
+        self.connection.rollback()
+
+    def close(self):
+        self.connection.close()
 
 
 def load_env_file():
@@ -122,8 +150,15 @@ app.secret_key = FLASK_SECRET_KEY
 
 def get_db():
     if "db" not in g:
-        g.db = sqlite3.connect(DATABASE)
-        g.db.row_factory = sqlite3.Row
+        if USE_POSTGRES:
+            if psycopg is None:
+                raise RuntimeError("DATABASE_URL gesetzt, aber psycopg ist nicht installiert.")
+            connection = psycopg.connect(DATABASE_URL, row_factory=dict_row)
+            g.db = DatabaseConnection(connection, use_postgres=True)
+        else:
+            connection = sqlite3.connect(DATABASE)
+            connection.row_factory = sqlite3.Row
+            g.db = DatabaseConnection(connection, use_postgres=False)
     return g.db
 
 
@@ -134,6 +169,52 @@ def close_db(_error=None):
 
 
 def init_db():
+    if USE_POSTGRES:
+        if psycopg is None:
+            raise RuntimeError("DATABASE_URL gesetzt, aber psycopg ist nicht installiert.")
+
+        db = psycopg.connect(DATABASE_URL, row_factory=dict_row)
+        db.execute(
+            """
+            CREATE TABLE IF NOT EXISTS users (
+                id BIGSERIAL PRIMARY KEY,
+                name TEXT NOT NULL,
+                email TEXT NOT NULL UNIQUE,
+                password_hash TEXT NOT NULL,
+                created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+            )
+            """
+        )
+        db.execute(
+            """
+            CREATE TABLE IF NOT EXISTS orders (
+                id BIGSERIAL PRIMARY KEY,
+                user_id BIGINT NOT NULL,
+                order_number TEXT NOT NULL UNIQUE,
+                stripe_session_id TEXT UNIQUE,
+                product_key TEXT NOT NULL,
+                product_name TEXT NOT NULL,
+                price TEXT NOT NULL,
+                status TEXT NOT NULL,
+                created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+                FOREIGN KEY (user_id) REFERENCES users (id)
+            )
+            """
+        )
+        db.execute(
+            """
+            CREATE TABLE IF NOT EXISTS stripe_events (
+                id BIGSERIAL PRIMARY KEY,
+                event_id TEXT NOT NULL UNIQUE,
+                event_type TEXT NOT NULL,
+                processed_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+            )
+            """
+        )
+        db.commit()
+        db.close()
+        return
+
     DATABASE.parent.mkdir(parents=True, exist_ok=True)
     db = sqlite3.connect(DATABASE)
     db.execute(
@@ -440,7 +521,11 @@ def register():
                     (name, email, generate_password_hash(password, method="pbkdf2:sha256")),
                 )
                 db.commit()
-            except sqlite3.IntegrityError:
+            except Exception as exc:
+                db.rollback()
+                error_name = exc.__class__.__name__
+                if error_name not in ("IntegrityError", "UniqueViolation"):
+                    raise
                 flash("Diese E-Mail ist bereits registriert.", "error")
             else:
                 session.clear()
