@@ -26,7 +26,22 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 
 BASE_DIR = Path(__file__).resolve().parent
-DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
+
+
+def resolve_database_url():
+    candidates = [
+        os.environ.get("DATABASE_URL", ""),
+        os.environ.get("POSTGRES_URL_NON_POOLING", ""),
+        os.environ.get("POSTGRES_URL", ""),
+    ]
+    for value in candidates:
+        cleaned = value.strip()
+        if cleaned:
+            return cleaned
+    return ""
+
+
+DATABASE_URL = resolve_database_url()
 USE_POSTGRES = bool(DATABASE_URL)
 
 
@@ -146,6 +161,11 @@ app = Flask(
     static_url_path="/static",
 )
 app.secret_key = FLASK_SECRET_KEY
+app.config.update(
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE="Lax",
+    SESSION_COOKIE_SECURE=bool(os.environ.get("VERCEL")),
+)
 
 
 def get_db():
