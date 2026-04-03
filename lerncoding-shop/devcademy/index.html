@@ -1510,7 +1510,7 @@ function renderCourses() {
       <div class="referral-share">
         <div class="referral-share-label">Link teilen</div>
         <div class="referral-share-row">
-          <input class="referral-share-input" id="referral-url" value="https://devacademy.de" readonly onclick="this.select()">
+          <input class="referral-share-input" id="referral-url" value="https://lern-coding.de/shop" readonly onclick="this.select()">
           <button class="referral-copy-btn" id="referral-copy-btn" onclick="copyReferral()">Kopieren</button>
         </div>
       </div>
@@ -1534,7 +1534,7 @@ function copyReferral() {
 }
 
 function shareVia(platform) {
-  const url = 'https://devacademy.de';
+  const url = 'https://lern-coding.de/shop';
   const text = 'Schau dir DevAcademy an — strukturierte Kurse für Web-Entwicklung und Python:';
   const links = {
     mailto: `mailto:?subject=DevAcademy%20Kursplattform&body=${encodeURIComponent(text + ' ' + url)}`,
