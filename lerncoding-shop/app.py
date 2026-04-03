@@ -200,8 +200,17 @@ def is_stripe_ready():
     return bool(STRIPE_SECRET_KEY and STRIPE_PUBLISHABLE_KEY)
 
 
+def normalized_base_url():
+    base = BASE_URL.strip().rstrip("/")
+    for suffix in ("/shop.html", "/shop"):
+        if base.endswith(suffix):
+            base = base[: -len(suffix)]
+            break
+    return base
+
+
 def shop_landing_url():
-    return f"{BASE_URL.rstrip('/')}/shop.html"
+    return f"{normalized_base_url()}/shop.html"
 
 
 def stripe_field(obj, key, default=None):
