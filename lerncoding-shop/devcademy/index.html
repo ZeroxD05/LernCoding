@@ -1626,7 +1626,12 @@ function renderLesson(course, idx) {
   const isFirst = idx === 0;
   const isLast = idx === course.lessons.length - 1;
 
+  const showHtmlIntroEmbed = currentCourse === 'html' && idx === 0;
+
   const blogHTML = lesson.blogContent.map(block => {
+    if (showHtmlIntroEmbed && block.type === 'h2' && block.text === 'Was ist HTML?') {
+      return `${renderHtmlIntroVideoEmbed()}<div class="blog-h2">${block.text}</div>`;
+    }
     if (block.type === 'h2') return `<div class="blog-h2">${block.text}</div>`;
     if (block.type === 'p') return `<div class="blog-p">${block.text}</div>`;
     if (block.type === 'code') return `<pre class="blog-code">${escapeHTML(block.text)}</pre>`;
@@ -1637,16 +1642,12 @@ function renderLesson(course, idx) {
     ? renderHTMLEditor(lesson.editorCode)
     : renderPythonEditor(lesson.editorCode);
 
-  const showHtmlIntroEmbed = currentCourse === 'html' && idx === 0;
-
   return `
     <div class="lesson-header">
       <div class="lesson-num">Lektion 0${idx+1} / 0${course.lessons.length}</div>
       <div class="lesson-title">${lesson.title}</div>
       <div class="lesson-intro">${lesson.intro}</div>
     </div>
-
-    ${showHtmlIntroEmbed ? renderHtmlIntroVideoEmbed() : ''}
 
     <!-- BLOG -->
     <div class="blog-block">${blogHTML}</div>
