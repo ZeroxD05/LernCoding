@@ -484,6 +484,36 @@ def fetch_user_by_email(email):
     ).fetchone()
 
 
+def recover_user_from_session():
+    # On serverless runtimes without a persistent database, instances can lose
+    # local SQLite data. Recreate or relink the user from session identity.
+    if not os.environ.get("VERCEL") or USE_POSTGRES:
+        return None
+
+    email = (session.get("user_email") or "").strip().lower()
+    name = (session.get("user_name") or "").strip()
+    if not email or not name:
+        return None
+
+    existing = fetch_user_by_email(email)
+    if existing is not None:
+        session["user_id"] = existing["id"]
+        return existing
+
+    db = get_db()
+    password_hash = generate_password_hash(secrets.token_urlsafe(24), method="pbkdf2:sha256")
+    db.execute(
+        "INSERT INTO users (name, email, password_hash) VALUES (?, ?, ?)",
+        (name, email, password_hash),
+    )
+    db.commit()
+
+    recreated = fetch_user_by_email(email)
+    if recreated is not None:
+        session["user_id"] = recreated["id"]
+    return recreated
+
+
 @app.before_request
 def load_logged_in_user():
     user_id = session.get("user_id")
@@ -495,6 +525,8 @@ def load_logged_in_user():
         "SELECT id, name, email, created_at FROM users WHERE id = ?",
         (user_id,),
     ).fetchone()
+    if g.user is None:
+        g.user = recover_user_from_session()
 
 
 @app.context_processor
@@ -556,6 +588,8 @@ def register():
                 session.clear()
                 created_user = fetch_user_by_email(email)
                 session["user_id"] = created_user["id"] if created_user is not None else cursor.lastrowid
+                session["user_email"] = email
+                session["user_name"] = name
                 flash("Konto erstellt. Willkommen bei LernCoding.", "success")
                 return redirect(url_for("dashboard"))
 
@@ -580,6 +614,8 @@ def login():
         else:
             session.clear()
             session["user_id"] = user["id"]
+            session["user_email"] = user["email"]
+            session["user_name"] = user["name"]
             flash("Erfolgreich eingeloggt.", "success")
             return redirect(url_for("dashboard"))
 
