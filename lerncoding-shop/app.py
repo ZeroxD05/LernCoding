@@ -3,6 +3,7 @@ import secrets
 import sqlite3
 from functools import wraps
 from pathlib import Path
+from urllib.parse import urlparse
 
 import stripe
 try:
@@ -161,11 +162,35 @@ app = Flask(
     static_url_path="/static",
 )
 app.secret_key = FLASK_SECRET_KEY
+
+
+def base_domain_for_cookie():
+    try:
+        host = urlparse(normalized_base_url()).hostname or ""
+    except Exception:
+        host = ""
+    if host.endswith("lern-coding.de"):
+        return ".lern-coding.de"
+    return None
+
+
+cookie_domain = base_domain_for_cookie()
 app.config.update(
     SESSION_COOKIE_HTTPONLY=True,
     SESSION_COOKIE_SAMESITE="Lax",
     SESSION_COOKIE_SECURE=bool(os.environ.get("VERCEL")),
+    SESSION_COOKIE_DOMAIN=cookie_domain,
 )
+
+
+@app.before_request
+def redirect_www_to_apex():
+    host = (request.host or "").split(":", 1)[0].lower()
+    if host == "www.lern-coding.de":
+        destination = f"https://lern-coding.de{request.full_path}"
+        if destination.endswith("?"):
+            destination = destination[:-1]
+        return redirect(destination, code=308)
 
 
 def get_db():
