@@ -20,7 +20,16 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 
 BASE_DIR = Path(__file__).resolve().parent
-DATABASE = BASE_DIR / "lerncoding.db"
+
+
+def resolve_database_path():
+    # Vercel serverless file system is read-only except /tmp.
+    if os.environ.get("VERCEL"):
+        return Path("/tmp") / "lerncoding.db"
+    return BASE_DIR / "lerncoding.db"
+
+
+DATABASE = resolve_database_path()
 
 
 def load_env_file():
@@ -125,6 +134,7 @@ def close_db(_error=None):
 
 
 def init_db():
+    DATABASE.parent.mkdir(parents=True, exist_ok=True)
     db = sqlite3.connect(DATABASE)
     db.execute(
         """
