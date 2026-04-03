@@ -15,6 +15,7 @@ from flask import (
     Flask,
     flash,
     g,
+    has_request_context,
     jsonify,
     redirect,
     render_template,
@@ -170,16 +171,6 @@ app.config.update(
 )
 
 
-@app.before_request
-def redirect_www_to_apex():
-    host = (request.host or "").split(":", 1)[0].lower()
-    if host == "www.lern-coding.de":
-        destination = f"https://lern-coding.de{request.full_path}"
-        if destination.endswith("?"):
-            destination = destination[:-1]
-        return redirect(destination, code=308)
-
-
 def get_db():
     if "db" not in g:
         if USE_POSTGRES:
@@ -323,6 +314,8 @@ def normalized_base_url():
 
 
 def shop_landing_url():
+    if has_request_context():
+        return f"{request.host_url.rstrip('/')}/shop/"
     return f"{normalized_base_url()}/shop/"
 
 
