@@ -50,6 +50,12 @@ def root_index():
     return send_from_directory(BASE_DIR, "index.html")
 
 
+@main_app.route("/shop")
+@main_app.route("/shop.html")
+def shop_entry():
+    return "", 308, {"Location": "/shop/"}
+
+
 @main_app.route("/<path:filename>")
 def root_static(filename):
     requested = (BASE_DIR / filename).resolve()
@@ -68,7 +74,6 @@ application = DispatcherMiddleware(
     main_app,
     {
         "/shop": shop_app,
-        "/shop.html": shop_app,
     },
 )
 

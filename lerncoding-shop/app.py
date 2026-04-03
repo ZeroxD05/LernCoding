@@ -336,7 +336,7 @@ def normalized_base_url():
 
 
 def shop_landing_url():
-    return f"{normalized_base_url()}/shop.html"
+    return f"{normalized_base_url()}/shop/"
 
 
 def stripe_field(obj, key, default=None):
