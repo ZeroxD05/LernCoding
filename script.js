@@ -101,6 +101,15 @@ function closeDonationBar() {
   localStorage.setItem("donationBarClosed", "true");
 }
 
+function syncTopBanners() {
+  const donationBar = document.getElementById("donationBar");
+  const shopPromo = document.getElementById("shopPromo");
+  if (!donationBar || !shopPromo) return;
+
+  const shopHidden = shopPromo.classList.contains("hidden");
+  donationBar.classList.toggle("donation-under-shop", !shopHidden);
+}
+
 function checkDonationBarStatus() {
   const donationBar = document.getElementById("donationBar");
   const isClosed = localStorage.getItem("donationBarClosed") === "true";
@@ -114,6 +123,7 @@ function closeShopPromo() {
   if (!shopPromo) return;
   shopPromo.classList.add("hidden");
   localStorage.setItem("shopPromoClosed", "true");
+  syncTopBanners();
 }
 
 function checkShopPromoStatus() {
@@ -123,6 +133,7 @@ function checkShopPromoStatus() {
   if (isClosed) {
     shopPromo.classList.add("hidden");
   }
+  syncTopBanners();
 }
 
 // Check donation bar status when page loads
