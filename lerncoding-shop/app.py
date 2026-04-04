@@ -137,9 +137,9 @@ stripe.api_key = STRIPE_SECRET_KEY
 PRODUCTS = {
     "webentwicklung": {
         "name": "Webentwicklung Kurs",
-        "price": "29.99€",
-        "list_price": "29.99€",
-        "price_cents": 2999,
+        "price": "12.99€",
+        "list_price": "12.99€",
+        "price_cents": 1299,
         "stripe_product_id": "prod_UGcZX7fpyVUC7P",
         "status": "Direkt verfuegbar",
         "subtitle": "HTML, CSS und JavaScript mit klaren Projekten.",
@@ -153,9 +153,9 @@ PRODUCTS = {
     },
     "python-basics": {
         "name": "Python Basics",
-        "price": "39.99€",
-        "list_price": "39.99€",
-        "price_cents": 3999,
+        "price": "14.99€",
+        "list_price": "14.99€",
+        "price_cents": 1499,
         "stripe_product_id": "prod_UGcbGyYQnoicno",
         "status": "Direkt verfuegbar",
         "subtitle": "Python fuer echte Web- und Automatisierungsgrundlagen.",
@@ -169,9 +169,9 @@ PRODUCTS = {
     },
     "projekte-paket": {
         "name": "Projekte-Paket",
-        "price": "49.99€",
-        "list_price": "49.99€",
-        "price_cents": 4999,
+        "price": "24.99€",
+        "list_price": "24.99€",
+        "price_cents": 2499,
         "stripe_product_id": "prod_UGcdeI5tzoqZiE",
         "status": "Direkt verfuegbar",
         "subtitle": "Mehrere vollstaendige Praxisprojekte fuer dein Portfolio.",
@@ -190,14 +190,14 @@ OPENING_PROMO_ACTIVE = date.today() <= OPENING_PROMO_END_DATE
 OPENING_PROMO_LABEL = "Freitag, 10.04.2026"
 
 if OPENING_PROMO_ACTIVE:
-    PRODUCTS["webentwicklung"]["price"] = "19.99€"
-    PRODUCTS["webentwicklung"]["price_cents"] = 1999
+    PRODUCTS["webentwicklung"]["price"] = "12.99€"
+    PRODUCTS["webentwicklung"]["price_cents"] = 1299
 
-    PRODUCTS["python-basics"]["price"] = "24.99€"
-    PRODUCTS["python-basics"]["price_cents"] = 2499
+    PRODUCTS["python-basics"]["price"] = "14.99€"
+    PRODUCTS["python-basics"]["price_cents"] = 1499
 
-    PRODUCTS["projekte-paket"]["price"] = "34.99€"
-    PRODUCTS["projekte-paket"]["price_cents"] = 3499
+    PRODUCTS["projekte-paket"]["price"] = "24.99€"
+    PRODUCTS["projekte-paket"]["price_cents"] = 2499
 
 
 app = Flask(
