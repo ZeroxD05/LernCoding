@@ -156,9 +156,39 @@
             </div>
             {% if opening_promo_active %}
             <div class="max-w-3xl mx-auto mb-10 rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-center">
-                <p class="text-red-700 font-extrabold text-sm sm:text-base">Neueroeffnung: 1 Woche Rabatt auf Webentwicklung, Software und Bundle.</p>
-                <p class="text-red-600 text-xs sm:text-sm mt-1">Nur gueltig bis {{ opening_promo_end_label }}.</p>
+                <p class="text-red-700 font-extrabold text-sm sm:text-base">Nur noch: <span id="opening-promo-countdown">--:--:--</span> reduziert bis Freitag.</p>
             </div>
+            <script>
+            (function () {
+                var target = new Date('2026-04-10T23:59:59+02:00').getTime();
+                var el = document.getElementById('opening-promo-countdown');
+                if (!el) return;
+
+                function update() {
+                    var now = Date.now();
+                    var diff = Math.max(0, target - now);
+                    var days = Math.floor(diff / 86400000);
+                    var hours = Math.floor((diff % 86400000) / 3600000);
+                    var mins = Math.floor((diff % 3600000) / 60000);
+                    var secs = Math.floor((diff % 60000) / 1000);
+
+                    if (diff <= 0) {
+                        el.textContent = '00d 00h 00m 00s';
+                        clearInterval(timer);
+                        return;
+                    }
+
+                    el.textContent =
+                        String(days).padStart(2, '0') + 'd ' +
+                        String(hours).padStart(2, '0') + 'h ' +
+                        String(mins).padStart(2, '0') + 'm ' +
+                        String(secs).padStart(2, '0') + 's';
+                }
+
+                update();
+                var timer = setInterval(update, 1000);
+            })();
+            </script>
             {% endif %}
             <!-- Mobile Slider -->
             <div class="md:hidden">
