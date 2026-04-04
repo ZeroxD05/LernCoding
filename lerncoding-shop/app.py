@@ -123,6 +123,8 @@ STRIPE_PUBLISHABLE_KEY = os.environ.get("STRIPE_PUBLISHABLE_KEY", "")
 STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET", "")
 BASE_URL = os.environ.get("APP_BASE_URL", "https://lern-coding.de")
 FLASK_SECRET_KEY = os.environ.get("FLASK_SECRET_KEY", "dev-secret-key-change-me")
+ADMIN_LOGIN_EMAIL = os.environ.get("ADMIN_LOGIN_EMAIL", "lerncoding2026@gmail.com").strip().lower()
+ADMIN_LOGIN_PASSWORD = os.environ.get("ADMIN_LOGIN_PASSWORD", "Atailayda05")
 
 stripe.api_key = STRIPE_SECRET_KEY
 
@@ -334,6 +336,17 @@ def login_required(view):
         if g.user is None:
             flash("Bitte logge dich zuerst ein.", "error")
             return redirect(url_for("register"))
+        return view(*args, **kwargs)
+
+    return wrapped_view
+
+
+def admin_required(view):
+    @wraps(view)
+    def wrapped_view(*args, **kwargs):
+        if not session.get("admin_authenticated"):
+            flash("Bitte als Admin einloggen.", "error")
+            return redirect(url_for("admin_login"))
         return view(*args, **kwargs)
 
     return wrapped_view
@@ -566,6 +579,63 @@ def has_unlock(user_id, product_key):
     return row is not None
 
 
+def fetch_admin_accounts_overview():
+    rows = get_db().execute(
+        """
+        SELECT
+            u.id AS user_id,
+            u.name AS user_name,
+            u.email AS user_email,
+            u.created_at AS user_created_at,
+            o.product_key,
+            o.product_name,
+            o.price,
+            o.status,
+            o.created_at AS order_created_at
+        FROM users u
+        LEFT JOIN orders o ON o.user_id = u.id
+        ORDER BY u.created_at DESC, o.created_at DESC, o.id DESC
+        """
+    ).fetchall()
+
+    accounts = []
+    account_lookup = {}
+    for row in rows:
+        user_id = row["user_id"]
+        entry = account_lookup.get(user_id)
+        if entry is None:
+            entry = {
+                "id": user_id,
+                "name": row["user_name"],
+                "email": row["user_email"],
+                "created_at": row["user_created_at"],
+                "packages": [],
+                "package_keys": set(),
+            }
+            account_lookup[user_id] = entry
+            accounts.append(entry)
+
+        product_key = row["product_key"]
+        if not product_key or product_key in entry["package_keys"]:
+            continue
+
+        entry["packages"].append(
+            {
+                "product_key": product_key,
+                "product_name": row["product_name"],
+                "price": row["price"],
+                "status": row["status"],
+                "created_at": row["order_created_at"],
+            }
+        )
+        entry["package_keys"].add(product_key)
+
+    for account in accounts:
+        account["package_keys"] = sorted(account["package_keys"])
+
+    return accounts
+
+
 def user_has_purchase(user_id):
     row = get_db().execute(
         "SELECT 1 FROM orders WHERE user_id = ? LIMIT 1",
@@ -670,6 +740,7 @@ def inject_globals():
 
     return {
         "current_user": g.get("user"),
+        "current_admin": bool(session.get("admin_authenticated")),
         "current_user_has_purchase": has_purchase,
         "products": PRODUCTS,
         "stripe_ready": is_stripe_ready(),
@@ -762,6 +833,122 @@ def register():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     return register()
+
+
+@app.route("/admin/login", methods=["GET", "POST"])
+def admin_login():
+    if session.get("admin_authenticated"):
+        return redirect(url_for("admin_dashboard"))
+
+    if request.method == "POST":
+        email = request.form.get("email", "").strip().lower()
+        password = request.form.get("password", "")
+
+        if email == ADMIN_LOGIN_EMAIL and password == ADMIN_LOGIN_PASSWORD:
+            session["admin_authenticated"] = True
+            session["admin_email"] = ADMIN_LOGIN_EMAIL
+            flash("Admin-Login erfolgreich.", "success")
+            return redirect(url_for("admin_dashboard"))
+
+        flash("Admin-Login fehlgeschlagen.", "error")
+
+    return render_template("admin_login.html")
+
+
+@app.route("/admin/logout", methods=["POST"])
+@admin_required
+def admin_logout():
+    session.pop("admin_authenticated", None)
+    session.pop("admin_email", None)
+    flash("Admin ausgeloggt.", "info")
+    return redirect(url_for("home"))
+
+
+@app.route("/admin")
+@admin_required
+def admin_dashboard():
+    return render_template(
+        "admin_dashboard.html",
+        accounts=fetch_admin_accounts_overview(),
+        product_choices=PRODUCTS,
+    )
+
+
+@app.route("/admin/accounts/manage", methods=["POST"])
+@admin_required
+def admin_manage_accounts():
+    action = request.form.get("action", "").strip()
+    product_key = request.form.get("product_key", "").strip()
+
+    try:
+        user_id = int(request.form.get("user_id", "0"))
+    except ValueError:
+        user_id = 0
+
+    if user_id <= 0:
+        flash("Ungueltiger Account.", "error")
+        return redirect(url_for("admin_dashboard"))
+
+    user = fetch_user_by_id(user_id)
+    if user is None:
+        flash("Account wurde nicht gefunden.", "error")
+        return redirect(url_for("admin_dashboard"))
+
+    db = get_db()
+
+    if action == "delete_account":
+        db.execute("DELETE FROM orders WHERE user_id = ?", (user_id,))
+        db.execute("DELETE FROM users WHERE id = ?", (user_id,))
+        db.commit()
+        flash(f"Account {user['email']} wurde geloescht.", "success")
+        return redirect(url_for("admin_dashboard"))
+
+    if action == "add_package":
+        product = PRODUCTS.get(product_key)
+        if product is None:
+            flash("Unbekanntes Paket.", "error")
+            return redirect(url_for("admin_dashboard"))
+
+        if has_unlock(user_id, product_key):
+            flash("Paket ist fuer diesen Account bereits aktiv.", "info")
+            return redirect(url_for("admin_dashboard"))
+
+        academy_code = resolve_academy_code_for_user(db, user, product_key)
+        db.execute(
+            """
+            INSERT INTO orders (user_id, order_number, stripe_session_id, academy_code, product_key, product_name, price, status)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                user_id,
+                create_order_number(),
+                None,
+                academy_code,
+                product_key,
+                product["name"],
+                "0.00€",
+                "Vom Admin freigeschaltet",
+            ),
+        )
+        db.commit()
+        flash(f"Paket {product['name']} wurde kostenlos hinzugefuegt.", "success")
+        return redirect(url_for("admin_dashboard"))
+
+    if action == "remove_package":
+        result = db.execute(
+            "DELETE FROM orders WHERE user_id = ? AND product_key = ?",
+            (user_id, product_key),
+        )
+        db.commit()
+        removed = getattr(result, "rowcount", 0) or 0
+        if removed > 0:
+            flash("Paket wurde entfernt.", "success")
+        else:
+            flash("Dieses Paket war fuer den Account nicht aktiv.", "info")
+        return redirect(url_for("admin_dashboard"))
+
+    flash("Unbekannte Admin-Aktion.", "error")
+    return redirect(url_for("admin_dashboard"))
 
 
 @app.route("/logout", methods=["POST"])
