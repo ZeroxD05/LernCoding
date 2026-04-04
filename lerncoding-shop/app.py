@@ -4,6 +4,7 @@ import sqlite3
 from datetime import date
 from functools import wraps
 from pathlib import Path
+from urllib.parse import urlparse
 
 import stripe
 try:
@@ -55,6 +56,26 @@ def resolve_database_path():
 
 
 DATABASE = resolve_database_path()
+
+
+def resolve_session_cookie_domain():
+    raw = os.environ.get("SESSION_COOKIE_DOMAIN", "").strip()
+    if raw:
+        return raw
+
+    parsed = urlparse(BASE_URL if "://" in BASE_URL else f"https://{BASE_URL}")
+    host = (parsed.hostname or "").strip().lower()
+    if not host or host == "localhost":
+        return None
+    if host.replace(".", "").isdigit():
+        return None
+
+    parts = host.split(".")
+    if len(parts) < 2:
+        return None
+
+    base_domain = ".".join(parts[-2:])
+    return f".{base_domain}"
 
 
 class DatabaseConnection:
@@ -183,6 +204,7 @@ app.config.update(
     SESSION_COOKIE_HTTPONLY=True,
     SESSION_COOKIE_SAMESITE="Lax",
     SESSION_COOKIE_SECURE=bool(os.environ.get("VERCEL")),
+    SESSION_COOKIE_DOMAIN=resolve_session_cookie_domain(),
 )
 
 
