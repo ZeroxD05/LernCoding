@@ -869,6 +869,34 @@ def academy_codes_api():
     return jsonify({"codes": codes})
 
 
+@app.route("/api/academy-public-codes")
+def academy_public_codes_api():
+    rows = get_db().execute(
+        """
+        SELECT academy_code, product_key
+        FROM orders
+        WHERE academy_code IS NOT NULL
+          AND academy_code != ''
+        """
+    ).fetchall()
+
+    seen_codes = set()
+    codes = []
+    for row in rows:
+        code = (row["academy_code"] or "").strip().upper()
+        if not code or code in seen_codes:
+            continue
+        seen_codes.add(code)
+        codes.append(
+            {
+                "code": code,
+                "access": academy_access_for_product(row["product_key"]),
+            }
+        )
+
+    return jsonify({"codes": codes})
+
+
 @app.route("/devcademy/")
 @login_required
 def devcademy_index():

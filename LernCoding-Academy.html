@@ -1942,7 +1942,12 @@
       }
 
       async function syncShopCodes() {
-        const endpoints = ["/shop/api/academy-codes", "/api/academy-codes"];
+        const endpoints = [
+          "/shop/api/academy-public-codes",
+          "/api/academy-public-codes",
+          "/shop/api/academy-codes",
+          "/api/academy-codes",
+        ];
         for (const endpoint of endpoints) {
           try {
             const res = await fetch(endpoint, { credentials: "include" });
@@ -2006,8 +2011,10 @@
       }
 
       function loginWithCode(code) {
-        // Case-sensitive match (codes are defined with specific casing)
-        const match = codes.find((c) => c.code === code);
+        const normalizedCode = String(code || "").trim().toUpperCase();
+        const match = codes.find(
+          (c) => String(c.code || "").trim().toUpperCase() === normalizedCode,
+        );
         if (!match) return false;
         currentUser = match;
         document.getElementById("gate").classList.add("hidden");
@@ -2034,7 +2041,10 @@
       });
 
       function submitCode() {
-        const val = document.getElementById("gate-input").value.trim();
+        const val = document
+          .getElementById("gate-input")
+          .value.trim()
+          .toUpperCase();
         const errEl = document.getElementById("gate-error");
         const inp = document.getElementById("gate-input");
 
