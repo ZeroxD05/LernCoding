@@ -1,6 +1,7 @@
 import os
 import secrets
 import sqlite3
+import hashlib
 from datetime import date
 from functools import wraps
 from pathlib import Path
@@ -363,6 +364,47 @@ def generate_unique_academy_code(db):
     raise RuntimeError("Academy-Code konnte nicht erzeugt werden. Bitte erneut versuchen.")
 
 
+def stable_academy_code(user_email, product_key):
+    seed = f"{(user_email or '').strip().lower()}|{product_key}".encode("utf-8")
+    key = FLASK_SECRET_KEY.encode("utf-8")
+    digest = hashlib.blake2s(seed, key=key, digest_size=16).digest()
+
+    letters = "ABCDEFGHJKLMNPQRSTUVWXYZ"
+    digits = "23456789"
+    left = "".join(letters[b % len(letters)] for b in digest[:4])
+    right = "".join(digits[b % len(digits)] for b in digest[4:8])
+    return f"{left}-{right}"
+
+
+def find_existing_academy_code(db, user_id, product_key):
+    row = db.execute(
+        """
+        SELECT academy_code
+        FROM orders
+        WHERE user_id = ? AND product_key = ? AND academy_code IS NOT NULL AND academy_code != ''
+        ORDER BY created_at DESC, id DESC
+        LIMIT 1
+        """,
+        (user_id, product_key),
+    ).fetchone()
+    if row is None:
+        return None
+    code = (row["academy_code"] or "").strip().upper()
+    return code or None
+
+
+def resolve_academy_code_for_user(db, user, product_key, preferred_code=None):
+    preferred = (preferred_code or "").strip().upper()
+    if preferred:
+        return preferred
+
+    existing = find_existing_academy_code(db, user["id"], product_key)
+    if existing:
+        return existing
+
+    return stable_academy_code(user["email"], product_key)
+
+
 def academy_access_for_product(product_key):
     if product_key == "webentwicklung":
         return "html"
@@ -420,7 +462,12 @@ def fulfill_paid_checkout(checkout_session, user):
     if existing is not None:
         return False
 
-    academy_code = generate_unique_academy_code(db)
+    academy_code = resolve_academy_code_for_user(
+        db,
+        user,
+        product_key,
+        stripe_field(metadata, "academy_code"),
+    )
 
     db.execute(
         """
@@ -481,6 +528,7 @@ def fetch_unlocks(user_id):
     ).fetchall()
 
     unlocks = []
+    account = fetch_user_by_id(user_id)
     for row in rows:
         product = PRODUCTS.get(row["product_key"])
         if product is None:
@@ -488,7 +536,9 @@ def fetch_unlocks(user_id):
 
         academy_code = row["academy_code"]
         if not academy_code:
-            academy_code = generate_unique_academy_code(db)
+            if account is None:
+                continue
+            academy_code = stable_academy_code(account["email"], row["product_key"])
             db.execute(
                 "UPDATE orders SET academy_code = ? WHERE id = ?",
                 (academy_code, row["id"]),
@@ -673,7 +723,6 @@ def register():
                 # Requires matching name to reduce accidental takeovers.
                 if (
                     existing_user is not None
-                    and not user_has_purchase(existing_user["id"])
                     and existing_user["name"].strip().lower() == name.strip().lower()
                 ):
                     db.execute(
@@ -747,6 +796,9 @@ def buy(product_key):
         flash("Stripe ist noch nicht konfiguriert. Bitte STRIPE_SECRET_KEY und STRIPE_PUBLISHABLE_KEY setzen.", "error")
         return redirect(url_for("home") + "#produkte")
 
+    db = get_db()
+    academy_code = resolve_academy_code_for_user(db, g.user, product_key)
+
     try:
         checkout_session = stripe.checkout.Session.create(
             mode="payment",
@@ -762,7 +814,11 @@ def buy(product_key):
                     },
                 }
             ],
-            metadata={"product_key": product_key, "user_id": str(g.user["id"])},
+            metadata={
+                "product_key": product_key,
+                "user_id": str(g.user["id"]),
+                "academy_code": academy_code,
+            },
             success_url=f"{shop_landing_url()}/stripe/success?session_id={{CHECKOUT_SESSION_ID}}",
             cancel_url=shop_landing_url(),
         )
