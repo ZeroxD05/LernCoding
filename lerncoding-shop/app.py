@@ -578,7 +578,8 @@ def fetch_user_by_email(email):
 
 def recover_user_from_session():
     # On serverless runtimes without a persistent database, instances can lose
-    # local SQLite data. Recreate or relink the user from session identity.
+    # local SQLite data. Only relink existing users; do not auto-create users
+    # with random passwords because that can lock people out.
     if not os.environ.get("VERCEL") or USE_POSTGRES:
         return None
 
@@ -591,19 +592,7 @@ def recover_user_from_session():
     if existing is not None:
         session["user_id"] = existing["id"]
         return existing
-
-    db = get_db()
-    password_hash = generate_password_hash(secrets.token_urlsafe(24), method="pbkdf2:sha256")
-    db.execute(
-        "INSERT INTO users (name, email, password_hash) VALUES (?, ?, ?)",
-        (name, email, password_hash),
-    )
-    db.commit()
-
-    recreated = fetch_user_by_email(email)
-    if recreated is not None:
-        session["user_id"] = recreated["id"]
-    return recreated
+    return None
 
 
 @app.before_request
@@ -619,6 +608,8 @@ def load_logged_in_user():
     ).fetchone()
     if g.user is None:
         g.user = recover_user_from_session()
+    if g.user is None:
+        session.clear()
 
 
 @app.context_processor
@@ -677,6 +668,26 @@ def register():
                 error_name = exc.__class__.__name__
                 if error_name not in ("IntegrityError", "UniqueViolation"):
                     raise
+                existing_user = fetch_user_by_email(email)
+                # Controlled recovery path for accounts without purchases.
+                # Requires matching name to reduce accidental takeovers.
+                if (
+                    existing_user is not None
+                    and not user_has_purchase(existing_user["id"])
+                    and existing_user["name"].strip().lower() == name.strip().lower()
+                ):
+                    db.execute(
+                        "UPDATE users SET password_hash = ? WHERE id = ?",
+                        (generate_password_hash(password, method="pbkdf2:sha256"), existing_user["id"]),
+                    )
+                    db.commit()
+                    session.clear()
+                    session["user_id"] = existing_user["id"]
+                    session["user_email"] = email
+                    session["user_name"] = existing_user["name"]
+                    flash("Konto wiederhergestellt und eingeloggt.", "success")
+                    return redirect(url_for("dashboard"))
+
                 flash("Diese E-Mail ist bereits registriert.", "error")
             else:
                 session.clear()
