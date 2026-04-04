@@ -37,6 +37,8 @@ def resolve_database_url():
         os.environ.get("DATABASE_URL", ""),
         os.environ.get("POSTGRES_URL_NON_POOLING", ""),
         os.environ.get("POSTGRES_URL", ""),
+        os.environ.get("SUPABASE_DB_URL", ""),
+        os.environ.get("SUPABASE_DATABASE_URL", ""),
     ]
     for value in candidates:
         cleaned = value.strip()
@@ -57,6 +59,10 @@ def resolve_database_path():
 
 
 DATABASE = resolve_database_path()
+
+
+def is_ephemeral_database_runtime():
+    return bool(os.environ.get("VERCEL") and not USE_POSTGRES)
 
 
 def resolve_session_cookie_domain():
@@ -742,6 +748,7 @@ def inject_globals():
         "current_user": g.get("user"),
         "current_admin": bool(session.get("admin_authenticated")),
         "current_user_has_purchase": has_purchase,
+        "ephemeral_db_runtime": is_ephemeral_database_runtime(),
         "products": PRODUCTS,
         "stripe_ready": is_stripe_ready(),
         "stripe_publishable_key": STRIPE_PUBLISHABLE_KEY,
@@ -1200,6 +1207,38 @@ def delete_account():
     session.clear()
     flash("Dein Konto wurde geloescht.", "info")
     return redirect(url_for("home"))
+
+
+@app.route("/admin/health")
+@admin_required
+def admin_health():
+    db = get_db()
+    try:
+        result = db.execute("SELECT 1").fetchone()
+        connection_ok = result is not None
+    except Exception as exc:
+        connection_ok = False
+        error_msg = str(exc)
+    else:
+        error_msg = None
+
+    status = {
+        "runtime": {
+            "vercel": bool(os.environ.get("VERCEL")),
+            "database_type": "Postgres" if USE_POSTGRES else "SQLite",
+            "ephemeral": is_ephemeral_database_runtime(),
+        },
+        "database_url_source": (
+            "POSTGRES_URL_NON_POOLING" if os.environ.get("POSTGRES_URL_NON_POOLING")
+            else "POSTGRES_URL" if os.environ.get("POSTGRES_URL")
+            else "DATABASE_URL" if os.environ.get("DATABASE_URL")
+            else "SUPABASE_DB_URL" if os.environ.get("SUPABASE_DB_URL")
+            else "SQLite (local)"
+        ),
+        "connection_ok": connection_ok,
+        "error": error_msg,
+    }
+    return jsonify(status), 200 if connection_ok else 500
 
 
 init_db()
