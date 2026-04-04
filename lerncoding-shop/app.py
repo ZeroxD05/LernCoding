@@ -137,9 +137,9 @@ stripe.api_key = STRIPE_SECRET_KEY
 PRODUCTS = {
     "webentwicklung": {
         "name": "Webentwicklung Kurs",
-        "price": "12.99€",
-        "list_price": "12.99€",
-        "price_cents": 1299,
+        "price": "19.99€",
+        "list_price": "19.99€",
+        "price_cents": 1999,
         "stripe_product_id": "prod_UGcZX7fpyVUC7P",
         "status": "Direkt verfuegbar",
         "subtitle": "HTML, CSS und JavaScript mit klaren Projekten.",
@@ -153,9 +153,9 @@ PRODUCTS = {
     },
     "python-basics": {
         "name": "Python Basics",
-        "price": "14.99€",
-        "list_price": "14.99€",
-        "price_cents": 1499,
+        "price": "24.99€",
+        "list_price": "24.99€",
+        "price_cents": 2499,
         "stripe_product_id": "prod_UGcbGyYQnoicno",
         "status": "Direkt verfuegbar",
         "subtitle": "Python fuer echte Web- und Automatisierungsgrundlagen.",
@@ -169,9 +169,9 @@ PRODUCTS = {
     },
     "projekte-paket": {
         "name": "Projekte-Paket",
-        "price": "24.99€",
-        "list_price": "24.99€",
-        "price_cents": 2499,
+        "price": "39.99€",
+        "list_price": "39.99€",
+        "price_cents": 3999,
         "stripe_product_id": "prod_UGcdeI5tzoqZiE",
         "status": "Direkt verfuegbar",
         "subtitle": "Mehrere vollstaendige Praxisprojekte fuer dein Portfolio.",
