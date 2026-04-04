@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Eigene Website Service</title>
+  <desc id="desc">Abstrakte Illustration fuer Webdesign und Livegang.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#dbeafe"/>
+      <stop offset="100%" stop-color="#e0f2fe"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect x="120" y="90" width="960" height="450" rx="30" fill="url(#panel)"/>
+  <rect x="170" y="140" width="860" height="70" rx="18" fill="#334155"/>
+  <circle cx="220" cy="175" r="10" fill="#f87171"/>
+  <circle cx="250" cy="175" r="10" fill="#fbbf24"/>
+  <circle cx="280" cy="175" r="10" fill="#34d399"/>
+  <rect x="170" y="250" width="460" height="230" rx="20" fill="#1d4ed8"/>
+  <rect x="660" y="250" width="370" height="100" rx="16" fill="#0ea5e9"/>
+  <rect x="660" y="380" width="370" height="100" rx="16" fill="#22c55e"/>
+  <text x="200" y="320" font-size="44" font-family="Arial, sans-serif" fill="#ffffff" font-weight="700">Eigene Website</text>
+  <text x="200" y="370" font-size="28" font-family="Arial, sans-serif" fill="#bfdbfe">Konzept, Design, Entwicklung</text>
+  <text x="200" y="410" font-size="28" font-family="Arial, sans-serif" fill="#bfdbfe">und Livegang</text>
+</svg>

@@ -145,12 +145,21 @@
     <section id="produkte" class="py-20 px-4 bg-slate-50 border-t border-slate-100">
         <div class="max-w-6xl mx-auto">
             <h2 class="text-3xl font-bold text-center mb-16 text-slate-900 scroll-anim gsap-hide">Meine Produkte</h2>
+            <div class="max-w-xl mx-auto mb-10">
+                <label for="product-search" class="sr-only">Produkte durchsuchen</label>
+                <input id="product-search" type="search" placeholder="Produkt suchen, z. B. Website oder Python" class="w-full rounded-2xl border border-slate-200 bg-white px-5 py-3.5 text-slate-800 shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-400" />
+                <div id="product-filter-chips" class="mt-4 flex flex-wrap gap-2 justify-center">
+                    <button type="button" class="product-filter-chip px-4 py-2 rounded-full text-sm font-semibold border border-slate-300 bg-slate-900 text-white" data-type="all">Alle</button>
+                    <button type="button" class="product-filter-chip px-4 py-2 rounded-full text-sm font-semibold border border-slate-300 bg-white text-slate-700 hover:bg-slate-100" data-type="course">Kurse</button>
+                    <button type="button" class="product-filter-chip px-4 py-2 rounded-full text-sm font-semibold border border-slate-300 bg-white text-slate-700 hover:bg-slate-100" data-type="service">Services</button>
+                </div>
+            </div>
             <!-- Mobile Slider -->
             <div class="md:hidden">
                 <div id="product-slider" class="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scrollbar-hide" style="-webkit-overflow-scrolling:touch; scroll-behavior:smooth;">
 
                     <!-- Karte 1 -->
-                    <div class="product-card bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden relative flex flex-col flex-shrink-0 w-[85vw] snap-center">
+                    <div class="product-card bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden relative flex flex-col flex-shrink-0 w-[85vw] snap-center" data-product-name="webentwicklung kurs html css javascript" data-product-type="course">
                         <div class="absolute top-4 left-4 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-md z-10 shadow-sm">Bestseller</div>
                         <img src="{{ url_for('static', filename='images/webentwicklung.svg') }}" alt="Webentwicklung Kurs" class="w-full h-52 object-cover">
                         <div class="p-6 flex flex-col flex-grow">
@@ -170,7 +179,7 @@
                     </div>
 
                     <!-- Karte 2 -->
-                    <div class="product-card bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden flex flex-col flex-shrink-0 w-[85vw] snap-center">
+                    <div class="product-card bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden flex flex-col flex-shrink-0 w-[85vw] snap-center" data-product-name="python basics web anwendungen" data-product-type="course">
                         <img src="{{ url_for('static', filename='images/python-basics.svg') }}" alt="Python Basics" class="w-full h-52 object-cover">
                         <div class="p-6 flex flex-col flex-grow">
                             <h3 class="text-xl font-bold mb-2 text-slate-900">Python Basics</h3>
@@ -192,7 +201,7 @@
                     </div>
 
                     <!-- Karte 3 -->
-                    <div class="product-card bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden flex flex-col flex-shrink-0 w-[85vw] snap-center">
+                    <div class="product-card bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden flex flex-col flex-shrink-0 w-[85vw] snap-center" data-product-name="projekte paket portfolio anwendung" data-product-type="course">
                         <img src="{{ url_for('static', filename='images/projekte-paket.svg') }}" alt="Projekte-Paket" class="w-full h-52 object-cover">
                         <div class="p-6 flex flex-col flex-grow">
                             <h3 class="text-xl font-bold mb-2 text-slate-900">Projekte-Paket</h3>
@@ -213,17 +222,76 @@
                         </div>
                     </div>
 
+                    <!-- Karte 4 -->
+                    <div class="product-card bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden flex flex-col flex-shrink-0 w-[85vw] snap-center" data-product-name="eigene website service" data-product-type="service">
+                        <img src="{{ url_for('static', filename='images/eigene-website-service.svg') }}" alt="Eigene Website" class="w-full h-52 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold mb-2 text-slate-900">Eigene Website</h3>
+                            <p class="text-slate-500 text-sm mb-6 flex-grow">Individuelle Website von Konzept bis Livegang.</p>
+                            <div class="flex justify-between items-center mb-6">
+                                <span class="text-lg font-black text-slate-900">Preis nach Umfang</span>
+                                <div class="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Auf Anfrage
+                                </div>
+                            </div>
+                            <a href="mailto:lerncoding2026@gmail.com?subject=Anfrage%20Eigene%20Website&body=Hallo%2C%20ich%20moechte%20eine%20eigene%20Website%20mit%20LernCoding%20umsetzen.%20Bitte%20meldet%20euch%20bei%20mir." class="w-full inline-flex items-center justify-center bg-slate-900 hover:bg-blue-600 text-white font-bold py-3 rounded-lg transition-transform hover:-translate-y-1 shadow-md">Kontaktiere mich</a>
+                            <p class="text-[10px] text-center text-slate-400 mt-3 font-medium">Individuelle Planung + Preisfindung per E-Mail</p>
+                        </div>
+                    </div>
+
+                    <!-- Karte 5 -->
+                    <div class="product-card bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden flex flex-col flex-shrink-0 w-[85vw] snap-center" data-product-name="eigene software tool automation" data-product-type="service">
+                        <img src="{{ url_for('static', filename='images/eigene-software-tool.svg') }}" alt="Eigene Software oder Tool" class="w-full h-52 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold mb-2 text-slate-900">Eigene Software / Tool</h3>
+                            <p class="text-slate-500 text-sm mb-6 flex-grow">Ich entwickle dein individuelles Tool fuer echten Mehrwert.</p>
+                            <div class="flex justify-between items-center mb-6">
+                                <span class="text-lg font-black text-slate-900">Preis nach Umfang</span>
+                                <div class="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Auf Anfrage
+                                </div>
+                            </div>
+                            <a href="mailto:lerncoding2026@gmail.com?subject=Anfrage%20Eigene%20Software%20oder%20Tool&body=Hallo%2C%20ich%20moechte%20eine%20eigene%20Software%20bzw.%20ein%20Tool%20mit%20LernCoding%20entwickeln.%20Bitte%20meldet%20euch%20bei%20mir." class="w-full inline-flex items-center justify-center bg-slate-900 hover:bg-blue-600 text-white font-bold py-3 rounded-lg transition-transform hover:-translate-y-1 shadow-md">Kontaktiere mich</a>
+                            <p class="text-[10px] text-center text-slate-400 mt-3 font-medium">Konzept, Entwicklung und Deployment abgestimmt</p>
+                        </div>
+                    </div>
+
                 </div>
                 <!-- Dots -->
                 <div id="product-dots" class="flex justify-center gap-2 mt-4">
                     <button class="product-dot w-2.5 h-2.5 rounded-full bg-slate-800 transition-opacity" data-index="0"></button>
                     <button class="product-dot w-2.5 h-2.5 rounded-full bg-slate-800 opacity-30 transition-opacity" data-index="1"></button>
                     <button class="product-dot w-2.5 h-2.5 rounded-full bg-slate-800 opacity-30 transition-opacity" data-index="2"></button>
+                    <button class="product-dot w-2.5 h-2.5 rounded-full bg-slate-800 opacity-30 transition-opacity" data-index="3"></button>
+                    <button class="product-dot w-2.5 h-2.5 rounded-full bg-slate-800 opacity-30 transition-opacity" data-index="4"></button>
                 </div>
                 <script>
                 (function(){
                     var slider = document.getElementById('product-slider');
                     var dots = document.querySelectorAll('.product-dot');
+                    var search = document.getElementById('product-search');
+                    var chips = Array.from(document.querySelectorAll('.product-filter-chip'));
+                    var activeType = 'all';
+                    var mobileCards = Array.from(slider.querySelectorAll('.product-card'));
+                    var desktopCards = Array.from(document.querySelectorAll('.hidden.md\\:grid .product-card'));
+
+                    function rebuildDots(visibleCount){
+                        var dotsWrap = document.getElementById('product-dots');
+                        dotsWrap.innerHTML = '';
+                        for (var i = 0; i < visibleCount; i++) {
+                            var btn = document.createElement('button');
+                            btn.className = 'product-dot w-2.5 h-2.5 rounded-full bg-slate-800 transition-opacity' + (i === 0 ? '' : ' opacity-30');
+                            btn.dataset.index = String(i);
+                            dotsWrap.appendChild(btn);
+                        }
+                        dots = dotsWrap.querySelectorAll('.product-dot');
+                        dots.forEach(function(dot){
+                            dot.addEventListener('click', function(){
+                                slider.scrollTo({left: parseInt(dot.dataset.index) * slider.offsetWidth, behavior:'smooth'});
+                            });
+                        });
+                    }
+
                     function updateDots(){
                         var idx = Math.round(slider.scrollLeft / slider.offsetWidth);
                         dots.forEach(function(d,i){
@@ -231,12 +299,55 @@
                             d.classList.toggle('opacity-100', i === idx);
                         });
                     }
+
+                    function filterProducts(){
+                        var term = (search.value || '').toLowerCase().trim();
+                        var visibleMobile = 0;
+
+                        mobileCards.forEach(function(card){
+                            var hay = (card.getAttribute('data-product-name') || '').toLowerCase();
+                            var type = card.getAttribute('data-product-type') || 'course';
+                            var typeMatch = activeType === 'all' || activeType === type;
+                            var textMatch = !term || hay.indexOf(term) !== -1;
+                            var show = typeMatch && textMatch;
+                            card.style.display = show ? '' : 'none';
+                            if (show) visibleMobile += 1;
+                        });
+
+                        desktopCards.forEach(function(card){
+                            var hay = (card.getAttribute('data-product-name') || '').toLowerCase();
+                            var type = card.getAttribute('data-product-type') || 'course';
+                            var typeMatch = activeType === 'all' || activeType === type;
+                            var textMatch = !term || hay.indexOf(term) !== -1;
+                            var show = typeMatch && textMatch;
+                            card.style.display = show ? '' : 'none';
+                        });
+
+                        rebuildDots(Math.max(visibleMobile, 1));
+                        slider.scrollLeft = 0;
+                        updateDots();
+                    }
+
+                    function setActiveChip(type){
+                        activeType = type;
+                        chips.forEach(function(chip){
+                            var selected = chip.dataset.type === type;
+                            chip.classList.toggle('bg-slate-900', selected);
+                            chip.classList.toggle('text-white', selected);
+                            chip.classList.toggle('bg-white', !selected);
+                            chip.classList.toggle('text-slate-700', !selected);
+                        });
+                        filterProducts();
+                    }
+
                     slider.addEventListener('scroll', updateDots, {passive:true});
-                    dots.forEach(function(dot){
-                        dot.addEventListener('click', function(){
-                            slider.scrollTo({left: parseInt(dot.dataset.index) * slider.offsetWidth, behavior:'smooth'});
+                    search.addEventListener('input', filterProducts);
+                    chips.forEach(function(chip){
+                        chip.addEventListener('click', function(){
+                            setActiveChip(chip.dataset.type || 'all');
                         });
                     });
+                    setActiveChip('all');
                 })();
                 </script>
             </div>
@@ -245,7 +356,7 @@
             <div class="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
 
                 <!-- Karte 1 -->
-                <div class="product-card bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden relative flex flex-col gsap-hide">
+                <div class="product-card bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden relative flex flex-col gsap-hide" data-product-name="webentwicklung kurs html css javascript" data-product-type="course">
                     <div class="absolute top-4 left-4 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-md z-10 shadow-sm">Bestseller</div>
                     <img src="{{ url_for('static', filename='images/webentwicklung.svg') }}" alt="Webentwicklung Kurs" class="w-full h-52 object-cover">
                     <div class="p-6 flex flex-col flex-grow">
@@ -265,7 +376,7 @@
                 </div>
 
                 <!-- Karte 2 -->
-                <div class="product-card bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden flex flex-col gsap-hide">
+                <div class="product-card bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden flex flex-col gsap-hide" data-product-name="python basics web anwendungen" data-product-type="course">
                     <img src="{{ url_for('static', filename='images/python-basics.svg') }}" alt="Python Basics" class="w-full h-52 object-cover">
                     <div class="p-6 flex flex-col flex-grow">
                         <h3 class="text-xl font-bold mb-2 text-slate-900">Python Basics</h3>
@@ -287,7 +398,7 @@
                 </div>
 
                 <!-- Karte 3 -->
-                <div class="product-card bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden flex flex-col gsap-hide">
+                <div class="product-card bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden flex flex-col gsap-hide" data-product-name="projekte paket portfolio anwendung" data-product-type="course">
                     <img src="{{ url_for('static', filename='images/projekte-paket.svg') }}" alt="Projekte-Paket" class="w-full h-52 object-cover">
                     <div class="p-6 flex flex-col flex-grow">
                         <h3 class="text-xl font-bold mb-2 text-slate-900">Projekte-Paket</h3>
@@ -305,6 +416,40 @@
                             <button type="submit" class="w-full bg-[#FFC439] hover:bg-[#F4B82A] text-slate-900 font-bold py-3 rounded-lg transition-transform hover:-translate-y-1 shadow-md">Jetzt kaufen</button>
                         </form>
                         <p class="text-[10px] text-center text-slate-400 mt-3 font-medium">Sicherer Checkout ueber Stripe + Code per E-Mail</p>
+                    </div>
+                </div>
+
+                <!-- Karte 4 -->
+                <div class="product-card bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden flex flex-col gsap-hide" data-product-name="eigene website service" data-product-type="service">
+                    <img src="{{ url_for('static', filename='images/eigene-website-service.svg') }}" alt="Eigene Website" class="w-full h-52 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold mb-2 text-slate-900">Eigene Website</h3>
+                        <p class="text-slate-500 text-sm mb-6 flex-grow">Individuelle Website von Konzept bis Livegang.</p>
+                        <div class="flex justify-between items-center mb-6">
+                            <span class="text-lg font-black text-slate-900">Preis nach Umfang</span>
+                            <div class="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
+                                <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Auf Anfrage
+                            </div>
+                        </div>
+                        <a href="mailto:lerncoding2026@gmail.com?subject=Anfrage%20Eigene%20Website&body=Hallo%2C%20ich%20moechte%20eine%20eigene%20Website%20mit%20LernCoding%20umsetzen.%20Bitte%20meldet%20euch%20bei%20mir." class="w-full inline-flex items-center justify-center bg-slate-900 hover:bg-blue-600 text-white font-bold py-3 rounded-lg transition-transform hover:-translate-y-1 shadow-md">Kontaktiere mich</a>
+                        <p class="text-[10px] text-center text-slate-400 mt-3 font-medium">Individuelle Planung + Preisfindung per E-Mail</p>
+                    </div>
+                </div>
+
+                <!-- Karte 5 -->
+                <div class="product-card bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden flex flex-col gsap-hide" data-product-name="eigene software tool automation" data-product-type="service">
+                    <img src="{{ url_for('static', filename='images/eigene-software-tool.svg') }}" alt="Eigene Software oder Tool" class="w-full h-52 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold mb-2 text-slate-900">Eigene Software / Tool</h3>
+                        <p class="text-slate-500 text-sm mb-6 flex-grow">Ich entwickle dein individuelles Tool fuer echten Mehrwert.</p>
+                        <div class="flex justify-between items-center mb-6">
+                            <span class="text-lg font-black text-slate-900">Preis nach Umfang</span>
+                            <div class="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
+                                <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Auf Anfrage
+                            </div>
+                        </div>
+                        <a href="mailto:lerncoding2026@gmail.com?subject=Anfrage%20Eigene%20Software%20oder%20Tool&body=Hallo%2C%20ich%20moechte%20eine%20eigene%20Software%20bzw.%20ein%20Tool%20mit%20LernCoding%20entwickeln.%20Bitte%20meldet%20euch%20bei%20mir." class="w-full inline-flex items-center justify-center bg-slate-900 hover:bg-blue-600 text-white font-bold py-3 rounded-lg transition-transform hover:-translate-y-1 shadow-md">Kontaktiere mich</a>
+                        <p class="text-[10px] text-center text-slate-400 mt-3 font-medium">Konzept, Entwicklung und Deployment abgestimmt</p>
                     </div>
                 </div>
 

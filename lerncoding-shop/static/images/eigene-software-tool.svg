@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Eigene Software oder Tool</title>
+  <desc id="desc">Abstrakte Illustration fuer individuelle Tool-Entwicklung.</desc>
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e2e8f0"/>
+      <stop offset="100%" stop-color="#d1fae5"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg2)"/>
+  <rect x="100" y="70" width="1000" height="490" rx="32" fill="url(#card)"/>
+  <rect x="160" y="130" width="600" height="350" rx="22" fill="#1f2937"/>
+  <rect x="800" y="130" width="240" height="160" rx="18" fill="#2563eb"/>
+  <rect x="800" y="320" width="240" height="160" rx="18" fill="#16a34a"/>
+  <path d="M240 240h110l40 60-40 60H240" fill="none" stroke="#38bdf8" stroke-width="18" stroke-linejoin="round"/>
+  <path d="M540 240H430l-40 60 40 60h110" fill="none" stroke="#22d3ee" stroke-width="18" stroke-linejoin="round"/>
+  <circle cx="360" cy="300" r="20" fill="#fbbf24"/>
+  <text x="180" y="420" font-size="42" font-family="Arial, sans-serif" fill="#ffffff" font-weight="700">Eigene Software / Tool</text>
+  <text x="180" y="465" font-size="26" font-family="Arial, sans-serif" fill="#93c5fd">Automatisierung, Dashboard, API</text>
+</svg>
