@@ -81,7 +81,7 @@
 
             <div class="flex-1 text-center lg:text-left hero-text gsap-hide">
                 <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 leading-tight mb-6">
-                    Praxisnah <br> <span class="text-blue-600">Programmieren lernen</span>
+                    Praxisnah <br> <span class="text-blue-600"><span id="hero-typewriter"></span><span id="hero-cursor" style="display:inline-block;width:3px;background:currentColor;margin-left:2px;border-radius:2px;animation:heroBlink 1s step-end infinite;">&#8203;</span></span>
                 </h1>
                 <p class="text-slate-600 text-lg mb-8 max-w-md mx-auto lg:mx-0">
                     Entdecke unsere Kurse, Tutorials und Programmierprojekte, um deine Coding-Skills Schritt für Schritt aufzubauen und direkt anzuwenden.
@@ -786,6 +786,42 @@
                 scrub: 0.8,
             }
         });
+    })();
+    </script>
+
+    <!-- ═══════════════════════════════════════════
+         HERO TYPEWRITER
+    ════════════════════════════════════════════ -->
+    <script>
+    (function () {
+        var tw = document.getElementById('hero-typewriter');
+        var cursor = document.getElementById('hero-cursor');
+        if (!tw || !cursor) return;
+
+        var text = 'Programmieren lernen';
+        var delay = 900; /* start after GSAP hero anim */
+        var speed = 55;  /* ms per character */
+
+        /* cursor blink keyframes */
+        if (!document.getElementById('heroBlink-style')) {
+            var s = document.createElement('style');
+            s.id = 'heroBlink-style';
+            s.textContent = '@keyframes heroBlink{0%,100%{opacity:1}50%{opacity:0}}';
+            document.head.appendChild(s);
+        }
+
+        /* set cursor height to match font */
+        cursor.style.height = '0.85em';
+        cursor.style.verticalAlign = 'middle';
+
+        var i = 0;
+        setTimeout(function type() {
+            if (i < text.length) {
+                tw.textContent += text[i++];
+                setTimeout(type, speed);
+            }
+            /* cursor keeps blinking after typing is done */
+        }, delay);
     })();
     </script>
 
