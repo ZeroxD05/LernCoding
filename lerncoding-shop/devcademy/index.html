@@ -650,116 +650,8 @@
     line-height: 1.8; font-weight: 300;
   }
 
-  .video-block.has-video {
-    display: block;
-    align-items: stretch;
-    justify-content: stretch;
-  }
-  .video-block.has-video video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 0;
-  }
-  .video-block::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse at center, rgba(255,255,255,0.03) 0%, transparent 70%);
-  }
-  .video-play-btn {
-    width: 60px; height: 60px;
-    border: 1px solid var(--border2);
-    background: var(--bg4);
-    display: flex; align-items: center; justify-content: center;
-    transition: background 0.2s;
-  }
-  .video-block:hover .video-play-btn { background: var(--bg); }
-  .video-label {
-    font-family: var(--mono); font-size: 11px;
-    color: var(--text3); letter-spacing: 0.1em; text-transform: uppercase;
-  }
-  .video-url-input {
-    position: absolute; bottom: 16px; left: 16px; right: 16px;
-    background: var(--bg);
-    border: 1px solid var(--border2);
-    color: var(--text2);
-    font-family: var(--mono); font-size: 11px;
-    padding: 8px 12px; outline: none;
-    display: none;
-  }
-  .video-block.has-url .video-url-input { display: block; }
-
   /* Blog-style text */
   .blog-block { margin-bottom: 40px; display: flex; flex-direction: column; gap: 20px; }
-  .lesson-video-embed {
-    margin-bottom: 32px;
-    border: 1px solid var(--border);
-    background: var(--bg2);
-  }
-  .lesson-video-head {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--text3);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 10px 14px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-  }
-  .lesson-video-controls {
-    display: flex;
-    gap: 8px;
-    padding: 12px;
-    border-bottom: 1px solid var(--border);
-    flex-wrap: wrap;
-  }
-  .lesson-video-input {
-    flex: 1;
-    min-width: 220px;
-    background: var(--bg4);
-    border: 1px solid var(--border2);
-    color: var(--text2);
-    font-family: var(--mono);
-    font-size: 16px;
-    padding: 10px 12px;
-    outline: none;
-  }
-  .lesson-video-btn {
-    background: var(--white);
-    color: var(--bg);
-    border: none;
-    font-family: var(--sans);
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 10px 14px;
-    cursor: pointer;
-    transition: background 0.2s;
-    white-space: nowrap;
-  }
-  .lesson-video-btn:hover { background: #ccc; }
-  .lesson-video-frame-wrap {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    background: #000;
-  }
-  .lesson-video-frame {
-    width: 100%;
-    height: 100%;
-    border: none;
-  }
-  .lesson-video-note {
-    padding: 14px;
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--text3);
-    line-height: 1.6;
-  }
   .blog-h2 {
     font-size: 18px; font-weight: 700; letter-spacing: -0.4px;
     color: var(--white); border-left: 2px solid var(--border2); padding-left: 16px;
@@ -1626,12 +1518,7 @@ function renderLesson(course, idx) {
   const isFirst = idx === 0;
   const isLast = idx === course.lessons.length - 1;
 
-  const showHtmlIntroEmbed = currentCourse === 'html' && idx === 0;
-
   const blogHTML = lesson.blogContent.map(block => {
-    if (showHtmlIntroEmbed && block.type === 'h2' && block.text === 'Was ist HTML?') {
-      return `${renderHtmlIntroVideoEmbed()}<div class="blog-h2">${block.text}</div>`;
-    }
     if (block.type === 'h2') return `<div class="blog-h2">${block.text}</div>`;
     if (block.type === 'p') return `<div class="blog-p">${block.text}</div>`;
     if (block.type === 'code') return `<pre class="blog-code">${escapeHTML(block.text)}</pre>`;
@@ -1674,89 +1561,6 @@ function renderLesson(course, idx) {
       </button>
     </div>
   `;
-}
-
-function renderHtmlIntroVideoEmbed() {
-  const defaultUrl = 'https://www.youtube.com/watch?v=nmiWXn6aIAs';
-  const savedUrl = localStorage.getItem('da_html_intro_video_url') || defaultUrl;
-  const embedUrl = toYouTubeEmbedUrl(savedUrl);
-
-  return `
-    <div class="lesson-video-embed">
-      <div class="lesson-video-head">
-        <span>YouTube Embed für "Was ist HTML"</span>
-      </div>
-      <div class="lesson-video-controls">
-        <input
-          id="html-intro-video-input"
-          class="lesson-video-input"
-          type="text"
-          placeholder="YouTube Link einfügen (https://...)"
-          value="${escapeHTML(savedUrl)}"
-        />
-        <button class="lesson-video-btn" onclick="applyHtmlIntroVideo()">Video laden</button>
-      </div>
-      ${embedUrl ? `
-        <div class="lesson-video-frame-wrap">
-          <iframe
-            id="html-intro-video-frame"
-            class="lesson-video-frame"
-            src="${embedUrl}"
-            title="Was ist HTML - YouTube"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allowfullscreen
-          ></iframe>
-        </div>
-      ` : '<div class="lesson-video-note">Noch kein gueltiger YouTube-Link gesetzt. Fuege oben einen Link ein und klicke auf "Video laden".</div>'}
-    </div>
-  `;
-}
-
-function toYouTubeEmbedUrl(url) {
-  const raw = (url || '').trim();
-  if (!raw) return '';
-
-  try {
-    const parsed = new URL(raw);
-    let videoId = '';
-
-    if (parsed.hostname.includes('youtu.be')) {
-      videoId = parsed.pathname.replace('/', '').trim();
-    } else if (parsed.hostname.includes('youtube.com')) {
-      if (parsed.pathname.startsWith('/watch')) {
-        videoId = parsed.searchParams.get('v') || '';
-      } else if (parsed.pathname.startsWith('/embed/')) {
-        videoId = parsed.pathname.split('/embed/')[1] || '';
-      } else if (parsed.pathname.startsWith('/shorts/')) {
-        videoId = parsed.pathname.split('/shorts/')[1] || '';
-      }
-    }
-
-    videoId = (videoId || '').split(/[?&/]/)[0].trim();
-    if (!videoId) return '';
-
-    return `https://www.youtube.com/embed/${videoId}`;
-  } catch (_err) {
-    return '';
-  }
-}
-
-function applyHtmlIntroVideo() {
-  const input = document.getElementById('html-intro-video-input');
-  if (!input) return;
-
-  const raw = input.value.trim();
-  localStorage.setItem('da_html_intro_video_url', raw);
-
-  const course = COURSES[currentCourse];
-  if (!course) return;
-
-  const content = document.getElementById('lesson-content');
-  if (!content) return;
-
-  content.innerHTML = renderLesson(course, currentLesson);
-  initEditors();
 }
 
 function renderHTMLEditor(code) {
