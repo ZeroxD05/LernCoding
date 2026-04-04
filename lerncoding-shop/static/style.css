@@ -834,8 +834,18 @@ section.bg-slate-50 h2 { font-family: var(--font-head); font-size: 2rem; color: 
   font-weight: 300;
   line-height: 1.7;
   font-size: .92rem !important;
-  border-top: 1px solid var(--border);
+  max-height: 0;
+  overflow: hidden;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  border-top: none !important;
+  transition: max-height .35s ease, padding .35s ease;
+}
+.faq-item.open .faq-content {
+  max-height: 600px;
+  border-top: 1px solid var(--border) !important;
   padding-top: 1rem !important;
+  padding-bottom: 1.75rem !important;
 }
 
 /* ─── Footer ─────────────────────────────────────────────────────── */

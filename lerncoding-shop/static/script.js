@@ -120,14 +120,11 @@ if (window.gsap && window.ScrollTrigger) {
 document.querySelectorAll('.faq-button').forEach((button) => {
     button.addEventListener('click', () => {
         const content = button.nextElementSibling;
-        const icon = button.querySelector('svg');
         if (!content) {
             return;
         }
-        content.classList.toggle('hidden');
-        if (icon) {
-            icon.style.transform = content.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
-        }
+        const item = button.closest('.faq-item');
+        item.classList.toggle('open');
     });
 });
 
