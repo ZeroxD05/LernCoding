@@ -1,14 +1,14 @@
 {% extends 'layout.html' %}
 
-{% block title %}Registrieren | LernCoding{% endblock %}
+{% block title %}Anmelden | LernCoding{% endblock %}
 
 {% block content %}
 <section class="auth-shell">
     <div class="auth-card max-w-md mx-auto">
         <div class="mb-8 text-center">
-            <p class="auth-eyebrow">Neues Konto</p>
-            <h1 class="text-3xl font-extrabold text-slate-900 mt-2">Registrieren</h1>
-            <p class="text-slate-600 mt-3">Erstelle dein LernCoding-Konto und erhalte Zugriff auf deine digitalen Produkte und LernCoding-Academy-Zugaenge.</p>
+            <p class="auth-eyebrow">Konto</p>
+            <h1 class="text-3xl font-extrabold text-slate-900 mt-2">Anmelden oder Registrieren</h1>
+            <p class="text-slate-600 mt-3">Nutze E-Mail und Passwort: bei bestehendem Konto wirst du eingeloggt, sonst wird ein neues Konto erstellt.</p>
         </div>
 
         <form method="post" class="space-y-5">
@@ -32,10 +32,8 @@
                     </button>
                 </div>
             </div>
-            <button type="submit" class="auth-submit">Konto anlegen</button>
+            <button type="submit" class="auth-submit">Weiter</button>
         </form>
-
-        <p class="text-sm text-slate-500 mt-6 text-center">Schon registriert? <a href="{{ url_for('login') }}" class="text-blue-600 font-semibold hover:text-blue-700">Zum Login</a></p>
     </div>
 </section>
 {% endblock %}

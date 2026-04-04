@@ -333,7 +333,7 @@ def login_required(view):
     def wrapped_view(*args, **kwargs):
         if g.user is None:
             flash("Bitte logge dich zuerst ein.", "error")
-            return redirect(url_for("login"))
+            return redirect(url_for("register"))
         return view(*args, **kwargs)
 
     return wrapped_view
@@ -699,32 +699,29 @@ def register():
         email = request.form.get("email", "").strip().lower()
         password = request.form.get("password", "")
 
-        if len(name) < 2:
-            flash("Bitte gib einen gueltigen Namen ein.", "error")
-        elif "@" not in email:
+        if "@" not in email:
             flash("Bitte gib eine gueltige E-Mail-Adresse ein.", "error")
         elif len(password) < 6:
             flash("Das Passwort muss mindestens 6 Zeichen lang sein.", "error")
         else:
             db = get_db()
-            try:
-                cursor = db.execute(
-                    "INSERT INTO users (name, email, password_hash) VALUES (?, ?, ?)",
-                    (name, email, generate_password_hash(password, method="pbkdf2:sha256")),
-                )
-                db.commit()
-            except Exception as exc:
-                db.rollback()
-                error_name = exc.__class__.__name__
-                if error_name not in ("IntegrityError", "UniqueViolation"):
-                    raise
-                existing_user = fetch_user_by_email(email)
-                # Controlled recovery path for accounts without purchases.
-                # Requires matching name to reduce accidental takeovers.
-                if (
-                    existing_user is not None
-                    and existing_user["name"].strip().lower() == name.strip().lower()
-                ):
+            existing_user = db.execute(
+                "SELECT id, name, email, password_hash FROM users WHERE email = ?",
+                (email,),
+            ).fetchone()
+
+            # Existing account: treat this page as login.
+            if existing_user is not None:
+                if check_password_hash(existing_user["password_hash"], password):
+                    session.clear()
+                    session["user_id"] = existing_user["id"]
+                    session["user_email"] = existing_user["email"]
+                    session["user_name"] = existing_user["name"]
+                    flash("Erfolgreich eingeloggt.", "success")
+                    return redirect(url_for("dashboard"))
+
+                # Optional recovery with matching name.
+                if name and existing_user["name"].strip().lower() == name.strip().lower():
                     db.execute(
                         "UPDATE users SET password_hash = ? WHERE id = ?",
                         (generate_password_hash(password, method="pbkdf2:sha256"), existing_user["id"]),
@@ -732,16 +729,28 @@ def register():
                     db.commit()
                     session.clear()
                     session["user_id"] = existing_user["id"]
-                    session["user_email"] = email
+                    session["user_email"] = existing_user["email"]
                     session["user_name"] = existing_user["name"]
-                    flash("Konto wiederhergestellt und eingeloggt.", "success")
+                    flash("Passwort aktualisiert und eingeloggt.", "success")
                     return redirect(url_for("dashboard"))
 
-                flash("Diese E-Mail ist bereits registriert.", "error")
+                flash("Login fehlgeschlagen. Bitte pruefe E-Mail und Passwort.", "error")
             else:
+                if len(name) < 2:
+                    flash("Bitte gib einen gueltigen Namen ein.", "error")
+                    return render_template("register.html")
+
                 session.clear()
+                cursor = db.execute(
+                    "INSERT INTO users (name, email, password_hash) VALUES (?, ?, ?)",
+                    (name, email, generate_password_hash(password, method="pbkdf2:sha256")),
+                )
+                db.commit()
+
                 created_user = fetch_user_by_email(email)
-                session["user_id"] = created_user["id"] if created_user is not None else cursor.lastrowid
+                session["user_id"] = (
+                    created_user["id"] if created_user is not None else cursor.lastrowid
+                )
                 session["user_email"] = email
                 session["user_name"] = name
                 flash("Konto erstellt. Willkommen bei LernCoding.", "success")
@@ -752,28 +761,7 @@ def register():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    if g.user is not None:
-        return redirect(url_for("dashboard"))
-
-    if request.method == "POST":
-        email = request.form.get("email", "").strip().lower()
-        password = request.form.get("password", "")
-        user = get_db().execute(
-            "SELECT id, name, email, password_hash FROM users WHERE email = ?",
-            (email,),
-        ).fetchone()
-
-        if user is None or not check_password_hash(user["password_hash"], password):
-            flash("Login fehlgeschlagen. Bitte pruefe E-Mail und Passwort.", "error")
-        else:
-            session.clear()
-            session["user_id"] = user["id"]
-            session["user_email"] = user["email"]
-            session["user_name"] = user["name"]
-            flash("Erfolgreich eingeloggt.", "success")
-            return redirect(url_for("dashboard"))
-
-    return render_template("login.html")
+    return register()
 
 
 @app.route("/logout", methods=["POST"])
