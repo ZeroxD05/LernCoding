@@ -105,7 +105,18 @@
             <div class="flex-1 hero-image gsap-hide w-full max-w-[15rem] sm:max-w-xs lg:max-w-sm relative mt-4 sm:mt-8 lg:mt-0 mx-auto hidden lg:block">
                 <div class="absolute -inset-3 sm:-inset-4 bg-blue-500/20 rounded-[2.5rem] blur-xl float-anim"></div>
                 <div class="bg-white aspect-[4/5] sm:aspect-square rounded-[2rem] shadow-2xl flex items-center justify-center float-anim border border-slate-100 relative overflow-hidden z-10">
-                    <img src="{{ url_for('static', filename='heropic.JPG') }}" alt="LernCoding Logo" class="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500">
+                    <div class="w-full h-full bg-slate-950 text-slate-100 font-mono p-5 flex flex-col">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="w-2.5 h-2.5 rounded-full bg-red-400"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-amber-300"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                            <span class="text-[10px] text-slate-400 ml-2">main.py</span>
+                        </div>
+                        <pre id="hero-code-pre" class="text-[11px] leading-5 whitespace-pre-wrap break-words flex-1 overflow-hidden"></pre>
+                        <div class="pt-3 border-t border-slate-800 text-[10px] text-slate-400">
+                            <span id="hero-code-status">typing...</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -120,9 +131,12 @@
         <div class="max-w-4xl mx-auto">
             <h2 class="text-3xl font-bold text-center mb-12 scroll-anim gsap-hide">Über mich</h2>
             <div class="flex flex-col md:flex-row items-center gap-10">
-                <div class="w-48 h-48 rounded-full overflow-hidden shadow-xl border-4 border-white scroll-anim gsap-hide flex-shrink-0">
-                    <img src="{{ url_for('static', filename='me.jpg') }}" alt="Gründer" class="w-full h-full object-cover">
-                </div>
+                <button type="button" id="about-easter-egg" class="relative w-52 h-52 rounded-full p-[5px] bg-gradient-to-tr from-slate-300 via-sky-300 to-slate-400 shadow-xl scroll-anim gsap-hide flex-shrink-0 focus:outline-none focus:ring-4 focus:ring-sky-200" aria-label="Easter Egg öffnen">
+                    <div class="w-full h-full rounded-full overflow-hidden border-4 border-white bg-white">
+                        <img src="{{ url_for('static', filename='me.jpg') }}" alt="Gründer" class="w-full h-full object-cover">
+                    </div>
+                    <span class="absolute right-3 bottom-3 w-7 h-7 rounded-full bg-slate-900 text-white text-xs font-extrabold flex items-center justify-center border-2 border-white shadow">1</span>
+                </button>
                 <div class="flex-1 text-center md:text-left">
                     <h3 class="text-2xl font-bold mb-4 scroll-anim gsap-hide">Hallo! Ich bin der Gründer von LernCoding.</h3>
                     <p class="text-slate-600 mb-6 scroll-anim gsap-hide">Meine Leidenschaft ist es, Programmierwissen praxisnah und verständlich zu vermitteln – egal ob Anfänger oder Fortgeschrittene.</p>
@@ -876,6 +890,77 @@
             }
             /* cursor keeps blinking after typing is done */
         }, delay);
+    })();
+    </script>
+
+    <script>
+    (function () {
+        var pre = document.getElementById('hero-code-pre');
+        var status = document.getElementById('hero-code-status');
+        if (!pre || !status) return;
+
+        var lines = [
+            'def build_project(name):',
+            '    stack = ["HTML", "CSS", "JavaScript"]',
+            '    if "Python" not in stack:',
+            '        stack.append("Python")',
+            '    return {"name": name, "stack": stack}',
+            '',
+            'project = build_project("LernCoding")',
+            'print("Status:", "ready")'
+        ];
+
+        var cursorVisible = true;
+        var lineIndex = 0;
+        var charIndex = 0;
+        var output = [];
+        var current = '';
+
+        function render() {
+            var cursor = cursorVisible ? '|' : ' ';
+            pre.textContent = output.join('\n') + (output.length ? '\n' : '') + current + cursor;
+        }
+
+        setInterval(function () {
+            cursorVisible = !cursorVisible;
+            render();
+        }, 500);
+
+        function typeNext() {
+            if (lineIndex >= lines.length) {
+                status.textContent = 'run complete';
+                return;
+            }
+
+            var line = lines[lineIndex];
+            if (charIndex < line.length) {
+                current += line.charAt(charIndex++);
+                render();
+                setTimeout(typeNext, 26);
+                return;
+            }
+
+            output.push(current);
+            current = '';
+            charIndex = 0;
+            lineIndex += 1;
+            render();
+            setTimeout(typeNext, 180);
+        }
+
+        render();
+        setTimeout(typeNext, 700);
+    })();
+    </script>
+
+    <script>
+    (function () {
+        var easterEggBtn = document.getElementById('about-easter-egg');
+        if (!easterEggBtn) return;
+
+        easterEggBtn.addEventListener('click', function () {
+            alert('Easter Egg gefunden! Schreib mir auf Discord eine DM: zero269. Dann bekommst du eine Überraschung für Discord.');
+        });
     })();
     </script>
 

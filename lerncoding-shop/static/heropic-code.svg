@@ -1,0 +1,78 @@
+<svg width="900" height="1100" viewBox="0 0 900 1100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="40" x2="780" y2="1040" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F172A"/>
+      <stop offset="1" stop-color="#1E293B"/>
+    </linearGradient>
+    <linearGradient id="frame" x1="120" y1="100" x2="790" y2="1000" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#334155"/>
+      <stop offset="1" stop-color="#475569"/>
+    </linearGradient>
+    <linearGradient id="pill" x1="150" y1="140" x2="370" y2="220" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#22D3EE"/>
+      <stop offset="1" stop-color="#3B82F6"/>
+    </linearGradient>
+    <filter id="shadow" x="90" y="70" width="720" height="980" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+      <feOffset dy="16"/>
+      <feGaussianBlur stdDeviation="14"/>
+      <feComposite in2="hardAlpha" operator="out"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.35 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1_1"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1_1" result="shape"/>
+    </filter>
+  </defs>
+
+  <rect width="900" height="1100" fill="url(#bg)"/>
+
+  <g opacity="0.18">
+    <circle cx="760" cy="170" r="150" fill="#38BDF8"/>
+    <circle cx="120" cy="930" r="210" fill="#14B8A6"/>
+    <circle cx="730" cy="930" r="120" fill="#6366F1"/>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="140" y="110" width="620" height="900" rx="24" fill="#020617"/>
+    <rect x="140.75" y="110.75" width="618.5" height="898.5" rx="23.25" stroke="url(#frame)" stroke-width="1.5"/>
+  </g>
+
+  <rect x="140" y="110" width="620" height="70" rx="24" fill="#0B1220"/>
+  <circle cx="178" cy="146" r="8" fill="#F87171"/>
+  <circle cx="206" cy="146" r="8" fill="#FBBF24"/>
+  <circle cx="234" cy="146" r="8" fill="#34D399"/>
+
+  <rect x="522" y="124" width="220" height="44" rx="22" fill="url(#pill)"/>
+  <text x="632" y="152" text-anchor="middle" fill="#E2E8F0" font-size="19" font-family="monospace">run main.py</text>
+
+  <text x="176" y="240" fill="#94A3B8" font-size="25" font-family="monospace"># LernCoding Hero Snippet</text>
+
+  <text x="176" y="292" fill="#C084FC" font-size="27" font-family="monospace">def</text>
+  <text x="238" y="292" fill="#F8FAFC" font-size="27" font-family="monospace"> build_project(name):</text>
+
+  <text x="206" y="340" fill="#22D3EE" font-size="27" font-family="monospace">stack</text>
+  <text x="286" y="340" fill="#F8FAFC" font-size="27" font-family="monospace"> = ["HTML", "CSS", "JavaScript"]</text>
+
+  <text x="206" y="388" fill="#F8FAFC" font-size="27" font-family="monospace">if </text>
+  <text x="250" y="388" fill="#FB7185" font-size="27" font-family="monospace">"Python"</text>
+  <text x="362" y="388" fill="#F8FAFC" font-size="27" font-family="monospace"> not in stack:</text>
+
+  <text x="236" y="436" fill="#F8FAFC" font-size="27" font-family="monospace">stack.append(</text>
+  <text x="418" y="436" fill="#F59E0B" font-size="27" font-family="monospace">"Python"</text>
+  <text x="560" y="436" fill="#F8FAFC" font-size="27" font-family="monospace">)</text>
+
+  <text x="206" y="484" fill="#F8FAFC" font-size="27" font-family="monospace">return {</text>
+  <text x="250" y="532" fill="#F8FAFC" font-size="27" font-family="monospace">"name": name,</text>
+  <text x="250" y="580" fill="#F8FAFC" font-size="27" font-family="monospace">"stack": stack,</text>
+  <text x="250" y="628" fill="#F8FAFC" font-size="27" font-family="monospace">"status": </text>
+  <text x="394" y="628" fill="#4ADE80" font-size="27" font-family="monospace">"ready"</text>
+  <text x="506" y="628" fill="#F8FAFC" font-size="27" font-family="monospace">}</text>
+
+  <text x="176" y="706" fill="#94A3B8" font-size="25" font-family="monospace">project = build_project("LernCoding")</text>
+  <text x="176" y="754" fill="#22D3EE" font-size="27" font-family="monospace">print</text>
+  <text x="244" y="754" fill="#F8FAFC" font-size="27" font-family="monospace">(project["status"])</text>
+
+  <rect x="176" y="810" width="548" height="120" rx="14" fill="#0F172A" stroke="#334155"/>
+  <text x="204" y="860" fill="#4ADE80" font-size="27" font-family="monospace">&gt; ready</text>
+  <text x="204" y="900" fill="#94A3B8" font-size="22" font-family="monospace">Build complete in 0.42s</text>
+</svg>
