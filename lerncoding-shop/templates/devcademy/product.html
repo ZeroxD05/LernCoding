@@ -1,6 +1,6 @@
 {% extends 'layout.html' %}
 
-{% block title %}{{ product['name'] }} | Devcademy{% endblock %}
+{% block title %}{{ product['name'] }} | LernCoding - Academy{% endblock %}
 
 {% block content %}
 <section class="space-y-8">
@@ -9,7 +9,7 @@
         <img src="{{ url_for('static', filename=product['image']) }}" alt="{{ product['name'] }}" class="w-full rounded-t-2xl object-cover" style="max-height:280px;">
         {% endif %}
         <div class="p-6 sm:p-8">
-            <p class="auth-eyebrow">Devcademy Bereich</p>
+            <p class="auth-eyebrow">LernCoding - Academy</p>
             <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-2">{{ product['name'] }}</h1>
             <p class="text-slate-600 mt-4 max-w-2xl">{{ product['subtitle'] }}</p>
             <div class="mt-6 flex flex-wrap gap-3">
@@ -125,7 +125,7 @@ git push -u origin main</code></pre>
                     <div class="resource-bullet"></div>
                     <div>
                         <h3 class="font-bold text-slate-900">{{ item }}</h3>
-                        <p class="text-slate-500 text-sm mt-1">Direkt nach dem Freischalten verknuepft und dauerhaft in deinem Devcademy-Zugang verfuegbar.</p>
+                        <p class="text-slate-500 text-sm mt-1">Direkt nach dem Freischalten verknuepft und dauerhaft in deinem LernCoding-Academy-Zugang verfuegbar.</p>
                     </div>
                 </article>
                 {% endfor %}

@@ -1,6 +1,7 @@
 import os
 import secrets
 import sqlite3
+from datetime import date
 from functools import wraps
 from pathlib import Path
 
@@ -107,6 +108,7 @@ PRODUCTS = {
     "webentwicklung": {
         "name": "Webentwicklung Kurs",
         "price": "29.99€",
+        "list_price": "29.99€",
         "price_cents": 2999,
         "stripe_product_id": "prod_UGcZX7fpyVUC7P",
         "shop_code": "Webs-1203",
@@ -123,6 +125,7 @@ PRODUCTS = {
     "python-basics": {
         "name": "Python Basics",
         "price": "39.99€",
+        "list_price": "39.99€",
         "price_cents": 3999,
         "stripe_product_id": "prod_UGcbGyYQnoicno",
         "shop_code": "Pyth-0310",
@@ -139,6 +142,7 @@ PRODUCTS = {
     "projekte-paket": {
         "name": "Projekte-Paket",
         "price": "49.99€",
+        "list_price": "49.99€",
         "price_cents": 4999,
         "stripe_product_id": "prod_UGcdeI5tzoqZiE",
         "shop_code": "bundl-3066",
@@ -153,6 +157,20 @@ PRODUCTS = {
         ],
     },
 }
+
+OPENING_PROMO_END_DATE = date(2026, 4, 10)
+OPENING_PROMO_ACTIVE = date.today() <= OPENING_PROMO_END_DATE
+OPENING_PROMO_LABEL = "Freitag, 10.04.2026"
+
+if OPENING_PROMO_ACTIVE:
+    PRODUCTS["webentwicklung"]["price"] = "19.99€"
+    PRODUCTS["webentwicklung"]["price_cents"] = 1999
+
+    PRODUCTS["python-basics"]["price"] = "24.99€"
+    PRODUCTS["python-basics"]["price_cents"] = 2499
+
+    PRODUCTS["projekte-paket"]["price"] = "34.99€"
+    PRODUCTS["projekte-paket"]["price_cents"] = 3499
 
 
 app = Flask(
@@ -541,6 +559,8 @@ def inject_globals():
         "products": PRODUCTS,
         "stripe_ready": is_stripe_ready(),
         "stripe_publishable_key": STRIPE_PUBLISHABLE_KEY,
+        "opening_promo_active": OPENING_PROMO_ACTIVE,
+        "opening_promo_end_label": OPENING_PROMO_LABEL,
     }
 
 
