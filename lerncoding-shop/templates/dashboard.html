@@ -27,7 +27,7 @@
                         <div>
                             <h3 class="text-base font-bold text-slate-900">{{ unlock['name'] }}</h3>
                             <p class="text-sm text-slate-500 mt-1">{{ unlock['subtitle'] }}</p>
-                            <p class="text-sm font-semibold text-slate-800 mt-3">Code: {{ unlock['shop_code'] }}</p>
+                            <p class="text-sm font-semibold text-slate-800 mt-3">Code: {{ unlock['shop_code'] }} <span class="text-red-600 font-bold">Teile den Code nicht mit Dritten.</span></p>
                             <p class="text-sm text-slate-600 mt-1">Diesen Code bitte auf <a href="/LernCoding-Academy.html" class="text-blue-600 font-semibold hover:text-blue-700" target="_blank">/LernCoding-Academy.html</a> eingeben.</p>
                             {% if unlock['product_key'] == 'webentwicklung' %}
                             <p class="text-sm text-slate-700 mt-3">Einsteiger-Link zum Kurs: <a href="https://www.youtube.com/watch?v=QIIs4prnvCo" class="text-blue-600 font-semibold hover:text-blue-700 break-all" target="_blank" rel="noopener">https://www.youtube.com/watch?v=QIIs4prnvCo</a></p>
