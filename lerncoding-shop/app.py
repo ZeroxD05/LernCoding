@@ -111,7 +111,6 @@ PRODUCTS = {
         "list_price": "29.99€",
         "price_cents": 2999,
         "stripe_product_id": "prod_UGcZX7fpyVUC7P",
-        "shop_code": "Webs-1203",
         "status": "Direkt verfuegbar",
         "subtitle": "HTML, CSS und JavaScript mit klaren Projekten.",
         "image": "images/webentwicklung.svg",
@@ -128,7 +127,6 @@ PRODUCTS = {
         "list_price": "39.99€",
         "price_cents": 3999,
         "stripe_product_id": "prod_UGcbGyYQnoicno",
-        "shop_code": "Pyth-0310",
         "status": "Direkt verfuegbar",
         "subtitle": "Python fuer echte Web- und Automatisierungsgrundlagen.",
         "image": "images/python-basics.svg",
@@ -145,7 +143,6 @@ PRODUCTS = {
         "list_price": "49.99€",
         "price_cents": 4999,
         "stripe_product_id": "prod_UGcdeI5tzoqZiE",
-        "shop_code": "bundl-3066",
         "status": "Direkt verfuegbar",
         "subtitle": "Mehrere vollstaendige Praxisprojekte fuer dein Portfolio.",
         "image": "images/projekte-paket.svg",
@@ -233,6 +230,7 @@ def init_db():
                 user_id BIGINT NOT NULL,
                 order_number TEXT NOT NULL UNIQUE,
                 stripe_session_id TEXT UNIQUE,
+                academy_code TEXT,
                 product_key TEXT NOT NULL,
                 product_name TEXT NOT NULL,
                 price TEXT NOT NULL,
@@ -242,6 +240,7 @@ def init_db():
             )
             """
         )
+        db.execute("ALTER TABLE orders ADD COLUMN IF NOT EXISTS academy_code TEXT")
         db.execute(
             """
             CREATE TABLE IF NOT EXISTS stripe_events (
@@ -276,6 +275,7 @@ def init_db():
             user_id INTEGER NOT NULL,
             order_number TEXT NOT NULL UNIQUE,
             stripe_session_id TEXT UNIQUE,
+            academy_code TEXT,
             product_key TEXT NOT NULL,
             product_name TEXT NOT NULL,
             price TEXT NOT NULL,
@@ -289,6 +289,8 @@ def init_db():
     columns = [row[1] for row in db.execute("PRAGMA table_info(orders)").fetchall()]
     if "stripe_session_id" not in columns:
         db.execute("ALTER TABLE orders ADD COLUMN stripe_session_id TEXT")
+    if "academy_code" not in columns:
+        db.execute("ALTER TABLE orders ADD COLUMN academy_code TEXT")
     db.execute(
         """
         CREATE TABLE IF NOT EXISTS stripe_events (
@@ -316,6 +318,35 @@ def login_required(view):
 
 def create_order_number():
     return f"LC-{secrets.token_hex(4).upper()}"
+
+
+def create_academy_code():
+    letters = "ABCDEFGHJKLMNPQRSTUVWXYZ"
+    digits = "23456789"
+
+    left = "".join(secrets.choice(letters) for _ in range(4))
+    right = "".join(secrets.choice(digits) for _ in range(4))
+    return f"{left}-{right}"
+
+
+def generate_unique_academy_code(db):
+    for _ in range(20):
+        candidate = create_academy_code()
+        existing = db.execute(
+            "SELECT 1 FROM orders WHERE academy_code = ? LIMIT 1",
+            (candidate,),
+        ).fetchone()
+        if existing is None:
+            return candidate
+    raise RuntimeError("Academy-Code konnte nicht erzeugt werden. Bitte erneut versuchen.")
+
+
+def academy_access_for_product(product_key):
+    if product_key == "webentwicklung":
+        return "html"
+    if product_key == "python-basics":
+        return "python"
+    return "both"
 
 
 def is_stripe_ready():
@@ -367,15 +398,18 @@ def fulfill_paid_checkout(checkout_session, user):
     if existing is not None:
         return False
 
+    academy_code = generate_unique_academy_code(db)
+
     db.execute(
         """
-        INSERT INTO orders (user_id, order_number, stripe_session_id, product_key, product_name, price, status)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO orders (user_id, order_number, stripe_session_id, academy_code, product_key, product_name, price, status)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         """,
         (
             user["id"],
             create_order_number(),
             session_id,
+            academy_code,
             product_key,
             product["name"],
             product["price"],
@@ -405,13 +439,21 @@ def fetch_purchases(user_id):
 
 
 def fetch_unlocks(user_id):
-    rows = get_db().execute(
+    db = get_db()
+    rows = db.execute(
         """
-        SELECT product_key, MAX(created_at) AS created_at
-        FROM orders
-        WHERE user_id = ?
-        GROUP BY product_key
-        ORDER BY MAX(created_at) DESC
+        SELECT o.id, o.product_key, o.created_at, o.academy_code
+        FROM orders o
+        WHERE o.user_id = ?
+          AND o.id = (
+            SELECT o2.id
+            FROM orders o2
+            WHERE o2.user_id = o.user_id
+              AND o2.product_key = o.product_key
+            ORDER BY o2.created_at DESC, o2.id DESC
+            LIMIT 1
+          )
+        ORDER BY o.created_at DESC, o.id DESC
         """,
         (user_id,),
     ).fetchall()
@@ -421,13 +463,23 @@ def fetch_unlocks(user_id):
         product = PRODUCTS.get(row["product_key"])
         if product is None:
             continue
+
+        academy_code = row["academy_code"]
+        if not academy_code:
+            academy_code = generate_unique_academy_code(db)
+            db.execute(
+                "UPDATE orders SET academy_code = ? WHERE id = ?",
+                (academy_code, row["id"]),
+            )
+            db.commit()
+
         unlocks.append(
             {
                 "product_key": row["product_key"],
                 "created_at": row["created_at"],
                 "name": product["name"],
                 "subtitle": product["subtitle"],
-                "shop_code": product["shop_code"],
+                "shop_code": academy_code,
                 "image": product.get("image"),
             }
         )
@@ -801,6 +853,20 @@ def dashboard():
         purchases=purchases,
         unlocks=fetch_unlocks(g.user["id"]),
     )
+
+
+@app.route("/api/academy-codes")
+@login_required
+def academy_codes_api():
+    unlocks = fetch_unlocks(g.user["id"])
+    codes = [
+        {
+            "code": unlock["shop_code"],
+            "access": academy_access_for_product(unlock["product_key"]),
+        }
+        for unlock in unlocks
+    ]
+    return jsonify({"codes": codes})
 
 
 @app.route("/devcademy/")

@@ -1642,11 +1642,8 @@
       // DATA
       // ═══════════════════════════════════════════════════
 
-      const DEFAULT_CODES = [
+      const BUILTIN_CODES = [
         { code: "admin-1011200566", access: "both", isAdmin: true },
-        { code: "Webs-1203", access: "html" },
-        { code: "Pyth-0310", access: "python" },
-        { code: "bundl-3066", access: "both" },
       ];
 
       const COURSES = {
@@ -1921,13 +1918,14 @@
       // STATE
       // ═══════════════════════════════════════════════════
 
-      // Codes: merge defaults with any admin-added codes stored in localStorage
+      // Codes: merge built-in admin codes, server-side shop unlock codes and local extras
+      let shopCodes = [];
+
       function loadCodes() {
         const stored = JSON.parse(
           localStorage.getItem("da_extra_codes") || "[]",
         );
-        // Always start from DEFAULT_CODES, then append any extra codes not already present
-        const merged = [...DEFAULT_CODES];
+        const merged = [...BUILTIN_CODES, ...shopCodes];
         for (const s of stored) {
           if (!merged.find((c) => c.code === s.code)) merged.push(s);
         }
@@ -1935,11 +1933,54 @@
       }
 
       function saveExtraCodes(allCodes) {
-        // Only persist non-default codes
         const extras = allCodes.filter(
-          (c) => !DEFAULT_CODES.find((d) => d.code === c.code),
+          (c) =>
+            !BUILTIN_CODES.find((d) => d.code === c.code) &&
+            !shopCodes.find((d) => d.code === c.code),
         );
         localStorage.setItem("da_extra_codes", JSON.stringify(extras));
+      }
+
+      async function syncShopCodes() {
+        const endpoints = ["/shop/api/academy-codes", "/api/academy-codes"];
+        for (const endpoint of endpoints) {
+          try {
+            const res = await fetch(endpoint, { credentials: "include" });
+            if (!res.ok) {
+              if (res.status === 401 || res.status === 404) continue;
+              break;
+            }
+            const data = await res.json();
+            const codesFromApi = Array.isArray(data.codes) ? data.codes : [];
+            shopCodes = codesFromApi
+              .filter((c) => c && c.code && c.access)
+              .map((c) => ({
+                code: String(c.code),
+                access: String(c.access),
+                isShop: true,
+              }));
+            return;
+          } catch (_err) {
+            // Try next endpoint.
+          }
+        }
+        shopCodes = [];
+      }
+
+      function restoreSession() {
+        const saved = localStorage.getItem("da_session");
+        if (!saved) return;
+
+        codes = loadCodes();
+        if (!loginWithCode(saved)) {
+          clearSession();
+        }
+      }
+
+      async function initializeAccessCodes() {
+        await syncShopCodes();
+        codes = loadCodes();
+        restoreSession();
       }
 
       let codes = loadCodes();
@@ -1977,19 +2018,6 @@
         renderCourses();
         return true;
       }
-
-      // Auto-login on page load
-      (function restoreSession() {
-        const saved = localStorage.getItem("da_session");
-        if (saved) {
-          // Reload codes fresh in case extras were added
-          codes = loadCodes();
-          if (!loginWithCode(saved)) {
-            // Code no longer valid (was deleted) — clear session
-            clearSession();
-          }
-        }
-      })();
 
       // ═══════════════════════════════════════════════════
       // GATE
@@ -2059,12 +2087,12 @@
             (c, i) => `
     <div class="code-item">
       <span class="code-item-key">${c.code}</span>
-      <span class="code-item-access">${accessLabel(c.access)}${c.isAdmin ? " · Admin" : ""}</span>
-      <button class="code-item-del" onclick="deleteCode(${i})" title="Löschen">
-        <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5">
-          <line x1="3" y1="3" x2="13" y2="13"/><line x1="13" y1="3" x2="3" y2="13"/>
-        </svg>
-      </button>
+      <span class="code-item-access">${accessLabel(c.access)}${c.isAdmin ? " · Admin" : ""}${c.isShop ? " · Shop" : ""}</span>
+      ${
+        c.isAdmin || c.isShop
+          ? ""
+          : `<button class="code-item-del" onclick="deleteCode(${i})" title="Löschen">\n        <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5">\n          <line x1="3" y1="3" x2="13" y2="13"/><line x1="13" y1="3" x2="3" y2="13"/>\n        </svg>\n      </button>`
+      }
     </div>
   `,
           )
@@ -2078,6 +2106,7 @@
       }
 
       function deleteCode(i) {
+        if (codes[i]?.isAdmin || codes[i]?.isShop) return;
         codes.splice(i, 1);
         saveCodes();
         renderCodeList();
@@ -2730,6 +2759,8 @@
         .addEventListener("click", function (e) {
           if (e.target === this) closeAdmin();
         });
+
+      initializeAccessCodes();
     </script>
   </body>
 </html>
