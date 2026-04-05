@@ -1652,6 +1652,11 @@
           title: "HTML, CSS & JavaScript",
           desc: "Lerne Webentwicklung von Grund auf – von der Struktur über das Styling bis hin zu interaktiven Interfaces.",
           tag: "Web-Entwicklung",
+          references: {
+            html: ["div", "p", "span", "h1-h6", "a", "img", "ul", "ol", "li", "section", "header", "footer", "nav", "main", "form", "input", "button", "textarea", "label", "i", "b", "strong", "em"],
+            css: ["margin", "padding", "border", "display", "flex", "grid", "width", "height", "color", "background", "font-size", "font-family", "position", "top", "left", "z-index", "opacity", "transform", "transition", "gap", "align-items", "justify-content"],
+            javascript: ["+", "-", "*", "/", "%", "**", "==", "!==", "<", ">", "<=", ">=", "&&", "||", "!", "if/else", "for", "while", "function", "const", "let", "var", "return", "arrow (=>)"]
+          },
           lessons: [
             {
               title: "HTML Grundlagen & Struktur",
@@ -1826,6 +1831,11 @@
           title: "Python Softwareentwicklung",
           desc: "Professionelle Python-Entwicklung: von Datenstrukturen über objektorientierte Programmierung bis hin zu APIs.",
           tag: "Softwareentwicklung",
+          references: {
+            operatoren: ["==", "!=", "<", ">", "<=", ">=", "and", "or", "not", "+", "-", "*", "/", "//", "%", "**"],
+            keywords: ["def", "class", "if", "else", "elif", "for", "while", "return", "import", "as", "from", "try", "except", "finally", "with", "yield", "lambda"],
+            builtins: ["print()", "len()", "range()", "str()", "int()", "float()", "list()", "dict()", "set()", "tuple()", "sum()", "sorted()", "enumerate()", "zip()", "map()", "filter()"]
+          },
           lessons: [
             {
               title: "Python Grundlagen & Syntax",
@@ -2391,6 +2401,67 @@
         const isFirst = idx === 0;
         const isLast = idx === course.lessons.length - 1;
 
+        // References box
+        let referencesHTML = "";
+        if (course.references) {
+          const refs = course.references;
+          let tagsHTML = "";
+          
+          if (course.id === "html") {
+            tagsHTML = `
+              <div style="display:flex;flex-direction:column;gap:16px;">
+                <div>
+                  <div style="font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">HTML Tags</div>
+                  <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                    ${refs.html.map(t => `<span style="font-family:var(--mono);font-size:11px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:6px 10px;border-radius:4px;">&lt;${t}&gt;</span>`).join("")}
+                  </div>
+                </div>
+                <div>
+                  <div style="font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">CSS Properties</div>
+                  <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                    ${refs.css.map(t => `<span style="font-family:var(--mono);font-size:11px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:6px 10px;border-radius:4px;">${t}</span>`).join("")}
+                  </div>
+                </div>
+                <div>
+                  <div style="font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">Operatoren & Keywords</div>
+                  <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                    ${refs.javascript.map(t => `<span style="font-family:var(--mono);font-size:11px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:6px 10px;border-radius:4px;">${t}</span>`).join("")}
+                  </div>
+                </div>
+              </div>
+            `;
+          } else if (course.id === "python") {
+            tagsHTML = `
+              <div style="display:flex;flex-direction:column;gap:16px;">
+                <div>
+                  <div style="font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">Operatoren</div>
+                  <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                    ${refs.operatoren.map(t => `<span style="font-family:var(--mono);font-size:11px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:6px 10px;border-radius:4px;">${t}</span>`).join("")}
+                  </div>
+                </div>
+                <div>
+                  <div style="font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">Keywords</div>
+                  <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                    ${refs.keywords.map(t => `<span style="font-family:var(--mono);font-size:11px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:6px 10px;border-radius:4px;">${t}</span>`).join("")}
+                  </div>
+                </div>
+                <div>
+                  <div style="font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">Built-in Funktionen</div>
+                  <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                    ${refs.builtins.map(t => `<span style="font-family:var(--mono);font-size:11px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:6px 10px;border-radius:4px;">${t}</span>`).join("")}
+                  </div>
+                </div>
+              </div>
+            `;
+          }
+          referencesHTML = `
+            <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:24px;margin-bottom:40px;">
+              <div style="font-size:14px;font-weight:700;color:var(--white);margin-bottom:16px;letter-spacing:-0.3px;">Tags</div>
+              ${tagsHTML}
+            </div>
+          `;
+        }
+
         const blogHTML = lesson.blogContent
           .map((block) => {
             if (block.type === "h2")
@@ -2414,6 +2485,8 @@
       <div class="lesson-title">${lesson.title}</div>
       <div class="lesson-intro">${lesson.intro}</div>
     </div>
+
+    ${referencesHTML}
 
     ${course.id === "html" && idx === 0 ? `
     <div style="margin-bottom:24px;">
