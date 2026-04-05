@@ -282,6 +282,17 @@ def init_db():
             )
             """
         )
+        db.execute(
+            """
+            CREATE TABLE IF NOT EXISTS website_visits (
+                id BIGSERIAL PRIMARY KEY,
+                visit_date DATE NOT NULL,
+                path TEXT NOT NULL,
+                visitor_token TEXT NOT NULL,
+                visited_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+            )
+            """
+        )
         db.commit()
         db.close()
         return
@@ -329,6 +340,17 @@ def init_db():
             event_id TEXT NOT NULL UNIQUE,
             event_type TEXT NOT NULL,
             processed_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+        )
+        """
+    )
+    db.execute(
+        """
+        CREATE TABLE IF NOT EXISTS website_visits (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            visit_date TEXT NOT NULL,
+            path TEXT NOT NULL,
+            visitor_token TEXT NOT NULL,
+            visited_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
         )
         """
     )
@@ -434,6 +456,38 @@ def academy_access_for_product(product_key):
 
 def is_stripe_ready():
     return bool(STRIPE_SECRET_KEY and STRIPE_PUBLISHABLE_KEY)
+
+
+def should_track_visit(path):
+    if request.method != "GET":
+        return False
+    if not path:
+        return False
+
+    ignored_prefixes = (
+        "/admin",
+        "/api",
+        "/stripe/webhook",
+        "/static",
+    )
+    return not any(path.startswith(prefix) for prefix in ignored_prefixes)
+
+
+def record_website_visit(path):
+    today = date.today().isoformat()
+    visitor_token = (session.get("visitor_token") or "").strip()
+    if not visitor_token:
+        visitor_token = secrets.token_hex(16)
+        session["visitor_token"] = visitor_token
+
+    get_db().execute(
+        """
+        INSERT INTO website_visits (visit_date, path, visitor_token)
+        VALUES (?, ?, ?)
+        """,
+        (today, path, visitor_token),
+    )
+    get_db().commit()
 
 
 def normalized_base_url():
@@ -642,6 +696,33 @@ def fetch_admin_accounts_overview():
     return accounts
 
 
+def fetch_visit_statistics(limit_days=30):
+    rows = get_db().execute(
+        """
+        SELECT
+            visit_date,
+            COUNT(*) AS total_visits,
+            COUNT(DISTINCT visitor_token) AS unique_visitors
+        FROM website_visits
+        GROUP BY visit_date
+        ORDER BY visit_date DESC
+        LIMIT ?
+        """,
+        (limit_days,),
+    ).fetchall()
+
+    stats = []
+    for row in rows:
+        stats.append(
+            {
+                "date": row["visit_date"],
+                "total_visits": row["total_visits"],
+                "unique_visitors": row["unique_visitors"],
+            }
+        )
+    return stats
+
+
 def user_has_purchase(user_id):
     row = get_db().execute(
         "SELECT 1 FROM orders WHERE user_id = ? LIMIT 1",
@@ -736,6 +817,19 @@ def load_logged_in_user():
         g.user = recover_user_from_session()
     if g.user is None:
         session.clear()
+
+
+@app.before_request
+def track_website_visits():
+    path = (request.path or "").strip()
+    if not should_track_visit(path):
+        return
+
+    try:
+        record_website_visit(path)
+    except Exception:
+        # Analytics should not block page responses.
+        pass
 
 
 @app.context_processor
@@ -877,6 +971,7 @@ def admin_dashboard():
     return render_template(
         "admin_dashboard.html",
         accounts=fetch_admin_accounts_overview(),
+        visit_stats=fetch_visit_statistics(),
         product_choices=PRODUCTS,
     )
 

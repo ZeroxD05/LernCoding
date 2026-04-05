@@ -25,6 +25,38 @@
     </div>
     {% endif %}
 
+    <article class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm mb-6">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+            <h2 class="text-xl font-bold text-slate-900">Website-Aufrufe</h2>
+            <p class="text-sm text-slate-500">Letzte 30 Tage</p>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="min-w-full text-sm">
+                <thead>
+                    <tr class="text-left text-slate-600 border-b border-slate-200">
+                        <th class="py-2 pr-4 font-semibold">Datum</th>
+                        <th class="py-2 pr-4 font-semibold">Unique Besucher</th>
+                        <th class="py-2 pr-2 font-semibold">Gesamtaufrufe</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in visit_stats %}
+                    <tr class="border-b border-slate-100 text-slate-700">
+                        <td class="py-2 pr-4">{{ row.date }}</td>
+                        <td class="py-2 pr-4">{{ row.unique_visitors }}</td>
+                        <td class="py-2 pr-2">{{ row.total_visits }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="3" class="py-4 text-slate-500">Noch keine Aufrufdaten vorhanden.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </article>
+
     <div class="space-y-6">
         {% for account in accounts %}
         <article class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
