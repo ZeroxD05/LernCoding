@@ -28,7 +28,41 @@
     <article class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm mb-6">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
             <h2 class="text-xl font-bold text-slate-900">Website-Aufrufe</h2>
-            <p class="text-sm text-slate-500">Letzte 30 Tage</p>
+            <p class="text-sm text-slate-500">{{ visit_selected_label }}</p>
+        </div>
+
+        <div class="flex flex-wrap gap-2 mb-5">
+            <a href="{{ url_for('admin_dashboard', range='7d') }}" class="px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors {{ 'bg-slate-900 text-white border-slate-900' if visit_selected_range == '7d' else 'bg-white text-slate-700 border-slate-300 hover:bg-slate-100' }}">Letzte 7 Tage</a>
+            <a href="{{ url_for('admin_dashboard', range='30d') }}" class="px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors {{ 'bg-slate-900 text-white border-slate-900' if visit_selected_range == '30d' else 'bg-white text-slate-700 border-slate-300 hover:bg-slate-100' }}">Letzte 30 Tage</a>
+            <a href="{{ url_for('admin_dashboard', range='1y') }}" class="px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors {{ 'bg-slate-900 text-white border-slate-900' if visit_selected_range == '1y' else 'bg-white text-slate-700 border-slate-300 hover:bg-slate-100' }}">Letztes Jahr</a>
+            <a href="{{ url_for('admin_dashboard', range='all') }}" class="px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors {{ 'bg-slate-900 text-white border-slate-900' if visit_selected_range == 'all' else 'bg-white text-slate-700 border-slate-300 hover:bg-slate-100' }}">Alle</a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
+            <div class="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+                <p class="text-xs text-slate-500 uppercase tracking-wide">Gesamtaufrufe</p>
+                <p class="text-2xl font-extrabold text-slate-900 mt-1">{{ visit_total_sum }}</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+                <p class="text-xs text-slate-500 uppercase tracking-wide">Unique Besucher</p>
+                <p class="text-2xl font-extrabold text-slate-900 mt-1">{{ visit_unique_sum }}</p>
+            </div>
+        </div>
+
+        <div class="space-y-2 mb-5">
+            {% for row in visit_stats %}
+            <div>
+                <div class="flex items-center justify-between text-xs text-slate-600 mb-1">
+                    <span>{{ row.date }}</span>
+                    <span>{{ row.total_visits }} Aufrufe</span>
+                </div>
+                <div class="h-2.5 rounded-full bg-slate-100 overflow-hidden">
+                    <div class="h-full rounded-full bg-gradient-to-r from-blue-500 to-cyan-500" style="width: {{ row.bar_percent }}%;"></div>
+                </div>
+            </div>
+            {% else %}
+            <p class="text-sm text-slate-500">Noch keine Aufrufdaten vorhanden.</p>
+            {% endfor %}
         </div>
 
         <div class="overflow-x-auto">

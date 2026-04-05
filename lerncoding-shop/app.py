@@ -3,6 +3,7 @@ import secrets
 import sqlite3
 import hashlib
 from datetime import date
+from datetime import timedelta
 from functools import wraps
 from pathlib import Path
 from urllib.parse import urlparse
@@ -696,31 +697,72 @@ def fetch_admin_accounts_overview():
     return accounts
 
 
-def fetch_visit_statistics(limit_days=30):
-    rows = get_db().execute(
-        """
+def resolve_visit_range(range_key):
+    key = (range_key or "30d").strip().lower()
+    choices = {
+        "7d": {"label": "Letzte 7 Tage", "days": 7},
+        "30d": {"label": "Letzte 30 Tage", "days": 30},
+        "1y": {"label": "Letztes Jahr", "days": 365},
+        "all": {"label": "Alle", "days": None},
+    }
+    if key not in choices:
+        key = "30d"
+    return key, choices[key]
+
+
+def fetch_visit_statistics(range_key="30d"):
+    selected_key, selected = resolve_visit_range(range_key)
+    days = selected["days"]
+
+    query = """
         SELECT
             visit_date,
             COUNT(*) AS total_visits,
             COUNT(DISTINCT visitor_token) AS unique_visitors
         FROM website_visits
-        GROUP BY visit_date
-        ORDER BY visit_date DESC
-        LIMIT ?
-        """,
-        (limit_days,),
-    ).fetchall()
+    """
+    params = []
 
+    if days is not None:
+        from_date = (date.today() - timedelta(days=days - 1)).isoformat()
+        query += " WHERE visit_date >= ?"
+        params.append(from_date)
+
+    query += " GROUP BY visit_date ORDER BY visit_date DESC"
+
+    rows = get_db().execute(query, tuple(params)).fetchall()
+
+    max_total = 0
+    total_visits_sum = 0
+    unique_visitors_sum = 0
     stats = []
     for row in rows:
+        total_visits = int(row["total_visits"] or 0)
+        unique_visitors = int(row["unique_visitors"] or 0)
+        max_total = max(max_total, total_visits)
+        total_visits_sum += total_visits
+        unique_visitors_sum += unique_visitors
         stats.append(
             {
                 "date": row["visit_date"],
-                "total_visits": row["total_visits"],
-                "unique_visitors": row["unique_visitors"],
+                "total_visits": total_visits,
+                "unique_visitors": unique_visitors,
             }
         )
-    return stats
+
+    for row in stats:
+        if max_total <= 0:
+            row["bar_percent"] = 0
+        else:
+            row["bar_percent"] = round((row["total_visits"] / max_total) * 100, 2)
+
+    return {
+        "selected_key": selected_key,
+        "selected_label": selected["label"],
+        "stats": stats,
+        "total_visits_sum": total_visits_sum,
+        "unique_visitors_sum": unique_visitors_sum,
+    }
 
 
 def user_has_purchase(user_id):
@@ -968,10 +1010,16 @@ def admin_logout():
 @app.route("/admin")
 @admin_required
 def admin_dashboard():
+    selected_range = request.args.get("range", "30d")
+    visit_data = fetch_visit_statistics(selected_range)
     return render_template(
         "admin_dashboard.html",
         accounts=fetch_admin_accounts_overview(),
-        visit_stats=fetch_visit_statistics(),
+        visit_stats=visit_data["stats"],
+        visit_selected_range=visit_data["selected_key"],
+        visit_selected_label=visit_data["selected_label"],
+        visit_total_sum=visit_data["total_visits_sum"],
+        visit_unique_sum=visit_data["unique_visitors_sum"],
         product_choices=PRODUCTS,
     )
 
