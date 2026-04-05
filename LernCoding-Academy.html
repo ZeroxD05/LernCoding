@@ -1549,6 +1549,20 @@
       </div>
     </div>
 
+    <!-- ═══════════════════════ TAG POPUP ═══════════════════════ -->
+    <div id="tag-popup" style="position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:24px;">
+      <div style="background:var(--bg2);border:1px solid var(--border2);padding:32px;max-width:480px;width:100%;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+          <div style="font-size:16px;font-weight:700;color:var(--white);letter-spacing:-0.3px;font-family:var(--mono);" id="popup-tag-name"></div>
+          <div style="display:flex;gap:12px;align-items:center;">
+            <div style="font-family:var(--mono);font-size:11px;color:var(--text3);min-width:30px;text-align:right;"><span id="popup-timer">10</span>s</div>
+            <button onclick="closeTagPopup()" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:20px;line-height:1;transition:color 0.2s;" onmouseover="this.style.color='var(--white)';" onmouseout="this.style.color='var(--text3)';">✕</button>
+          </div>
+        </div>
+        <div style="font-family:var(--mono);font-size:13px;color:var(--text2);line-height:1.8;" id="popup-tag-desc"></div>
+      </div>
+    </div>
+
     <!-- ═══════════════════════ APP ═══════════════════════ -->
     <div id="app">
       <!-- HEADER -->
@@ -1652,17 +1666,35 @@
           title: "HTML, CSS & JavaScript",
           desc: "Lerne Webentwicklung von Grund auf – von der Struktur über das Styling bis hin zu interaktiven Interfaces.",
           tag: "Web-Entwicklung",
-          references: {
-            html: ["div", "p", "span", "h1-h6", "a", "img", "ul", "ol", "li", "section", "header", "footer", "nav", "main", "form", "input", "button", "textarea", "label", "i", "b", "strong", "em"],
-            css: ["margin", "padding", "border", "display", "flex", "grid", "width", "height", "color", "background", "font-size", "font-family", "position", "top", "left", "z-index", "opacity", "transform", "transition", "gap", "align-items", "justify-content"],
-            javascript: ["+", "-", "*", "/", "%", "**", "==", "!==", "<", ">", "<=", ">=", "&&", "||", "!", "if/else", "for", "while", "function", "const", "let", "var", "return", "arrow (=>)"]
-          },
+          tag: "Web-Entwicklung",
           lessons: [
             {
               title: "HTML Grundlagen & Struktur",
               intro:
                 "HTML ist das Fundament jeder Webseite. In dieser Lektion lernst du die semantische Strukturierung von Inhalten und verstehst, wie Browser Markup interpretieren.",
-
+              references: {
+                title: "HTML Tags",
+                items: [
+                  { tag: "div", desc: "Allgemeiner Container. Verwendet um Bereiche zu gruppieren." },
+                  { tag: "p", desc: "Paragraph. Repräsentiert einen Textsatz oder Absatz." },
+                  { tag: "span", desc: "Inline-Container für Text. Inline statt block." },
+                  { tag: "h1-h6", desc: "Überschriften mit verschiedenen Ebenen." },
+                  { tag: "a", desc: "Hyperlink. Verlinkt mit href-Attribut." },
+                  { tag: "img", desc: "Bild-Element. Mit src und alt-Attribut." },
+                  { tag: "ul", desc: "Ungeordnete Liste mit Aufzählungspunkten." },
+                  { tag: "li", desc: "List Item. Element innerhalb von ul oder ol." },
+                  { tag: "section", desc: "Semantischer Container für Abschnitte." },
+                  { tag: "header", desc: "Kopfbereich. Enthält oft Titel und Nav." },
+                  { tag: "footer", desc: "Fußbereich. Copyright, Links etc." },
+                  { tag: "nav", desc: "Navigation. Gruppiert Navigationslinks." },
+                  { tag: "main", desc: "Hauptinhaltsbereich der Seite." },
+                  { tag: "form", desc: "Formular. Enthält Eingabefelder." },
+                  { tag: "input", desc: "Eingabefeld. Text, Zahlen, Checkbox etc." },
+                  { tag: "button", desc: "Schaltfläche für Aktionen." },
+                  { tag: "strong", desc: "Wichtiger Text. Semantisch fett." },
+                  { tag: "em", desc: "Betonter Text. Semantisch kursiv." }
+                ]
+              },
               blogContent: [
                 { type: "h2", text: "Was ist HTML?" },
                 {
@@ -1718,6 +1750,32 @@
               intro:
                 "CSS gibt deinen Webseiten Farbe, Form und Struktur. Du lernst Flexbox, Grid und moderne Designprinzipien.",
               videoLabel: "Lektion 2 — CSS Layouts",
+              references: {
+                title: "CSS Properties",
+                items: [
+                  { tag: "margin", desc: "Außenabstand. Raum außerhalb der Box." },
+                  { tag: "padding", desc: "Innenabstand. Raum innerhalb der Box." },
+                  { tag: "border", desc: "Rahmenlinie um Element." },
+                  { tag: "display", desc: "Anzeigeneigenschaften: block, inline, flex, grid etc." },
+                  { tag: "flex", desc: "Flexbox Container. Eindimensionale Layouts." },
+                  { tag: "grid", desc: "CSS Grid. Zweidimensionale Layouts." },
+                  { tag: "width", desc: "Breite eines Elements." },
+                  { tag: "height", desc: "Höhe eines Elements." },
+                  { tag: "color", desc: "Textfarbe." },
+                  { tag: "background", desc: "Hintergrundfarbe oder Bild." },
+                  { tag: "font-size", desc: "Größe der Schrift." },
+                  { tag: "font-family", desc: "Schriftart die verwendet wird." },
+                  { tag: "position", desc: "Positionierungsmodus: static, relative, absolute, fixed." },
+                  { tag: "top/left/right/bottom", desc: "Offsetwerte bei position." },
+                  { tag: "z-index", desc: "Stapelierungsreihenfolge." },
+                  { tag: "opacity", desc: "Transparenz von 0 bis 1." },
+                  { tag: "transform", desc: "Transformiert Element: rotate, scale, skew, translate." },
+                  { tag: "transition", desc: "Animiert Eigenschaftsänderungen." },
+                  { tag: "gap", desc: "Abstand zwischen Flex/Grid-Items." },
+                  { tag: "align-items", desc: "Vertikale Ausrichtung in Flex/Grid." },
+                  { tag: "justify-content", desc: "Horizontale Ausrichtung in Flex/Grid." }
+                ]
+              },
               blogContent: [
                 { type: "h2", text: "CSS-Grundkonzepte" },
                 {
@@ -1773,6 +1831,34 @@
               intro:
                 "JavaScript macht deine Seiten lebendig. Lerne DOM-Manipulation, Events und moderne ES6+ Syntax.",
               videoLabel: "Lektion 3 — JavaScript Grundlagen",
+              references: {
+                title: "Operatoren & Keywords",
+                items: [
+                  { tag: "+", desc: "Addition oder String-Konkatenation." },
+                  { tag: "-", desc: "Subtraktion. Zieht zwei Zahlen voneinander ab." },
+                  { tag: "*", desc: "Multiplikation. Multipliziert zwei Zahlen." },
+                  { tag: "/", desc: "Division. Teilt zwei Zahlen durcheinander." },
+                  { tag: "%", desc: "Modulo. Gibt Rest einer Division zurück." },
+                  { tag: "**", desc: "Exponentiation. Potenziert: 2**3 = 8." },
+                  { tag: "==", desc: "Gleichheit mit Typkonvertierung." },
+                  { tag: "<", desc: "Kleiner als." },
+                  { tag: ">", desc: "Größer als." },
+                  { tag: "<=", desc: "Kleiner oder gleich." },
+                  { tag: ">=", desc: "Größer oder gleich." },
+                  { tag: "&&", desc: "Logisches AND. Beide müssen wahr sein." },
+                  { tag: "||", desc: "Logisches OR. Eine muss wahr sein." },
+                  { tag: "!", desc: "Logisches NOT. Kehrt um." },
+                  { tag: "if/else", desc: "Bedingte Anweisung." },
+                  { tag: "for", desc: "For-Schleife. Wiederholt Code." },
+                  { tag: "while", desc: "While-Schleife. Solange Bedingung wahr." },
+                  { tag: "function", desc: "Funktionsdefinition." },
+                  { tag: "const", desc: "Konstante. Kann nicht geändert werden." },
+                  { tag: "let", desc: "Block-scoped Variable." },
+                  { tag: "var", desc: "Function-scoped Variable. Veraltet." },
+                  { tag: "return", desc: "Rückgabewert einer Funktion." },
+                  { tag: "arrow (=>)", desc: "Arrow Function Syntax." }
+                ]
+              },
               blogContent: [
                 { type: "h2", text: "JavaScript-Grundidee" },
                 {
@@ -1842,6 +1928,36 @@
               intro:
                 "Python ist eine der meistgenutzten Programmiersprachen weltweit. Wir beginnen mit der Syntax, Datentypen und grundlegenden Konzepten.",
               videoLabel: "Lektion 1 — Python Einführung",
+              references: {
+                title: "Operatoren & Keywords",
+                items: [
+                  { tag: "==", desc: "Gleichheit mit Typkonvertierung." },
+                  { tag: "<", desc: "Kleiner als." },
+                  { tag: ">", desc: "Größer als." },
+                  { tag: "<=", desc: "Kleiner oder gleich." },
+                  { tag: ">=", desc: "Größer oder gleich." },
+                  { tag: "and", desc: "Logisches UND. Beide müssen wahr sein." },
+                  { tag: "or", desc: "Logisches ODER. Eine muss wahr sein." },
+                  { tag: "not", desc: "Logisches NICHT. Kehrt um." },
+                  { tag: "+", desc: "Addition oder String-Konkatenation." },
+                  { tag: "-", desc: "Subtraktion." },
+                  { tag: "*", desc: "Multiplikation. Vervielfacht auch Strings." },
+                  { tag: "/", desc: "Division. Ergibt Float." },
+                  { tag: "//", desc: "Integer Division ohne Dezimalanteil." },
+                  { tag: "%", desc: "Modulo. Rest einer Division." },
+                  { tag: "**", desc: "Exponentiation (Potenz). 2**3 = 8." },
+                  { tag: "def", desc: "Funktionsdefinition." },
+                  { tag: "class", desc: "Klassendefinition." },
+                  { tag: "if", desc: "Bedingte Anweisung." },
+                  { tag: "else", desc: "Alternative zu if." },
+                  { tag: "elif", desc: "Else if. Weitere Bedingung." },
+                  { tag: "for", desc: "For-Schleife. Iteriert über Sequenzen." },
+                  { tag: "while", desc: "While-Schleife. Während Bedingung wahr." },
+                  { tag: "return", desc: "Rückgabewert einer Funktion." },
+                  { tag: "import", desc: "Importiert Module oder Bibliotheken." },
+                  { tag: "try/except", desc: "Fehlerbehandlung." }
+                ]
+              },
               blogContent: [
                 { type: "h2", text: "Warum Python?" },
                 {
@@ -1871,6 +1987,27 @@
               intro:
                 "OOP ist ein zentrales Konzept moderner Softwareentwicklung. Lerne Klassen, Vererbung und Kapselung in Python.",
               videoLabel: "Lektion 2 — OOP",
+              references: {
+                title: "Keywords & Konzepte",
+                items: [
+                  { tag: "class", desc: "Klassendefinition. Schablone für Objekte." },
+                  { tag: "def", desc: "Methodendefinition in einer Klasse." },
+                  { tag: "self", desc: "Referenz auf aktuelle Objektinstanz." },
+                  { tag: "__init__", desc: "Konstruktor. Wird beim Erstellen aufgerufen." },
+                  { tag: "__repr__", desc: "String-Repräsentation für Debuggen." },
+                  { tag: "__str__", desc: "Benutzerfreundliche String-Darstellung." },
+                  { tag: "super()", desc: "Ruft Methoden der Elternklasse auf." },
+                  { tag: "pass", desc: "Keine Operation. Platzhalter." },
+                  { tag: "return", desc: "Rückgabewert einer Methode." },
+                  { tag: "for", desc: "Iteriert über Attribute." },
+                  { tag: "if/else", desc: "Bedingte Logik in Methoden." },
+                  { tag: "try/except", desc: "Fehlerbehandlung." },
+                  { tag: "isinstance()", desc: "Prüft Instanztyp einer Klasse." },
+                  { tag: "hasattr()", desc: "Prüft ob Attribut existiert." },
+                  { tag: "getattr()", desc: "Ruft Attributwert ab." },
+                  { tag: "setattr()", desc: "Setzt Attributwert." }
+                ]
+              },
               blogContent: [
                 { type: "h2", text: "Klassen und Objekte" },
                 {
@@ -1896,6 +2033,27 @@
               intro:
                 "Moderne Softwareentwicklung bedeutet: Daten lesen, verarbeiten und weitergeben. Lerne HTTP-APIs und JSON-Handling.",
               videoLabel: "Lektion 3 — APIs & JSON",
+              references: {
+                title: "Module & Built-ins",
+                items: [
+                  { tag: "import json", desc: "JSON-Modul für Serialisierung." },
+                  { tag: "json.dumps()", desc: "Konvertiert Python-Dict zu JSON-String." },
+                  { tag: "json.loads()", desc: "Konvertiert JSON-String zu Python-Dict." },
+                  { tag: "import requests", desc: "HTTP-Bibliothek für API-Requests." },
+                  { tag: "requests.get()", desc: "GET-Request zu URL senden." },
+                  { tag: "requests.post()", desc: "POST-Request mit Daten." },
+                  { tag: "response.json()", desc: "Parst JSON-Antwort." },
+                  { tag: "response.status_code", desc: "HTTP Status-Code 200, 404, etc.." },
+                  { tag: "raise_for_status()", desc: "Exception bei Fehler-Code." },
+                  { tag: "dict.keys()", desc: "Alle Keys eines Dictionaries." },
+                  { tag: "dict.values()", desc: "Alle Values eines Dictionaries." },
+                  { tag: "dict.items()", desc: "Alle Key-Value Paare." },
+                  { tag: "len()", desc: "Länge von Liste, String, Dict." },
+                  { tag: "sorted()", desc: "Sortiert Liste." },
+                  { tag: "lambda", desc: "Anonyme Funktion." },
+                  { tag: "filter()", desc: "Filtert Listenelemente." }
+                ]
+              },
               blogContent: [
                 { type: "h2", text: "JSON — das Datenformat des Webs" },
                 {
@@ -2396,68 +2554,63 @@
         initEditors();
       }
 
+      let tagPopupTimeout = null;
+
+      function openTagPopup(tagName, description) {
+        if (tagPopupTimeout) clearTimeout(tagPopupTimeout);
+
+        const popup = document.getElementById("tag-popup");
+        const popupName = document.getElementById("popup-tag-name");
+        const popupDesc = document.getElementById("popup-tag-desc");
+        const popupTimer = document.getElementById("popup-timer");
+
+        popupName.textContent = tagName;
+        popupDesc.textContent = description;
+        popup.style.display = "flex";
+
+        let timeLeft = 10;
+        popupTimer.textContent = timeLeft;
+
+        const timerInterval = setInterval(() => {
+          timeLeft--;
+          popupTimer.textContent = timeLeft;
+          if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            closeTagPopup();
+          }
+        }, 1000);
+
+        tagPopupTimeout = setTimeout(() => {
+          clearInterval(timerInterval);
+          closeTagPopup();
+        }, 10000);
+      }
+
+      function closeTagPopup() {
+        const popup = document.getElementById("tag-popup");
+        popup.style.display = "none";
+        if (tagPopupTimeout) clearTimeout(tagPopupTimeout);
+      }
+
       function renderLesson(course, idx) {
         const lesson = course.lessons[idx];
         const isFirst = idx === 0;
         const isLast = idx === course.lessons.length - 1;
 
-        // References box
+        // References box from current lesson
         let referencesHTML = "";
-        if (course.references) {
-          const refs = course.references;
-          let tagsHTML = "";
-          
-          if (course.id === "html") {
-            tagsHTML = `
-              <div style="display:flex;flex-direction:column;gap:16px;">
-                <div>
-                  <div style="font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">HTML Tags</div>
-                  <div style="display:flex;flex-wrap:wrap;gap:6px;">
-                    ${refs.html.map(t => `<span style="font-family:var(--mono);font-size:11px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:6px 10px;border-radius:4px;">&lt;${t}&gt;</span>`).join("")}
-                  </div>
-                </div>
-                <div>
-                  <div style="font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">CSS Properties</div>
-                  <div style="display:flex;flex-wrap:wrap;gap:6px;">
-                    ${refs.css.map(t => `<span style="font-family:var(--mono);font-size:11px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:6px 10px;border-radius:4px;">${t}</span>`).join("")}
-                  </div>
-                </div>
-                <div>
-                  <div style="font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">Operatoren & Keywords</div>
-                  <div style="display:flex;flex-wrap:wrap;gap:6px;">
-                    ${refs.javascript.map(t => `<span style="font-family:var(--mono);font-size:11px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:6px 10px;border-radius:4px;">${t}</span>`).join("")}
-                  </div>
-                </div>
-              </div>
-            `;
-          } else if (course.id === "python") {
-            tagsHTML = `
-              <div style="display:flex;flex-direction:column;gap:16px;">
-                <div>
-                  <div style="font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">Operatoren</div>
-                  <div style="display:flex;flex-wrap:wrap;gap:6px;">
-                    ${refs.operatoren.map(t => `<span style="font-family:var(--mono);font-size:11px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:6px 10px;border-radius:4px;">${t}</span>`).join("")}
-                  </div>
-                </div>
-                <div>
-                  <div style="font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">Keywords</div>
-                  <div style="display:flex;flex-wrap:wrap;gap:6px;">
-                    ${refs.keywords.map(t => `<span style="font-family:var(--mono);font-size:11px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:6px 10px;border-radius:4px;">${t}</span>`).join("")}
-                  </div>
-                </div>
-                <div>
-                  <div style="font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">Built-in Funktionen</div>
-                  <div style="display:flex;flex-wrap:wrap;gap:6px;">
-                    ${refs.builtins.map(t => `<span style="font-family:var(--mono);font-size:11px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:6px 10px;border-radius:4px;">${t}</span>`).join("")}
-                  </div>
-                </div>
-              </div>
-            `;
-          }
+        if (lesson.references && lesson.references.items && lesson.references.items.length > 0) {
+          const refs = lesson.references;
           referencesHTML = `
             <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:24px;margin-bottom:40px;">
-              <div style="font-size:14px;font-weight:700;color:var(--white);margin-bottom:16px;letter-spacing:-0.3px;">Tags</div>
-              ${tagsHTML}
+              <div style="font-size:14px;font-weight:700;color:var(--white);margin-bottom:16px;letter-spacing:-0.3px;">${refs.title}</div>
+              <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                ${refs.items.map(item => {
+                  const tagStrSafe = item.tag.replace(/'/g, "\\'").replace(/"/g, '\\"');
+                  const descSafe = item.desc.replace(/'/g, "\\'").replace(/"/g, '\\"');
+                  return `<button onclick="openTagPopup('${tagStrSafe}', '${descSafe}')" style="font-family:var(--mono);font-size:11px;background:var(--bg4);border:1px solid var(--border);color:var(--text2);padding:8px 12px;border-radius:4px;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.color='var(--white)';this.style.borderColor='var(--border2)';" onmouseout="this.style.color='var(--text2)';this.style.borderColor='var(--border)';">${item.tag}</button>`;
+                }).join("")}
+              </div>
             </div>
           `;
         }
